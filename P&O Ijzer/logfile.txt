@@ -1,0 +1,3 @@
+Eerste regel van logbestand
+Tweede regel van logbestand
+...
