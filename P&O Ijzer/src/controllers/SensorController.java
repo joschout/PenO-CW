@@ -1,3 +1,9 @@
+/**
+ * Veel van deze code is gekopieerd van http://goo.gl/dpOsxb
+ * 
+ * De sensorcontroller staat in voor het bepalen van de afstand tussen de sensor en de grond.
+ */
+
 package controllers;
 
 import java.io.Serializable;
@@ -32,7 +38,7 @@ public class SensorController implements Serializable {
         this.trigPin.low();
     }
     
-    /*
+    /**
      * This method returns the distance measured by the sensor in cm
      * 
      * @throws TimeoutException if a timeout occurs
@@ -45,14 +51,19 @@ public class SensorController implements Serializable {
         return duration * SOUND_SPEED / ( 2 * 10000 );
     }
     
+    /**
+     * Meet honderd keer de afstand tussen de sensor en de grond en neemt van de verzameling metingen de mediaan.
+     * @return De mediaan van honderd metingen
+     * @throws TimeoutException
+     */
     public float sensorReading() throws TimeoutException {
     	List<Float> readings = new ArrayList<Float>();
-    	for (int i = 0; i < 100; i++)
+    	for (int i = 0; i < 99; i++)
     	{
     		readings.add(this.measureDistance());
     	}
     	Collections.sort(readings);
-    	return (readings.get(51) + readings.get(52)) / 2;
+    	return (readings.get(49) + readings.get(50)) / 2; // mediaan voor een even aantal elementen
     }
     
     /**
