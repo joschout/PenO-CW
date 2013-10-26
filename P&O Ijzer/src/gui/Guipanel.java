@@ -1,4 +1,5 @@
 package gui;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileReader;
@@ -18,185 +19,124 @@ public class Guipanel implements ActionListener
   private JPanel arrows = new JPanel();
   
   // alle labels
-  private JLabel log;
-  private JLabel info;
-  private JLabel motor1;
-  private JLabel motor2;
-  private JLabel motor3;
-  private JLabel motor4;
-  private JLabel qrcode; 
-  private JLabel lamp1;
-  private JLabel lamp2;
-  private JLabel lamp3;
-  private JLabel lamp4;
+  private JLabel log = new JLabel("Log :");
+  private JLabel info = new JLabel("Info :");
+  private JLabel motor1 = new JLabel("Motor 1 :");
+  private JLabel motor2 = new JLabel("Motor 2 :");
+  private JLabel motor3 = new JLabel("Motor 3 :");
+  private JLabel motor4 = new JLabel("Motor 4 :");
+  private JLabel qrcode = new JLabel("Meest recente QR-code :");
+  private JLabel lamp1 = new JLabel("");
+  private JLabel lamp2 = new JLabel("");
+  private JLabel lamp3 = new JLabel("");
+  private JLabel lamp4 = new JLabel("");
   
   // alle buttons
-  JButton logfiles;
-  JButton updateDistance;
-  BasicArrowButton arrowup;
-  BasicArrowButton arrowleft;
-  BasicArrowButton arrowright;
-  BasicArrowButton arrowdown;
+  private JButton logfiles = new JButton("Vorige logfiles");
+  private JButton updateDistance = new JButton("Afstand");
+  private BasicArrowButton arrowup = new BasicArrowButton(SwingConstants.NORTH);
+  private BasicArrowButton arrowleft = new BasicArrowButton(SwingConstants.WEST);
+  private BasicArrowButton arrowright = new BasicArrowButton(SwingConstants.EAST);
+  private BasicArrowButton arrowdown = new BasicArrowButton(SwingConstants.SOUTH);
   
   // lettertype
-  Font font = new Font("Calibri", Font.BOLD, 16);
+  private final Font font = new Font("Calibri", Font.BOLD, 16);
   
   public JPanel setGuipanel() // de frame-constructor methode
   { 
 	guipanel.setLayout(null);
 	
 	// voeg panels toe aan GUI
-	logpanel.setLayout(null); // zichtbaar maken
-	logpanel.setLocation(0, 0); // cošrdinaat van linkerbovenhoek van dit panel op guipanel
-	logpanel.setSize(300,1000); // breedte en lengte van dit panel
-	logpanel.setBorder(BorderFactory.createLineBorder(Color.black)); // randen van panel tonen in het zwart
-    guipanel.add(logpanel); // panel toevoegen aan meest algemene panel (guipanel) 
+	addPanelToGUI(logpanel, 0, 0, 300, 1000);
+	addPanelToGUI(infopanel, 300, 0, 700, 500);
+	addPanelToGUI(motorpanel, 300, 500, 300, 250);
+	addPanelToGUI(qrcodepanel, 600, 500, 400, 500);
+	addPanelToGUI(arrows, 300, 750, 300, 250);
     
-    infopanel.setLayout(null); 
-    infopanel.setLocation(300, 0);
-    infopanel.setSize(700, 500);
-    infopanel.setBorder(BorderFactory.createLineBorder(Color.black));
-    guipanel.add(infopanel);
-    
-    motorpanel.setLayout(null); 
-    motorpanel.setLocation(300, 500);
-    motorpanel.setSize(300, 250);
-    motorpanel.setBorder(BorderFactory.createLineBorder(Color.black));
-    guipanel.add(motorpanel);
-    
-    qrcodepanel.setLayout(null); 
-    qrcodepanel.setLocation(600, 500);
-    qrcodepanel.setSize(400, 500);
-    qrcodepanel.setBorder(BorderFactory.createLineBorder(Color.black));
-    guipanel.add(qrcodepanel);
-    
-    arrows.setLayout(null); 
-    arrows.setLocation(300, 750);
-    arrows.setSize(300, 250);
-    arrows.setBorder(BorderFactory.createLineBorder(Color.black));
-    guipanel.add(arrows);
-    
-    // Voeg labels toe aan het correcte panel
-    log = new JLabel("Log :"); // label aanmaken met naam
-    log.setLocation(5, 0); // cošrdinaat van linkerbovenhoek van label op zijn panel
-    log.setSize(100,30); // breedte en lengte van dit label
-    log.setFont(font); // lettertype wijzigen
-    logpanel.add(log); // label toevoegen aan correcte panel
-    
-    info = new JLabel("Info :");
-    info.setLocation(5, 0);
-    info.setSize(100,30);
-    info.setFont(font);
-    infopanel.add(info);
-    
-    motor1 = new JLabel("Motor1 :");
-    motor1.setLocation(5, 25);
-    motor1.setSize(100, 30);
-    motor1.setFont(font);
-    motorpanel.add(motor1);
-    
-    motor2 = new JLabel("Motor2 :");
-    motor2.setLocation(5, 75);
-    motor2.setSize(100, 30);
-    motor2.setFont(font);
-    motorpanel.add(motor2);
-    
-    motor3 = new JLabel("Motor3 :");
-    motor3.setLocation(5, 125);
-    motor3.setSize(100, 30);
-    motor3.setFont(font);
-    motorpanel.add(motor3);
-    
-    motor4 = new JLabel("Motor4 :");
-    motor4.setLocation(5, 175);
-    motor4.setSize(100, 30);
-    motor4.setFont(font);
-    motorpanel.add(motor4);
-    
-    qrcode = new JLabel("Meest recente QR code :"); 
-    qrcode.setLocation(5, 0);
-    qrcode.setSize(400, 30);
-    qrcode.setFont(font);
-    qrcodepanel.add(qrcode);
-    
-    lamp1 = new JLabel("");
-    lamp1.setOpaque(true); // achtergrond transparant maken
-    lamp1.setBackground(Color.red); // achtergrondkleur op rood zetten
-    lamp1.setLocation(200, 30);
-    lamp1.setSize(20,20);
-    motorpanel.add(lamp1);    
-    
-    lamp2 = new JLabel("");
-    lamp2.setOpaque(true);
-    lamp2.setBackground(Color.red);
-    lamp2.setLocation(200, 80);
-    lamp2.setSize(20,20);
-    motorpanel.add(lamp2);  
-    
-    lamp3 = new JLabel("");
-    lamp3.setOpaque(true);
-    lamp3.setBackground(Color.red);
-    lamp3.setLocation(200, 130);
-    lamp3.setSize(20,20);
-    motorpanel.add(lamp3);  
-    
-    lamp4 = new JLabel("");
-    lamp4.setOpaque(true);
-    lamp4.setBackground(Color.red);
-    lamp4.setLocation(200, 180);
-    lamp4.setSize(20,20);
-    motorpanel.add(lamp4);  
+    // voeg labels toe aan het correcte panel
+	addLabelToPanel(log, 5, 0, 100, 30, logpanel);
+	addLabelToPanel(info, 5, 0, 100, 30, infopanel);
+	addLabelToPanel(motor1, 5, 25, 100, 30, motorpanel);
+	addLabelToPanel(motor2, 5, 75, 100, 30, motorpanel);
+	addLabelToPanel(motor3, 5, 125, 100, 30, motorpanel);
+	addLabelToPanel(motor4, 5, 175, 100, 30, motorpanel);
+	addLabelToPanel(qrcode, 5, 0, 400, 30, qrcodepanel);
+	 
+	addLabelToPanel(lamp1, 200, 30, 20, 20, motorpanel);
+	turnLightOff(lamp1);
+	addLabelToPanel(lamp2, 200, 80, 20, 20, motorpanel);
+	turnLightOff(lamp2);
+	addLabelToPanel(lamp3, 200, 130, 20, 20, motorpanel);
+	turnLightOff(lamp3);
+	addLabelToPanel(lamp4, 200, 180, 20, 20, motorpanel);
+	turnLightOff(lamp4);
     
     // voeg buttons toe aan hun panel
-    logfiles = new JButton("Vorige logfiles");
-    logfiles.setLocation(25, 850);
-    logfiles.setSize(250, 30);
-    logfiles.setFont(font);
-    logfiles.addActionListener(this); // bindt een actie aan deze button
-    logfiles.setMnemonic(KeyEvent.VK_L); // verbind de L-toets aan deze button, wanneer L en alt samen worden ingedrukt wordt de actie erachter getriggerd
-    logpanel.add(logfiles);
+    addButtonToPanel(logfiles, 25, 850, 250, 30, KeyEvent.VK_L, logpanel);
+    addButtonToPanel(updateDistance, 575, 450, 100, 30, KeyEvent.VK_A, infopanel);
     
-    
-    arrowup = new BasicArrowButton(SwingConstants.NORTH); // windrichting geeft richting pijl aan
-    arrowup.setLocation(115, 55);
-    arrowup.setSize(70, 70);
-    arrowup.setBorder(BorderFactory.createLineBorder(Color.black));
-    arrowup.addActionListener(this);
-    arrowup.setMnemonic(KeyEvent.VK_UP); // verbind de bovenste pijltjestoets aan deze button, wanneer het bovenste pijltje en alt samen worden ingedrukt wordt de actie erachter getriggerd
-    arrows.add(arrowup);
-    
-    arrowleft = new BasicArrowButton(SwingConstants.WEST);
-    arrowleft.setLocation(45, 125);
-    arrowleft.setSize(70, 70);
-    arrowleft.setBorder(BorderFactory.createLineBorder(Color.black));
-    arrowleft.addActionListener(this);
-    arrowleft.setMnemonic(KeyEvent.VK_LEFT); // verbind de linkse pijltjestoets aan deze button, wanneer het linkse pijltje en alt samen worden ingedrukt wordt de actie erachter getriggerd
-    arrows.add(arrowleft);
-    
-    arrowright = new BasicArrowButton(SwingConstants.EAST);
-    arrowright.setLocation(185, 125);
-    arrowright.setSize(70, 70);
-    arrowright.setBorder(BorderFactory.createLineBorder(Color.black));
-    arrowright.addActionListener(this);
-    arrowright.setMnemonic(KeyEvent.VK_RIGHT); // verbind de rechtse pijltjestoets aan deze button, wanneer het rechtse pijltje en alt samen worden ingedrukt wordt de actie erachter getriggerd
-    arrows.add(arrowright);
-    
-    arrowdown = new BasicArrowButton(SwingConstants.SOUTH);
-    arrowdown.setLocation(115, 125);
-    arrowdown.setSize(70, 70);
-    arrowdown.setBorder(BorderFactory.createLineBorder(Color.black));
-    arrowdown.addActionListener(this);
-    arrowdown.setMnemonic(KeyEvent.VK_DOWN); // verbind de onderste pijltjestoets aan deze button, wanneer het onderste pijltje en alt samen worden ingedrukt wordt de actie erachter getriggerd
-    arrows.add(arrowdown);
-    
-    updateDistance = new JButton();
-    updateDistance.setLocation(100, 100);
-    updateDistance.setSize(30, 30);
-    updateDistance.setBorder(BorderFactory.createLineBorder(Color.pink));
-    updateDistance.addActionListener(this);
-    infopanel.add(updateDistance);
+    addArrowToPanel(arrowup, 115, 55, 70, 70, KeyEvent.VK_UP, arrows);
+    addArrowToPanel(arrowleft, 45, 125, 70, 70, KeyEvent.VK_LEFT, arrows);
+    addArrowToPanel(arrowright, 185, 125, 70, 70, KeyEvent.VK_RIGHT, arrows);
+    addArrowToPanel(arrowdown, 115, 125, 70, 70, KeyEvent.VK_DOWN, arrows);
     
     return guipanel;
+  }
+  
+  public void addPanelToGUI(JPanel panel, int x, int y, int width, int length)
+  {
+	// voeg panel toe aan GUI
+	panel.setLayout(null); // zichtbaar maken
+	panel.setLocation(x, y); // cošrdinaat van linkerbovenhoek van dit panel op guipanel
+	panel.setSize(width, length); // breedte en lengte van dit panel
+	panel.setBorder(BorderFactory.createLineBorder(Color.black)); // randen van panel tonen in het zwart
+	
+	guipanel.add(panel); // panel toevoegen aan meest algemene panel (guipanel) 
+  }
+  
+  public void addLabelToPanel(JLabel label, int x, int y, int width, int length, JPanel panel)
+  {
+	// voeg label toe aan het correcte panel
+	label.setLocation(x, y); // cošrdinaat van linkerbovenhoek van label op zijn panel
+	label.setSize(width, length); // breedte en lengte van dit label
+	label.setFont(font); // lettertype wijzigen
+  
+	panel.add(label); // label toevoegen aan correcte panel
+  }
+  
+  public void addButtonToPanel(JButton button, int x, int y, int width, int length, int key, JPanel panel)
+  {
+	// voeg button toe aan het correcte panel
+	button.setLocation(x, y); // cošrdinaat van linkerbovenhoek van button op zijn panel
+	button.setSize(width, length); // breedte en lengte van deze button
+	button.setFont(font); // lettertype wijzigen
+	button.setBorder(BorderFactory.createLineBorder(Color.pink)); // maak de randen roos
+	button.addActionListener(this); // bindt een actie aan deze button
+	button.setMnemonic(key); // verbind de gegeven toets aan deze button, wanneer de toets en alt samen worden ingedrukt wordt de actie erachter getriggerd
+	panel.add(button);
+  }
+  
+  public void addArrowToPanel(BasicArrowButton button, int x, int y, int width, int length, int key, JPanel panel)
+  {
+	// voeg button toe aan het correcte panel
+	button.setLocation(x, y); // cošrdinaat van linkerbovenhoek van button op zijn panel
+	button.setSize(width, length); // breedte en lengte van deze button
+    button.setBorder(BorderFactory.createLineBorder(Color.black)); // maak de randen zwart
+	button.addActionListener(this); // bindt een actie aan deze button
+	button.setMnemonic(key); // verbind de gegeven toets aan deze button, wanneer de toets en alt samen worden ingedrukt wordt de actie erachter getriggerd
+	panel.add(button);
+  }
+  
+  public void turnLightOff(JLabel light)
+  {
+	  light.setOpaque(true); // achtergrond transparant maken
+	  light.setBackground(Color.red); // lamp op rood zetten : 'uit'
+  }
+  
+  public void turnLightOn(JLabel light)
+  {
+	  light.setOpaque(true);
+	  light.setBackground(Color.green); // lamp op groen zetten : 'aan'
   }
   
   public void actionPerformed(ActionEvent event)
@@ -270,10 +210,8 @@ public class Guipanel implements ActionListener
 	   frame.setSize(1000, 1000);
 	   frame.setVisible(true);
   }
-
-public static void main(String[] args) {
+  
+  public static void main(String[] args) {
       createAndShowGUI();
   }
-
-
 }
