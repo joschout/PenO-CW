@@ -130,10 +130,5 @@ public class SensorController implements Serializable {
         public String toString() {
             return this.reason;
         }
-	
-	public double reading() {
-		return 0;
-	}
-
-}
+    }
 }
