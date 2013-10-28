@@ -43,6 +43,12 @@ public interface ZeppelinInterface extends Remote {
 	public double sensorReading() throws RemoteException; // TODO: Gaat de cliënt in de uiteindelijke versie ooit deze methode direct oproepen?
 	
 	/**
+	 * Zorg ervoor dat de zeppelin stopt in een veilige toestand.
+	 * @throws RemoteException
+	 */
+	public void exit() throws RemoteException;
+	
+	/**
 	 * Geeft de toestand van de vier motoren en de meest recente lezing van de sensor
 	 * @return Een map die key-value paren bevat van de vorm: "DownwardMotor: INACTIVE"
 	 * @throws RemoteException

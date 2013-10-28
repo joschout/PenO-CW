@@ -4,12 +4,17 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 
+import zeppelin.ZeppelinInterface;
+
 public class Guipanel implements ActionListener
-{
+{	
   // alle panels
   private JPanel guipanel = new JPanel(); 
   private JPanel logpanel = new JPanel();
@@ -41,6 +46,9 @@ public class Guipanel implements ActionListener
   
   // lettertype
   private final Font font = new Font("Calibri", Font.BOLD, 16);
+  
+  // Zeppelin-object gehaald van de server
+  private ZeppelinInterface zeppelin;
   
   public JPanel setGuipanel() // de frame-constructor methode
   { 
@@ -81,6 +89,16 @@ public class Guipanel implements ActionListener
     addArrowToPanel(arrowdown, 115, 125, 70, 70, KeyEvent.VK_DOWN, arrows);
     
     return guipanel;
+  }
+  
+  /**
+   * Associeer een zeppelin-object met deze GUI.
+   * @param zeppelin
+   * 		Een zeppelin-object geïmporteerd vanop de Pi.
+   */
+  public void setZeppelin(ZeppelinInterface zeppelin)
+  {
+	  this.zeppelin = zeppelin;
   }
   
   public void addPanelToGUI(JPanel panel, int x, int y, int width, int length)
@@ -164,7 +182,13 @@ public class Guipanel implements ActionListener
     }
     else if (source == updateDistance)
     {
-    	JOptionPane.showMessageDialog(null, TestClient.sensorReading());
+    	try {
+			JOptionPane.showMessageDialog(null, this.zeppelin.sensorReading());
+		} catch (HeadlessException e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
     }
     else if(source == logfiles)
     {  
@@ -196,17 +220,48 @@ public class Guipanel implements ActionListener
   private static void createAndShowGUI() {
 	  
 	   JFrame.setDefaultLookAndFeelDecorated(true);
-	   JFrame frame = new JFrame("GUI P&O");
+	   final JFrame frame = new JFrame("GUI P&O");
 
-	   // aanmaken van de guipanel en scrollpane
-	   Guipanel guipanel = new Guipanel();
+	   // aanmaken van de guipanel
+	   final Guipanel guipanel = new Guipanel();
+	   
+	   // verbinden met server en zeppelin halen
+	   try {
+		Registry registry = LocateRegistry.getRegistry("192.168.2.100",1099);
+		ZeppelinInterface zeppelin = (ZeppelinInterface) registry.lookup("Zeppelin");
+		guipanel.setZeppelin(zeppelin);
+		
+	   } catch (Exception e) {
+		e.printStackTrace();
+	   }
+	   
+	   // aanmaken scrollpane
 	   JPanel gui = guipanel.setGuipanel();  
 	   JScrollPane scrollpane = new JScrollPane(gui);   
 	   gui.setPreferredSize(new Dimension(1000, 1000)); // bepaalt de grootte van het scrollgebied, dus tot waar we kunnen scrollen om de gui te zien
 	      
 	   // aanmaken en opzetten van de content pane
 	   frame.add(scrollpane, BorderLayout.CENTER);
-	   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	   // zorgt ervoor dat de zeppelin veilig afsluit wanneer je op de
+	   // X-knop drukt
+	   frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	   frame.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        if (JOptionPane.showConfirmDialog(frame, 
+		            "Uitvoering stoppen?", "Applicatie afsluiten", 
+		            JOptionPane.YES_NO_OPTION,
+		            JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		            try {
+						guipanel.zeppelin.exit();
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					} finally {
+		            	System.exit(0);
+		            }
+		        }
+		    }
+		});
 	   frame.setSize(1000, 1000);
 	   frame.setVisible(true);
   }
