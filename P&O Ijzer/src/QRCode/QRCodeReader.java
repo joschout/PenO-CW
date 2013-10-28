@@ -13,7 +13,10 @@ import com.google.zxing.common.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 
 
-
+/**code komt van http://www.vineetmanohar.com/2010/09/java-barcode-api/
+ * @author Jonas
+ *
+ */
 public class QRCodeReader {
  public static void main(String args[]){
 	 try {
