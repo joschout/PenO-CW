@@ -9,6 +9,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+
 public interface ZeppelinInterface extends Remote {
 	
 	/**
@@ -54,5 +56,7 @@ public interface ZeppelinInterface extends Remote {
 	 * @throws RemoteException
 	 */
 	public Map<String,String> queryState() throws RemoteException;
+	
+	public ImageIcon takeNewImage(String filename) throws RemoteException;
 
 }

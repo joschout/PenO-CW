@@ -16,10 +16,14 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
-import com.pi4j.io.gpio.RaspiPin;
 
 public class SensorController implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private final static float SOUND_SPEED = 340.29f;  // speed of sound in m/s
     
     private final static int TRIG_DURATION_IN_MICROS = 10; // trigger duration of 10 micro s
@@ -58,12 +62,12 @@ public class SensorController implements Serializable {
      */
     public float sensorReading() throws TimeoutException {
     	List<Float> readings = new ArrayList<Float>();
-    	for (int i = 0; i < 99; i++)
+    	for (int i = 0; i < 10; i++)
     	{
     		readings.add(this.measureDistance());
     	}
     	Collections.sort(readings);
-    	return (readings.get(49) + readings.get(50)) / 2; // mediaan voor een even aantal elementen
+    	return (readings.get(4) + readings.get(5)) / 2; // mediaan voor een even aantal elementen
     }
     
     /**
@@ -120,7 +124,11 @@ public class SensorController implements Serializable {
      */
     public static class TimeoutException extends Exception {
 
-        private final String reason;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private final String reason;
         
         public TimeoutException( String reason ) {
             this.reason = reason;

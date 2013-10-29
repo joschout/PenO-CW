@@ -39,6 +39,7 @@ public class Guipanel implements ActionListener
   // alle buttons
   private JButton logfiles = new JButton("Vorige logfiles");
   private JButton updateDistance = new JButton("Afstand");
+  private JButton scanQRCode = new JButton("Scan QR-code");
   private BasicArrowButton arrowup = new BasicArrowButton(SwingConstants.NORTH);
   private BasicArrowButton arrowleft = new BasicArrowButton(SwingConstants.WEST);
   private BasicArrowButton arrowright = new BasicArrowButton(SwingConstants.EAST);
@@ -49,6 +50,9 @@ public class Guipanel implements ActionListener
   
   // Zeppelin-object gehaald van de server
   private ZeppelinInterface zeppelin;
+  
+  // Meest recente foto gehaald van de server
+  private ImageIcon mostRecentImage;
   
   public JPanel setGuipanel() // de frame-constructor methode
   { 
@@ -82,6 +86,7 @@ public class Guipanel implements ActionListener
     // voeg buttons toe aan hun panel
     addButtonToPanel(logfiles, 25, 850, 250, 30, KeyEvent.VK_L, logpanel);
     addButtonToPanel(updateDistance, 575, 450, 100, 30, KeyEvent.VK_A, infopanel);
+    addButtonToPanel(scanQRCode, 200, 5, 100, 30, KeyEvent.VK_3, qrcodepanel);
     
     addArrowToPanel(arrowup, 115, 55, 70, 70, KeyEvent.VK_UP, arrows);
     addArrowToPanel(arrowleft, 45, 125, 70, 70, KeyEvent.VK_LEFT, arrows);
@@ -190,6 +195,15 @@ public class Guipanel implements ActionListener
 			e.printStackTrace();
 		}
     }
+    else if (source == scanQRCode)
+    {
+    	try {
+    		mostRecentImage = zeppelin.takeNewImage(Long.toString(System.currentTimeMillis()));
+    		showImage(mostRecentImage);
+    	} catch(RemoteException e) {
+    		e.printStackTrace();
+    	}
+    }
     else if(source == logfiles)
     {  
   	  try 
@@ -217,6 +231,12 @@ public class Guipanel implements ActionListener
     }
   }
   
+  private void showImage(ImageIcon image)
+  {
+	  JLabel label = new JLabel("", image, JLabel.CENTER);
+	  qrcodepanel.add( label, BorderLayout.CENTER );
+  }
+  
   private static void createAndShowGUI() {
 	  
 	   JFrame.setDefaultLookAndFeelDecorated(true);
@@ -227,7 +247,7 @@ public class Guipanel implements ActionListener
 	   
 	   // verbinden met server en zeppelin halen
 	   try {
-		Registry registry = LocateRegistry.getRegistry("192.168.2.100",1099);
+		Registry registry = LocateRegistry.getRegistry("192.168.2.150",1099);
 		ZeppelinInterface zeppelin = (ZeppelinInterface) registry.lookup("Zeppelin");
 		guipanel.setZeppelin(zeppelin);
 		

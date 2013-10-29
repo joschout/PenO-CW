@@ -16,7 +16,7 @@ public class ZeppelinServer {
 	public static void main(String[] args) {
 		
 		try {
-		System.setProperty("java.rmi.server.hostname", "192.168.2.100"); /* Maak kenbaar dat het RMI-register op dit adres
+		System.setProperty("java.rmi.server.hostname", "192.168.2.150"); /* Maak kenbaar dat het RMI-register op dit adres
 			 																  gevonden kan worden.
 			 																  TODO: een manier vinden om te garanderen dat
 			 																  de cliënt zich kan verbinden met het register,

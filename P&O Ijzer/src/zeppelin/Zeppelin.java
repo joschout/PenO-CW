@@ -10,8 +10,11 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+
 import com.pi4j.io.gpio.RaspiPin;
 
+import controllers.CameraController;
 import controllers.SensorController;
 import controllers.SensorController.TimeoutException;
 
@@ -27,6 +30,7 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	
 	// Controllers
 	private SensorController sensorController;
+	private CameraController cameraController;
 	
 	// Flags
 	/**
@@ -37,6 +41,7 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	public Zeppelin() throws RemoteException {
 		super();
 		sensorController = new SensorController(RaspiPin.GPIO_00, RaspiPin.GPIO_07);
+		cameraController = new CameraController();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -69,6 +74,8 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 		// TODO Auto-generated method stub
 		return this.height;
 	}
+	
+	
 
 	@Override
 	public Map<String, String> queryState() throws RemoteException {
@@ -104,6 +111,19 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 				e.printStackTrace();
 			}
 		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public ImageIcon takeNewImage(String filename) throws RemoteException {
+		// TODO Auto-generated method stub
+		cameraController.imageToObject(filename);
+		System.out.println(cameraController.getImage());
+		return cameraController.getImage();
 	}
 
 }
