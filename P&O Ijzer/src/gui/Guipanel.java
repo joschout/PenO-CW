@@ -1,16 +1,27 @@
+/**
+ * TODO: Refactor alles
+ */
+
 package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
 
+import QRCode.QRCodeOperations;
 import zeppelin.ZeppelinInterface;
 
 public class Guipanel implements ActionListener
@@ -197,9 +208,17 @@ public class Guipanel implements ActionListener
     }
     else if (source == scanQRCode)
     {
+    	this.showImage();
     	try {
-    		mostRecentImage = zeppelin.takeNewImage(Long.toString(System.currentTimeMillis()));
-    		showImage(mostRecentImage);
+    		this.zeppelin.newQRReading();
+    		String decoded = this.zeppelin.getMostRecentDecode();
+    		System.out.println(decoded);
+    		ImageIcon check = QRCodeOperations.encode(decoded);
+    		if (check != null) {
+    			this.mostRecentImage = check;
+    			this.showImage();
+    		}
+    		
     	} catch(RemoteException e) {
     		e.printStackTrace();
     	}
@@ -231,10 +250,18 @@ public class Guipanel implements ActionListener
     }
   }
   
-  private void showImage(ImageIcon image)
+  private void showImage()
   {
-	  JLabel label = new JLabel("", image, JLabel.CENTER);
-	  qrcodepanel.add( label, BorderLayout.CENTER );
+	  try {
+		  System.out.println("Proberen image te zetten.");
+		  JLabel label = new JLabel("", this.mostRecentImage, JLabel.CENTER);
+		  label.setSize(100,100);
+		  //JOptionPane.showMessageDialog(null, label);
+		  qrcodepanel.add(label);
+		  System.out.println("Image gezet.");
+	  } catch (Exception e) {
+		  e.printStackTrace();
+	  }
   }
   
   private static void createAndShowGUI() {
@@ -288,5 +315,17 @@ public class Guipanel implements ActionListener
   
   public static void main(String[] args) {
       createAndShowGUI();
+  }
+  
+  /** Returns an ImageIcon, or null if the path was invalid. */
+  protected ImageIcon createImageIcon(String path,
+                                             String description) {
+      java.net.URL imgURL = getClass().getResource(path);
+      if (imgURL != null) {
+          return new ImageIcon(imgURL, description);
+      } else {
+          System.err.println("Couldn't find file: " + path);
+          return null;
+      }
   }
 }

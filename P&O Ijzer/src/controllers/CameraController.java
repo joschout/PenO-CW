@@ -20,9 +20,9 @@ public class CameraController implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private void takePicture(String pFileName)  
+	public void takePicture(String pFileName)  
 	   {  
-	     executeShellCommand("raspistill -t 1 -q 5 -o "+pFileName+".jpg");  
+	     executeShellCommand("raspistill -t 1 -w 540 -h 400 -o "+pFileName+".jpg");  
 	   } 
 	
 	public ImageIcon getImage() {
@@ -43,6 +43,10 @@ public class CameraController implements Serializable {
 	     }
 	   }  
 	 
+	 /**
+	  * Obsolete.
+	  * @param pFileName
+	  */
 	 public void imageToObject(String pFileName) {
 		 takePicture(pFileName);
 		 this.image = new ImageIcon(pFileName+".jpg");

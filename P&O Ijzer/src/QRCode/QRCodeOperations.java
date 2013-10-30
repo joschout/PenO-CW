@@ -7,17 +7,27 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.Reader;
 import com.google.zxing.Result;
+import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 /**
  * http://www.vineetmanohar.com/2010/09/java-barcode-api/
@@ -25,7 +35,7 @@ import com.google.zxing.common.HybridBinarizer;
  * @author Jonas
  *
  */
-public class QRcodeReader {
+public class QRCodeOperations {
 	
 	// save ImageIcon to file
 	public static void save(ImageIcon icon){
@@ -46,20 +56,44 @@ public class QRcodeReader {
 	}
 	
 	// read QRcode from file
-	public static void read(){
+	public static String read(String filename){
 		try {
-			InputStream barCodeInputStream = new FileInputStream("/home/r0294084/Downloads/img.png");  
+			InputStream barCodeInputStream = new FileInputStream(filename + ".jpg");  
+			System.out.println("Foto ingelezen.");
 			BufferedImage barCodeBufferedImage = ImageIO.read(barCodeInputStream);  
   
 			LuminanceSource source = new BufferedImageLuminanceSource(barCodeBufferedImage);  
 			BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));  
 			Reader reader = new MultiFormatReader();  
 			Result result = reader.decode(bitmap);  
-  
-			System.out.println("Barcode text is " + result.getText());
+			System.out.println("Resultaat van decoderen: " + result.getText());
+			return result.getText();
 		} catch ( Exception e) {
-				// TODO Auto-generated catch block
+				 //TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}  
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static ImageIcon encode(String input) {
+		try {
+			QRCodeWriter writer = new QRCodeWriter();
+			BitMatrix bitMatrix = null;
+			try {
+				Hashtable hintMap = new Hashtable();
+				hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+				hintMap.put(EncodeHintType.CHARACTER_SET, "ISO-8859-1");
+				bitMatrix = writer.encode(input, BarcodeFormat.QR_CODE, 300, 300, hintMap);
+				BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
+				return new ImageIcon(image);
+			} catch (WriterException e){
+				e.printStackTrace();
+				return null;
+			}
+		} catch(Exception e)  {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

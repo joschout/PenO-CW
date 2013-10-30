@@ -57,6 +57,16 @@ public interface ZeppelinInterface extends Remote {
 	 */
 	public Map<String,String> queryState() throws RemoteException;
 	
+	/**
+	 * Obsolote
+	 * @param filename
+	 * @return
+	 * @throws RemoteException
+	 */
 	public ImageIcon takeNewImage(String filename) throws RemoteException;
+	
+	public void newQRReading() throws RemoteException;
+	
+	public String getMostRecentDecode() throws RemoteException;
 
 }

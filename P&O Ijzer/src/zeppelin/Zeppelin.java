@@ -37,6 +37,11 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	 * Cliënt heeft bepaald dat uitvoering moet stoppen.
 	 */
 	private boolean exit = false;
+	
+	/**
+	 * Meest recente string die de zeppelin heeft gedecodeerd uit een QR-code.
+	 */
+	private String mostRecentQRDecode;
 
 	public Zeppelin() throws RemoteException {
 		super();
@@ -110,11 +115,11 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 			} catch (TimeoutException e) {
 				e.printStackTrace();
 			}
-		}
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -124,6 +129,18 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 		cameraController.imageToObject(filename);
 		System.out.println(cameraController.getImage());
 		return cameraController.getImage();
+	}
+	
+	public String getMostRecentDecode() {
+		return this.mostRecentQRDecode;
+	}
+
+	@Override
+	public void newQRReading() throws RemoteException {
+		String filename = Long.toString(System.currentTimeMillis());
+		this.cameraController.takePicture(filename);
+		this.mostRecentQRDecode = QRCode.QRCodeOperations.read(filename);
+		System.out.println("Meest recente gedecodeerde string op zeppelin: " + this.mostRecentQRDecode);
 	}
 
 }
