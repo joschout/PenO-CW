@@ -5,6 +5,7 @@
 
 package zeppelin;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
@@ -90,7 +91,7 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 		return status;
 	}
 	
-	public void startGameLoop() {
+	public void startGameLoop() throws InterruptedException {
 		System.out.println("Lus initialiseren; zeppelin is klaar om commando's uit te voeren.");
 		this.gameLoop();
 		System.out.println("Lus afgebroken; uitvoering is stopgezet.");
@@ -107,8 +108,9 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	 * van de status van die flags.
 	 * 
 	 * TODO: flags maken voor motoren, acties gebaseerd op deze flags implementeren
+	 * @throws InterruptedException 
 	 */
-	private void gameLoop() {
+	private void gameLoop() throws InterruptedException {
 		while (!exit) {
 			try {
 				this.height = sensorController.sensorReading();
@@ -124,7 +126,7 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	}
 
 	@Override
-	public ImageIcon takeNewImage(String filename) throws RemoteException {
+	public ImageIcon takeNewImage(String filename) throws InterruptedException, IOException {
 		// TODO Auto-generated method stub
 		cameraController.imageToObject(filename);
 		System.out.println(cameraController.getImage());
@@ -136,11 +138,11 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	}
 
 	@Override
-	public void newQRReading() throws RemoteException {
+	public void newQRReading() throws RemoteException, IOException, InterruptedException {
 		String filename = Long.toString(System.currentTimeMillis());
 		this.cameraController.takePicture(filename);
 		this.mostRecentQRDecode = QRCode.QRCodeOperations.read(filename);
-		System.out.println("Meest recente gedecodeerde string op zeppelin: " + this.mostRecentQRDecode);
+		// System.out.println("Meest recente gedecodeerde string op zeppelin: " + this.mostRecentQRDecode);
 	}
 
 }

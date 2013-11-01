@@ -9,11 +9,13 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
+import controllers.SensorController.TimeoutException;
+
 import zeppelin.Zeppelin;
 
 public class ZeppelinServer {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException, TimeoutException {
 		
 		try {
 		System.setProperty("java.rmi.server.hostname", "192.168.2.150"); /* Maak kenbaar dat het RMI-register op dit adres

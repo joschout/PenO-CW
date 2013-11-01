@@ -19,11 +19,6 @@ import com.pi4j.io.gpio.Pin;
 
 public class SensorController implements Serializable {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private final static float SOUND_SPEED = 340.29f;  // speed of sound in m/s
     
     private final static int TRIG_DURATION_IN_MICROS = 10; // trigger duration of 10 micro s
@@ -36,6 +31,8 @@ public class SensorController implements Serializable {
     private final GpioPinDigitalInput echoPin;
     private final GpioPinDigitalOutput trigPin;
     
+    private final int amountOfData = 10;
+    
     public SensorController( Pin echoPin, Pin trigPin ) {
         this.echoPin = gpio.provisionDigitalInputPin( echoPin );
         this.trigPin = gpio.provisionDigitalOutputPin( trigPin );
@@ -46,8 +43,9 @@ public class SensorController implements Serializable {
      * This method returns the distance measured by the sensor in cm
      * 
      * @throws TimeoutException if a timeout occurs
+     * @throws InterruptedException 
      */
-    public float measureDistance() throws TimeoutException {
+    public float measureDistance() throws TimeoutException, InterruptedException {
         this.triggerSensor();
         this.waitForSignal();
         long duration = this.measureSignal();
@@ -59,28 +57,26 @@ public class SensorController implements Serializable {
      * Meet honderd keer de afstand tussen de sensor en de grond en neemt van de verzameling metingen de mediaan.
      * @return De mediaan van honderd metingen
      * @throws TimeoutException
+     * @throws InterruptedException 
      */
-    public float sensorReading() throws TimeoutException {
+    public float sensorReading() throws TimeoutException, InterruptedException {
     	List<Float> readings = new ArrayList<Float>();
-    	for (int i = 0; i < 10; i++)
+    	for (int i = 0; i < amountOfData; i++)
     	{
     		readings.add(this.measureDistance());
     	}
     	Collections.sort(readings);
-    	return (readings.get(4) + readings.get(5)) / 2; // mediaan voor een even aantal elementen
+    	return (readings.get(amountOfData/2-1) + readings.get(amountOfData/2)) / 2; // mediaan voor een even aantal elementen
     }
     
     /**
      * Put a high on the trig pin for TRIG_DURATION_IN_MICROS
+     * @throws InterruptedException 
      */
-    private void triggerSensor() {
-        try {
+    private void triggerSensor() throws InterruptedException {
             this.trigPin.high();
             Thread.sleep( 0, TRIG_DURATION_IN_MICROS * 1000 );
             this.trigPin.low();
-        } catch (InterruptedException ex) {
-            System.err.println( "Interrupt during trigger" );
-        }
     }
     
     /**

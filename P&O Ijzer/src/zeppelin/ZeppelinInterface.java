@@ -5,6 +5,7 @@
 
 package zeppelin;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Map;
@@ -62,10 +63,12 @@ public interface ZeppelinInterface extends Remote {
 	 * @param filename
 	 * @return
 	 * @throws RemoteException
+	 * @throws IOException 
+	 * @throws InterruptedException 
 	 */
-	public ImageIcon takeNewImage(String filename) throws RemoteException;
+	public ImageIcon takeNewImage(String filename) throws RemoteException, InterruptedException, IOException;
 	
-	public void newQRReading() throws RemoteException;
+	public void newQRReading() throws RemoteException, IOException, InterruptedException;
 	
 	public String getMostRecentDecode() throws RemoteException;
 

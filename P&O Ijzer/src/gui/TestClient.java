@@ -6,6 +6,7 @@
 
 package gui;
 
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -17,7 +18,7 @@ import zeppelin.ZeppelinInterface;
 
 public class TestClient {
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException, IOException {
 		try {
 			Registry registry = LocateRegistry.getRegistry("192.168.2.150",1099); // probeer verbinding te maken met het RMI-register
 			                                                                      // dat normaal gezien bestaat op de Pi.
