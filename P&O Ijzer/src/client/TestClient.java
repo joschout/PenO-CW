@@ -4,7 +4,7 @@
  * TODO: In de uiteindelijke versie verdwijnt deze klasse best: integreer de functionaliteit in de GUI.
  */
 
-package gui;
+package client;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;

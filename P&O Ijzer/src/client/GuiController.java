@@ -1,4 +1,4 @@
-package gui;
+package client;
 
 import java.awt.HeadlessException;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import java.rmi.registry.Registry;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import server.ZeppelinServer;
 import zeppelin.ZeppelinInterface;
 import QRCode.QRCodeOperations;
 
@@ -44,7 +45,7 @@ public class GuiController {
 
 
 	public void setZeppelin() throws RemoteException, NotBoundException {
-		Registry registry = LocateRegistry.getRegistry("192.168.2.150",1099);
+		Registry registry = LocateRegistry.getRegistry(ZeppelinServer.host,1099);
 		ZeppelinInterface zeppelin = (ZeppelinInterface) registry.lookup("Zeppelin");
 		this.zeppelin = zeppelin;
 	}
@@ -55,7 +56,7 @@ public class GuiController {
 	
 	public String newQRReading() {
 		try {
-			this.zeppelin.newQRReading();
+			this.zeppelin.readNewQRCode();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -2,7 +2,7 @@
  * TODO: Refactor alles
  */
 
-package gui;
+package client;
 
 import java.awt.*;
 import java.awt.event.*;

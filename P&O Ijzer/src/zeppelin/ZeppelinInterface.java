@@ -68,7 +68,7 @@ public interface ZeppelinInterface extends Remote {
 	 */
 	public ImageIcon takeNewImage(String filename) throws RemoteException, InterruptedException, IOException;
 	
-	public void newQRReading() throws RemoteException, IOException, InterruptedException;
+	public void readNewQRCode() throws RemoteException, IOException, InterruptedException;
 	
 	public String getMostRecentDecode() throws RemoteException;
 

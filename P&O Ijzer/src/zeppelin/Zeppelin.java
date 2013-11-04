@@ -5,6 +5,9 @@
 
 package zeppelin;
 
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -32,6 +35,8 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	// Controllers
 	private SensorController sensorController;
 	private CameraController cameraController;
+	
+	private static final String timeStampListFileName = "timestamplist";
 	
 	// Flags
 	/**
@@ -129,7 +134,6 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	public ImageIcon takeNewImage(String filename) throws InterruptedException, IOException {
 		// TODO Auto-generated method stub
 		cameraController.imageToObject(filename);
-		System.out.println(cameraController.getImage());
 		return cameraController.getImage();
 	}
 	
@@ -138,10 +142,14 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	}
 
 	@Override
-	public void newQRReading() throws RemoteException, IOException, InterruptedException {
+	public void readNewQRCode() throws RemoteException, IOException, InterruptedException {
 		String filename = Long.toString(System.currentTimeMillis());
 		this.cameraController.takePicture(filename);
 		this.mostRecentQRDecode = QRCode.QRCodeOperations.read(filename);
+		BufferedWriter output = new BufferedWriter(new FileWriter(timeStampListFileName, true));
+		output.append("/n");
+		output.append(filename);
+		output.close();
 		// System.out.println("Meest recente gedecodeerde string op zeppelin: " + this.mostRecentQRDecode);
 	}
 
