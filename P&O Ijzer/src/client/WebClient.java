@@ -27,7 +27,7 @@ public class WebClient {
 		this.QRFileClient.setAutoNoopTimeout(30000);
 	}
 	
-	public void getFile(String fileNameOnHost, String fileNameOnLocal) throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+	private void getFile(String fileNameOnHost, String fileNameOnLocal) throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		this.QRFileClient.download(fileNameOnHost, new File(fileNameOnLocal));
 	}
 	
@@ -63,6 +63,7 @@ public class WebClient {
 	
 	public BufferedImage getLastScannedImage() throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		String fileName = this.getLastScannedImageName();
+		this.getFile(fileName + ".jpg", fileName + ".jpg");
 		File file = new File(fileName + ".jpg");
 		return ImageIO.read(file);
 	}
