@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 
+import zeppelin.ZeppelinInterface;
+
 public class CameraController implements Serializable {
 
 	private ImageIcon image;
@@ -26,7 +28,7 @@ public class CameraController implements Serializable {
 	 */
 	public void takePicture(String pFileName) throws InterruptedException, IOException  
 	{  
-		executeShellCommand("raspistill -t 1 -w 540 -h 400 -o /home/pi/ftp/files/"+pFileName+".jpg");  
+		executeShellCommand("raspistill -t 1 -w 540 -h 400 -o " + ZeppelinInterface.PATH_TO_FTP_FILES+pFileName+".jpg");  
 	} 
 
 	public ImageIcon getImage() {

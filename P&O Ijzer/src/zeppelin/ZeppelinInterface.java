@@ -16,6 +16,7 @@ public interface ZeppelinInterface extends Remote {
 	
 	public static final String TIMESTAMPLIST_HOSTFILENAME = "timestamplist";
 	public static final String TIMESTAMPLIST_LOCALFILENAME = "timestamplist.txt";
+	public static final String PATH_TO_FTP_FILES = "/home/pi/ftp/files/";
 	
 	/**
 	 * Activeert de naar-beneden-gerichte motor.

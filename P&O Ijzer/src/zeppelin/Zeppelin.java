@@ -142,11 +142,11 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	public String readNewQRCode() throws RemoteException, IOException, InterruptedException {
 		String filename = Long.toString(System.currentTimeMillis());
 		this.cameraController.takePicture(filename);
-		String decoded = this.qrCodeReader.read(filename);
+		String decoded = this.qrCodeReader.read(Zeppelin.PATH_TO_FTP_FILES + filename + ".jpg");
 		if (decoded != null) {
 			this.mostRecentQRDecode = decoded;
 			BufferedWriter output = new BufferedWriter(new FileWriter(
-					ZeppelinInterface.TIMESTAMPLIST_HOSTFILENAME, true));
+					ZeppelinInterface.PATH_TO_FTP_FILES + ZeppelinInterface.TIMESTAMPLIST_HOSTFILENAME, true));
 			output.append("/n");
 			output.append(filename + "," + decoded);
 			output.close();
