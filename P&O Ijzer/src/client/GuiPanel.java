@@ -73,20 +73,12 @@ public class GuiPanel implements ActionListener
 	 * bij om het te verwijderen van de QR-code panel voor geheugenmanagement.
 	 */
 	private JLabel mostRecentQRCodeLabel;
-	
-	private WebClient ftpClient;
 
 	public GuiPanel() {
 		try {
 			guiController = new GuiController();
 		} catch (Exception e) {
 			System.err.println("Fout bij het verbinden met de zeppelin:");
-			e.printStackTrace();
-		}
-		try {
-			ftpClient = new WebClient();
-		} catch (Exception e) {
-			System.err.println("Fout bij het leggen van de FTP-verbinding:");
 			e.printStackTrace();
 		}
 	}
@@ -277,7 +269,7 @@ public class GuiPanel implements ActionListener
 
 	private void showImage() throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException
 	{
-		ImageIcon image = new ImageIcon(this.ftpClient.getLastScannedImage());
+		ImageIcon image = new ImageIcon(this.guiController.getLastScannedImage());
 		JLabel label = new JLabel("", image, JLabel.CENTER);
 		if (this.mostRecentQRCodeLabel != null)
 		{
