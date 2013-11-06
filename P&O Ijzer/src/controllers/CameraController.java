@@ -15,6 +15,15 @@ public class CameraController implements Serializable {
 
 	private ImageIcon image;
 
+	/**
+	 * Laat de Raspberry Pi een foto nemen
+	 * @param	pFileName
+	 * 			De naam die de Pi zal geven aan de nieuwe foto. Uiteindelijk zal
+	 * 			de naam van de foto de volgende vorm hebben:
+	 * 			pFileName.jpg
+	 * @throws InterruptedException
+	 * @throws IOException
+	 */
 	public void takePicture(String pFileName) throws InterruptedException, IOException  
 	{  
 		executeShellCommand("raspistill -t 1 -w 540 -h 400 -o "+pFileName+".jpg");  
@@ -29,17 +38,5 @@ public class CameraController implements Serializable {
 		Runtime run = Runtime.getRuntime() ;  
 		Process pr = run.exec(pCommand) ;  
 		pr.waitFor() ;  
-	}  
-
-	/**
-	 * Obsolete.
-	 * @param pFileName
-	 * @throws IOException 
-	 * @throws InterruptedException 
-	 */
-	public void imageToObject(String pFileName) throws InterruptedException, IOException {
-		takePicture(pFileName);
-		this.image = new ImageIcon(pFileName+".jpg");
-
 	}
 }

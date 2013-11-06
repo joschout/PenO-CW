@@ -15,12 +15,12 @@ import zeppelin.Zeppelin;
 
 public class ZeppelinServer {
 	
-	public static final String host = "192.168.2.102";
+	public static final String PI_HOSTNAME = "192.168.2.102";
 	
 	public static void main(String[] args) throws InterruptedException, TimeoutException {
 		
 		try {
-		System.setProperty("java.rmi.server.hostname", host); /* Maak kenbaar dat het RMI-register op dit adres
+		System.setProperty("java.rmi.server.hostname", PI_HOSTNAME); /* Maak kenbaar dat het RMI-register op dit adres
 			 																  gevonden kan worden.
 			 																  TODO: een manier vinden om te garanderen dat
 			 																  de cliënt zich kan verbinden met het register,

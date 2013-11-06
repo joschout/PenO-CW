@@ -14,6 +14,9 @@ import javax.swing.ImageIcon;
 
 public interface ZeppelinInterface extends Remote {
 	
+	public static final String TIMESTAMPLIST_HOSTFILENAME = "timestamplist";
+	public static final String TIMESTAMPLIST_LOCALFILENAME = "timestamplist.txt";
+	
 	/**
 	 * Activeert de naar-beneden-gerichte motor.
 	 * @throws RemoteException
@@ -59,16 +62,13 @@ public interface ZeppelinInterface extends Remote {
 	public Map<String,String> queryState() throws RemoteException;
 	
 	/**
-	 * Obsolote
-	 * @param filename
-	 * @return
+	 * De zeppelin neemt een foto en probeert een QR-code te lezen uit die foto.
+	 * @return	Een string als er een QR-code kon gedecodeerd worden, anders null.
 	 * @throws RemoteException
-	 * @throws IOException 
-	 * @throws InterruptedException 
+	 * @throws IOException
+	 * @throws InterruptedException
 	 */
-	public ImageIcon takeNewImage(String filename) throws RemoteException, InterruptedException, IOException;
-	
-	public void readNewQRCode() throws RemoteException, IOException, InterruptedException;
+	public String readNewQRCode() throws RemoteException, IOException, InterruptedException;
 	
 	public String getMostRecentDecode() throws RemoteException;
 

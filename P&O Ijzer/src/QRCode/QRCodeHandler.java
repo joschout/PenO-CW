@@ -19,6 +19,7 @@ import com.google.zxing.BinaryBitmap;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
 import com.google.zxing.Reader;
 import com.google.zxing.Result;
 import com.google.zxing.WriterException;
@@ -35,10 +36,14 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  * @author Jonas
  *
  */
-public class QRCodeOperations {
+public class QRCodeHandler {
 	
+	/**
+	 * obsolete
+	 * @param icon
+	 */
 	// save ImageIcon to file
-	public static void save(ImageIcon icon){
+	public void save(ImageIcon icon){
 		// methode gevonden op http://stackoverflow.com/questions/11626307/how-to-save-java-swing-imageicon-image-to-file
 		Image img = icon.getImage();
 
@@ -55,8 +60,13 @@ public class QRCodeOperations {
 		}
 	}
 	
-	// read QRcode from file
-	public static String read(String filename){
+	/**
+	 * Probeert 
+	 * @param filename
+	 * @return
+	 * @throws NotFoundException 
+	 */
+	public String read(String filename) {
 		try {
 			InputStream barCodeInputStream = new FileInputStream(filename + ".jpg");  
 			System.out.println("Foto ingelezen.");
@@ -68,6 +78,8 @@ public class QRCodeOperations {
 			Result result = reader.decode(bitmap);  
 			System.out.println("Resultaat van decoderen: " + result.getText());
 			return result.getText();
+		} catch (NotFoundException e) {
+			return null;
 		} catch ( Exception e) {
 				 //TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,6 +87,11 @@ public class QRCodeOperations {
 		}  
 	}
 	
+	/**
+	 * obsolete
+	 * @param input
+	 * @return
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static ImageIcon encode(String input) {
 		try {

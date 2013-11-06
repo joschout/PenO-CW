@@ -16,6 +16,8 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import QRCode.QRCodeHandler;
+
 import com.pi4j.io.gpio.RaspiPin;
 
 import controllers.CameraController;
@@ -36,23 +38,25 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	private SensorController sensorController;
 	private CameraController cameraController;
 	
-	private static final String timeStampListFileName = "timestamplist";
-	
 	// Flags
-	/**
-	 * Cliënt heeft bepaald dat uitvoering moet stoppen.
-	 */
-	private boolean exit = false;
+	
+	private QRCodeHandler qrCodeReader;
 	
 	/**
 	 * Meest recente string die de zeppelin heeft gedecodeerd uit een QR-code.
 	 */
 	private String mostRecentQRDecode;
+	
+	/**
+	 * De zeppelin is nu bezig met landen en daarna de uitvoering te stoppen.
+	 */
+	private boolean exit = false;
 
 	public Zeppelin() throws RemoteException {
 		super();
 		sensorController = new SensorController(RaspiPin.GPIO_00, RaspiPin.GPIO_07);
 		cameraController = new CameraController();
+		qrCodeReader = new QRCodeHandler();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -129,28 +133,25 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 			}
 		}
 	}
-
-	@Override
-	public ImageIcon takeNewImage(String filename) throws InterruptedException, IOException {
-		// TODO Auto-generated method stub
-		cameraController.imageToObject(filename);
-		return cameraController.getImage();
-	}
 	
 	public String getMostRecentDecode() {
 		return this.mostRecentQRDecode;
 	}
 
 	@Override
-	public void readNewQRCode() throws RemoteException, IOException, InterruptedException {
+	public String readNewQRCode() throws RemoteException, IOException, InterruptedException {
 		String filename = Long.toString(System.currentTimeMillis());
 		this.cameraController.takePicture(filename);
-		this.mostRecentQRDecode = QRCode.QRCodeOperations.read(filename);
-		BufferedWriter output = new BufferedWriter(new FileWriter(timeStampListFileName, true));
-		output.append("/n");
-		output.append(filename);
-		output.close();
-		// System.out.println("Meest recente gedecodeerde string op zeppelin: " + this.mostRecentQRDecode);
+		String decoded = this.qrCodeReader.read(filename);
+		if (decoded != null) {
+			this.mostRecentQRDecode = decoded;
+			BufferedWriter output = new BufferedWriter(new FileWriter(
+					ZeppelinInterface.TIMESTAMPLIST_HOSTFILENAME, true));
+			output.append("/n");
+			output.append(filename);
+			output.close();
+		}
+		return decoded;
 	}
 
 }

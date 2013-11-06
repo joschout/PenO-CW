@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 import server.ZeppelinServer;
 import zeppelin.ZeppelinInterface;
-import QRCode.QRCodeOperations;
+import QRCode.QRCodeHandler;
 
 import com.google.zxing.WriterException;
 
@@ -45,31 +45,20 @@ public class GuiController {
 
 
 	public void setZeppelin() throws RemoteException, NotBoundException {
-		Registry registry = LocateRegistry.getRegistry(ZeppelinServer.host,1099);
+		Registry registry = LocateRegistry.getRegistry(ZeppelinServer.PI_HOSTNAME,1099);
 		ZeppelinInterface zeppelin = (ZeppelinInterface) registry.lookup("Zeppelin");
 		this.zeppelin = zeppelin;
 	}
-
-	public ImageIcon scanQRCode(String filename) throws InterruptedException, IOException{
-		return this.zeppelin.takeNewImage(filename);
-	}
 	
-	public String newQRReading() {
-		try {
-			this.zeppelin.readNewQRCode();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		try {
-			return this.zeppelin.getMostRecentDecode();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		return null;
+	/**
+	 * Laat de zeppelin een QR-code lezen.
+	 * @return Het resultaat van de volgende oproep: zeppelin.readNewQRCode()
+	 * @throws InterruptedException 
+	 * @throws IOException 
+	 * @throws RemoteException 
+	 */
+	public String newQRReading() throws RemoteException, IOException, InterruptedException {
+		return this.zeppelin.readNewQRCode();
 	}
 
 	public void exit() {

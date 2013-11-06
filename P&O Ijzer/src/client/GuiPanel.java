@@ -4,6 +4,11 @@
 
 package client;
 
+import it.sauronsoftware.ftp4j.FTPAbortedException;
+import it.sauronsoftware.ftp4j.FTPDataTransferException;
+import it.sauronsoftware.ftp4j.FTPException;
+import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
@@ -20,10 +25,10 @@ import javax.swing.plaf.basic.BasicArrowButton;
 
 import com.google.zxing.WriterException;
 
-import QRCode.QRCodeOperations;
+import QRCode.QRCodeHandler;
 import zeppelin.ZeppelinInterface;
 
-public class Guipanel implements ActionListener
+public class GuiPanel implements ActionListener
 {	
 	// alle panels
 	private JPanel guipanel = new JPanel(); 
@@ -69,10 +74,21 @@ public class Guipanel implements ActionListener
 	 */
 	private JLabel mostRecentQRCodeLabel;
 	
-	private String mostRecentDecoded;
+	private WebClient ftpClient;
 
-	public Guipanel() throws RemoteException, NotBoundException {
-		guiController = new GuiController();
+	public GuiPanel() {
+		try {
+			guiController = new GuiController();
+		} catch (Exception e) {
+			System.err.println("Fout bij het verbinden met de zeppelin:");
+			e.printStackTrace();
+		}
+		try {
+			ftpClient = new WebClient();
+		} catch (Exception e) {
+			System.err.println("Fout bij het leggen van de FTP-verbinding:");
+			e.printStackTrace();
+		}
 	}
 
 	public JPanel setGuipanel() // de frame-constructor methode
@@ -209,10 +225,22 @@ public class Guipanel implements ActionListener
 		}
 		else if (source == scanQRCode)
 		{
-			String decoded = this.guiController.newQRReading();
-			if (decoded == null) return;
-			this.mostRecentDecoded = decoded;
-			this.showImage();
+			String decoded;
+			try {
+				decoded = this.guiController.newQRReading();
+				if (decoded == null) {
+					JOptionPane.showMessageDialog(null, "De zeppelin kon geen QR-code decoderen.");
+				}
+				try {
+					this.showImage();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Fout bij het tonen van de foto, zie standard out");
+					e.printStackTrace();
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Fout bij de zeppelin een QR-code te laten lezen, zie standard out.");
+				e.printStackTrace();
+			}
 		}
 		else if(source == logfiles)
 		{   
@@ -247,9 +275,9 @@ public class Guipanel implements ActionListener
 	}
 
 
-	private void showImage()
+	private void showImage() throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException
 	{
-		ImageIcon image = QRCodeOperations.encode(this.mostRecentDecoded);
+		ImageIcon image = new ImageIcon(this.ftpClient.getLastScannedImage());
 		JLabel label = new JLabel("", image, JLabel.CENTER);
 		if (this.mostRecentQRCodeLabel != null)
 		{
@@ -269,7 +297,7 @@ public class Guipanel implements ActionListener
 		final JFrame frame = new JFrame("GUI P&O");
 
 		// aanmaken van de guipanel
-		final Guipanel guipanel = new Guipanel();
+		final GuiPanel guipanel = new GuiPanel();
 
 		// aanmaken scrollpane
 		JPanel gui = guipanel.setGuipanel();  
