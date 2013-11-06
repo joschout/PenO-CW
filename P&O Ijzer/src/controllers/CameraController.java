@@ -26,7 +26,7 @@ public class CameraController implements Serializable {
 	 */
 	public void takePicture(String pFileName) throws InterruptedException, IOException  
 	{  
-		executeShellCommand("raspistill -t 1 -w 540 -h 400 -o "+pFileName+".jpg");  
+		executeShellCommand("raspistill -t 1 -w 540 -h 400 -o /home/pi/ftp/files/"+pFileName+".jpg");  
 	} 
 
 	public ImageIcon getImage() {
