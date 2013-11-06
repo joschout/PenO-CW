@@ -148,7 +148,7 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 			BufferedWriter output = new BufferedWriter(new FileWriter(
 					ZeppelinInterface.TIMESTAMPLIST_HOSTFILENAME, true));
 			output.append("/n");
-			output.append(filename);
+			output.append(filename + "," + decoded);
 			output.close();
 		}
 		return decoded;
