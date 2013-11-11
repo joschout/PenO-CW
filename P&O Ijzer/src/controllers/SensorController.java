@@ -29,7 +29,7 @@ public class SensorController implements Serializable {
     private final GpioPinDigitalInput echoPin;
     private final GpioPinDigitalOutput trigPin;
     
-    private final int amountOfData = 10;
+    private final int amountOfData = 20;
     
     public SensorController( Pin echoPin, Pin trigPin ) {
         this.echoPin = Zeppelin.gpio.provisionDigitalInputPin( echoPin );
@@ -64,7 +64,7 @@ public class SensorController implements Serializable {
     		readings.add(this.measureDistance());
     	}
     	Collections.sort(readings);
-    	return (readings.get(amountOfData/2-1) + readings.get(amountOfData/2)) / 2; // mediaan voor een even aantal elementen
+    	return (readings.get((amountOfData/2)-1) + readings.get(amountOfData/2)) / 2; // mediaan voor een even aantal elementen
     }
     
     /**

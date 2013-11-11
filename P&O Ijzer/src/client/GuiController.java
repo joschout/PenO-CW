@@ -82,6 +82,18 @@ public class GuiController {
 		return toReturn;
 	}
 	
+	public boolean leftIsOn() throws RemoteException {
+		return this.zeppelin.leftIsOn();
+	}
+	
+	public boolean rightIsOn() throws RemoteException {
+		return this.zeppelin.rightIsOn();
+	}
+	
+	public boolean downwardIsOn() throws RemoteException {
+		return this.zeppelin.downwardIsOn();
+	}
+	
 	/**
 	 * Laat de zeppelin een QR-code lezen.
 	 * @return Het resultaat van de volgende oproep: zeppelin.readNewQRCode()

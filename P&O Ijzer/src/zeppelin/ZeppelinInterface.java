@@ -48,6 +48,12 @@ public interface ZeppelinInterface extends Remote {
 	
 	public ArrayList<Motor> getMotors() throws RemoteException;
 	
+	public boolean leftIsOn() throws RemoteException;
+	
+	public boolean rightIsOn() throws RemoteException;
+	
+	public boolean downwardIsOn() throws RemoteException;
+	
 	public String getMostRecentDecode() throws RemoteException;
 
 }

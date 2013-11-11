@@ -322,7 +322,17 @@ public class GuiPanel implements ActionListener
 	}
 
 	public static void main(String[] args) throws RemoteException, NotBoundException {
-		createAndShowGUI();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					createAndShowGUI();
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				} catch (NotBoundException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/** Returns an ImageIcon, or null if the path was invalid. */
@@ -340,31 +350,38 @@ public class GuiPanel implements ActionListener
 	private class heightAndMotorWorker extends SwingWorker<Void, Void> {
 		
 		private ArrayList<Boolean> activeMotors;
+		boolean leftOn;
+		boolean rightOn;
+		boolean downwardOn;
 		
 		public Void doInBackground() throws RemoteException, InterruptedException {
-			activeMotors = GuiPanel.this.guiController.getActiveMotors();
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						GuiPanel.this.hoogte.setText("Hoogte : " + GuiPanel.this.guiController.getHeight());
-					} catch (RemoteException e) {
-						e.printStackTrace();
+			while (true) {
+				leftOn = GuiPanel.this.guiController.leftIsOn();
+				rightOn = GuiPanel.this.guiController.rightIsOn();
+				downwardOn = GuiPanel.this.guiController.downwardIsOn();
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							GuiPanel.this.hoogte.setText("Hoogte : "
+									+ GuiPanel.this.guiController.getHeight());
+						} catch (RemoteException e) {
+							e.printStackTrace();
+						}
+						decideLightColours();
 					}
-					decideLightColours();
-				}
-			});
-			Thread.sleep(1000);
-			return null;
+				});
+				Thread.sleep(1000);
+			}
 		}
 		
 		private void decideLightColours() {
-			if (activeMotors.get(0))
+			if (leftOn)
 				GuiPanel.this.turnLightOn(GuiPanel.this.motor1);
 			else GuiPanel.this.turnLightOff(GuiPanel.this.motor1);
-			if (activeMotors.get(1))
+			if (rightOn)
 				GuiPanel.this.turnLightOn(GuiPanel.this.motor2);
 			else GuiPanel.this.turnLightOff(GuiPanel.this.motor2);
-			if (activeMotors.get(2))
+			if (downwardOn)
 				GuiPanel.this.turnLightOn(GuiPanel.this.motor3);
 			else GuiPanel.this.turnLightOff(GuiPanel.this.motor3);
 		}
@@ -374,31 +391,32 @@ public class GuiPanel implements ActionListener
 		
 		private String logText;
 		
-		public Void doInBackground() {
-			try {
-				logText = GuiPanel.this.guiController.readLogFile();
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						GuiPanel.this.logTextArea.setText(logText);
-					}
-				});
-				return null;
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (FTPIllegalReplyException e) {
-				e.printStackTrace();
-			} catch (FTPException e) {
-				e.printStackTrace();
-			} catch (FTPDataTransferException e) {
-				e.printStackTrace();
-			} catch (FTPAbortedException e) {
-				e.printStackTrace();
+		public Void doInBackground() throws InterruptedException {
+			while (true) {
+				try {
+					logText = GuiPanel.this.guiController.readLogFile();
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							GuiPanel.this.logTextArea.setText(logText);
+						}
+					});
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (FTPIllegalReplyException e) {
+					e.printStackTrace();
+				} catch (FTPException e) {
+					e.printStackTrace();
+				} catch (FTPDataTransferException e) {
+					e.printStackTrace();
+				} catch (FTPAbortedException e) {
+					e.printStackTrace();
+				}
+				Thread.sleep(1000);
 			}
-			return null;
 		}
 	}
 }
