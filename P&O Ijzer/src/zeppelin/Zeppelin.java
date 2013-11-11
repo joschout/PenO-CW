@@ -11,32 +11,45 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import movement.HeightAdjuster;
 import QRCode.QRCodeHandler;
 
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.RaspiPin;
 
+import components.Motor;
 import controllers.CameraController;
+import controllers.MotorController;
 import controllers.SensorController;
 import controllers.SensorController.TimeoutException;
+import ftp.FTPFileInfo;
+import ftp.LogWriter;
 
 public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 
 	
 	private static final long serialVersionUID = 1L;
+	public static final GpioController gpio = GpioFactory.getInstance();
 	
 	/**
 	 * Meest recente uitlezing van de sensor.
 	 */
-	private double height;
+	private double mostRecentHeight;
+	
+	private double targetHeight;
 	
 	// Controllers
 	private SensorController sensorController;
 	private CameraController cameraController;
+	private MotorController motorController;
 	
 	// Flags
 	
@@ -51,52 +64,43 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	 * De zeppelin is nu bezig met landen en daarna de uitvoering te stoppen.
 	 */
 	private boolean exit = false;
+	
+	private HeightAdjuster heightAdjuster;
+	
+	private LogWriter logWriter = new LogWriter();
 
 	public Zeppelin() throws RemoteException {
 		super();
-		sensorController = new SensorController(RaspiPin.GPIO_00, RaspiPin.GPIO_07);
+		sensorController = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
 		cameraController = new CameraController();
+		motorController = new MotorController();
 		qrCodeReader = new QRCodeHandler();
+		heightAdjuster = new HeightAdjuster(motorController);
+		
+		sensorReading();
+		targetHeight = mostRecentHeight;
 		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void activateDownwardMotor() throws RemoteException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void activateLeftMotor() throws RemoteException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void activateRightMotor() throws RemoteException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void activateBackwardMotor() throws RemoteException {
-		// TODO Auto-generated method stub
-
 	}
 	
 	@Override
 	public double sensorReading() throws RemoteException {
 		// TODO Auto-generated method stub
-		return this.height;
+		return this.mostRecentHeight;
 	}
 	
+	public void setTargetHeight(double height) throws RemoteException {
+		this.targetHeight = height;
+	}
 	
-
+	public ArrayList<Motor> getMotors() throws RemoteException {
+		return this.motorController.getMotors();
+	}
+	
 	@Override
 	public Map<String, String> queryState() throws RemoteException {
 		// TODO status van de motoren
 		Map<String, String> status = new HashMap<String, String>();
-		status.put("Hoogte",Double.toString(this.height));
+		status.put("Hoogte",Double.toString(this.mostRecentHeight));
 		return status;
 	}
 	
@@ -122,7 +126,8 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	private void gameLoop() throws InterruptedException {
 		while (!exit) {
 			try {
-				this.height = sensorController.sensorReading();
+				this.mostRecentHeight = sensorController.sensorReading();
+				this.heightAdjuster.takeAction(mostRecentHeight, targetHeight);
 			} catch (TimeoutException e) {
 				e.printStackTrace();
 			}
@@ -142,11 +147,11 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	public String readNewQRCode() throws RemoteException, IOException, InterruptedException {
 		String filename = Long.toString(System.currentTimeMillis());
 		this.cameraController.takePicture(filename);
-		String decoded = this.qrCodeReader.read(Zeppelin.PATH_TO_FTP_FILES + filename + ".jpg");
+		String decoded = this.qrCodeReader.read(FTPFileInfo.PATH_TO_FTP_FILES + filename + ".jpg");
 		if (decoded != null) {
 			this.mostRecentQRDecode = decoded;
 			BufferedWriter output = new BufferedWriter(new FileWriter(
-					ZeppelinInterface.PATH_TO_FTP_FILES + ZeppelinInterface.TIMESTAMPLIST_HOSTFILENAME, true));
+					FTPFileInfo.PATH_TO_FTP_FILES + FTPFileInfo.TIMESTAMPLIST_HOSTFILENAME, true));
 			output.append("/n");
 			output.append(filename + "," + decoded);
 			output.close();

@@ -7,11 +7,14 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -21,6 +24,8 @@ import zeppelin.ZeppelinInterface;
 import QRCode.QRCodeHandler;
 
 import com.google.zxing.WriterException;
+
+import components.Motor;
 
 
 public class GuiController {
@@ -33,8 +38,6 @@ public class GuiController {
 	
 	private WebClient ftpClient;
 	
-	
-
 	public GuiController() throws NotBoundException, IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		setZeppelin();
 		setWebClient();
@@ -52,7 +55,7 @@ public class GuiController {
 		this.zeppelin = zeppelin;
 	}
 
-	public double sensorReading() throws RemoteException {
+	public double getHeight() throws RemoteException {
 		return this.zeppelin.sensorReading();
 	}
 
@@ -65,6 +68,18 @@ public class GuiController {
 	
 	public void setWebClient() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		this.ftpClient = new WebClient();
+	}
+	
+	public ArrayList<Boolean> getActiveMotors() throws RemoteException {
+		ArrayList<Motor> motors = this.zeppelin.getMotors();
+		ArrayList<Boolean> toReturn = new ArrayList<Boolean>();
+		for (int i = 0; i < motors.size(); i++) {
+			if (motors.get(i).isOn()) {
+				toReturn.add(true);
+			}
+			else toReturn.add(false);
+		}
+		return toReturn;
 	}
 	
 	/**
@@ -80,6 +95,10 @@ public class GuiController {
 	
 	public BufferedImage getLastScannedImage() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		return this.ftpClient.getLastScannedImage();
+	}
+	
+	public String readLogFile() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		return this.ftpClient.readLogFile();
 	}
 
 	public void exit() {

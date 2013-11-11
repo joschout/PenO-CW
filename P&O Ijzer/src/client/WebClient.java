@@ -1,71 +1,45 @@
 package client;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-
-import javax.imageio.ImageIO;
-
-import server.ZeppelinServer;
-import zeppelin.ZeppelinInterface;
 import it.sauronsoftware.ftp4j.FTPAbortedException;
-import it.sauronsoftware.ftp4j.FTPClient;
 import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import ftp.FTPFileInfo;
+import ftp.LogFileClient;
+import ftp.QRCodeClient;
+
 public class WebClient {
 	
-	private FTPClient QRFileClient;
+	private LogFileClient logClient;
+	private QRCodeClient qrCodeClient;
 	
 	public WebClient() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
-		this.QRFileClient = new FTPClient();
-		this.QRFileClient.connect(ZeppelinServer.PI_HOSTNAME);
-		this.QRFileClient.login("pi", "ijzerisawesome");
-		this.QRFileClient.setAutoNoopTimeout(30000);
+		this.logClient = new LogFileClient();
+		this.qrCodeClient = new QRCodeClient();
 	}
 	
-	private void getFile(String fileNameOnHost, String fileNameOnLocal) throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		this.QRFileClient.download(fileNameOnHost, new File(fileNameOnLocal));
-	}
-	
-	private void getTimestampFile() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		this.QRFileClient.download(ZeppelinInterface.TIMESTAMPLIST_HOSTFILENAME, new File(ZeppelinInterface.TIMESTAMPLIST_LOCALFILENAME));
-	}
-	
-	private String getLastScannedImageName() throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		this.getTimestampFile();
-		File file = new File(ZeppelinInterface.TIMESTAMPLIST_LOCALFILENAME);
-		if (file.length() == 0) {
-			return null;
+	public String readLogFile() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		this.logClient.getLogFile();
+		BufferedReader reader = new BufferedReader(new FileReader(FTPFileInfo.LOGFILE_LOCALFILENAME));
+		StringBuilder builder = new StringBuilder();
+		String line = reader.readLine();
+		while (line != null) {
+			builder.append(line).append("\n");
+			line = reader.readLine();
 		}
-		RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
-        StringBuilder builder = new StringBuilder();
-        long length = file.length();
-        length--;
-        randomAccessFile.seek(length);
-        for(long seek = length; seek >= 0; --seek){
-            randomAccessFile.seek(seek);
-            char c = (char)randomAccessFile.read();
-            if (c != '\n') builder.append(c);
-            else {
-                builder = builder.reverse();
-                break;
-            }
-
-        }
-        randomAccessFile.close();
-        String[] split = builder.toString().split(",");
-        return split[0];
+		reader.close();
+		return builder.toString();
 	}
 	
-	public BufferedImage getLastScannedImage() throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		String fileName = this.getLastScannedImageName();
-		this.getFile(fileName + ".jpg", fileName + ".jpg");
-		File file = new File(fileName + ".jpg");
-		return ImageIO.read(file);
+	public BufferedImage getLastScannedImage() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		return this.qrCodeClient.getLastScannedImage();
 	}
 
 }

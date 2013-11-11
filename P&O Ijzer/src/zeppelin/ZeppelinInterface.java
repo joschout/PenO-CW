@@ -8,45 +8,18 @@ package zeppelin;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import components.Motor;
+
 public interface ZeppelinInterface extends Remote {
 	
-	public static final String TIMESTAMPLIST_HOSTFILENAME = "timestamplist";
-	public static final String TIMESTAMPLIST_LOCALFILENAME = "timestamplist.txt";
-	public static final String PATH_TO_FTP_FILES = "/home/pi/ftp/files/";
 	
-	/**
-	 * Activeert de naar-beneden-gerichte motor.
-	 * @throws RemoteException
-	 */
-	public void activateDownwardMotor() throws RemoteException;
 	
-	/**
-	 * Activeert de naar-links-gerichte motor.
-	 * @throws RemoteException
-	 */
-	public void activateLeftMotor() throws RemoteException;
-	
-	/**
-	 * Activeert de naar-rechts-gerichte motor.
-	 * @throws RemoteException
-	 */
-	public void activateRightMotor() throws RemoteException;
-	
-	/**
-	 * Activeert de naar-achter-gerichte motor.
-	 * @throws RemoteException
-	 */
-	public void activateBackwardMotor() throws RemoteException; // TODO: Hebben we zelfs zulk een motor beschikbaar?
-	
-	/**
-	 * Leest de afstand tot de grond uit van de sensor.
-	 * @return De afstand tussen de sensor en de grond.
-	 * @throws RemoteException
-	 */
 	public double sensorReading() throws RemoteException; // TODO: Gaat de cliënt in de uiteindelijke versie ooit deze methode direct oproepen?
 	
 	/**
@@ -70,6 +43,10 @@ public interface ZeppelinInterface extends Remote {
 	 * @throws InterruptedException
 	 */
 	public String readNewQRCode() throws RemoteException, IOException, InterruptedException;
+	
+	public void setTargetHeight(double height) throws RemoteException;
+	
+	public ArrayList<Motor> getMotors() throws RemoteException;
 	
 	public String getMostRecentDecode() throws RemoteException;
 

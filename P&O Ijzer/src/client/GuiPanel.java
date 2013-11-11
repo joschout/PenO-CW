@@ -17,16 +17,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicArrowButton;
-
-import com.google.zxing.WriterException;
-
-import QRCode.QRCodeHandler;
-import zeppelin.ZeppelinInterface;
+import javax.swing.text.DefaultCaret;
 
 public class GuiPanel implements ActionListener
 {	
@@ -41,6 +36,7 @@ public class GuiPanel implements ActionListener
 	// alle labels
 	private JLabel log = new JLabel("Log :");
 	private JLabel info = new JLabel("Info :");
+	private JLabel hoogte = new JLabel("Hoogte :");
 	private JLabel motor1 = new JLabel("Motor 1 :");
 	private JLabel motor2 = new JLabel("Motor 2 :");
 	private JLabel motor3 = new JLabel("Motor 3 :");
@@ -53,20 +49,18 @@ public class GuiPanel implements ActionListener
 
 	// alle buttons
 	private JButton logfiles = new JButton("Vorige logfiles");
-	private JButton updateDistance = new JButton("Afstand");
 	private JButton scanQRCode = new JButton("Scan QR-code");
 	private BasicArrowButton arrowup = new BasicArrowButton(SwingConstants.NORTH);
 	private BasicArrowButton arrowleft = new BasicArrowButton(SwingConstants.WEST);
 	private BasicArrowButton arrowright = new BasicArrowButton(SwingConstants.EAST);
 	private BasicArrowButton arrowdown = new BasicArrowButton(SwingConstants.SOUTH);
+	
+	private JTextArea logTextArea;
 
 	// lettertype
 	private final Font font = new Font("Calibri", Font.BOLD, 16);
 
 	private GuiController guiController;
-
-	// Meest recente foto gehaald van de server
-	private ImageIcon mostRecentImage;
 	
 	/**
 	 * Hou de meest recent label die overeenstemt met de meest recente gescande QR-code
@@ -81,6 +75,10 @@ public class GuiPanel implements ActionListener
 			System.err.println("Fout bij het verbinden met de zeppelin:");
 			e.printStackTrace();
 		}
+		heightAndMotorWorker motorUpdater = new heightAndMotorWorker();
+		logUpdater logUpdater = new logUpdater();
+		motorUpdater.execute();
+		logUpdater.execute();
 	}
 
 	public JPanel setGuipanel() // de frame-constructor methode
@@ -102,6 +100,7 @@ public class GuiPanel implements ActionListener
 		addLabelToPanel(motor3, 5, 125, 100, 30, motorpanel);
 		addLabelToPanel(motor4, 5, 175, 100, 30, motorpanel);
 		addLabelToPanel(qrcode, 5, 0, 400, 30, qrcodepanel);
+		addLabelToPanel(hoogte, 5, 0, 400, 100, infopanel);
 
 		addLabelToPanel(lamp1, 200, 30, 20, 20, motorpanel);
 		turnLightOff(lamp1);
@@ -114,13 +113,15 @@ public class GuiPanel implements ActionListener
 
 		// voeg buttons toe aan hun panel
 		addButtonToPanel(logfiles, 25, 850, 250, 30, KeyEvent.VK_L, logpanel);
-		addButtonToPanel(updateDistance, 575, 450, 100, 30, KeyEvent.VK_A, infopanel);
 		addButtonToPanel(scanQRCode, 200, 5, 100, 30, KeyEvent.VK_3, qrcodepanel);
 
 		addArrowToPanel(arrowup, 115, 55, 70, 70, KeyEvent.VK_UP, arrows);
 		addArrowToPanel(arrowleft, 45, 125, 70, 70, KeyEvent.VK_LEFT, arrows);
 		addArrowToPanel(arrowright, 185, 125, 70, 70, KeyEvent.VK_RIGHT, arrows);
 		addArrowToPanel(arrowdown, 115, 125, 70, 70, KeyEvent.VK_DOWN, arrows);
+		
+		// voeg text area voor log toe
+		addLogTextAreaToLogPanel(5, 30, 275, 750);
 
 		return guipanel;
 	}
@@ -170,6 +171,19 @@ public class GuiPanel implements ActionListener
 		button.setMnemonic(key); // verbind de gegeven toets aan deze button, wanneer de toets en alt samen worden ingedrukt wordt de actie erachter getriggerd
 		panel.add(button);
 	}
+	
+	public void addLogTextAreaToLogPanel(int x, int y, int width, int length) {
+		logTextArea = new JTextArea("");
+		logTextArea.setLineWrap(true);
+		logTextArea.setEditable(false);
+		DefaultCaret caret = (DefaultCaret) logTextArea.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		logTextArea.setBorder(BorderFactory.createLineBorder(Color.black));
+		JScrollPane scrollPane = new JScrollPane(logTextArea);
+		scrollPane.setBounds(x,y,width,length);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		this.logpanel.add(scrollPane, BorderLayout.CENTER);
+	}
 
 	public void turnLightOff(JLabel light)
 	{
@@ -205,15 +219,6 @@ public class GuiPanel implements ActionListener
 		{
 			JOptionPane.showMessageDialog(null,"Je hebt het onderste pijltje ingedrukt!","",
 					JOptionPane.PLAIN_MESSAGE);
-		}
-		else if (source == updateDistance)
-		{
-			double distance = 0;
-			try {
-				distance = guiController.sensorReading();
-			} catch (RemoteException e) {
-			}
-			JOptionPane.showMessageDialog(null, distance);
 		}
 		else if (source == scanQRCode)
 		{
@@ -328,6 +333,71 @@ public class GuiPanel implements ActionListener
 			return new ImageIcon(imgURL, description);
 		} else {
 			System.err.println("Couldn't find file: " + path);
+			return null;
+		}
+	}
+	
+	private class heightAndMotorWorker extends SwingWorker<Void, Void> {
+		
+		private ArrayList<Boolean> activeMotors;
+		
+		public Void doInBackground() throws RemoteException, InterruptedException {
+			activeMotors = GuiPanel.this.guiController.getActiveMotors();
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						GuiPanel.this.hoogte.setText("Hoogte : " + GuiPanel.this.guiController.getHeight());
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+					decideLightColours();
+				}
+			});
+			Thread.sleep(1000);
+			return null;
+		}
+		
+		private void decideLightColours() {
+			if (activeMotors.get(0))
+				GuiPanel.this.turnLightOn(GuiPanel.this.motor1);
+			else GuiPanel.this.turnLightOff(GuiPanel.this.motor1);
+			if (activeMotors.get(1))
+				GuiPanel.this.turnLightOn(GuiPanel.this.motor2);
+			else GuiPanel.this.turnLightOff(GuiPanel.this.motor2);
+			if (activeMotors.get(2))
+				GuiPanel.this.turnLightOn(GuiPanel.this.motor3);
+			else GuiPanel.this.turnLightOff(GuiPanel.this.motor3);
+		}
+	}
+	
+	private class logUpdater extends SwingWorker<Void, Void> {
+		
+		private String logText;
+		
+		public Void doInBackground() {
+			try {
+				logText = GuiPanel.this.guiController.readLogFile();
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						GuiPanel.this.logTextArea.setText(logText);
+					}
+				});
+				return null;
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (FTPIllegalReplyException e) {
+				e.printStackTrace();
+			} catch (FTPException e) {
+				e.printStackTrace();
+			} catch (FTPDataTransferException e) {
+				e.printStackTrace();
+			} catch (FTPAbortedException e) {
+				e.printStackTrace();
+			}
 			return null;
 		}
 	}
