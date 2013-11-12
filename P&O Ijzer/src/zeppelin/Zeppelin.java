@@ -77,9 +77,15 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 		qrCodeReader = new QRCodeHandler();
 		heightAdjuster = new HeightAdjuster(motorController);
 		
-		sensorReading();
-		targetHeight = mostRecentHeight;
-		System.out.println(targetHeight);
+		logWriter.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
+		
+		try {
+			this.targetHeight = sensorController.sensorReading();
+		} catch (TimeoutException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -176,6 +182,32 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	@Override
 	public boolean downwardIsOn() throws RemoteException {
 		return this.motorController.downwardIsOn();
+	}
+
+	@Override
+	public void goForward() throws RemoteException {
+		this.motorController.forward();
+		
+	}
+
+	@Override
+	public void goBackward() throws RemoteException {
+		this.motorController.backward();
+	}
+
+	@Override
+	public void turnLeft() throws RemoteException {
+		this.motorController.left();
+	}
+
+	@Override
+	public void turnRight() throws RemoteException {
+		this.motorController.right();
+	}
+
+	@Override
+	public void stopRightAndLeft() throws RemoteException {
+		this.motorController.stopRightAndLeftMotor();
 	}
 
 }

@@ -8,6 +8,7 @@ import zeppelin.Zeppelin;
 
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
+import com.pi4j.io.gpio.PinState;
 
 public class Motor implements Serializable {
 	
@@ -15,8 +16,8 @@ public class Motor implements Serializable {
 	private GpioPinDigitalOutput counterClockwisePin;
 	
 	public Motor(Pin clockwise, Pin counterClockwise) {
-		this.clockwisePin =  Zeppelin.gpio.provisionDigitalOutputPin(clockwise);
-		this.counterClockwisePin = Zeppelin.gpio.provisionDigitalOutputPin(counterClockwise);
+		this.clockwisePin =  Zeppelin.gpio.provisionDigitalOutputPin(clockwise, "", PinState.LOW);
+		this.counterClockwisePin = Zeppelin.gpio.provisionDigitalOutputPin(counterClockwise, PinState.LOW);
 	}
 	
 	public void clockwise() {

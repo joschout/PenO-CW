@@ -54,6 +54,16 @@ public interface ZeppelinInterface extends Remote {
 	
 	public boolean downwardIsOn() throws RemoteException;
 	
+	public void goForward() throws RemoteException;
+	
+	public void goBackward() throws RemoteException;
+	
+	public void turnLeft() throws RemoteException;
+	
+	public void turnRight() throws RemoteException;
+	
+	public void stopRightAndLeft() throws RemoteException;
+	
 	public String getMostRecentDecode() throws RemoteException;
 
 }

@@ -102,3 +102,542 @@
 16:2 - Motoren laten draaien aan percentage: 50
 16:2 - Zeppelin laten dalen.
 16:2 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Zeppelin laten dalen.
+16:2 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Zeppelin laten dalen.
+16:2 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Zeppelin laten dalen.
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+16:2 - Motoren laten draaien aan percentage: 50
+12:7 - ------------ START NIEUWE SESSIE ------------- 
+
+12:9 - ------------ START NIEUWE SESSIE ------------- 
+
+12:9 - Zeppelin vooruit laten gaan.
+12:9 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:9 - Zeppelin vooruit laten gaan.
+12:9 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:9 - Zeppelin vooruit laten gaan.
+12:9 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:9 - Motoren laten draaien aan percentage: 50
+12:9 - Zeppelin laten stijgen.
+12:9 - Motoren laten draaien aan percentage: 50
+12:9 - Motoren laten draaien aan percentage: 50
+12:9 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:9 - Zeppelin naar rechts laten draaien.
+12:9 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:9 - Zeppelin naar links laten draaien.
+12:9 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:9 - Zeppelin achteruit laten gaan.
+12:9 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:9 - Zeppelin vooruit laten gaan.
+12:9 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:11 - ------------ START NIEUWE SESSIE ------------- 
+
+12:11 - Motoren laten draaien aan percentage: 50
+12:11 - Zeppelin laten dalen.
+12:11 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:11 - Zeppelin vooruit laten gaan.
+12:11 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:11 - Zeppelin naar rechts laten draaien.
+12:11 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:11 - Zeppelin naar links laten draaien.
+12:11 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:11 - Motoren laten draaien aan percentage: 50
+12:11 - Zeppelin laten stijgen.
+12:11 - Motoren laten draaien aan percentage: 50
+12:11 - Motoren laten draaien aan percentage: 50
+12:11 - Motoren laten draaien aan percentage: 50
+12:11 - Motoren laten draaien aan percentage: 50
+12:11 - Motoren laten draaien aan percentage: 50
+12:11 - Motoren laten draaien aan percentage: 50
+12:11 - Motoren laten draaien aan percentage: 50
+12:11 - Motoren laten draaien aan percentage: 50
+12:11 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:28 - ------------ START NIEUWE SESSIE ------------- 
+
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten dalen.
+12:28 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:28 - Zeppelin vooruit laten gaan.
+12:28 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:28 - Zeppelin naar rechts laten draaien.
+12:28 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:28 - Zeppelin naar links laten draaien.
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten stijgen.
+12:28 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:28 - Zeppelin achteruit laten gaan.
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten dalen.
+12:28 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:28 - Motoren laten draaien aan percentage: 50

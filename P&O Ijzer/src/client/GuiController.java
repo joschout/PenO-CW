@@ -94,6 +94,30 @@ public class GuiController {
 		return this.zeppelin.downwardIsOn();
 	}
 	
+	public void goForward() throws RemoteException {
+		this.zeppelin.goForward();
+	}
+	
+	public void goBackward() throws RemoteException {
+		this.zeppelin.goBackward();
+	}
+	
+	public void goLeft() throws RemoteException {
+		this.zeppelin.turnLeft();
+	}
+	
+	public void goRight() throws RemoteException {
+		this.zeppelin.turnRight();
+	}
+	
+	public void stopRightAndLeftMotor() throws RemoteException {
+		this.zeppelin.stopRightAndLeft();
+	}
+	
+	public void setTargetHeight(double height) throws RemoteException {
+		this.zeppelin.setTargetHeight(height);
+	}
+	
 	/**
 	 * Laat de zeppelin een QR-code lezen.
 	 * @return Het resultaat van de volgende oproep: zeppelin.readNewQRCode()

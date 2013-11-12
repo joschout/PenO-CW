@@ -20,6 +20,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.text.DefaultCaret;
 
@@ -32,11 +34,13 @@ public class GuiPanel implements ActionListener
 	private JPanel motorpanel = new JPanel();
 	private JPanel qrcodepanel = new JPanel();
 	private JPanel arrows = new JPanel();
+	private JPanel actionsPanel = new JPanel();
 
 	// alle labels
 	private JLabel log = new JLabel("Log :");
 	private JLabel info = new JLabel("Info :");
 	private JLabel hoogte = new JLabel("Hoogte :");
+	private JLabel doelHoogte = new JLabel("Doelhoogte :");
 	private JLabel motor1 = new JLabel("Motor 1 :");
 	private JLabel motor2 = new JLabel("Motor 2 :");
 	private JLabel motor3 = new JLabel("Motor 3 :");
@@ -50,10 +54,13 @@ public class GuiPanel implements ActionListener
 	// alle buttons
 	private JButton logfiles = new JButton("Vorige logfiles");
 	private JButton scanQRCode = new JButton("Scan QR-code");
+	private JButton setTargetHeight = new JButton("Pas hoogte aan");
 	private BasicArrowButton arrowup = new BasicArrowButton(SwingConstants.NORTH);
 	private BasicArrowButton arrowleft = new BasicArrowButton(SwingConstants.WEST);
 	private BasicArrowButton arrowright = new BasicArrowButton(SwingConstants.EAST);
 	private BasicArrowButton arrowdown = new BasicArrowButton(SwingConstants.SOUTH);
+	
+	
 	
 	private JTextArea logTextArea;
 
@@ -91,6 +98,7 @@ public class GuiPanel implements ActionListener
 		addPanelToGUI(motorpanel, 300, 500, 300, 250);
 		addPanelToGUI(qrcodepanel, 600, 500, 400, 500);
 		addPanelToGUI(arrows, 300, 750, 300, 250);
+		addPanelToGUI(actionsPanel, 1000, 0, 700, 500);
 
 		// voeg labels toe aan het correcte panel
 		addLabelToPanel(log, 5, 0, 100, 30, logpanel);
@@ -101,6 +109,7 @@ public class GuiPanel implements ActionListener
 		addLabelToPanel(motor4, 5, 175, 100, 30, motorpanel);
 		addLabelToPanel(qrcode, 5, 0, 400, 30, qrcodepanel);
 		addLabelToPanel(hoogte, 5, 0, 400, 100, infopanel);
+		addLabelToPanel(doelHoogte, 400, 0, 400, 100, infopanel);
 
 		addLabelToPanel(lamp1, 200, 30, 20, 20, motorpanel);
 		turnLightOff(lamp1);
@@ -114,11 +123,17 @@ public class GuiPanel implements ActionListener
 		// voeg buttons toe aan hun panel
 		addButtonToPanel(logfiles, 25, 850, 250, 30, KeyEvent.VK_L, logpanel);
 		addButtonToPanel(scanQRCode, 200, 5, 100, 30, KeyEvent.VK_3, qrcodepanel);
+		addButtonToPanel(setTargetHeight, 5, 5, 200, 30, KeyEvent.VK_4, actionsPanel);
 
 		addArrowToPanel(arrowup, 115, 55, 70, 70, KeyEvent.VK_UP, arrows);
 		addArrowToPanel(arrowleft, 45, 125, 70, 70, KeyEvent.VK_LEFT, arrows);
 		addArrowToPanel(arrowright, 185, 125, 70, 70, KeyEvent.VK_RIGHT, arrows);
 		addArrowToPanel(arrowdown, 115, 125, 70, 70, KeyEvent.VK_DOWN, arrows);
+		
+		addTimerToArrowButton(arrowup);
+		addTimerToArrowButton(arrowleft);
+		addTimerToArrowButton(arrowright);
+		addTimerToArrowButton(arrowdown);
 		
 		// voeg text area voor log toe
 		addLogTextAreaToLogPanel(5, 30, 275, 750);
@@ -184,6 +199,25 @@ public class GuiPanel implements ActionListener
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		this.logpanel.add(scrollPane, BorderLayout.CENTER);
 	}
+	
+	public void addTimerToArrowButton(BasicArrowButton arrowButton) {
+		final ButtonModel bModel = arrowButton.getModel();
+		final MotorTimer timer = new MotorTimer(arrowButton);
+		bModel.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent cEvt) {
+	            if (bModel.isPressed() && !timer.isRunning()) {
+	               timer.start();
+	            } else if (!bModel.isPressed() && timer.isRunning()) {
+	               timer.stop();
+	               try {
+					GuiPanel.this.guiController.stopRightAndLeftMotor();
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+	            }
+	         }
+		});
+	}
 
 	public void turnLightOff(JLabel light)
 	{
@@ -200,27 +234,27 @@ public class GuiPanel implements ActionListener
 	public void actionPerformed(ActionEvent event)
 	{
 		Object source = event.getSource();
-		if (source == arrowup)
-		{
-			JOptionPane.showMessageDialog(null,"Je hebt het bovenste pijltje ingedrukt!","",
-					JOptionPane.PLAIN_MESSAGE);
-		}
-		else if (source == arrowleft)
-		{
-			JOptionPane.showMessageDialog(null,"Je hebt het linkse pijltje ingedrukt!","",
-					JOptionPane.PLAIN_MESSAGE);
-		}
-		else if (source == arrowright)
-		{
-			JOptionPane.showMessageDialog(null,"Je hebt het rechtse pijltje ingedrukt!","",
-					JOptionPane.PLAIN_MESSAGE);
-		}
-		else if (source == arrowdown)
-		{
-			JOptionPane.showMessageDialog(null,"Je hebt het onderste pijltje ingedrukt!","",
-					JOptionPane.PLAIN_MESSAGE);
-		}
-		else if (source == scanQRCode)
+//		if (source == arrowup)
+//		{
+//			JOptionPane.showMessageDialog(null,"Je hebt het bovenste pijltje ingedrukt!","",
+//					JOptionPane.PLAIN_MESSAGE);
+//		}
+//		else if (source == arrowleft)
+//		{
+//			JOptionPane.showMessageDialog(null,"Je hebt het linkse pijltje ingedrukt!","",
+//					JOptionPane.PLAIN_MESSAGE);
+//		}
+//		else if (source == arrowright)
+//		{
+//			JOptionPane.showMessageDialog(null,"Je hebt het rechtse pijltje ingedrukt!","",
+//					JOptionPane.PLAIN_MESSAGE);
+//		}
+//		else if (source == arrowdown)
+//		{
+//			JOptionPane.showMessageDialog(null,"Je hebt het onderste pijltje ingedrukt!","",
+//					JOptionPane.PLAIN_MESSAGE);
+//		}
+		if (source == scanQRCode)
 		{
 			String decoded;
 			try {
@@ -238,6 +272,17 @@ public class GuiPanel implements ActionListener
 				JOptionPane.showMessageDialog(null, "Fout bij de zeppelin een QR-code te laten lezen, zie standard out.");
 				e.printStackTrace();
 			}
+		}
+		else if (source == setTargetHeight) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe doelhoogte in.");
+			double height = Double.parseDouble(input);
+			try {
+				this.guiController.setTargetHeight(height);
+			} catch (RemoteException e) {
+				JOptionPane.showMessageDialog(null, "Fout bij het aanpassen van doelhoogte, zie standard out");
+				e.printStackTrace();
+			}
+			this.doelHoogte.setText("Doelhoogte : " + height);
 		}
 		else if(source == logfiles)
 		{   
@@ -417,6 +462,57 @@ public class GuiPanel implements ActionListener
 				}
 				Thread.sleep(1000);
 			}
+		}
+	}
+	
+	private class MotorTimer extends Timer {
+
+		BasicArrowButton arrowButton;
+		
+		public MotorTimer(BasicArrowButton arrowButton) throws IllegalArgumentException {
+			super(100, null);
+			if (! (arrowButton == GuiPanel.this.arrowup || arrowButton == GuiPanel.this.arrowleft ||
+					arrowButton == GuiPanel.this.arrowright || arrowButton == GuiPanel.this.arrowdown)) {
+				throw new IllegalArgumentException("Timerconstructor moet bestaande pijltoets hebben als argument");
+			}
+			this.arrowButton = arrowButton;
+			ActionListener listener = new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (MotorTimer.this.arrowButton == GuiPanel.this.arrowup) {
+						try {
+							GuiPanel.this.guiController.goForward();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					}
+					else if (MotorTimer.this.arrowButton == GuiPanel.this.arrowleft) {
+						try {
+							GuiPanel.this.guiController.goLeft();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					}
+					else if (MotorTimer.this.arrowButton == GuiPanel.this.arrowright) {
+						try {
+							GuiPanel.this.guiController.goRight();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					}
+					else if (MotorTimer.this.arrowButton == GuiPanel.this.arrowdown) {
+						try {
+							GuiPanel.this.guiController.goBackward();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
+				
+			};
+			super.removeActionListener(null);
+			super.addActionListener(listener);
 		}
 	}
 }

@@ -32,14 +32,17 @@ public class MotorController implements Serializable {
 	}
 	
 	public static void setSpeed(int percentage) {
-		logWriter.writeToLog("Motoren laten draaien aan percentage: " + percentage);
-		if (percentage == 0) {
-			PWMPin.setPwm(0);
-			return;
+		if (PWMPin.getPwm() != percentage) {
+			logWriter.writeToLog("Motoren laten draaien aan percentage: "
+					+ percentage);
+			if (percentage == 0) {
+				PWMPin.setPwm(0);
+				return;
+			}
+			double factor = (double) percentage / 100;
+			int result = (int) factor * INTERVAL_LENGTH + MINIMUM_RESPONSE;
+			PWMPin.setPwm(result);
 		}
-		double factor = (double) percentage / 100;
-		int result = (int) factor * INTERVAL_LENGTH + MINIMUM_RESPONSE;
-		PWMPin.setPwm(result);
 	}
 	
 	public void left() {
@@ -58,9 +61,9 @@ public class MotorController implements Serializable {
 		}
 	}
 	
-	public void stopTurning() {
+	public void stopRightAndLeftMotor() {
 		if (leftMotor.isOn() && rightMotor.isOn()) {
-			logWriter.writeToLog("Zeppelin laten stoppen met draaien.");
+			logWriter.writeToLog("Zeppelin de linker- en rechtermotor laten stoppen.");
 			this.rightMotor.stop();
 			this.leftMotor.stop();
 		}

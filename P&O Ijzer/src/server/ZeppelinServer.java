@@ -15,7 +15,7 @@ import zeppelin.Zeppelin;
 
 public class ZeppelinServer {
 	
-	public static final String PI_HOSTNAME = "192.168.2.100";
+	public static final String PI_HOSTNAME = "192.168.2.150";
 	
 	public static void main(String[] args) throws InterruptedException, TimeoutException {
 		
