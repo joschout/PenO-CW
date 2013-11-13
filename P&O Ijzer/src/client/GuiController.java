@@ -138,6 +138,18 @@ public class GuiController {
 	}
 
 	public void exit() {
+		try {
+			this.zeppelin.stopRightAndLeft();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			this.zeppelin.stopDownward();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.exit(0);
 	}
 

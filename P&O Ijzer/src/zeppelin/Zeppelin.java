@@ -209,5 +209,9 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	public void stopRightAndLeft() throws RemoteException {
 		this.motorController.stopRightAndLeftMotor();
 	}
+	
+	public void stopDownward() throws RemoteException {
+		this.motorController.stopHeightAdjustment();
+	}
 
 }

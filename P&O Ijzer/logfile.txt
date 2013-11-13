@@ -641,3 +641,92 @@
 12:28 - Zeppelin laten dalen.
 12:28 - Zeppelin de linker- en rechtermotor laten stoppen.
 12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:20 - ------------ START NIEUWE SESSIE ------------- 
+
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten stijgen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten dalen.
+12:20 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten stijgen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten stijgen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten dalen.
+12:20 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten dalen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten dalen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:20 - Motoren laten draaien aan percentage: 50
+12:20 - Zeppelin laten dalen.
+12:20 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:20 - Zeppelin vooruit laten gaan.
+12:20 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:20 - Zeppelin vooruit laten gaan.
+12:20 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:20 - Zeppelin naar rechts laten draaien.
+12:20 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:20 - Zeppelin naar links laten draaien.
+12:20 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:20 - Zeppelin achteruit laten gaan.
+12:20 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:23 - ------------ START NIEUWE SESSIE ------------- 
+
+12:23 - Motoren laten draaien aan percentage: 50
+12:23 - Zeppelin laten dalen.
+12:23 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:23 - Zeppelin vooruit laten gaan.
+12:23 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:23 - Zeppelin naar rechts laten draaien.
+12:23 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:23 - Zeppelin naar links laten draaien.
+12:23 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:23 - Zeppelin achteruit laten gaan.
+12:23 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:23 - Zeppelin vooruit laten gaan.
+12:23 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:23 - Zeppelin achteruit laten gaan.
+12:23 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:23 - Zeppelin naar rechts laten draaien.
+12:23 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:23 - Zeppelin naar links laten draaien.
+12:23 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:23 - Motoren laten draaien aan percentage: 50
+12:23 - Zeppelin laten stijgen.
+12:23 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:23 - Motoren laten draaien aan percentage: 50
+12:23 - Zeppelin laten stijgen.
+12:23 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:23 - Motoren laten draaien aan percentage: 50
+12:23 - Zeppelin laten dalen.
+12:24 - ------------ START NIEUWE SESSIE ------------- 
+
+12:28 - ------------ START NIEUWE SESSIE ------------- 
+
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten dalen.
+12:28 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:28 - Zeppelin vooruit laten gaan.
+12:28 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten stijgen.
+12:28 - Zeppelin laten stoppen met zijn hoogte aan te passen.
