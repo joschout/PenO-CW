@@ -16,11 +16,11 @@ import javax.imageio.ImageIO;
 
 import server.ZeppelinServer;
 
-public class QRCodeClient {
+public class QRCodeFTPClient {
 	
 private FTPClient QRFileClient;
 	
-	public QRCodeClient() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
+	public QRCodeFTPClient() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		this.QRFileClient = new FTPClient();
 		this.QRFileClient.connect(ZeppelinServer.PI_HOSTNAME);
 		this.QRFileClient.login("pi", "ijzerisawesome");

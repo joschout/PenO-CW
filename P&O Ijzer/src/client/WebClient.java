@@ -13,16 +13,16 @@ import java.io.IOException;
 
 import ftp.FTPFileInfo;
 import ftp.LogFileClient;
-import ftp.QRCodeClient;
+import ftp.QRCodeFTPClient;
 
 public class WebClient {
 	
 	private LogFileClient logClient;
-	private QRCodeClient qrCodeClient;
+	private QRCodeFTPClient qrCodeClient;
 	
 	public WebClient() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		this.logClient = new LogFileClient();
-		this.qrCodeClient = new QRCodeClient();
+		this.qrCodeClient = new QRCodeFTPClient();
 	}
 	
 	public String readLogFile() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
