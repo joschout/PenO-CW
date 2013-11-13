@@ -4,6 +4,8 @@
 
 package client;
 
+import javax.swing.UIManager.*;
+
 import it.sauronsoftware.ftp4j.FTPAbortedException;
 import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPException;
@@ -20,6 +22,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -41,15 +44,15 @@ public class GuiPanel implements ActionListener
 	private JLabel info = new JLabel("Info :");
 	private JLabel hoogte = new JLabel("Hoogte :");
 	private JLabel doelHoogte = new JLabel("Doelhoogte :");
-	private JLabel motor1 = new JLabel("Motor 1 :");
-	private JLabel motor2 = new JLabel("Motor 2 :");
-	private JLabel motor3 = new JLabel("Motor 3 :");
-	private JLabel motor4 = new JLabel("Motor 4 :");
+	private JLabel motor1 = new JLabel("   Motor 1");
+	private JLabel motor2 = new JLabel("   Motor 2");
+	private JLabel motor3 = new JLabel("   Motor 3");
+	//private JLabel motor4 = new JLabel("Motor 4 :");
 	private JLabel qrcode = new JLabel("Meest recente QR-code :");
-	private JLabel lamp1 = new JLabel("");
-	private JLabel lamp2 = new JLabel("");
-	private JLabel lamp3 = new JLabel("");
-	private JLabel lamp4 = new JLabel("");
+	//private JLabel lamp1 = new JLabel("");
+	//private JLabel lamp2 = new JLabel("");
+	//private JLabel lamp3 = new JLabel("");
+	//private JLabel lamp4 = new JLabel("");
 
 	// alle buttons
 	private JButton logfiles = new JButton("Vorige logfiles");
@@ -63,9 +66,11 @@ public class GuiPanel implements ActionListener
 	
 	
 	private JTextArea logTextArea;
+	private JTextArea huidigeHoogte;
+	private JTextArea targetHoogte;
 
 	// lettertype
-	private final Font font = new Font("Calibri", Font.BOLD, 16);
+	private final Font font = new Font("Calibri", Font.PLAIN, 16);
 
 	private GuiController guiController;
 	
@@ -93,42 +98,43 @@ public class GuiPanel implements ActionListener
 		guipanel.setLayout(null);
 
 		// voeg panels toe aan GUI
-		addPanelToGUI(logpanel, 0, 0, 300, 1000);
-		addPanelToGUI(infopanel, 300, 0, 700, 500);
-		addPanelToGUI(motorpanel, 300, 500, 300, 250);
-		addPanelToGUI(qrcodepanel, 600, 500, 400, 500);
-		addPanelToGUI(arrows, 300, 750, 300, 250);
-		addPanelToGUI(actionsPanel, 1000, 0, 700, 500);
+		addPanelToGUI(logpanel, 0, 0, 500, 300);
+		
+		addPanelToGUI(infopanel, 0, 300, 500, 200);
+		addPanelToGUI(motorpanel, 0, 500, 500, 50);
+		addPanelToGUI(qrcodepanel, 500, 0, 400, 400);
+		addPanelToGUI(arrows, 500, 400, 200, 150);
+		addPanelToGUI(actionsPanel, 700, 400, 200, 150);
 
 		// voeg labels toe aan het correcte panel
-		addLabelToPanel(log, 5, 0, 100, 30, logpanel);
-		addLabelToPanel(info, 5, 0, 100, 30, infopanel);
-		addLabelToPanel(motor1, 5, 25, 100, 30, motorpanel);
-		addLabelToPanel(motor2, 5, 75, 100, 30, motorpanel);
-		addLabelToPanel(motor3, 5, 125, 100, 30, motorpanel);
-		addLabelToPanel(motor4, 5, 175, 100, 30, motorpanel);
-		addLabelToPanel(qrcode, 5, 0, 400, 30, qrcodepanel);
-		addLabelToPanel(hoogte, 5, 0, 400, 100, infopanel);
-		addLabelToPanel(doelHoogte, 400, 0, 400, 100, infopanel);
+		//addLabelToPanel(log, 5, 0, 100, 30, logpanel);
+		//addLabelToPanel(info, 5, 0, 100, 30, infopanel);
+		addLabelToPanel(motor1, 69, 10, 75, 30, motorpanel);
+		addLabelToPanel(motor2, 213, 10, 75, 30, motorpanel);
+		addLabelToPanel(motor3, 356, 10, 75, 30, motorpanel);
+		//addLabelToPanel(motor4, 5, 175, 100, 30, motorpanel);
+		//addLabelToPanel(qrcode, 5, 0, 400, 30, qrcodepanel);
+		addLabelToPanel(hoogte, 5, 5, 100, 50, infopanel);
+		addLabelToPanel(doelHoogte, 5, 50, 100, 50, infopanel);
 
-		addLabelToPanel(lamp1, 200, 30, 20, 20, motorpanel);
-		turnLightOff(lamp1);
-		addLabelToPanel(lamp2, 200, 80, 20, 20, motorpanel);
-		turnLightOff(lamp2);
-		addLabelToPanel(lamp3, 200, 130, 20, 20, motorpanel);
-		turnLightOff(lamp3);
-		addLabelToPanel(lamp4, 200, 180, 20, 20, motorpanel);
-		turnLightOff(lamp4);
+		//addLabelToPanel(lamp1, 200, 30, 20, 20, motorpanel);
+		turnLightOff(motor1);
+		//addLabelToPanel(lamp2, 200, 80, 20, 20, motorpanel);
+		turnLightOff(motor2);
+		//addLabelToPanel(lamp3, 200, 130, 20, 20, motorpanel);
+		turnLightOff(motor3);
+		//addLabelToPanel(lamp4, 200, 180, 20, 20, motorpanel);
+		//turnLightOff(lamp4);
 
 		// voeg buttons toe aan hun panel
-		addButtonToPanel(logfiles, 25, 850, 250, 30, KeyEvent.VK_L, logpanel);
-		addButtonToPanel(scanQRCode, 200, 5, 100, 30, KeyEvent.VK_3, qrcodepanel);
-		addButtonToPanel(setTargetHeight, 5, 5, 200, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(logfiles, 350, 270, 150, 25, KeyEvent.VK_L, logpanel);
+		addButtonToPanel(scanQRCode, 125, 5, 150, 30, KeyEvent.VK_3, qrcodepanel);
+		addButtonToPanel(setTargetHeight, 5, 5, 150, 30, KeyEvent.VK_4, actionsPanel);
 
-		addArrowToPanel(arrowup, 115, 55, 70, 70, KeyEvent.VK_UP, arrows);
-		addArrowToPanel(arrowleft, 45, 125, 70, 70, KeyEvent.VK_LEFT, arrows);
-		addArrowToPanel(arrowright, 185, 125, 70, 70, KeyEvent.VK_RIGHT, arrows);
-		addArrowToPanel(arrowdown, 115, 125, 70, 70, KeyEvent.VK_DOWN, arrows);
+		addArrowToPanel(arrowup, 75, 25, 50, 50, KeyEvent.VK_UP, arrows, false);
+		addArrowToPanel(arrowleft, 25, 75, 50, 50, KeyEvent.VK_LEFT, arrows, false);
+		addArrowToPanel(arrowright, 125, 75, 50, 50, KeyEvent.VK_RIGHT, arrows, false);
+		addArrowToPanel(arrowdown, 75, 75, 50, 50, KeyEvent.VK_DOWN, arrows, false);
 		
 		addTimerToArrowButton(arrowup);
 		addTimerToArrowButton(arrowleft);
@@ -136,7 +142,9 @@ public class GuiPanel implements ActionListener
 		addTimerToArrowButton(arrowdown);
 		
 		// voeg text area voor log toe
-		addLogTextAreaToLogPanel(5, 30, 275, 750);
+		addTextAreaToPanel(0, 0, 500, 250, logTextArea, logpanel);
+		addTextAreaToPanel(150, 15, 200, 30, huidigeHoogte, infopanel);
+		addTextAreaToPanel(150, 65, 200, 30, targetHoogte, infopanel);
 
 		return guipanel;
 	}
@@ -170,34 +178,36 @@ public class GuiPanel implements ActionListener
 		button.setLocation(x, y); // cošrdinaat van linkerbovenhoek van button op zijn panel
 		button.setSize(width, length); // breedte en lengte van deze button
 		button.setFont(font); // lettertype wijzigen
-		button.setBorder(BorderFactory.createLineBorder(Color.pink)); // maak de randen roos
+		//button.setBorder(BorderFactory.createLineBorder(Color.pink)); // maak de randen roos
 		button.addActionListener(this); // bindt een actie aan deze button
 		button.setMnemonic(key); // verbind de gegeven toets aan deze button, wanneer de toets en alt samen worden ingedrukt wordt de actie erachter getriggerd
 		panel.add(button);
 	}
 
-	public void addArrowToPanel(BasicArrowButton button, int x, int y, int width, int length, int key, JPanel panel)
+	public void addArrowToPanel(BasicArrowButton button, int x, int y, int width, int length, int key, JPanel panel, boolean border)
 	{
 		// voeg button toe aan het correcte panel
 		button.setLocation(x, y); // cošrdinaat van linkerbovenhoek van button op zijn panel
 		button.setSize(width, length); // breedte en lengte van deze button
-		button.setBorder(BorderFactory.createLineBorder(Color.black)); // maak de randen zwart
+		if (border)
+			button.setBorder(BorderFactory.createLineBorder(Color.black)); // maak de randen zwart
+		button.setBackground(Color.CYAN);
 		button.addActionListener(this); // bindt een actie aan deze button
 		button.setMnemonic(key); // verbind de gegeven toets aan deze button, wanneer de toets en alt samen worden ingedrukt wordt de actie erachter getriggerd
 		panel.add(button);
 	}
 	
-	public void addLogTextAreaToLogPanel(int x, int y, int width, int length) {
-		logTextArea = new JTextArea("");
-		logTextArea.setLineWrap(true);
-		logTextArea.setEditable(false);
-		DefaultCaret caret = (DefaultCaret) logTextArea.getCaret();
+	public void addTextAreaToPanel(int x, int y, int width, int length, JTextArea textArea, JPanel panel) {
+		textArea = new JTextArea("");
+		textArea.setLineWrap(true);
+		textArea.setEditable(false);
+		DefaultCaret caret = (DefaultCaret) textArea.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		logTextArea.setBorder(BorderFactory.createLineBorder(Color.black));
-		JScrollPane scrollPane = new JScrollPane(logTextArea);
+		textArea.setBorder(BorderFactory.createLineBorder(Color.black));
+		JScrollPane scrollPane = new JScrollPane(textArea);
 		scrollPane.setBounds(x,y,width,length);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		this.logpanel.add(scrollPane, BorderLayout.CENTER);
+		panel.add(scrollPane, BorderLayout.CENTER);
 	}
 	
 	public void addTimerToArrowButton(BasicArrowButton arrowButton) {
@@ -282,7 +292,7 @@ public class GuiPanel implements ActionListener
 				JOptionPane.showMessageDialog(null, "Fout bij het aanpassen van doelhoogte, zie standard out");
 				e.printStackTrace();
 			}
-			this.doelHoogte.setText("Doelhoogte : " + height);
+			this.targetHoogte.setText(Double.toString(height));
 		}
 		else if(source == logfiles)
 		{   
@@ -333,9 +343,17 @@ public class GuiPanel implements ActionListener
 		qrcodepanel.add(label);
 	}
 
-	private static void createAndShowGUI() throws RemoteException, NotBoundException {
+	private static void createAndShowGUI() throws RemoteException, NotBoundException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 
-		JFrame.setDefaultLookAndFeelDecorated(true);
+		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+	        if ("Nimbus".equals(info.getName())) {
+	            UIManager.setLookAndFeel(info.getClassName());
+	            break;
+	        }
+	    }
+		
+		
+		//JFrame.setDefaultLookAndFeelDecorated(true);
 		final JFrame frame = new JFrame("GUI P&O");
 
 		// aanmaken van de guipanel
@@ -343,11 +361,11 @@ public class GuiPanel implements ActionListener
 
 		// aanmaken scrollpane
 		JPanel gui = guipanel.setGuipanel();  
-		JScrollPane scrollpane = new JScrollPane(gui);   
-		gui.setPreferredSize(new Dimension(1000, 1000)); // bepaalt de grootte van het scrollgebied, dus tot waar we kunnen scrollen om de gui te zien
+		//JScrollPane scrollpane = new JScrollPane(gui);   
+		//gui.setPreferredSize(new Dimension(1150, 700)); // bepaalt de grootte van het scrollgebied, dus tot waar we kunnen scrollen om de gui te zien
 
 		// aanmaken en opzetten van de content pane
-		frame.add(scrollpane, BorderLayout.CENTER);
+		frame.add(gui);
 		// zorgt ervoor dat de zeppelin veilig afsluit wanneer je op de
 		// X-knop drukt
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -362,7 +380,7 @@ public class GuiPanel implements ActionListener
 				}
 			}
 		});
-		frame.setSize(1000, 1000);
+		frame.setSize(950, 600);
 		frame.setVisible(true);
 	}
 
@@ -370,7 +388,17 @@ public class GuiPanel implements ActionListener
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					createAndShowGUI();
+					try {
+						createAndShowGUI();
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					} catch (InstantiationException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (UnsupportedLookAndFeelException e) {
+						e.printStackTrace();
+					}
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				} catch (NotBoundException e) {
@@ -407,8 +435,7 @@ public class GuiPanel implements ActionListener
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							GuiPanel.this.hoogte.setText("Hoogte : "
-									+ GuiPanel.this.guiController.getHeight());
+							GuiPanel.this.huidigeHoogte.setText(Double.toString(GuiPanel.this.guiController.getHeight()));
 						} catch (RemoteException e) {
 							e.printStackTrace();
 						}
