@@ -44,6 +44,8 @@ public interface ZeppelinInterface extends Remote {
 	 */
 	public String readNewQRCode() throws RemoteException, IOException, InterruptedException;
 	
+	public double getTargetHeight() throws RemoteException;
+	
 	public void setTargetHeight(double height) throws RemoteException;
 	
 	public ArrayList<Motor> getMotors() throws RemoteException;

@@ -25,10 +25,14 @@ public class MotorController implements Serializable {
 	
 	private static final LogWriter logWriter = new LogWriter();
 	
+	// Motor 1: GPIO_05 en GPIO_07
+	// Motor 2: GPIO_00 en GPIO_04
+	// Motor 3: GPIO_13 en GPIO_11
+	// Motor 4: GPIO_12 en GPIO_14
 	public MotorController() {
-		leftMotor = new Motor(RaspiPin.GPIO_05, RaspiPin.GPIO_07); // motor 1
-		rightMotor = new Motor(RaspiPin.GPIO_00, RaspiPin.GPIO_04); // motor 2
-		downwardMotor = new Motor(RaspiPin.GPIO_13, RaspiPin.GPIO_11); // motor 3
+		leftMotor = new Motor(RaspiPin.GPIO_11, RaspiPin.GPIO_13); // motor 3
+		rightMotor = new Motor(RaspiPin.GPIO_04, RaspiPin.GPIO_00); // motor 2
+		downwardMotor = new Motor(RaspiPin.GPIO_14, RaspiPin.GPIO_12); // motor 4
 	}
 	
 	public static void setSpeed(int percentage) {

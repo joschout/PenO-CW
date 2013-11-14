@@ -68,7 +68,7 @@ public class QRCodeHandler {
 	 */
 	public String read(String filename) {
 		try {
-			InputStream barCodeInputStream = new FileInputStream(filename + ".jpg");  
+			InputStream barCodeInputStream = new FileInputStream(filename);  
 			System.out.println("Foto ingelezen.");
 			BufferedImage barCodeBufferedImage = ImageIO.read(barCodeInputStream);  
   

@@ -114,6 +114,10 @@ public class GuiController {
 		this.zeppelin.stopRightAndLeft();
 	}
 	
+	public double getTargetHeight() throws RemoteException {
+		return this.zeppelin.getTargetHeight();
+	}
+	
 	public void setTargetHeight(double height) throws RemoteException {
 		this.zeppelin.setTargetHeight(height);
 	}
@@ -139,15 +143,8 @@ public class GuiController {
 
 	public void exit() {
 		try {
-			this.zeppelin.stopRightAndLeft();
+			this.zeppelin.exit();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			this.zeppelin.stopDownward();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.exit(0);

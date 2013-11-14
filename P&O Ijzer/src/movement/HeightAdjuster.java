@@ -42,13 +42,17 @@ public class HeightAdjuster {
 	}
 	
 	private void motorSpeedAdjustment(double height, double targetHeight) {
-		if ((height >= targetHeight - delta - safetyInterval2) ||
-				height <= targetHeight + delta + safetyInterval2) {
+		/*
+		 * abs(height-tqrget_height) < interval
+		 * 
+		 * (height >= targetHeight - delta - safetyInterval2) ||
+				height <= targetHeight + delta + safetyInterval2
+		 */
+		if (Math.abs(height - targetHeight) <= (delta + safetyInterval2)) {
 //			logWriter.writeToLog("Zeppelin zweeft op 5cm af van doelhoogte; motor op halve kracht laten draaien.");
 			MotorController.setSpeed(50);
 		}
-		else if ((height >= targetHeight - delta - safetyInterval1) ||
-				height <= targetHeight + delta + safetyInterval1) {
+		else if (Math.abs(height - targetHeight) <= (delta + safetyInterval1)) {
 //			logWriter.writeToLog("Zeppelin zweeft op 15 cm af van doelhoogte; motor op 80 procent kracht laten draaien.");
 			MotorController.setSpeed(80);
 		}

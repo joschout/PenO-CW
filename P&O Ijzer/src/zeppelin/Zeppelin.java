@@ -95,6 +95,10 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 		return this.mostRecentHeight;
 	}
 	
+	public double getTargetHeight() throws RemoteException {
+		return this.targetHeight;
+	}
+	
 	@Override
 	public void setTargetHeight(double height) throws RemoteException {
 		this.targetHeight = height;
@@ -137,16 +141,18 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 			try {
 				this.mostRecentHeight = sensorController.sensorReading();
 				this.heightAdjuster.takeAction(mostRecentHeight, targetHeight);
-				System.out.println("Motor 3 is aan: " + motorController.downwardIsOn());
 			} catch (TimeoutException e) {
 				e.printStackTrace();
 			}
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		this.motorController.stopRightAndLeftMotor();
+		this.motorController.stopHeightAdjustment();
+		System.exit(0);
 	}
 	
 	public String getMostRecentDecode() {

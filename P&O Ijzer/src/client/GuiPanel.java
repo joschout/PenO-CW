@@ -44,9 +44,9 @@ public class GuiPanel implements ActionListener
 	private JLabel info = new JLabel("Info :");
 	private JLabel hoogte = new JLabel("Hoogte :");
 	private JLabel doelHoogte = new JLabel("Doelhoogte :");
-	private JLabel motor1 = new JLabel("   Motor 1");
-	private JLabel motor2 = new JLabel("   Motor 2");
-	private JLabel motor3 = new JLabel("   Motor 3");
+	private JLabel motor1 = new JLabel("   Links");
+	private JLabel motor2 = new JLabel("   Rechts");
+	private JLabel motor3 = new JLabel("   Onder");
 	//private JLabel motor4 = new JLabel("Motor 4 :");
 	private JLabel qrcode = new JLabel("Meest recente QR-code :");
 	//private JLabel lamp1 = new JLabel("");
@@ -65,9 +65,9 @@ public class GuiPanel implements ActionListener
 	
 	
 	
-	private JTextArea logTextArea;
-	private JTextArea huidigeHoogte;
-	private JTextArea targetHoogte;
+	private JTextArea logTextArea = new JTextArea();
+	private JTextArea huidigeHoogte = new JTextArea();
+	private JTextArea targetHoogte = new JTextArea();
 
 	// lettertype
 	private final Font font = new Font("Calibri", Font.PLAIN, 16);
@@ -142,7 +142,7 @@ public class GuiPanel implements ActionListener
 		addTimerToArrowButton(arrowdown);
 		
 		// voeg text area voor log toe
-		addTextAreaToPanel(0, 0, 500, 250, logTextArea, logpanel);
+		addTextAreaToPanelWithScrolling(0, 0, 500, 250, logTextArea, logpanel);
 		addTextAreaToPanel(150, 15, 200, 30, huidigeHoogte, infopanel);
 		addTextAreaToPanel(150, 65, 200, 30, targetHoogte, infopanel);
 
@@ -197,8 +197,7 @@ public class GuiPanel implements ActionListener
 		panel.add(button);
 	}
 	
-	public void addTextAreaToPanel(int x, int y, int width, int length, JTextArea textArea, JPanel panel) {
-		textArea = new JTextArea("");
+	public void addTextAreaToPanelWithScrolling(int x, int y, int width, int length, JTextArea textArea, JPanel panel) {
 		textArea.setLineWrap(true);
 		textArea.setEditable(false);
 		DefaultCaret caret = (DefaultCaret) textArea.getCaret();
@@ -208,6 +207,15 @@ public class GuiPanel implements ActionListener
 		scrollPane.setBounds(x,y,width,length);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		panel.add(scrollPane, BorderLayout.CENTER);
+	}
+	
+	public void addTextAreaToPanel(int x, int y, int width, int length, JTextArea textArea, JPanel panel) {
+		textArea.setLineWrap(false);
+		textArea.setEditable(false);
+		textArea.setBorder(BorderFactory.createLineBorder(Color.black));
+		textArea.setSize(width, length);
+		textArea.setLocation(x, y);
+		panel.add(textArea, BorderLayout.CENTER);
 	}
 	
 	public void addTimerToArrowButton(BasicArrowButton arrowButton) {
@@ -271,6 +279,7 @@ public class GuiPanel implements ActionListener
 				decoded = this.guiController.newQRReading();
 				if (decoded == null) {
 					JOptionPane.showMessageDialog(null, "De zeppelin kon geen QR-code decoderen.");
+					return;
 				}
 				try {
 					this.showImage();
