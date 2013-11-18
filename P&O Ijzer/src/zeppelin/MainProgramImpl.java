@@ -33,7 +33,7 @@ import controllers.SensorController.TimeoutException;
 import ftp.FTPFileInfo;
 import ftp.LogWriter;
 
-public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
+public class MainProgramImpl extends UnicastRemoteObject implements MainProgramInterface {
 
 	
 	private static final long serialVersionUID = 1L;
@@ -69,12 +69,12 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	
 	private LogWriter logWriter = new LogWriter();
 
-	public Zeppelin() throws RemoteException {
+	public MainProgramImpl() throws RemoteException {
 		super();
 		sensorController = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
 		cameraController = new CameraController();
 		motorController = new MotorController();
-		qrCodeReader = new QRCodeHandler();
+		qrCodeReader = new QRCodeHandler(cameraController);
 		heightAdjuster = new HeightAdjuster(motorController);
 		
 		logWriter.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
@@ -161,18 +161,7 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 
 	@Override
 	public String readNewQRCode() throws RemoteException, IOException, InterruptedException {
-		String filename = Long.toString(System.currentTimeMillis());
-		this.cameraController.takePicture(filename);
-		String decoded = this.qrCodeReader.read(FTPFileInfo.PATH_TO_FTP_FILES + filename + ".jpg");
-		if (decoded != null) {
-			this.mostRecentQRDecode = decoded;
-			BufferedWriter output = new BufferedWriter(new FileWriter(
-					FTPFileInfo.PATH_TO_FTP_FILES + FTPFileInfo.TIMESTAMPLIST_HOSTFILENAME, true));
-			output.append("/n");
-			output.append(filename + "," + decoded);
-			output.close();
-		}
-		return decoded;
+		return this.qrCodeReader.tryReadQrCode();
 	}
 
 	@Override

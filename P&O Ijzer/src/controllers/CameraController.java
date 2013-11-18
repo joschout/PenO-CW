@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 import ftp.FTPFileInfo;
-import zeppelin.ZeppelinInterface;
+import zeppelin.MainProgramInterface;
 
 public class CameraController implements Serializable {
 

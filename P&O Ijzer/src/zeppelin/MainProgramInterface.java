@@ -16,7 +16,7 @@ import javax.swing.ImageIcon;
 
 import components.Motor;
 
-public interface ZeppelinInterface extends Remote {
+public interface MainProgramInterface extends Remote {
 	
 	
 	

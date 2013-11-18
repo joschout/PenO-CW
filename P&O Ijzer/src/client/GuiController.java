@@ -20,7 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import server.ZeppelinServer;
-import zeppelin.ZeppelinInterface;
+import zeppelin.MainProgramInterface;
 import QRCode.QRCodeHandler;
 
 import com.google.zxing.WriterException;
@@ -34,7 +34,7 @@ public class GuiController {
 	/**
 	 * Zeppelin-object gehaald van de server
 	 */
-	private ZeppelinInterface zeppelin;
+	private MainProgramInterface zeppelin;
 	
 	private WebClient ftpClient;
 	
@@ -50,7 +50,7 @@ public class GuiController {
 	 * @param zeppelin
 	 * 		Een zeppelin-object geïmporteerd vanop de Pi.
 	 */
-	public void setZeppelin(ZeppelinInterface zeppelin)
+	public void setZeppelin(MainProgramInterface zeppelin)
 	{
 		this.zeppelin = zeppelin;
 	}
@@ -62,7 +62,7 @@ public class GuiController {
 
 	public void setZeppelin() throws RemoteException, NotBoundException {
 		Registry registry = LocateRegistry.getRegistry(ZeppelinServer.PI_HOSTNAME,1099);
-		ZeppelinInterface zeppelin = (ZeppelinInterface) registry.lookup("Zeppelin");
+		MainProgramInterface zeppelin = (MainProgramInterface) registry.lookup("Zeppelin");
 		this.zeppelin = zeppelin;
 	}
 	

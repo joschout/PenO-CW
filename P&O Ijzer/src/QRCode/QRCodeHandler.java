@@ -3,8 +3,10 @@ package QRCode;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.rmi.registry.LocateRegistry;
@@ -30,6 +32,9 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
+import controllers.CameraController;
+import ftp.FTPFileInfo;
+
 /**
  * http://www.vineetmanohar.com/2010/09/java-barcode-api/
  * http://stackoverflow.com/questions/11626307/how-to-save-java-swing-imageicon-image-to-file
@@ -37,6 +42,14 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  *
  */
 public class QRCodeHandler {
+	
+	private CameraController cameraController;
+	
+	private String mostRecentQRDecode;
+	
+	public QRCodeHandler(CameraController cameraController) {
+		this.cameraController = cameraController;
+	}
 	
 	/**
 	 * obsolete
@@ -66,7 +79,7 @@ public class QRCodeHandler {
 	 * @return
 	 * @throws NotFoundException 
 	 */
-	public String read(String filename) {
+	public String scanQrCode(String filename) {
 		try {
 			InputStream barCodeInputStream = new FileInputStream(filename);  
 			System.out.println("Foto ingelezen.");
@@ -85,6 +98,21 @@ public class QRCodeHandler {
 			e.printStackTrace();
 			return null;
 		}  
+	}
+	
+	public String tryReadQrCode() throws InterruptedException, IOException {
+		String filename = Long.toString(System.currentTimeMillis());
+		this.cameraController.takePicture(filename);
+		String decoded = this.scanQrCode(FTPFileInfo.PATH_TO_FTP_FILES + filename + ".jpg");
+		if (decoded != null) {
+			this.mostRecentQRDecode = decoded;
+			BufferedWriter output = new BufferedWriter(new FileWriter(
+					FTPFileInfo.PATH_TO_FTP_FILES + FTPFileInfo.TIMESTAMPLIST_HOSTFILENAME, true));
+			output.append("/n");
+			output.append(filename + "," + decoded);
+			output.close();
+		}
+		return decoded;
 	}
 	
 	/**

@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
 
-import zeppelin.ZeppelinInterface;
+import zeppelin.MainProgramInterface;
 
 public class LogWriter {
 
