@@ -1,1419 +1,342 @@
 
-12:27 - ------------ START NIEUWE SESSIE ------------- 
+12:23 - ------------ START NIEUWE SESSIE ------------- 
 
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stijgen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stijgen.
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stijgen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stijgen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stijgen.
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stijgen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten dalen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stijgen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten dalen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stijgen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten dalen.
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Zeppelin laten stijgen.
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten dalen.
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Zeppelin laten stijgen.
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten dalen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Zeppelin laten stijgen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten dalen.
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Zeppelin laten dalen.
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 50
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 100
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Motoren laten draaien aan percentage: 80
-12:27 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:20 - ------------ START NIEUWE SESSIE ------------- 
+
+12:23 - ------------ START NIEUWE SESSIE ------------- 
+
+12:24 - ------------ START NIEUWE SESSIE ------------- 
+
+12:28 - ------------ START NIEUWE SESSIE ------------- 
+
+12:28 - Zeppelin vooruit laten gaan.
+12:28 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:28 - Zeppelin achteruit laten gaan.
+12:28 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:28 - Zeppelin naar rechts laten draaien.
+12:28 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:34 - ------------ START NIEUWE SESSIE ------------- 
+
+12:34 - Motoren laten draaien aan percentage: 100
+12:34 - Zeppelin laten stijgen.
+12:34 - Motoren laten draaien aan percentage: 100
+12:34 - Motoren laten draaien aan percentage: 100
+12:34 - Motoren laten draaien aan percentage: 100
+12:34 - Motoren laten draaien aan percentage: 100
+12:34 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:28 - ------------ START NIEUWE SESSIE ------------- 
+
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten stijgen.
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin vooruit laten gaan.
+12:28 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten stijgen.
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Zeppelin laten stijgen.
+12:28 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten stijgen.
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:28 - Motoren laten draaien aan percentage: 50
+12:28 - Zeppelin laten dalen.
+12:28 - Motoren laten draaien aan percentage: 80
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Motoren laten draaien aan percentage: 100
+12:28 - Zeppelin laten stoppen met zijn hoogte aan te passen.
 12:30 - ------------ START NIEUWE SESSIE ------------- 
 
-12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Zeppelin laten dalen.
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten dalen.
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Zeppelin laten stijgen.
 12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 80
 12:30 - Zeppelin laten dalen.
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Motoren laten draaien aan percentage: 80
 12:30 - Motoren laten draaien aan percentage: 80
 12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
 12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Zeppelin laten stijgen.
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Zeppelin laten dalen.
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Zeppelin laten stijgen.
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Zeppelin laten dalen.
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Zeppelin laten stijgen.
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Zeppelin laten dalen.
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
-12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Zeppelin laten dalen.
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten dalen.
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Zeppelin laten dalen.
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten dalen.
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten dalen.
+12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Zeppelin vooruit laten gaan.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
 12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
 12:30 - Zeppelin vooruit laten gaan.
 12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
 12:30 - Zeppelin vooruit laten gaan.
 12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:30 - Zeppelin vooruit laten gaan.
-12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
 12:30 - Zeppelin naar links laten draaien.
 12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:30 - Zeppelin naar rechts laten draaien.
-12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
 12:30 - Zeppelin achteruit laten gaan.
 12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:30 - Motoren laten draaien aan percentage: 100
-12:30 - Zeppelin laten dalen.
-12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Zeppelin laten dalen.
-12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Zeppelin laten stijgen.
 12:30 - Motoren laten draaien aan percentage: 80
-12:30 - Zeppelin laten dalen.
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Motoren laten draaien aan percentage: 80
 12:30 - Motoren laten draaien aan percentage: 80
 12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
 12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Zeppelin laten stijgen.
 12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Zeppelin laten dalen.
 12:30 - Motoren laten draaien aan percentage: 100
 12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Motoren laten draaien aan percentage: 50
 12:30 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:30 - Zeppelin vooruit laten gaan.
-12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:30 - Zeppelin vooruit laten gaan.
-12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:30 - Zeppelin naar links laten draaien.
-12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:30 - Zeppelin achteruit laten gaan.
-12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:30 - Zeppelin naar rechts laten draaien.
-12:30 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:42 - ------------ START NIEUWE SESSIE ------------- 
-
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Zeppelin laten stijgen.
-12:42 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Zeppelin laten stijgen.
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Zeppelin laten dalen.
-12:42 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Zeppelin laten stijgen.
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Zeppelin laten dalen.
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Zeppelin laten dalen.
-12:42 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:42 - Motoren laten draaien aan percentage: 80
-12:42 - Zeppelin laten dalen.
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage: 100
-12:42 - Motoren laten draaien aan percentage:
-12:18 - ------------ START NIEUWE SESSIE ------------- 
-
-12:18 - Zeppelin vooruit laten gaan.
-12:18 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:18 - Motoren laten draaien aan percentage: 50
-12:18 - Zeppelin laten stijgen.
-12:18 - Motoren laten draaien aan percentage: 80
-12:18 - Motoren laten draaien aan percentage: 50
-12:18 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:18 - Zeppelin vooruit laten gaan.
-12:18 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Zeppelin laten stijgen.
-12:18 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Zeppelin laten stijgen.
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Zeppelin laten dalen.
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Zeppelin laten dalen.
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Zeppelin laten stijgen.
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Zeppelin laten dalen.
-12:18 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Zeppelin laten dalen.
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Motoren laten draaien aan percentage: 100
-12:18 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - ------------ START NIEUWE SESSIE ------------- 
-
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Zeppelin laten dalen.
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Zeppelin vooruit laten gaan.
-12:40 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:40 - Zeppelin naar links laten draaien.
-12:40 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stijgen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten dalen.
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Zeppelin naar links laten draaien.
-12:40 - Zeppelin de linker- en rechtermotor laten stoppen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stijgen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Zeppelin laten dalen.
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Zeppelin laten stijgen.
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Zeppelin laten dalen.
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten dalen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stijgen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stijgen.
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Zeppelin laten dalen.
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Zeppelin laten dalen.
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stijgen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten dalen.
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten dalen.
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten dalen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Zeppelin laten stijgen.
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Zeppelin laten dalen.
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stijgen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten dalen.
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 100
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 80
-12:40 - Motoren laten draaien aan percentage: 50
-12:40 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:46 - ------------ START NIEUWE SESSIE ------------- 
-
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Zeppelin laten dalen.
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Zeppelin laten stijgen.
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Zeppelin laten stijgen.
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 80
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 80
-12:46 - Motoren laten draaien aan percentage: 80
-12:46 - Motoren laten draaien aan percentage: 80
-12:46 - Motoren laten draaien aan percentage: 80
-12:46 - Motoren laten draaien aan percentage: 80
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 100
-12:46 - Motoren laten draaien aan percentage: 80
-12:46 - Motoren laten draaien aan percentage: 80
-12:46 - Motoren laten draaien aan percentage: 80
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 50
-12:46 - Motoren laten draaien aan percentage: 80
-12:46 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - ------------ START NIEUWE SESSIE ------------- 
-
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stijgen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stijgen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stijgen.
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stijgen.
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stijgen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stijgen.
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stijgen.
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten dalen.
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten dalen.
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten dalen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Zeppelin laten stijgen.
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Zeppelin laten stijgen.
-13:3 - Motoren laten draaien aan percentage: 50
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 100
-13:3 - Motoren laten draaien aan percentage: 80
-13:3 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:10 - ------------ START NIEUWE SESSIE ------------- 
-
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Zeppelin laten dalen.
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:10 - Motoren laten draaien aan percentage: 50
-13:10 - Zeppelin laten dalen.
-13:10 - Zeppelin vooruit laten gaan.
-13:10 - Motoren laten draaien aan percentage: 50
-13:10 - Motoren laten draaien aan percentage: 50
-13:10 - Motoren laten draaien aan percentage: 50
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin de linker- en rechtermotor laten stoppen.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin naar links laten draaien.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin de linker- en rechtermotor laten stoppen.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin naar rechts laten draaien.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin de linker- en rechtermotor laten stoppen.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin vooruit laten gaan.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin de linker- en rechtermotor laten stoppen.
-13:10 - Zeppelin achteruit laten gaan.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin de linker- en rechtermotor laten stoppen.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin naar rechts laten draaien.
-13:10 - Zeppelin de linker- en rechtermotor laten stoppen.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin laten stijgen.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin naar links laten draaien.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin de linker- en rechtermotor laten stoppen.
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Zeppelin laten dalen.
-13:10 - Zeppelin vooruit laten gaan.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin laten dalen.
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin laten stijgen.
-13:10 - Zeppelin de linker- en rechtermotor laten stoppen.
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Zeppelin laten dalen.
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Zeppelin laten stijgen.
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Zeppelin laten dalen.
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 50
-13:10 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:10 - Zeppelin vooruit laten gaan.
-13:10 - Motoren laten draaien aan percentage: 50
-13:10 - Zeppelin laten dalen.
-13:10 - Motoren laten draaien aan percentage: 50
-13:10 - Zeppelin de linker- en rechtermotor laten stoppen.
-13:10 - Motoren laten draaien aan percentage: 50
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 100
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Zeppelin laten stoppen met zijn hoogte aan te passen.
-13:10 - Motoren laten draaien aan percentage: 50
-13:10 - Zeppelin laten dalen.
-13:10 - Motoren laten draaien aan percentage: 50
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
-13:10 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 50
+12:30 - Zeppelin laten stijgen.
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 100
+12:30 - Motoren laten draaien aan percentage: 80
+12:30 - Motoren laten draaien aan percentage: 80

@@ -145,6 +145,12 @@ public class GuiPanel implements ActionListener
 		addTextAreaToPanelWithScrolling(0, 0, 500, 250, logTextArea, logpanel);
 		addTextAreaToPanel(150, 15, 200, 30, huidigeHoogte, infopanel);
 		addTextAreaToPanel(150, 65, 200, 30, targetHoogte, infopanel);
+		try {
+			targetHoogte.setText(Double.toString(this.guiController.getTargetHeight()));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return guipanel;
 	}
