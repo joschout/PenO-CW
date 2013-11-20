@@ -4,6 +4,7 @@
 
 package client;
 
+import javax.imageio.ImageIO;
 import javax.swing.UIManager.*;
 
 import it.sauronsoftware.ftp4j.FTPAbortedException;
@@ -13,6 +14,8 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,6 +30,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.text.DefaultCaret;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 public class GuiPanel implements ActionListener
 {	
@@ -48,7 +53,7 @@ public class GuiPanel implements ActionListener
 	private JLabel motor2 = new JLabel("   Rechts");
 	private JLabel motor3 = new JLabel("   Onder");
 	//private JLabel motor4 = new JLabel("Motor 4 :");
-	private JLabel qrcode = new JLabel("Meest recente QR-code :");
+	private JLabel qrcode = new JLabel("Meest recente QR-code: ");
 	//private JLabel lamp1 = new JLabel("");
 	//private JLabel lamp2 = new JLabel("");
 	//private JLabel lamp3 = new JLabel("");
@@ -102,7 +107,7 @@ public class GuiPanel implements ActionListener
 		
 		addPanelToGUI(infopanel, 0, 300, 500, 200);
 		addPanelToGUI(motorpanel, 0, 500, 500, 50);
-		addPanelToGUI(qrcodepanel, 500, 0, 400, 400);
+		addPanelToGUI(qrcodepanel, 500, 0, 600, 400);
 		addPanelToGUI(arrows, 500, 400, 200, 150);
 		addPanelToGUI(actionsPanel, 700, 400, 200, 150);
 
@@ -113,7 +118,7 @@ public class GuiPanel implements ActionListener
 		addLabelToPanel(motor2, 213, 10, 75, 30, motorpanel);
 		addLabelToPanel(motor3, 356, 10, 75, 30, motorpanel);
 		//addLabelToPanel(motor4, 5, 175, 100, 30, motorpanel);
-		//addLabelToPanel(qrcode, 5, 0, 400, 30, qrcodepanel);
+		addLabelToPanel(qrcode, 5, 300, 400, 30, qrcodepanel);
 		addLabelToPanel(hoogte, 5, 5, 100, 50, infopanel);
 		addLabelToPanel(doelHoogte, 5, 50, 100, 50, infopanel);
 
@@ -128,7 +133,7 @@ public class GuiPanel implements ActionListener
 
 		// voeg buttons toe aan hun panel
 		addButtonToPanel(logfiles, 350, 270, 150, 25, KeyEvent.VK_L, logpanel);
-		addButtonToPanel(scanQRCode, 125, 5, 150, 30, KeyEvent.VK_3, qrcodepanel);
+		// addButtonToPanel(scanQRCode, 125, 5, 150, 30, KeyEvent.VK_3, qrcodepanel);
 		addButtonToPanel(setTargetHeight, 5, 5, 150, 30, KeyEvent.VK_4, actionsPanel);
 
 		addArrowToPanel(arrowup, 75, 25, 50, 50, KeyEvent.VK_UP, arrows, false);
@@ -145,7 +150,23 @@ public class GuiPanel implements ActionListener
 		addTextAreaToPanelWithScrolling(0, 0, 500, 250, logTextArea, logpanel);
 		addTextAreaToPanel(150, 15, 200, 30, huidigeHoogte, infopanel);
 		addTextAreaToPanel(150, 65, 200, 30, targetHoogte, infopanel);
+		
+		try {
+			targetHoogte.setText(Double.toString(this.guiController.getTargetHeight()));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 
+		try {
+			ImageIcon icon = new ImageIcon(ImageIO.read(new File("empty.jpg")));
+			mostRecentQRCodeLabel = new JLabel("", icon, JLabel.CENTER);
+			mostRecentQRCodeLabel.setLocation(70,10);
+			mostRecentQRCodeLabel.setSize(300, 222);
+			qrcodepanel.add(mostRecentQRCodeLabel);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		return guipanel;
 	}
 
@@ -252,47 +273,8 @@ public class GuiPanel implements ActionListener
 	public void actionPerformed(ActionEvent event)
 	{
 		Object source = event.getSource();
-//		if (source == arrowup)
-//		{
-//			JOptionPane.showMessageDialog(null,"Je hebt het bovenste pijltje ingedrukt!","",
-//					JOptionPane.PLAIN_MESSAGE);
-//		}
-//		else if (source == arrowleft)
-//		{
-//			JOptionPane.showMessageDialog(null,"Je hebt het linkse pijltje ingedrukt!","",
-//					JOptionPane.PLAIN_MESSAGE);
-//		}
-//		else if (source == arrowright)
-//		{
-//			JOptionPane.showMessageDialog(null,"Je hebt het rechtse pijltje ingedrukt!","",
-//					JOptionPane.PLAIN_MESSAGE);
-//		}
-//		else if (source == arrowdown)
-//		{
-//			JOptionPane.showMessageDialog(null,"Je hebt het onderste pijltje ingedrukt!","",
-//					JOptionPane.PLAIN_MESSAGE);
-//		}
-		if (source == scanQRCode)
-		{
-			String decoded;
-			try {
-				decoded = this.guiController.newQRReading();
-				if (decoded == null) {
-					JOptionPane.showMessageDialog(null, "De zeppelin kon geen QR-code decoderen.");
-					return;
-				}
-				try {
-					this.showImage();
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Fout bij het tonen van de foto, zie standard out");
-					e.printStackTrace();
-				}
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Fout bij de zeppelin een QR-code te laten lezen, zie standard out.");
-				e.printStackTrace();
-			}
-		}
-		else if (source == setTargetHeight) {
+		
+		if (source == setTargetHeight) {
 			String input = JOptionPane.showInputDialog(null, "Voer nieuwe doelhoogte in.");
 			double height = Double.parseDouble(input);
 			try {
@@ -314,9 +296,7 @@ public class GuiPanel implements ActionListener
 			}
 
 			//Tekst schrijven naar de logfile.
-			writer.println("Eerste regel van logbestand");
-			writer.println("Tweede regel van logbestand");
-			writer.println("...");
+			writer.println(logTextArea.getText());
 			writer.close();
 
 			//Logfile-dialog
@@ -336,9 +316,8 @@ public class GuiPanel implements ActionListener
 	}
 
 
-	private void showImage() throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException
+	private void showImage(ImageIcon image)
 	{
-		ImageIcon image = new ImageIcon(this.guiController.getLastScannedImage());
 		JLabel label = new JLabel("", image, JLabel.CENTER);
 		if (this.mostRecentQRCodeLabel != null)
 		{
@@ -347,7 +326,8 @@ public class GuiPanel implements ActionListener
 			qrcodepanel.repaint();
 		}
 		this.mostRecentQRCodeLabel = label;
-		this.mostRecentQRCodeLabel.setSize(100,100);
+		this.mostRecentQRCodeLabel.setSize(300,222);
+		this.mostRecentQRCodeLabel.setLocation(70, 10);
 		//JOptionPane.showMessageDialog(null, label);
 		qrcodepanel.add(label);
 	}
@@ -431,24 +411,62 @@ public class GuiPanel implements ActionListener
 	
 	private class heightAndMotorWorker extends SwingWorker<Void, Void> {
 		
-		private ArrayList<Boolean> activeMotors;
 		boolean leftOn;
 		boolean rightOn;
 		boolean downwardOn;
+		
+		String[] info;
+		ImageIcon icon;
 		
 		public Void doInBackground() throws RemoteException, InterruptedException {
 			while (true) {
 				leftOn = GuiPanel.this.guiController.leftIsOn();
 				rightOn = GuiPanel.this.guiController.rightIsOn();
 				downwardOn = GuiPanel.this.guiController.downwardIsOn();
+				if (GuiPanel.this.guiController.qrCodeAvailable()) {
+					System.out.println("QR-code beschikbaar!");
+					try {
+						info = GuiPanel.this.guiController.getLastScannedQrCodeInfo();
+						System.out.println(info[1]);
+						BufferedImage image = Thumbnails.of(GuiPanel.this.guiController.getImageFromFile(info[0])).size(300, 222).asBufferedImage();
+						icon = new ImageIcon(image);
+						System.out.println("Icon gemaakt.");
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (FTPIllegalReplyException e) {
+						e.printStackTrace();
+					} catch (FTPException e) {
+						e.printStackTrace();
+					} catch (FTPDataTransferException e) {
+						e.printStackTrace();
+					} catch (FTPAbortedException e) {
+						e.printStackTrace();
+					}
+				}
+				
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						try {
 							GuiPanel.this.huidigeHoogte.setText(Double.toString(GuiPanel.this.guiController.getHeight()));
+							GuiPanel.this.targetHoogte.setText(Double.toString(GuiPanel.this.guiController.getTargetHeight()));
+							if (GuiPanel.this.guiController.qrCodeAvailable()) {
+								System.out.println("Proberen afbeelding te tonen en gedecodeerde.");
+								showImage(icon);
+								showDecoded();
+							}
 						} catch (RemoteException e) {
 							e.printStackTrace();
 						}
 						decideLightColours();
+						try {
+							if (GuiPanel.this.guiController.qrCodeAvailable()) {
+								GuiPanel.this.guiController.consumeQRCode();
+							}
+						} catch (RemoteException e) {
+							e.printStackTrace();
+						}
 					}
 				});
 				Thread.sleep(1000);
@@ -465,6 +483,14 @@ public class GuiPanel implements ActionListener
 			if (downwardOn)
 				GuiPanel.this.turnLightOn(GuiPanel.this.motor3);
 			else GuiPanel.this.turnLightOff(GuiPanel.this.motor3);
+		}
+		
+		private void showImage(ImageIcon icon) {
+			GuiPanel.this.showImage(icon);
+		}
+		
+		private void showDecoded() {
+			GuiPanel.this.qrcode.setText("Meest recente QR-code: " + info[1]);
 		}
 	}
 	

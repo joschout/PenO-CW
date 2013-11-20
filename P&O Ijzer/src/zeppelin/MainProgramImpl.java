@@ -18,6 +18,8 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
+import parser.Command;
+import parser.Parser;
 import movement.HeightAdjuster;
 import QRCode.QRCodeHandler;
 
@@ -47,11 +49,14 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	private double targetHeight;
 	
 	// Controllers
-	private SensorController sensorController;
-	private CameraController cameraController;
-	private MotorController motorController;
+	public static final SensorController SENSOR_CONTROLLER = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);;
+	public static final CameraController CAMERA_CONTROLLER = new CameraController();
+	public static final MotorController MOTOR_CONTROLLER = new MotorController();
+	public static final HeightAdjuster HEIGHT_ADJUSTER = new HeightAdjuster(MOTOR_CONTROLLER);
 	
-	// Flags
+	private Parser parser;
+	
+	private boolean qrCodeAvailable = false;
 	
 	private QRCodeHandler qrCodeReader;
 	
@@ -65,22 +70,18 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 */
 	private boolean exit = false;
 	
-	private HeightAdjuster heightAdjuster;
-	
 	private LogWriter logWriter = new LogWriter();
 
 	public MainProgramImpl() throws RemoteException {
 		super();
-		sensorController = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
-		cameraController = new CameraController();
-		motorController = new MotorController();
-		qrCodeReader = new QRCodeHandler(cameraController);
-		heightAdjuster = new HeightAdjuster(motorController);
+		qrCodeReader = new QRCodeHandler();
+		parser = new Parser(this);
+		new Thread(new QrCodeLogicThread()).start();
 		
 		logWriter.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
 		
 		try {
-			this.targetHeight = sensorController.sensorReading();
+			this.targetHeight = SENSOR_CONTROLLER.sensorReading();
 		} catch (TimeoutException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -104,17 +105,12 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		this.targetHeight = height;
 	}
 	
-	@Override
-	public ArrayList<Motor> getMotors() throws RemoteException {
-		return this.motorController.getMotors();
+	private Parser getParser() {
+		return this.parser;
 	}
 	
-	@Override
-	public Map<String, String> queryState() throws RemoteException {
-		// TODO status van de motoren
-		Map<String, String> status = new HashMap<String, String>();
-		status.put("Hoogte",Double.toString(this.mostRecentHeight));
-		return status;
+	private LogWriter getLogWriter() {
+		return this.logWriter;
 	}
 	
 	public void startGameLoop() throws InterruptedException {
@@ -139,8 +135,8 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	private void gameLoop() throws InterruptedException {
 		while (!exit) {
 			try {
-				this.mostRecentHeight = sensorController.sensorReading();
-				this.heightAdjuster.takeAction(mostRecentHeight, targetHeight);
+				this.mostRecentHeight = SENSOR_CONTROLLER.sensorReading();
+				HEIGHT_ADJUSTER.takeAction(mostRecentHeight, targetHeight);
 			} catch (TimeoutException e) {
 				e.printStackTrace();
 			}
@@ -150,63 +146,117 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 				e.printStackTrace();
 			}
 		}
-		this.motorController.stopRightAndLeftMotor();
-		this.motorController.stopHeightAdjustment();
+		MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		MOTOR_CONTROLLER.stopHeightAdjustment();
 		System.exit(0);
 	}
 	
-	public String getMostRecentDecode() {
-		return this.mostRecentQRDecode;
+	public boolean qrCodeAvailable() throws RemoteException {
+		return this.qrCodeAvailable;
+	}
+	
+	public void qrCodeConsumed() throws RemoteException {
+		this.qrCodeAvailable = false;
+	}
+	
+	private void offerQrCode() {
+		this.qrCodeAvailable = true;
 	}
 
 	@Override
 	public String readNewQRCode() throws RemoteException, IOException, InterruptedException {
-		return this.qrCodeReader.tryReadQrCode();
+		return this.qrCodeReader.tryReadQrCode(this.sensorReading());
 	}
 
 	@Override
 	public boolean leftIsOn() throws RemoteException {
-		return this.motorController.leftIsOn();
+		return MOTOR_CONTROLLER.leftIsOn();
 	}
 
 	@Override
 	public boolean rightIsOn() throws RemoteException {
-		return this.motorController.rightIsOn();
+		return MOTOR_CONTROLLER.rightIsOn();
 	}
 
 	@Override
 	public boolean downwardIsOn() throws RemoteException {
-		return this.motorController.downwardIsOn();
+		return MOTOR_CONTROLLER.downwardIsOn();
 	}
 
 	@Override
 	public void goForward() throws RemoteException {
-		this.motorController.forward();
+		MOTOR_CONTROLLER.forward();
 		
 	}
 
 	@Override
 	public void goBackward() throws RemoteException {
-		this.motorController.backward();
+		MOTOR_CONTROLLER.backward();
 	}
 
 	@Override
 	public void turnLeft() throws RemoteException {
-		this.motorController.left();
+		MOTOR_CONTROLLER.left();
 	}
 
 	@Override
 	public void turnRight() throws RemoteException {
-		this.motorController.right();
+		MOTOR_CONTROLLER.right();
 	}
 
 	@Override
 	public void stopRightAndLeft() throws RemoteException {
-		this.motorController.stopRightAndLeftMotor();
+		MOTOR_CONTROLLER.stopRightAndLeftMotor();
 	}
 	
 	public void stopDownward() throws RemoteException {
-		this.motorController.stopHeightAdjustment();
+		MOTOR_CONTROLLER.stopHeightAdjustment();
 	}
 
+	/**
+	 * Staat in voor het constant zoeken naar een nieuwe QR-code en
+	 * het uitvoeren van instructies geëncodeerd in een QR-code
+	 * @author Thomas
+	 *
+	 */
+	private class QrCodeLogicThread implements Runnable {
+		
+		/**
+		 * - Kan een QR-code vinden?
+		 * 		-> nee: slaap een seconde lang, repeat
+		 * - Parse QR-code
+		 * - Voer commando's uit
+		 * - repeat
+		 */
+		public void run() {
+			while (true) {
+				String decoded = null;
+				try {
+					decoded = MainProgramImpl.this.readNewQRCode();
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if (decoded == null) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+				else {
+					MainProgramImpl.this.offerQrCode();
+					MainProgramImpl.this.getLogWriter().writeToLog("QR-code gelezen met als resultaat: " + decoded);
+					List<Command> commands = MainProgramImpl.this.getParser().parse(decoded);
+					for (Command command: commands) {
+						command.execute();
+					}
+				}
+			}
+			
+		}
+	}
 }

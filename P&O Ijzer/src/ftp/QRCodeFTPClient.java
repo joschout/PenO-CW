@@ -28,14 +28,14 @@ private FTPClient QRFileClient;
 	}
 	
 	private void getFile(String fileNameOnHost, String fileNameOnLocal) throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		this.QRFileClient.download(fileNameOnHost, new File(fileNameOnLocal));
+		this.QRFileClient.download(FTPFileInfo.CLIENT_DOWNLOAD_PATH + fileNameOnHost, new File(fileNameOnLocal));
 	}
 	
 	private void getTimestampFile() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		this.QRFileClient.download(FTPFileInfo.TIMESTAMPLIST_HOSTFILENAME, new File(FTPFileInfo.TIMESTAMPLIST_LOCALFILENAME));
+		this.QRFileClient.download(FTPFileInfo.CLIENT_DOWNLOAD_PATH + FTPFileInfo.TIMESTAMPLIST_HOSTFILENAME, new File(FTPFileInfo.TIMESTAMPLIST_LOCALFILENAME));
 	}
 	
-	private String getLastScannedImageName() throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+	public String[] getLastScannedImageInfo() throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		this.getTimestampFile();
 		File file = new File(FTPFileInfo.TIMESTAMPLIST_LOCALFILENAME);
 		if (file.length() == 0) {
@@ -58,11 +58,10 @@ private FTPClient QRFileClient;
         }
         randomAccessFile.close();
         String[] split = builder.toString().split(",");
-        return split[0];
+        return split;
 	}
 	
-	public BufferedImage getLastScannedImage() throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		String fileName = this.getLastScannedImageName();
+	public BufferedImage getImageFromFile(String fileName) throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		this.getFile(fileName + ".jpg", fileName + ".jpg");
 		File file = new File(fileName + ".jpg");
 		return ImageIO.read(file);

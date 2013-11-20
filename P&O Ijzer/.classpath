@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/core-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/javase-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/ftp4j-1.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/thumbnailator-0.4.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

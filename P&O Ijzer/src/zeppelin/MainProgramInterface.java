@@ -19,21 +19,18 @@ import components.Motor;
 public interface MainProgramInterface extends Remote {
 	
 	
-	
-	public double sensorReading() throws RemoteException; // TODO: Gaat de cliënt in de uiteindelijke versie ooit deze methode direct oproepen?
+	/**
+	 * Geeft de meest recent gemeten hoogte terug.
+	 * @return	De meest recent gemeten hoogte.
+	 * @throws	RemoteException
+	 */
+	public double sensorReading() throws RemoteException;
 	
 	/**
 	 * Zorg ervoor dat de zeppelin stopt in een veilige toestand.
 	 * @throws RemoteException
 	 */
 	public void exit() throws RemoteException;
-	
-	/**
-	 * Geeft de toestand van de vier motoren en de meest recente lezing van de sensor
-	 * @return Een map die key-value paren bevat van de vorm: "DownwardMotor: INACTIVE"
-	 * @throws RemoteException
-	 */
-	public Map<String,String> queryState() throws RemoteException;
 	
 	/**
 	 * De zeppelin neemt een foto en probeert een QR-code te lezen uit die foto.
@@ -44,30 +41,90 @@ public interface MainProgramInterface extends Remote {
 	 */
 	public String readNewQRCode() throws RemoteException, IOException, InterruptedException;
 	
+	/**
+	 * Geeft de doelhoogte terug.
+	 * @return	De doelhoogte.
+	 * @throws RemoteException
+	 */
 	public double getTargetHeight() throws RemoteException;
 	
+	/**
+	 * Bepaalt de doelhoogte van de zeppelin.
+	 * @param	height
+	 * 			De hoogte waar de zeppelin op moet zweven.
+	 * @throws RemoteException
+	 */
 	public void setTargetHeight(double height) throws RemoteException;
 	
-	public ArrayList<Motor> getMotors() throws RemoteException;
-	
+	/**
+	 * Geeft aan of de linkermotor aanstaat.
+	 * @return	De linkermotor staat aan.
+	 * @throws RemoteException
+	 */
 	public boolean leftIsOn() throws RemoteException;
 	
+	/**
+	 * Geeft aan of de rechtermotor aanstaat.
+	 * @return	De rechtermotor staat aan.
+	 * @throws RemoteException
+	 */
 	public boolean rightIsOn() throws RemoteException;
 	
+	/**
+	 * Geeft aan of de naar-onder-gerichte motor aanstaat.
+	 * @return	De naar-onder-gerichte motor staat aan.
+	 * @throws RemoteException
+	 */
 	public boolean downwardIsOn() throws RemoteException;
 	
+	/**
+	 * Laat de zeppelin vooruit gaan.
+	 * @throws RemoteException
+	 */
 	public void goForward() throws RemoteException;
 	
+	/**
+	 * Laat de zeppelin achteruit gaan.
+	 * @throws RemoteException
+	 */
 	public void goBackward() throws RemoteException;
 	
+	/**
+	 * Laat de zeppelin naar links draaien.
+	 * @throws RemoteException
+	 */
 	public void turnLeft() throws RemoteException;
 	
+	/**
+	 * Laat de zeppelin naar rechts draaien.
+	 * @throws RemoteException
+	 */
 	public void turnRight() throws RemoteException;
 	
+	/**
+	 * Laat de zeppelin de linker- en rechtermotor afzetten, mochten die aanstaan.
+	 * @throws RemoteException
+	 */
 	public void stopRightAndLeft() throws RemoteException;
 	
+	/**
+	 * Laat de zeppelin de naar-onder-gerichte motor afzetten, mocht die aanstaan.
+	 * @throws RemoteException
+	 */
 	public void stopDownward() throws RemoteException;
 	
-	public String getMostRecentDecode() throws RemoteException;
+	/**
+	 * Geeft aan of de zeppelin minstens één nieuwe QR-code heeft gescand.
+	 * @return	De zeppelin heeft mintens één nieuwe QR-code beschikbaar.
+	 * @throws RemoteException
+	 */
+	public boolean qrCodeAvailable() throws RemoteException;
+	
+	/**
+	 * Laat weten aan de zeppelin dat de meest recent gescande QR-code afgehaald is
+	 * vanop de FTP-server.
+	 * @throws RemoteException
+	 */
+	public void qrCodeConsumed() throws RemoteException;
 
 }

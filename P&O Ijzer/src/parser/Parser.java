@@ -3,8 +3,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import zeppelin.MainProgramImpl;
+
 
 public class Parser {
+	
+	private MainProgramImpl zeppelin;
+	
+	public Parser(MainProgramImpl zeppelin) {
+		this.zeppelin = zeppelin;
+	}
 
 	public List<Command> parse(String commandString)throws IllegalSyntaxException{
 		 List<Command> commandList = new ArrayList<Command>();   
@@ -34,8 +42,8 @@ public class Parser {
 		   CommandType tempType = this.parseStringToCommandType(possibleCommandTypeString);
 		 
 		   String possibleParameterString =elementsOfSubStringList.get(1);
-		   Double tempDouble = this.parseStringToParameter(possibleParameterString);
-		   Command tempCommand = new Command(tempType,tempDouble);
+		   double tempDouble = this.parseStringToParameter(possibleParameterString);
+		   Command tempCommand = new Command(tempType,tempDouble,this.zeppelin);
 		   return tempCommand;
 	}
 
@@ -47,8 +55,8 @@ public class Parser {
 		   }
 		  throw new IllegalSyntaxException(); 
 	}
-	private Double parseStringToParameter(String possibleParameterString) throws NumberFormatException{
-			Double value = Double.parseDouble(possibleParameterString);
+	private double parseStringToParameter(String possibleParameterString) throws NumberFormatException{
+			double value = Double.parseDouble(possibleParameterString);
 			return value;
 	}
 	

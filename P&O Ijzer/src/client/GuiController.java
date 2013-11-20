@@ -70,18 +70,6 @@ public class GuiController {
 		this.ftpClient = new WebClient();
 	}
 	
-	public ArrayList<Boolean> getActiveMotors() throws RemoteException {
-		ArrayList<Motor> motors = this.zeppelin.getMotors();
-		ArrayList<Boolean> toReturn = new ArrayList<Boolean>();
-		for (int i = 0; i < motors.size(); i++) {
-			if (motors.get(i).isOn()) {
-				toReturn.add(true);
-			}
-			else toReturn.add(false);
-		}
-		return toReturn;
-	}
-	
 	public boolean leftIsOn() throws RemoteException {
 		return this.zeppelin.leftIsOn();
 	}
@@ -92,6 +80,14 @@ public class GuiController {
 	
 	public boolean downwardIsOn() throws RemoteException {
 		return this.zeppelin.downwardIsOn();
+	}
+	
+	public boolean qrCodeAvailable() throws RemoteException {
+		return this.zeppelin.qrCodeAvailable();
+	}
+	
+	public void consumeQRCode() throws RemoteException {
+		this.zeppelin.qrCodeConsumed();
 	}
 	
 	public void goForward() throws RemoteException {
@@ -133,8 +129,12 @@ public class GuiController {
 		return this.zeppelin.readNewQRCode();
 	}
 	
-	public BufferedImage getLastScannedImage() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		return this.ftpClient.getLastScannedImage();
+	public String[] getLastScannedQrCodeInfo() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		return this.ftpClient.getLastScannedQrCodeInfo();
+	}
+	
+	public BufferedImage getImageFromFile(String filename) throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		return this.ftpClient.getImageFromFile(filename);
 	}
 	
 	public String readLogFile() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
