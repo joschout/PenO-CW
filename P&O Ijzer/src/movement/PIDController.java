@@ -1,7 +1,8 @@
 package movement;
 
 import java.rmi.RemoteException;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Date;
 
 import com.pi4j.io.gpio.RaspiPin;
 
@@ -16,36 +17,91 @@ public class PIDController {
 	
 	int amountOfData = 5;
 	
-	double Kp;//Proportional gain
-	double Ki;//Integral gain
-	double Kd;//Derivative gain
+	double Kp = 0;//Proportional gain
+	double Ki = 0;//Integral gain
+	double Kd = 0;//Derivative gain
 	
-	private LinkedList<Double> errors = new LinkedList<Double>();
+	private ArrayList<Double> times = new ArrayList<Double>();
+	private ArrayList<Double> errors = new ArrayList<Double>();
 	
+
 	private double calculateError(double targetHeight, double currentHeight) {
 		return targetHeight - currentHeight;
 	}
 	
-	private LinkedList measureData() throws RemoteException, TimeoutException, InterruptedException {
-		double targetHeight = zeppelin.getTargetHeight();
-		int i = 0;
-		while (i < amountOfData) {
-			double currentHeight = sensor.sensorReading();
-			double error = calculateError(targetHeight, currentHeight);
-			addError(error);
-		}
-			
-
-		
+	private void measureData(double targetHeight, double currentHeight) throws RemoteException, TimeoutException, InterruptedException {
+		double error = calculateError(targetHeight, currentHeight);
+		Date date = new Date();
+		double time = date.getTime();
+		addError(error, time);
 	}
 	
-	private void addError(double error){
+	private void addError(double time, double error){
 		//methode implementeerd bound voor de linkedlist
+		if (errors.size() >= amountOfData && times.size() >= amountOfData) {
+			times.remove(0);
+			errors.remove(0);
+		}
+		times.add(time);
+		errors.add(error);
 	}
 	
-	private void calculateErrorFunction() {
-		
-		
+	private Double differentiate() {
+		int size = errors.size();
+		if(size >= 2) {
+			return (errors.get(size - 1) - errors.get(size - 2))/(times.get(size - 1) - times.get(size - 2));
+		}
+		return null;
+	}
+	
+	private Double integrate() {
+		int i = 0;
+		double integral = 0;
+		while (i < amountOfData - 1) {
+			integral = integral + (times.get(i + 1) - times.get(i))*(errors.get(i + 1) + errors.get(i))/2;
+		}
+		return integral;
+	}
+	
+	private Double getPID() {
+		double proportion = Kp * errors.get(errors.size()-1);
+		double integral = Ki * integrate();
+		double derivative = Kd * differentiate();
+		return proportion + integral + derivative;
+	}
+	
+	public Double takeAction(double targetHeight, double currentHeight) throws RemoteException, TimeoutException, InterruptedException {
+		measureData(targetHeight, currentHeight);
+		if(errors.size() >= 2 && !(Kp == 0 && Ki == 0 && Kd == 0)) {
+			return getPID();
+		}
+		else {
+			return 0.0;
+		}
+	}
+
+	public double getKp() {
+		return Kp;
+	}
+
+	public void setKp(double kp) {
+		Kp = kp;
+	}
+
+	public double getKi() {
+		return Ki;
+	}
+
+	public void setKi(double ki) {
+		Ki = ki;
+	}
+
+	public double getKd() {
+		return Kd;
+	}
+
+	public void setKd(double kd) {
+		Kd = kd;
 	}
 	
 	
