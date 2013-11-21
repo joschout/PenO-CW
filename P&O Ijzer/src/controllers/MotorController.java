@@ -8,13 +8,13 @@ import java.util.List;
 import com.pi4j.io.gpio.GpioPinPwmOutput;
 import com.pi4j.io.gpio.RaspiPin;
 
-import zeppelin.Zeppelin;
+import zeppelin.MainProgramImpl;
 import components.Motor;
 import ftp.LogWriter;
 
 public class MotorController implements Serializable {
 	
-	private static final GpioPinPwmOutput PWMPin = Zeppelin.gpio.provisionPwmOutputPin(RaspiPin.GPIO_01);
+	private static final GpioPinPwmOutput PWMPin = MainProgramImpl.gpio.provisionPwmOutputPin(RaspiPin.GPIO_01);
 	private static final int MINIMUM_RESPONSE = 800;
 	private static final int MAXIMUM_RESPONSE = 1024;
 	private static final int INTERVAL_LENGTH = MAXIMUM_RESPONSE - MINIMUM_RESPONSE;

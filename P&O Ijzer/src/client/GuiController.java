@@ -20,7 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import server.ZeppelinServer;
-import zeppelin.ZeppelinInterface;
+import zeppelin.MainProgramInterface;
 import QRCode.QRCodeHandler;
 
 import com.google.zxing.WriterException;
@@ -34,7 +34,7 @@ public class GuiController {
 	/**
 	 * Zeppelin-object gehaald van de server
 	 */
-	private ZeppelinInterface zeppelin;
+	private MainProgramInterface zeppelin;
 	
 	private WebClient ftpClient;
 	
@@ -50,7 +50,7 @@ public class GuiController {
 	 * @param zeppelin
 	 * 		Een zeppelin-object geïmporteerd vanop de Pi.
 	 */
-	public void setZeppelin(ZeppelinInterface zeppelin)
+	public void setZeppelin(MainProgramInterface zeppelin)
 	{
 		this.zeppelin = zeppelin;
 	}
@@ -62,24 +62,12 @@ public class GuiController {
 
 	public void setZeppelin() throws RemoteException, NotBoundException {
 		Registry registry = LocateRegistry.getRegistry(ZeppelinServer.PI_HOSTNAME,1099);
-		ZeppelinInterface zeppelin = (ZeppelinInterface) registry.lookup("Zeppelin");
+		MainProgramInterface zeppelin = (MainProgramInterface) registry.lookup("Zeppelin");
 		this.zeppelin = zeppelin;
 	}
 	
 	public void setWebClient() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		this.ftpClient = new WebClient();
-	}
-	
-	public ArrayList<Boolean> getActiveMotors() throws RemoteException {
-		ArrayList<Motor> motors = this.zeppelin.getMotors();
-		ArrayList<Boolean> toReturn = new ArrayList<Boolean>();
-		for (int i = 0; i < motors.size(); i++) {
-			if (motors.get(i).isOn()) {
-				toReturn.add(true);
-			}
-			else toReturn.add(false);
-		}
-		return toReturn;
 	}
 	
 	public boolean leftIsOn() throws RemoteException {
@@ -92,6 +80,14 @@ public class GuiController {
 	
 	public boolean downwardIsOn() throws RemoteException {
 		return this.zeppelin.downwardIsOn();
+	}
+	
+	public boolean qrCodeAvailable() throws RemoteException {
+		return this.zeppelin.qrCodeAvailable();
+	}
+	
+	public void consumeQRCode() throws RemoteException {
+		this.zeppelin.qrCodeConsumed();
 	}
 	
 	public void goForward() throws RemoteException {
@@ -133,8 +129,12 @@ public class GuiController {
 		return this.zeppelin.readNewQRCode();
 	}
 	
-	public BufferedImage getLastScannedImage() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		return this.ftpClient.getLastScannedImage();
+	public String[] getLastScannedQrCodeInfo() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		return this.ftpClient.getLastScannedQrCodeInfo();
+	}
+	
+	public BufferedImage getImageFromFile(String filename) throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		return this.ftpClient.getImageFromFile(filename);
 	}
 	
 	public String readLogFile() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {

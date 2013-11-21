@@ -14,7 +14,7 @@ import java.rmi.registry.Registry;
 
 import javax.swing.ImageIcon;
 
-import zeppelin.ZeppelinInterface;
+import zeppelin.MainProgramInterface;
 
 public class TestClient {
 	
@@ -22,9 +22,9 @@ public class TestClient {
 		try {
 			Registry registry = LocateRegistry.getRegistry("192.168.2.150",1099); // probeer verbinding te maken met het RMI-register
 			                                                                      // dat normaal gezien bestaat op de Pi.
-			ZeppelinInterface zeppelin = null;
+			MainProgramInterface zeppelin = null;
 			try {
-				zeppelin = (ZeppelinInterface) registry.lookup ("Zeppelin"); // zoek naar het geëxporteerde Zeppelin-object:
+				zeppelin = (MainProgramInterface) registry.lookup ("Zeppelin"); // zoek naar het geëxporteerde Zeppelin-object:
 				                                                             // dit is van de klasse ZeppelinInterface omdat
 				                                                             // in theorie de cliënt geen toegang heeft tot de code
 				                                                             // van de klasse Zeppelin.

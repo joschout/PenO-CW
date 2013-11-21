@@ -37,7 +37,7 @@ public class HeightAdjuster {
 		}
 	}
 	
-	private boolean isInInterval(double height, double targetHeight) {
+	public boolean isInInterval(double height, double targetHeight) {
 		return (targetHeight - delta <= height) && (height <= targetHeight + delta);
 	}
 	

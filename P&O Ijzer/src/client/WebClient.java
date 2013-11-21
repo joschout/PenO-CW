@@ -38,8 +38,12 @@ public class WebClient {
 		return builder.toString();
 	}
 	
-	public BufferedImage getLastScannedImage() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		return this.qrCodeClient.getLastScannedImage();
+	public String[] getLastScannedQrCodeInfo() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		return this.qrCodeClient.getLastScannedImageInfo();
+	}
+	
+	public BufferedImage getImageFromFile(String filename) throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		return this.qrCodeClient.getImageFromFile(filename);
 	}
 
 }

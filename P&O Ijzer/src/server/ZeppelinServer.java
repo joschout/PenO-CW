@@ -11,7 +11,7 @@ import java.rmi.registry.LocateRegistry;
 
 import controllers.SensorController.TimeoutException;
 
-import zeppelin.Zeppelin;
+import zeppelin.MainProgramImpl;
 
 public class ZeppelinServer {
 	
@@ -28,7 +28,7 @@ public class ZeppelinServer {
 			 																  verkrijgen, hetzij door, wanneer je de server start
 			 																  op de Pi, het IP-adres van de Pi moet invoeren. */
 		LocateRegistry.createRegistry(1099); // maak een register op de opgegeven poort.
-		Zeppelin zeppelin = new Zeppelin();
+		MainProgramImpl zeppelin = new MainProgramImpl();
 		Naming.rebind("rmi://localhost:1099/Zeppelin", zeppelin); // maak de zeppelin beschikbaar in het register.
 		zeppelin.startGameLoop(); // start d
 		}

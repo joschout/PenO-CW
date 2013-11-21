@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import zeppelin.Zeppelin;
+import zeppelin.MainProgramImpl;
 
 import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -32,8 +32,8 @@ public class SensorController implements Serializable {
     private final int amountOfData = 20;
     
     public SensorController( Pin echoPin, Pin trigPin ) {
-        this.echoPin = Zeppelin.gpio.provisionDigitalInputPin( echoPin );
-        this.trigPin = Zeppelin.gpio.provisionDigitalOutputPin( trigPin );
+        this.echoPin = MainProgramImpl.gpio.provisionDigitalInputPin( echoPin );
+        this.trigPin = MainProgramImpl.gpio.provisionDigitalOutputPin( trigPin );
         this.trigPin.low();
     }
     

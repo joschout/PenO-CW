@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import zeppelin.Zeppelin;
+import zeppelin.MainProgramImpl;
 
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
@@ -16,8 +16,8 @@ public class Motor implements Serializable {
 	private GpioPinDigitalOutput counterClockwisePin;
 	
 	public Motor(Pin clockwise, Pin counterClockwise) {
-		this.clockwisePin =  Zeppelin.gpio.provisionDigitalOutputPin(clockwise, "", PinState.LOW);
-		this.counterClockwisePin = Zeppelin.gpio.provisionDigitalOutputPin(counterClockwise, PinState.LOW);
+		this.clockwisePin =  MainProgramImpl.gpio.provisionDigitalOutputPin(clockwise, "", PinState.LOW);
+		this.counterClockwisePin = MainProgramImpl.gpio.provisionDigitalOutputPin(counterClockwise, PinState.LOW);
 	}
 	
 	public void clockwise() {
