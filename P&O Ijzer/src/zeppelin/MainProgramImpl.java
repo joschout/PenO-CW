@@ -58,7 +58,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	
 	private boolean qrCodeAvailable = false;
 	
-	private QRCodeHandler qrCodeReader;
+	public static final QRCodeHandler QR_CODE_READER = new QRCodeHandler();
 	
 	/**
 	 * Meest recente string die de zeppelin heeft gedecodeerd uit een QR-code.
@@ -74,7 +74,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 
 	public MainProgramImpl() throws RemoteException {
 		super();
-		qrCodeReader = new QRCodeHandler();
 		parser = new Parser(this);
 		new Thread(new QrCodeLogicThread()).start();
 		
@@ -165,7 +164,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 
 	@Override
 	public String readNewQRCode() throws RemoteException, IOException, InterruptedException {
-		return this.qrCodeReader.tryReadQrCode(this.sensorReading());
+		return QR_CODE_READER.tryReadQrCode(this.sensorReading());
 	}
 
 	@Override
