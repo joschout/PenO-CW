@@ -38,6 +38,8 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class QRCodeHandler {
 	
+	private Result mostRecentResult;
+	
 	/**
 	 * obsolete
 	 * @param icon
@@ -76,6 +78,7 @@ public class QRCodeHandler {
 			BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));  
 			Reader reader = new MultiFormatReader();  
 			Result result = reader.decode(bitmap);  
+			this.mostRecentResult = result;
 			System.out.println("Resultaat van decoderen: " + result.getText());
 			return result.getText();
 		} catch (NotFoundException e) {

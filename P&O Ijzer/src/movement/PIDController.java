@@ -12,14 +12,14 @@ import zeppelin.ZeppelinInterface;
 
 public class PIDController {
 
-	private SensorController sensor = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
-	private ZeppelinInterface zeppelin;
+	//private SensorController sensor = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
+	//private ZeppelinInterface zeppelin;
 	
 	int amountOfData = 5;
 	
-	double Kp = 0;//Proportional gain
-	double Ki = 0;//Integral gain
-	double Kd = 0;//Derivative gain
+	double Kp = 20;//Proportional gain
+	double Ki = 0.001;//Integral gain
+	double Kd = -200;//Derivative gain
 	
 	private ArrayList<Double> times = new ArrayList<Double>();
 	private ArrayList<Double> errors = new ArrayList<Double>();
@@ -33,7 +33,7 @@ public class PIDController {
 		double error = calculateError(targetHeight, currentHeight);
 		Date date = new Date();
 		double time = date.getTime();
-		addError(error, time);
+		addError(time, error);
 	}
 	
 	private void addError(double time, double error){
@@ -57,8 +57,9 @@ public class PIDController {
 	private Double integrate() {
 		int i = 0;
 		double integral = 0;
-		while (i < amountOfData - 1) {
+		while (i < errors.size() - 1) {
 			integral = integral + (times.get(i + 1) - times.get(i))*(errors.get(i + 1) + errors.get(i))/2;
+			i++;
 		}
 		return integral;
 	}
@@ -68,6 +69,11 @@ public class PIDController {
 		double integral = Ki * integrate();
 		double derivative = Kd * differentiate();
 		return proportion + integral + derivative;
+	}
+	
+	public double getPWMValue(double mostRecentHeight, double targetHeight) throws RemoteException, TimeoutException, InterruptedException {
+		double pid = this.takeAction(targetHeight, mostRecentHeight);
+		return pid*0.1;
 	}
 	
 	public Double takeAction(double targetHeight, double currentHeight) throws RemoteException, TimeoutException, InterruptedException {
