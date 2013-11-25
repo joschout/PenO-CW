@@ -117,7 +117,7 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 		return status;
 	}
 	
-	public void startGameLoop() throws InterruptedException {
+	public void startGameLoop() throws InterruptedException, RemoteException {
 		System.out.println("Lus initialiseren; zeppelin is klaar om commando's uit te voeren.");
 		this.gameLoop();
 		System.out.println("Lus afgebroken; uitvoering is stopgezet.");
@@ -135,8 +135,9 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 	 * 
 	 * TODO: flags maken voor motoren, acties gebaseerd op deze flags implementeren
 	 * @throws InterruptedException 
+	 * @throws RemoteException 
 	 */
-	private void gameLoop() throws InterruptedException {
+	private void gameLoop() throws InterruptedException, RemoteException {
 		while (!exit) {
 			try {
 				this.mostRecentHeight = sensorController.sensorReading();

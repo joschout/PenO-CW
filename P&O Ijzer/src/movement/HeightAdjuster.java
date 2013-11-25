@@ -20,7 +20,7 @@ public class HeightAdjuster {
 	
 	public void takeAction(double mostRecentHeight, double targetHeight) throws RemoteException, TimeoutException, InterruptedException {
 		double pid = pController.takeAction(targetHeight, mostRecentHeight);
-		interpretatePID(pid);
+		System.out.println("most recent height"+mostRecentHeight+", target height"+targetHeight+", pid value:"+pid);
 	}
 	
 	
