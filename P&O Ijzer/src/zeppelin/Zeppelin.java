@@ -221,4 +221,16 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 		this.motorController.stopHeightAdjustment();
 	}
 
+	public void setKp(double kp) {
+		this.heightAdjuster.setKp(kp);
+	}
+	
+	public void setKd(double kd) {
+		this.heightAdjuster.setKd(kd);
+	}
+	
+	public void setKi(double ki) {
+		this.heightAdjuster.setKi(ki);
+	}
+
 }

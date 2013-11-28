@@ -91,7 +91,7 @@ public class PIDController {
 	}
 
 	public void setKp(double kp) {
-		Kp = kp;
+		this.Kp = kp;
 	}
 
 	public double getKi() {
@@ -99,7 +99,7 @@ public class PIDController {
 	}
 
 	public void setKi(double ki) {
-		Ki = ki;
+		this.Ki = ki;
 	}
 
 	public double getKd() {
@@ -107,7 +107,7 @@ public class PIDController {
 	}
 
 	public void setKd(double kd) {
-		Kd = kd;
+		this.Kd = kd;
 	}
 	
 	

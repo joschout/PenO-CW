@@ -68,6 +68,12 @@ public interface ZeppelinInterface extends Remote {
 	
 	public void stopDownward() throws RemoteException;
 	
+	public void setKp(double kp) throws RemoteException;
+	
+	public void setKi(double ki) throws RemoteException;
+	
+	public void setKd(double kd) throws RemoteException;
+	
 	public String getMostRecentDecode() throws RemoteException;
 
 }

@@ -19,6 +19,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import movement.PIDController;
 import server.ZeppelinServer;
 import zeppelin.ZeppelinInterface;
 import QRCode.QRCodeHandler;
@@ -37,6 +38,8 @@ public class GuiController {
 	private ZeppelinInterface zeppelin;
 	
 	private WebClient ftpClient;
+	
+	private PIDController pController = new PIDController();
 	
 	public GuiController() throws NotBoundException, IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		setZeppelin();
@@ -148,6 +151,30 @@ public class GuiController {
 			e.printStackTrace();
 		}
 		System.exit(0);
+	}
+	
+	public void setKp(double kp) {
+		try {
+			zeppelin.setKp(kp);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setKi(double ki) {
+		try {
+			zeppelin.setKi(ki);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setKd(double kd) {
+		try {
+			zeppelin.setKd(kd);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
