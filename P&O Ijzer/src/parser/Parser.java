@@ -10,9 +10,14 @@ public class Parser {
 	
 	private MainProgramImpl zeppelin;
 	
+	/**
+	 * 
+	 * @param zeppelin
+	 */
 	public Parser(MainProgramImpl zeppelin) {
 		this.zeppelin = zeppelin;
 	}
+
 
 	public List<Command> parse(String commandString)throws IllegalSyntaxException{
 		 List<Command> commandList = new ArrayList<Command>();   
@@ -32,6 +37,11 @@ public class Parser {
 		   
 	}
 	
+	/**
+	 * 
+	 * @param commandString
+	 * @return
+	 */
 	private Command parseSingleCommand(String commandString){
 		 
 		   List<String> elementsOfSubStringList = Arrays.asList(commandString.split(":"));
@@ -47,6 +57,12 @@ public class Parser {
 		   return tempCommand;
 	}
 
+	/**
+	 * 
+	 * @param possibleCommandTypeString
+	 * @return
+	 * @throws IllegalSyntaxException
+	 */
 	private CommandType parseStringToCommandType(String possibleCommandTypeString) throws IllegalSyntaxException{
 		  for(CommandType tempCom:CommandType.values()){
 			   if(tempCom.getCommandAbbrevString().equals(possibleCommandTypeString)){
@@ -55,6 +71,13 @@ public class Parser {
 		   }
 		  throw new IllegalSyntaxException(); 
 	}
+	
+	/**
+	 * 
+	 * @param possibleParameterString
+	 * @return
+	 * @throws NumberFormatException
+	 */
 	private double parseStringToParameter(String possibleParameterString) throws NumberFormatException{
 			double value = Double.parseDouble(possibleParameterString);
 			return value;

@@ -9,46 +9,14 @@ import controllers.MotorController;
 
 public class Command {
 
-	private static final long FORWARD_SPEED = 34; // 1 m per 3.42 seconden
-	private static final long BACKWARD_SPEED = 74; // 1 m per 7.43 seconden
-	private static final long LEFT_SPEED = 38; // nog testen
-	private static final long RIGHT_SPEED = 41; // nog testen
-	
-	private MainProgramImpl zeppelin;
-	
 	private boolean executed = false;
-	
-	public CommandType getType() {
-		return type;
-	}
-
-	public void setType(CommandType type) {
-		this.type = type;
-	}
-
-	public double getParameter() {
-		return parameter;
-	}
-
-	public void setParameter(Double parameter) {
-		this.parameter = parameter;
-	}
-	
-	public boolean isExecuted() {
-		return this.executed;
-	}
-	
-	private void setExecuted() {
-		this.executed = true;
-	}
-	
 	/**
 	 * Voert dit commando uit. De acties die de zeppelin zal nemen verschillen naargelang
 	 * het type commando dit is.
 	 * @throws IllegalStateException
 	 */
 	public void execute() throws IllegalStateException {
-		if (this.executed)
+		if (this.isExecuted())
 			throw new IllegalStateException("Probeerde commando " + this.toString() + " meermaals uit te voeren!");
 		if (this.getType() == CommandType.V) { // vooruit
 			goForward();
@@ -65,12 +33,58 @@ public class Command {
 		else if (this.getType() == CommandType.L) { // links
 			goLeft();
 		}
-		else { // rechts
+		else if (this.getType() == CommandType.R){// rechts
 			goRight();
+		
 		}
 		this.setExecuted();
 	}
 
+	private void setExecuted() {
+		this.executed = true;
+	}
+
+	
+	
+	
+	public boolean isExecuted() {
+		return this.executed;
+	}
+
+
+
+
+	private CommandType type;
+	public CommandType getType() {
+		return type;
+	}
+
+	public void setType(CommandType type) {
+		this.type = type;
+	}
+
+
+
+
+	private double parameter;
+	public double getParameter() {
+		return parameter;
+	}
+
+	public void setParameter(Double parameter) {
+		this.parameter = parameter;
+	}
+
+
+
+
+	private static final long FORWARD_SPEED = 34; // 1 m per 3.42 seconden
+	private static final long BACKWARD_SPEED = 74; // 1 m per 7.43 seconden
+	private static final long LEFT_SPEED = 38; // nog testen
+	private static final long RIGHT_SPEED = 41; // nog testen
+	
+	private MainProgramImpl zeppelin;
+	
 	private void ascend() {
 		try {
 			zeppelin.setTargetHeight(zeppelin.sensorReading() + this.getParameter());
@@ -147,10 +161,6 @@ public class Command {
 		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
 	}
 
-	private CommandType type;
-	private double parameter;
-	
-	
 	public Command(CommandType type, double parameter, MainProgramImpl zeppelin){
 		this.type=type;
 		this.parameter=parameter;
@@ -160,5 +170,4 @@ public class Command {
 	public String toString() {
 		return "| Commandotype: " + this.getType().getCommandAbbrevString() + " ; Parameter: " + this.getParameter() + " |";
 	}
-	
 }
