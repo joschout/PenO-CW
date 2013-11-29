@@ -37,7 +37,7 @@ public class Command {
 			goRight();
 		
 		}
-		this.setExecuted();
+		else this.setExecuted();
 	}
 
 	private void setExecuted() {
@@ -119,46 +119,58 @@ public class Command {
 
 	private void goBackward() {
 		long duration = (long) this.getParameter() * BACKWARD_SPEED;
-		MainProgramImpl.MOTOR_CONTROLLER.backward();
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		long endTime = System.currentTimeMillis() + duration;
+		while (System.currentTimeMillis() <= endTime)
+		{
+			if (! MainProgramImpl.MOTOR_CONTROLLER.movingHorizontally())
+			{
+				MainProgramImpl.MOTOR_CONTROLLER.backward();
+			}
 		}
-		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		if (MainProgramImpl.MOTOR_CONTROLLER.goingBackward())
+			MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
 	}
 
 	private void goForward() {
 		long duration = (long) this.getParameter() * FORWARD_SPEED;
-		MainProgramImpl.MOTOR_CONTROLLER.forward();
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		long endTime = System.currentTimeMillis() + duration;
+		while (System.currentTimeMillis() <= endTime)
+		{
+			if (! MainProgramImpl.MOTOR_CONTROLLER.movingHorizontally())
+			{
+				MainProgramImpl.MOTOR_CONTROLLER.forward();
+			}
 		}
-		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		if (MainProgramImpl.MOTOR_CONTROLLER.goingForward())
+			MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
 	}
 	
 	private void goLeft() {
 		long duration = (long) this.getParameter() * LEFT_SPEED;
-		MainProgramImpl.MOTOR_CONTROLLER.left();
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		long endTime = System.currentTimeMillis() + duration;
+		while (System.currentTimeMillis() <= endTime)
+		{
+			if (! MainProgramImpl.MOTOR_CONTROLLER.movingHorizontally())
+			{
+				MainProgramImpl.MOTOR_CONTROLLER.left();
+			}
 		}
-		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		if (MainProgramImpl.MOTOR_CONTROLLER.goingLeft())
+			MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
 	}
 	
 	private void goRight() {
 		long duration = (long) this.getParameter() * RIGHT_SPEED;
-		MainProgramImpl.MOTOR_CONTROLLER.right();
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		long endTime = System.currentTimeMillis() + duration;
+		while (System.currentTimeMillis() <= endTime)
+		{
+			if (! MainProgramImpl.MOTOR_CONTROLLER.movingHorizontally())
+			{
+				MainProgramImpl.MOTOR_CONTROLLER.right();
+			}
 		}
-		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		if (MainProgramImpl.MOTOR_CONTROLLER.goingRight())
+			MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
 	}
 
 	public Command(CommandType type, double parameter, MainProgramImpl zeppelin){

@@ -50,7 +50,7 @@ public class MotorController implements Serializable {
 	}
 	
 	public void left() {
-		if (! (leftMotor.goingCounterClockwise() && rightMotor.goingClockwise())) {
+		if (! this.goingLeft()) {
 			logWriter.writeToLog("Zeppelin naar links laten draaien.");
 			this.leftMotor.counterClockwise();
 			this.rightMotor.clockwise();
@@ -58,12 +58,14 @@ public class MotorController implements Serializable {
 	}
 	
 	public void right() {
-		if (! (leftMotor.goingClockwise() && rightMotor.goingCounterClockwise())) {
+		if (! this.goingRight()) {
 			logWriter.writeToLog("Zeppelin naar rechts laten draaien.");
 			this.rightMotor.counterClockwise();
 			this.leftMotor.clockwise();
 		}
 	}
+
+	
 	
 	public void stopRightAndLeftMotor() {
 		if (leftMotor.isOn() && rightMotor.isOn()) {
@@ -74,7 +76,7 @@ public class MotorController implements Serializable {
 	}
 	
 	public void forward() {
-		if (! (leftMotor.goingClockwise() && rightMotor.goingClockwise())) {
+		if (! goingForward()) {
 			logWriter.writeToLog("Zeppelin vooruit laten gaan.");
 			this.leftMotor.clockwise();
 			this.rightMotor.clockwise();
@@ -82,7 +84,7 @@ public class MotorController implements Serializable {
 	}
 	
 	public void backward() {
-		if (! (leftMotor.goingCounterClockwise() && rightMotor.goingCounterClockwise())) {
+		if (! goingBackward()) {
 			logWriter.writeToLog("Zeppelin achteruit laten gaan.");
 			this.leftMotor.counterClockwise();
 			this.rightMotor.counterClockwise();
@@ -129,5 +131,24 @@ public class MotorController implements Serializable {
 	public boolean downwardIsOn() {
 		return this.downwardMotor.isOn();
 	}
+	
+	public boolean goingLeft() {
+		return this.leftMotor.goingCounterClockwise() && this.rightMotor.goingClockwise();
+	}
+	
+	public boolean goingRight() {
+		return this.leftMotor.goingClockwise() && this.rightMotor.goingCounterClockwise();
+	}
 
+	public boolean goingForward() {
+		return this.leftMotor.goingClockwise() && this.rightMotor.goingClockwise();
+	}
+	
+	public boolean goingBackward() {
+		return this.leftMotor.goingCounterClockwise() && this.rightMotor.goingCounterClockwise();
+	}
+	
+	public boolean movingHorizontally() {
+		return this.goingForward() || this.goingBackward() || this.goingLeft() || this.goingRight();
+	}
 }
