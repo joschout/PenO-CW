@@ -233,4 +233,29 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 		this.heightAdjuster.setKi(ki);
 	}
 
+	@Override
+	public double getKp() throws RemoteException {
+		return this.heightAdjuster.getKp();
+	}
+
+	@Override
+	public double getKi() throws RemoteException {
+		return this.heightAdjuster.getKd();
+	}
+
+	@Override
+	public double getKd() throws RemoteException {
+		return this.heightAdjuster.getKi();
+	}
+
+	@Override
+	public void setSafetyInterval(double safetyInterval) throws RemoteException {
+		this.heightAdjuster.setSafetyInterval(safetyInterval);
+	}
+
+	@Override
+	public double getSafetyInterval() throws RemoteException {
+		return this.heightAdjuster.getSafetyInterval();
+	}
+
 }

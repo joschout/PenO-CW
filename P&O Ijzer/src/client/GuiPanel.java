@@ -51,6 +51,7 @@ public class GuiPanel implements ActionListener
 	private JLabel Kp = new JLabel("Kp:");
 	private JLabel Ki = new JLabel("Ki:");
 	private JLabel Kd = new JLabel("Kd:");
+	private JLabel safetyInterval = new JLabel("SafetyInterval: ");
 
 	// alle buttons
 	private JButton logfiles = new JButton("Vorige logfiles");
@@ -59,6 +60,7 @@ public class GuiPanel implements ActionListener
 	private JButton setKp= new JButton("Kp");
 	private JButton setKi= new JButton("Ki");
 	private JButton setKd= new JButton("Kd");
+	private JButton setSafetyInterval = new JButton("SafetyInterval");
 	private BasicArrowButton arrowup = new BasicArrowButton(SwingConstants.NORTH);
 	private BasicArrowButton arrowleft = new BasicArrowButton(SwingConstants.WEST);
 	private BasicArrowButton arrowright = new BasicArrowButton(SwingConstants.EAST);
@@ -72,6 +74,7 @@ public class GuiPanel implements ActionListener
 	private JTextArea KpValue = new JTextArea();
 	private JTextArea KiValue  = new JTextArea();
 	private JTextArea KdValue  = new JTextArea();
+	private JTextArea safetyIntervalValue = new JTextArea();
 
 	// lettertype
 	private final Font font = new Font("Calibri", Font.PLAIN, 16);
@@ -84,7 +87,7 @@ public class GuiPanel implements ActionListener
 	 */
 	private JLabel mostRecentQRCodeLabel;
 
-	public GuiPanel() {
+	public GuiPanel() throws RemoteException {
 		try {
 			guiController = new GuiController();
 		} catch (Exception e) {
@@ -123,6 +126,7 @@ public class GuiPanel implements ActionListener
 		addLabelToPanel(Kp, 5, 110, 50, 50, infopanel);
 		addLabelToPanel(Kd, 85, 110, 50, 50, infopanel);
 		addLabelToPanel(Ki, 170, 110, 50, 50, infopanel);
+		addLabelToPanel(safetyInterval, 5, 150, 100, 50, infopanel);
 
 		//addLabelToPanel(lamp1, 200, 30, 20, 20, motorpanel);
 		turnLightOff(motor1);
@@ -134,12 +138,13 @@ public class GuiPanel implements ActionListener
 		//turnLightOff(lamp4);
 
 		// voeg buttons toe aan hun panel
-		addButtonToPanel(logfiles, 350, 270, 150, 25, KeyEvent.VK_L, logpanel);
+		addButtonToPanel(logfiles, 350, 270, 150, 30, KeyEvent.VK_L, logpanel);
 		addButtonToPanel(scanQRCode, 125, 5, 150, 30, KeyEvent.VK_3, qrcodepanel);
 		addButtonToPanel(setTargetHeight, 5, 5, 150, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKp, 5, 40, 45, 45, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKi, 70, 40, 45, 45, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKd, 135, 40, 45, 45, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKp, 5, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKi, 70, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKd, 135, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setSafetyInterval, 5, 80, 150, 30, KeyEvent.VK_4, actionsPanel);
 
 		addArrowToPanel(arrowup, 75, 25, 50, 50, KeyEvent.VK_UP, arrows, false);
 		addArrowToPanel(arrowleft, 25, 75, 50, 50, KeyEvent.VK_LEFT, arrows, false);
@@ -156,8 +161,10 @@ public class GuiPanel implements ActionListener
 		addTextAreaToPanel(150, 15, 200, 20, huidigeHoogte, infopanel);
 		addTextAreaToPanel(150, 65, 200, 20, targetHoogte, infopanel);
 		addTextAreaToPanel(30, 125, 50, 20, KpValue, infopanel);
-		addTextAreaToPanel(110, 125, 50, 20, KdValue, infopanel);
-		addTextAreaToPanel(190, 125, 50, 20, KiValue, infopanel);
+		addTextAreaToPanel(110, 125, 50, 20, KiValue, infopanel);
+		addTextAreaToPanel(190, 125, 50, 20, KdValue, infopanel);
+		addTextAreaToPanel(130, 160, 50, 20, safetyIntervalValue, infopanel);
+		
 
 		return guipanel;
 	}
@@ -261,30 +268,17 @@ public class GuiPanel implements ActionListener
 		light.setOpaque(true);
 		light.setBackground(Color.green); // lamp op groen zetten : 'aan'
 	}
+	
+	public void setVariables() throws RemoteException {
+		this.KpValue.setText(Double.toString(guiController.getKp()));
+		this.KdValue.setText(Double.toString(guiController.getKd()));
+		this.KiValue.setText(Double.toString(guiController.getKi()));
+		this.targetHoogte.setText(Double.toString(guiController.getHeight()));
+	}
 
 	public void actionPerformed(ActionEvent event)
 	{
 		Object source = event.getSource();
-//		if (source == arrowup)
-//		{
-//			JOptionPane.showMessageDialog(null,"Je hebt het bovenste pijltje ingedrukt!","",
-//					JOptionPane.PLAIN_MESSAGE);
-//		}
-//		else if (source == arrowleft)
-//		{
-//			JOptionPane.showMessageDialog(null,"Je hebt het linkse pijltje ingedrukt!","",
-//					JOptionPane.PLAIN_MESSAGE);
-//		}
-//		else if (source == arrowright)
-//		{
-//			JOptionPane.showMessageDialog(null,"Je hebt het rechtse pijltje ingedrukt!","",
-//					JOptionPane.PLAIN_MESSAGE);
-//		}
-//		else if (source == arrowdown)
-//		{
-//			JOptionPane.showMessageDialog(null,"Je hebt het onderste pijltje ingedrukt!","",
-//					JOptionPane.PLAIN_MESSAGE);
-//		}
 		if (source == scanQRCode)
 		{
 			String decoded;
@@ -333,6 +327,15 @@ public class GuiPanel implements ActionListener
 			double kd = Double.parseDouble(input);
 			this.guiController.setKd(kd);
 			this.KdValue.setText(Double.toString(kd));
+		}
+		else if (source == setSafetyInterval) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety interval in.");
+			double safety = Double.parseDouble(input);
+			try {
+				this.guiController.setSafetyInterval(safety);
+			} catch (RemoteException e) {
+			}
+			this.safetyIntervalValue.setText(Double.toString(safety));
 		}
 		else if(source == logfiles)
 		{   
@@ -384,7 +387,7 @@ public class GuiPanel implements ActionListener
 	}
 
 	private static void createAndShowGUI() throws RemoteException, NotBoundException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-
+		
 		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 	        if ("Nimbus".equals(info.getName())) {
 	            UIManager.setLookAndFeel(info.getClassName());
@@ -401,6 +404,7 @@ public class GuiPanel implements ActionListener
 
 		// aanmaken scrollpane
 		JPanel gui = guipanel.setGuipanel();  
+		
 		//JScrollPane scrollpane = new JScrollPane(gui);   
 		//gui.setPreferredSize(new Dimension(1150, 700)); // bepaalt de grootte van het scrollgebied, dus tot waar we kunnen scrollen om de gui te zien
 
@@ -422,6 +426,7 @@ public class GuiPanel implements ActionListener
 		});
 		frame.setSize(950, 600);
 		frame.setVisible(true);
+		guipanel.setVariables();
 	}
 
 	public static void main(String[] args) throws RemoteException, NotBoundException {

@@ -177,5 +177,24 @@ public class GuiController {
 		}
 	}
 	
+	public double getKp() throws RemoteException {
+		return zeppelin.getKp();
+	}
+	
+	public double getKd() throws RemoteException {
+		return zeppelin.getKd();
+	}
+	
+	public double getKi() throws RemoteException {
+		return zeppelin.getKi();
+	}
+	
+	public void setSafetyInterval(double safetyInterval) throws RemoteException {
+		zeppelin.setSafetyInterval(safetyInterval);
+	}
+	
+	public double getSafetyInterval() throws RemoteException {
+		return zeppelin.getSafetyInterval();
+	}
 
 }

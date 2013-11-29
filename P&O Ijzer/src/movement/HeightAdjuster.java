@@ -48,4 +48,16 @@ public class HeightAdjuster {
 		this.pController.setKi(ki);
 	}
 	
+	public double getKp() {
+		return pController.getKp();
+	}
+	
+	public double getKd() {
+		return pController.getKd();
+	}
+	
+	public double getKi() {
+		return pController.getKi();
+	}
+	
 }

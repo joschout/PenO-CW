@@ -74,6 +74,16 @@ public interface ZeppelinInterface extends Remote {
 	
 	public void setKd(double kd) throws RemoteException;
 	
+	public double getKp() throws RemoteException;
+	
+	public double getKi() throws RemoteException;
+	
+	public double getKd() throws RemoteException;
+	
+	public void setSafetyInterval(double safetyInterval) throws RemoteException;
+	
+	public double getSafetyInterval() throws RemoteException;
+	
 	public String getMostRecentDecode() throws RemoteException;
 
 }
