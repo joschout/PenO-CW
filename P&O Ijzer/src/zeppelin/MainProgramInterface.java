@@ -126,5 +126,13 @@ public interface MainProgramInterface extends Remote {
 	 * @throws RemoteException
 	 */
 	public void qrCodeConsumed() throws RemoteException;
+	
+	public int getExpectedSequenceNumber() throws RemoteException;
+	
+	/**
+	 * Past het verwachte volgnummer van de volgende QR-code aan.
+	 * @throws RemoteException
+	 */
+	public void setExpectedSequenceNumber(int number) throws RemoteException;
 
 }

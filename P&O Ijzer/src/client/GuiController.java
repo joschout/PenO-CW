@@ -90,6 +90,14 @@ public class GuiController {
 		this.zeppelin.qrCodeConsumed();
 	}
 	
+	public int getExpectedSequenceNumber() throws RemoteException {
+		return this.zeppelin.getExpectedSequenceNumber();
+	}
+	
+	public void setExpectedSequenceNumber(int sequenceNumber) throws RemoteException {
+		this.zeppelin.setExpectedSequenceNumber(sequenceNumber);
+	}
+	
 	public void goForward() throws RemoteException {
 		this.zeppelin.goForward();
 	}

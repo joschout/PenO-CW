@@ -57,6 +57,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	private Parser parser;
 	
 	private boolean qrCodeAvailable = false;
+	private int expectedSeqNum = 1;
 	
 	public static final QRCodeHandler QR_CODE_READER = new QRCodeHandler();
 	
@@ -161,6 +162,14 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	private void offerQrCode() {
 		this.qrCodeAvailable = true;
 	}
+	
+	public int getExpectedSequenceNumber() {
+		return this.expectedSeqNum;
+	}
+	
+	public void setExpectedSequenceNumber(int number) {
+		this.expectedSeqNum = number;
+	}
 
 	@Override
 	public String readNewQRCode() throws RemoteException, IOException, InterruptedException {
@@ -220,9 +229,14 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 */
 	private class QrCodeLogicThread implements Runnable {
 		
+		
+		
 		/**
 		 * - Kan een QR-code vinden?
 		 * 		-> nee: slaap een seconde lang, repeat
+		 * - QR-code bevat verwachte volgnummer?
+		 *      -> nee: slaap een seconde lang, repeat
+		 * - Verhoog verwacht volgnummer met één
 		 * - Parse QR-code
 		 * - Voer commando's uit
 		 * - repeat
@@ -246,7 +260,17 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 						e.printStackTrace();
 					}
 				}
+				if (! decoded.contains("N:" + MainProgramImpl.this.getExpectedSequenceNumber())) {
+					MainProgramImpl.this.getLogWriter().writeToLog("QR-code met als resultaat " + decoded + 
+							"bevatte het verwachte volgnummer " + MainProgramImpl.this.getExpectedSequenceNumber() + " niet; QR-code wordt niet uitgevoerd.");
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 				else {
+					MainProgramImpl.this.setExpectedSequenceNumber(MainProgramImpl.this.getExpectedSequenceNumber() + 1);
 					MainProgramImpl.this.offerQrCode();
 					MainProgramImpl.this.getLogWriter().writeToLog("QR-code gelezen met als resultaat: " + decoded);
 					List<Command> commands = MainProgramImpl.this.getParser().parse(decoded);
