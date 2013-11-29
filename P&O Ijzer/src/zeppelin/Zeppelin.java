@@ -146,7 +146,7 @@ public class Zeppelin extends UnicastRemoteObject implements ZeppelinInterface {
 				e.printStackTrace();
 			}
 			try {
-				Thread.sleep(500);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

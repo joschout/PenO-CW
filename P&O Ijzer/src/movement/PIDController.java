@@ -17,9 +17,9 @@ public class PIDController {
 	
 	int amountOfData = 5;
 	
-	double Kp = 20;//Proportional gain
+	double Kp = 17;//Proportional gain
 	double Ki = 0.001;//Integral gain
-	double Kd = -200;//Derivative gain
+	double Kd = 13500;//Derivative gain
 	
 	private ArrayList<Double> times = new ArrayList<Double>();
 	private ArrayList<Double> errors = new ArrayList<Double>();
@@ -49,6 +49,7 @@ public class PIDController {
 	private Double differentiate() {
 		int size = errors.size();
 		if(size >= 2) {
+			
 			return (errors.get(size - 1) - errors.get(size - 2))/(times.get(size - 1) - times.get(size - 2));
 		}
 		return null;

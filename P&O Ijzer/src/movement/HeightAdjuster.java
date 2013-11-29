@@ -10,7 +10,16 @@ public class HeightAdjuster {
 	
 	private MotorController motorController;
 	private PIDController pController = new PIDController();
+	private double safetyInterval = 1;
 	
+	public double getSafetyInterval() {
+		return safetyInterval;
+	}
+
+	public void setSafetyInterval(double safetyInterval) {
+		this.safetyInterval = safetyInterval;
+	}
+
 	private LogWriter logWriter;
 	
 	public HeightAdjuster(MotorController motorController) {
@@ -19,7 +28,10 @@ public class HeightAdjuster {
 	}
 	
 	public void takeAction(double mostRecentHeight, double targetHeight) throws RemoteException, TimeoutException, InterruptedException {
-		double pwm = pController.getPWMValue(targetHeight, mostRecentHeight);
+		double pwm =0;
+		if(Math.abs(mostRecentHeight-targetHeight)> safetyInterval){
+			pwm = pController.getPWMValue(targetHeight, mostRecentHeight);
+		}
 		motorController.setSpeed((int) pwm);
 		//System.out.println("most recent height"+mostRecentHeight+", target height"+targetHeight+", pid value:"+pid);
 	}
