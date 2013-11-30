@@ -41,7 +41,6 @@ import ftp.FTPFileInfo;
  */
 public class QRCodeHandler {
 
-	private String mostRecentQRDecode;
 	private QRCodeReader reader;
 	
 	public QRCodeHandler() {
@@ -102,7 +101,6 @@ public class QRCodeHandler {
 			MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, 1400, 800);
 		String decoded = this.scanQrCode(FTPFileInfo.PATH_TO_FTP_FILES + filename + ".jpg");
 		if (decoded != null) {
-			this.mostRecentQRDecode = decoded;
 			BufferedWriter output = new BufferedWriter(new FileWriter(
 					FTPFileInfo.PATH_TO_FTP_FILES + FTPFileInfo.TIMESTAMPLIST_HOSTFILENAME, true));
 			output.append("\n");

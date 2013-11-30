@@ -135,7 +135,11 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		while (!exit) {
 			try {
 				this.mostRecentHeight = SENSOR_CONTROLLER.sensorReading();
-				HEIGHT_ADJUSTER.takeAction(mostRecentHeight, targetHeight);
+				try {
+					HEIGHT_ADJUSTER.takeAction(mostRecentHeight, targetHeight);
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
 			} catch (TimeoutException e) {
 				e.printStackTrace();
 			}
@@ -210,6 +214,43 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	
 	public void stopDownward() throws RemoteException {
 		MOTOR_CONTROLLER.stopHeightAdjustment();
+	}
+	
+	public void setKp(double kp) {
+		HEIGHT_ADJUSTER.setKp(kp);
+	}
+	
+	public void setKd(double kd) {
+		HEIGHT_ADJUSTER.setKd(kd);
+	}
+	
+	public void setKi(double ki) {
+		HEIGHT_ADJUSTER.setKi(ki);
+	}
+
+	@Override
+	public double getKp() throws RemoteException {
+		return HEIGHT_ADJUSTER.getKp();
+	}
+
+	@Override
+	public double getKi() throws RemoteException {
+		return HEIGHT_ADJUSTER.getKd();
+	}
+
+	@Override
+	public double getKd() throws RemoteException {
+		return HEIGHT_ADJUSTER.getKi();
+	}
+
+	@Override
+	public void setSafetyInterval(double safetyInterval) throws RemoteException {
+		HEIGHT_ADJUSTER.setSafetyInterval(safetyInterval);
+	}
+
+	@Override
+	public double getSafetyInterval() throws RemoteException {
+		return HEIGHT_ADJUSTER.getSafetyInterval();
 	}
 
 	/**

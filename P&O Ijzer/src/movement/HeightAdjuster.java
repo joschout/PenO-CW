@@ -1,17 +1,25 @@
 package movement;
 
+import java.rmi.RemoteException;
+
 import controllers.MotorController;
-import controllers.SensorController;
+import controllers.SensorController.TimeoutException;
 import ftp.LogWriter;
 
 public class HeightAdjuster {
 	
 	private MotorController motorController;
+	private PIDController pController = new PIDController();
+	private double safetyInterval = 1;
 	
-	private double delta = 10;
-	private double safetyInterval1 = 15;
-	private double safetyInterval2 = 5;
-	
+	public double getSafetyInterval() {
+		return safetyInterval;
+	}
+
+	public void setSafetyInterval(double safetyInterval) {
+		this.safetyInterval = safetyInterval;
+	}
+
 	private LogWriter logWriter;
 	
 	public HeightAdjuster(MotorController motorController) {
@@ -19,43 +27,41 @@ public class HeightAdjuster {
 		this.logWriter = new LogWriter();
 	}
 	
-	public void takeAction(double mostRecentHeight, double targetHeight) {
-		if (isInInterval(mostRecentHeight, targetHeight)) {
-//			logWriter.writeToLog("Zeppelin zweeft binnen aanvaardbare marge op doelhoogte: " + targetHeight);
-			motorController.stopHeightAdjustment();
-			return;	
+	public void takeAction(double mostRecentHeight, double targetHeight) throws RemoteException, TimeoutException, InterruptedException {
+		double pwm =0;
+		if(isInInterval(mostRecentHeight, targetHeight)){
+			pwm = pController.getPWMValue(targetHeight, mostRecentHeight);
 		}
-		if (mostRecentHeight < targetHeight - delta) {
-//			logWriter.writeToLog("Zeppelin zweeft onder de doelhoogte; laat zeppelin stijgen.");
-			motorSpeedAdjustment(mostRecentHeight, targetHeight);
-			motorController.up();	
-		}
-		if (mostRecentHeight > targetHeight + delta) {
-//			logWriter.writeToLog("Zeppelin zweeft boven de doelhoogte; laat zeppelin dalen.");
-			motorSpeedAdjustment(mostRecentHeight, targetHeight);
-			motorController.down();
-		}
+		motorController.setSpeed((int) pwm);
+		//System.out.println("most recent height"+mostRecentHeight+", target height"+targetHeight+", pid value:"+pid);
+	}
+
+	public boolean isInInterval(double mostRecentHeight, double targetHeight) {
+		return Math.abs(mostRecentHeight-targetHeight)> safetyInterval;
+	}
+
+	public void setKp(double kp) {
+		this.pController.setKp(kp);
 	}
 	
-	public boolean isInInterval(double height, double targetHeight) {
-		return (targetHeight - delta <= height) && (height <= targetHeight + delta);
+	public void setKd(double kd) {
+		this.pController.setKd(kd);
 	}
 	
-	private void motorSpeedAdjustment(double height, double targetHeight) {
-		/*
-		 * abs(height-tqrget_height) < interval
-		 * 
-		 * (height >= targetHeight - delta - safetyInterval2) ||
-				height <= targetHeight + delta + safetyInterval2
-		 */
-		if (Math.abs(height - targetHeight) <= (delta + safetyInterval2)) {
-//			logWriter.writeToLog("Zeppelin zweeft op 5cm af van doelhoogte; motor op halve kracht laten draaien.");
-			MotorController.setSpeed(50);
-		}
-		else if (Math.abs(height - targetHeight) <= (delta + safetyInterval1)) {
-//			logWriter.writeToLog("Zeppelin zweeft op 15 cm af van doelhoogte; motor op 80 procent kracht laten draaien.");
-			MotorController.setSpeed(80);
-		}
-		else MotorController.setSpeed(100);
+	public void setKi(double ki) {
+		this.pController.setKi(ki);
 	}
+	
+	public double getKp() {
+		return pController.getKp();
+	}
+	
+	public double getKd() {
+		return pController.getKd();
+	}
+	
+	public double getKi() {
+		return pController.getKi();
+	}
+	
 }

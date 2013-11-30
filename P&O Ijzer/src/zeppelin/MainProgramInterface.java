@@ -125,6 +125,20 @@ public interface MainProgramInterface extends Remote {
 	 * vanop de FTP-server.
 	 * @throws RemoteException
 	 */
-	public void qrCodeConsumed() throws RemoteException;
+	public void qrCodeConsumed() throws RemoteException;public void setKp(double kp) throws RemoteException;
+	
+	public void setKi(double ki) throws RemoteException;
+	
+	public void setKd(double kd) throws RemoteException;
+	
+	public double getKp() throws RemoteException;
+	
+	public double getKi() throws RemoteException;
+	
+	public double getKd() throws RemoteException;
+	
+	public void setSafetyInterval(double safetyInterval) throws RemoteException;
+	
+	public double getSafetyInterval() throws RemoteException;
 
 }

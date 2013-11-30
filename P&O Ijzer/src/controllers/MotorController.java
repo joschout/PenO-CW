@@ -13,9 +13,9 @@ import components.Motor;
 import ftp.LogWriter;
 
 public class MotorController implements Serializable {
-	
+
 	private static final GpioPinPwmOutput PWMPin = MainProgramImpl.gpio.provisionPwmOutputPin(RaspiPin.GPIO_01);
-	private static final int MINIMUM_RESPONSE = 800;
+	private static final int MINIMUM_RESPONSE = 900;
 	private static final int MAXIMUM_RESPONSE = 1024;
 	private static final int INTERVAL_LENGTH = MAXIMUM_RESPONSE - MINIMUM_RESPONSE;
 	
@@ -35,18 +35,28 @@ public class MotorController implements Serializable {
 		downwardMotor = new Motor(RaspiPin.GPIO_14, RaspiPin.GPIO_12); // motor 4
 	}
 	
-	public static void setSpeed(int percentage) {
+	public void setSpeed(int percentage) {
+		if (percentage < 0) {
+			System.out.println("Naar boven");
+			this.up();
+		}
+		else {
+			System.out.println("Naar onder");
+			this.down();
+		}
 		if (PWMPin.getPwm() != percentage) {
-			logWriter.writeToLog("Motoren laten draaien aan percentage: "
-					+ percentage);
 			if (percentage == 0) {
 				PWMPin.setPwm(0);
 				return;
 			}
-			double factor = (double) percentage / 100;
+			if (Math.abs(percentage) > 100)
+				percentage = 100;
+			double factor = (double) Math.abs(percentage) / 100;
 			int result = (int) factor * INTERVAL_LENGTH + MINIMUM_RESPONSE;
-			PWMPin.setPwm(result);
+			PWMPin.setPwm(Math.abs(result));
 		}
+		logWriter.writeToLog("Motoren laten draaien aan percentage: "
+				+ percentage);
 	}
 	
 	public void left() {
