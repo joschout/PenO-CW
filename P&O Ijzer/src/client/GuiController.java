@@ -56,29 +56,61 @@ public class GuiController {
 		this.zeppelin = zeppelin;
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @throws RemoteException
+	 */
 	public double getHeight() throws RemoteException {
 		return this.zeppelin.sensorReading();
 	}
 
 
+	/**
+	 * 
+	 * @throws RemoteException
+	 * @throws NotBoundException
+	 */
 	public void setZeppelin() throws RemoteException, NotBoundException {
 		Registry registry = LocateRegistry.getRegistry(ZeppelinServer.PI_HOSTNAME,1099);
 		MainProgramInterface zeppelin = (MainProgramInterface) registry.lookup("Zeppelin");
 		this.zeppelin = zeppelin;
 	}
 	
+	/**
+	 * 
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws FTPIllegalReplyException
+	 * @throws FTPException
+	 */
 	public void setWebClient() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		this.ftpClient = new WebClient();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @throws RemoteException
+	 */
 	public boolean leftIsOn() throws RemoteException {
 		return this.zeppelin.leftIsOn();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @throws RemoteException
+	 */
 	public boolean rightIsOn() throws RemoteException {
 		return this.zeppelin.rightIsOn();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * @throws RemoteException
+	 */
 	public boolean downwardIsOn() throws RemoteException {
 		return this.zeppelin.downwardIsOn();
 	}
@@ -91,18 +123,34 @@ public class GuiController {
 		this.zeppelin.qrCodeConsumed();
 	}
 	
+	/**
+	 * 
+	 * @throws RemoteException
+	 */
 	public void goForward() throws RemoteException {
 		this.zeppelin.goForward();
 	}
 	
+	/**
+	 * 
+	 * @throws RemoteException
+	 */
 	public void goBackward() throws RemoteException {
 		this.zeppelin.goBackward();
 	}
 	
+	/**
+	 * 
+	 * @throws RemoteException
+	 */
 	public void goLeft() throws RemoteException {
 		this.zeppelin.turnLeft();
 	}
 	
+	/**
+	 * 
+	 * @throws RemoteException
+	 */
 	public void goRight() throws RemoteException {
 		this.zeppelin.turnRight();
 	}

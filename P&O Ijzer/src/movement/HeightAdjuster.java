@@ -27,10 +27,27 @@ public class HeightAdjuster {
 		this.logWriter = new LogWriter();
 	}
 	
+	
+	/**
+	 * 
+	 * @param mostRecentValue
+	 * @param targetValue
+	 * @return
+	 * @throws RemoteException
+	 * @throws TimeoutException
+	 * @throws InterruptedException
+	 */
+	public double getPWMValue(double mostRecentValue, double targetValue) throws RemoteException, TimeoutException, InterruptedException {
+		double pid = pController.takeAction(targetValue, mostRecentValue);
+		return pid*0.1;
+	}
+	
+	
+	
 	public void takeAction(double mostRecentHeight, double targetHeight) throws RemoteException, TimeoutException, InterruptedException {
 		double pwm =0;
-		if(isInInterval(mostRecentHeight, targetHeight)){
-			pwm = pController.getPWMValue(targetHeight, mostRecentHeight);
+		if(Math.abs(mostRecentHeight-targetHeight)> safetyInterval){
+			pwm = this.getPWMValue(targetHeight, mostRecentHeight);
 		}
 		motorController.setSpeed((int) pwm);
 		//System.out.println("most recent height"+mostRecentHeight+", target height"+targetHeight+", pid value:"+pid);

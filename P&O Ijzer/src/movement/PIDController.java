@@ -6,75 +6,140 @@ import java.util.Date;
 
 import controllers.SensorController.TimeoutException;
 
+
+/**
+ * Deze klasse implementeert een PID-Controller
+ * 
+ * @invariant timeStamps.size() == errors.size()
+ * @invariant timeStamp.size() <= amountOfData
+ * 
+ * 
+ * @author Jonas
+ *
+ */
 public class PIDController {
 
-	//private SensorController sensor = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
-	//private ZeppelinInterface zeppelin;
-	
 	int amountOfData = 5;
 	
 	double Kp = 17;//Proportional gain
 	double Ki = 0.001;//Integral gain
 	double Kd = 13500;//Derivative gain
 	
-	private ArrayList<Double> times = new ArrayList<Double>();
+	//Lijst met de tijdstippen waarop de
+	private ArrayList<Double> timeStamps = new ArrayList<Double>();
 	private ArrayList<Double> errors = new ArrayList<Double>();
 	
 
-	private double calculateError(double targetHeight, double currentHeight) {
-		return targetHeight - currentHeight;
+	/**
+	 * Berekent de fout tussen de twee meegegeven parameters.
+	 * 
+	 * @param targetValue de doelwaarde
+	 * @param currentValue de echte gemeten waarde 
+	 * @return de fout tussen de doelwaarde en de gemeten waarde
+	 * 			| targetValue - currentValue
+	 */
+	private double calculateError(double targetValue, double currentValue) {
+		return targetValue - currentValue;
 	}
-	
-	private void measureData(double targetHeight, double currentHeight) {
-		double error = calculateError(targetHeight, currentHeight);
+	/**
+	 * 
+	 * @param targetValue de doelwaarde
+	 * @param currentValue de echte gemeten waarde
+	 * @throws RemoteException
+	 * @throws TimeoutException
+	 * @throws InterruptedException
+	 */
+	private void measureData(double targetValue, double currentValue) throws RemoteException, TimeoutException, InterruptedException {
+		double error = calculateError(targetValue, currentValue);
 		Date date = new Date();
 		double time = date.getTime();
-		addError(time, error);
+		addToLists(time, error);
 	}
 	
-	private void addError(double time, double error){
+	/**
+	 * Voegt de gegeven foutwaarde toe aan de lijst van fouten "errors".
+	 * Voegt het gegeven tijdstip toe aan de lijst van tijdstippen "times".
+	 * ALS de lijsten meer waardes bevatten dan "amountOfData", wordt er eerst een waarde verwijderd uit de lijsten.
+	 * 
+	 * MERK OP eigenlijk moeten er waardes blijven verwijderd worden tot de size < amountOfData. 
+	 * 
+	 * @param time een tijdstip
+	 * @param error een foutwaarde
+	 */
+	private void addToLists(double time, double error){
 		//methode implementeerd bound voor de linkedlist
-		if (errors.size() >= amountOfData && times.size() >= amountOfData) {
-			times.remove(0);
+		if (errors.size() >= amountOfData && timeStamps.size() >= amountOfData) {
+			timeStamps.remove(0);
 			errors.remove(0);
 		}
-		times.add(time);
+		timeStamps.add(time);
 		errors.add(error);
 	}
 	
+	/**
+	 * Berekent de numerieke eerste orde benadering van de AFGELEIDE
+	 *  van de foutwaarden bij het laatste tijdstip in timeStamp.
+	 *  
+	 * @return null if errors.size() < 2
+	 * 				else errors.get(size - 1) - errors.get(size - 2))/(timeStamps.get(size - 1) - timeStamps.get(size - 2)
+	 */
 	private Double differentiate() {
 		int size = errors.size();
 		if(size >= 2) {
 			
-			return (errors.get(size - 1) - errors.get(size - 2))/(times.get(size - 1) - times.get(size - 2));
+			return (errors.get(size - 1) - errors.get(size - 2))/(timeStamps.get(size - 1) - timeStamps.get(size - 2));
 		}
 		return null;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	private Double integrate() {
 		int i = 0;
 		double integral = 0;
 		while (i < errors.size() - 1) {
-			integral = integral + (times.get(i + 1) - times.get(i))*(errors.get(i + 1) + errors.get(i))/2;
+			integral = integral + (timeStamps.get(i + 1) - timeStamps.get(i))*(errors.get(i + 1) + errors.get(i))/2;
 			i++;
 		}
 		return integral;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	private Double getPID() {
 		double proportion = Kp * errors.get(errors.size()-1);
 		double integral = Ki * integrate();
 		double derivative = Kd * differentiate();
 		return proportion + integral + derivative;
 	}
-	
-	public double getPWMValue(double mostRecentHeight, double targetHeight) {
-		double pid = this.takeAction(targetHeight, mostRecentHeight);
-		return pid*0.1;
-	}
-	
-	public Double takeAction(double targetHeight, double currentHeight) {
-		measureData(targetHeight, currentHeight);
+//	/**
+//	 * 
+//	 * @param mostRecentValue
+//	 * @param targetValue
+//	 * @return
+//	 * @throws RemoteException
+//	 * @throws TimeoutException
+//	 * @throws InterruptedException
+//	 */
+//	public double getPWMValue(double mostRecentValue, double targetValue) throws RemoteException, TimeoutException, InterruptedException {
+//		double pid = this.takeAction(targetValue, mostRecentValue);
+//		return pid*0.1;
+//	}
+	/**
+	 * 
+	 * @param targetValue
+	 * @param currentValue
+	 * @return
+	 * @throws RemoteException
+	 * @throws TimeoutException
+	 * @throws InterruptedException
+	 */
+	public Double takeAction(double targetValue, double currentValue) throws RemoteException, TimeoutException, InterruptedException {
+		measureData(targetValue, currentValue);
 		if(errors.size() >= 2 && !(Kp == 0 && Ki == 0 && Kd == 0)) {
 			return getPID();
 		}
