@@ -38,7 +38,7 @@ public class SensorController implements Serializable {
     }
     
     /**
-     * This method returns the distance measured by the sensor in cm
+     * This method returns the distance measured by the sensor in cm 
      * 
      * @throws TimeoutException if a timeout occurs
      * @throws InterruptedException 

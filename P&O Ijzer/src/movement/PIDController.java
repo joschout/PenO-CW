@@ -12,9 +12,6 @@ import zeppelin.ZeppelinInterface;
 
 public class PIDController {
 
-	//private SensorController sensor = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
-	//private ZeppelinInterface zeppelin;
-	
 	int amountOfData = 5;
 	
 	double Kp = 17;//Proportional gain
@@ -25,12 +22,12 @@ public class PIDController {
 	private ArrayList<Double> errors = new ArrayList<Double>();
 	
 
-	private double calculateError(double targetHeight, double currentHeight) {
-		return targetHeight - currentHeight;
+	private double calculateError(double targetValue, double currentValue) {
+		return targetValue - currentValue;
 	}
 	
-	private void measureData(double targetHeight, double currentHeight) throws RemoteException, TimeoutException, InterruptedException {
-		double error = calculateError(targetHeight, currentHeight);
+	private void measureData(double targetValue, double currentValue) throws RemoteException, TimeoutException, InterruptedException {
+		double error = calculateError(targetValue, currentValue);
 		Date date = new Date();
 		double time = date.getTime();
 		addError(time, error);
@@ -72,13 +69,13 @@ public class PIDController {
 		return proportion + integral + derivative;
 	}
 	
-	public double getPWMValue(double mostRecentHeight, double targetHeight) throws RemoteException, TimeoutException, InterruptedException {
-		double pid = this.takeAction(targetHeight, mostRecentHeight);
+	public double getPWMValue(double mostRecentValue, double targetValue) throws RemoteException, TimeoutException, InterruptedException {
+		double pid = this.takeAction(targetValue, mostRecentValue);
 		return pid*0.1;
 	}
 	
-	public Double takeAction(double targetHeight, double currentHeight) throws RemoteException, TimeoutException, InterruptedException {
-		measureData(targetHeight, currentHeight);
+	public Double takeAction(double targetValue, double currentValue) throws RemoteException, TimeoutException, InterruptedException {
+		measureData(targetValue, currentValue);
 		if(errors.size() >= 2 && !(Kp == 0 && Ki == 0 && Kd == 0)) {
 			return getPID();
 		}
