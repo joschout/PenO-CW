@@ -49,7 +49,7 @@ public class HeightAdjuster {
 		if(Math.abs(mostRecentHeight-targetHeight)> safetyInterval){
 			pwm = this.getPWMValue(targetHeight, mostRecentHeight);
 		}
-		motorController.setSpeed((int) pwm);
+		motorController.setHeightSpeed((int) pwm);
 		//System.out.println("most recent height"+mostRecentHeight+", target height"+targetHeight+", pid value:"+pid);
 	}
 
