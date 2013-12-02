@@ -102,5 +102,7 @@ public class QRCodeHandler {
 		}
 		return decoded;
 	}
+	
+	
 
 }

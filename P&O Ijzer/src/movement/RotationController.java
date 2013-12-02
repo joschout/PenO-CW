@@ -1,18 +1,13 @@
 package movement;
 
-import com.google.zxing.Result;
 import com.google.zxing.ResultPoint;
 
 public class RotationController {
 		
-		public double calcRotation(Result result) {
-			ResultPoint[] points = result.getResultPoints();
+		public double calcRotation(ResultPoint[] points) {
 			ResultPoint a= points[1];
 		    ResultPoint b= points[2];
 		    ResultPoint c= points[0];
-		    System.out.println("X-coördinaat A: " + a.getX() + "; Y-coördinaat A: " + a.getY());
-		    System.out.println("X-coördinaat B: " + b.getX() + "; Y-coördinaat B: " + b.getY());
-		    System.out.println("X-coördinaat C: " + c.getX() + "; Y-coördinaat C: " + c.getY());
 		    //Find the degree of the rotation that is needed
 		    
 		    
