@@ -8,13 +8,6 @@ package zeppelin;
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.ImageIcon;
-
-import components.Motor;
 
 public interface MainProgramInterface extends Remote {
 	
@@ -125,20 +118,38 @@ public interface MainProgramInterface extends Remote {
 	 * vanop de FTP-server.
 	 * @throws RemoteException
 	 */
-	public void qrCodeConsumed() throws RemoteException;public void setKp(double kp) throws RemoteException;
+	public void qrCodeConsumed() throws RemoteException;
 	
-	public void setKi(double ki) throws RemoteException;
+	public void setKpHeight(double kp) throws RemoteException;
 	
-	public void setKd(double kd) throws RemoteException;
+	public void setKiHeight(double ki) throws RemoteException;
 	
-	public double getKp() throws RemoteException;
+	public void setKdHeight(double kd) throws RemoteException;
 	
-	public double getKi() throws RemoteException;
+	public double getKpHeight() throws RemoteException;
 	
-	public double getKd() throws RemoteException;
+	public double getKiHeight() throws RemoteException;
 	
-	public void setSafetyInterval(double safetyInterval) throws RemoteException;
+	public double getKdHeight() throws RemoteException;
 	
-	public double getSafetyInterval() throws RemoteException;
+	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException;
+	
+	public double getSafetyIntervalHeight() throws RemoteException;
+	
+	public void setKpAngle(double kp) throws RemoteException;
+	
+	public void setKiAngle(double ki) throws RemoteException;
+	
+	public void setKdAngle(double kd) throws RemoteException;
+	
+	public double getKpAngle() throws RemoteException;
+	
+	public double getKiAngle() throws RemoteException;
+	
+	public double getKdAngle() throws RemoteException;
+	
+	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException;
+	
+	public double getSafetyIntervalAngle() throws RemoteException;
 
 }

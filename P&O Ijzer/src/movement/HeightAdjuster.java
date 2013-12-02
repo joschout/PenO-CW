@@ -12,11 +12,11 @@ public class HeightAdjuster {
 	private PIDController pController = new PIDController();
 	private double safetyInterval = 1;
 	
-	public double getSafetyInterval() {
+	public double getSafetyIntervalHeight() {
 		return safetyInterval;
 	}
 
-	public void setSafetyInterval(double safetyInterval) {
+	public void setSafetyIntervalHeight(double safetyInterval) {
 		this.safetyInterval = safetyInterval;
 	}
 
@@ -57,27 +57,27 @@ public class HeightAdjuster {
 		return Math.abs(mostRecentHeight-targetHeight)> safetyInterval;
 	}
 
-	public void setKp(double kp) {
+	public void setKpHeight(double kp) {
 		this.pController.setKp(kp);
 	}
 	
-	public void setKd(double kd) {
+	public void setKdHeight(double kd) {
 		this.pController.setKd(kd);
 	}
 	
-	public void setKi(double ki) {
+	public void setKiHeight(double ki) {
 		this.pController.setKi(ki);
 	}
 	
-	public double getKp() {
+	public double getKpHeight() {
 		return pController.getKp();
 	}
 	
-	public double getKd() {
+	public double getKdHeight() {
 		return pController.getKd();
 	}
 	
-	public double getKi() {
+	public double getKiHeight() {
 		return pController.getKi();
 	}
 	

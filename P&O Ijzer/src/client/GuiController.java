@@ -5,7 +5,6 @@ import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
-import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,20 +12,9 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-
-import movement.PIDController;
 import server.ZeppelinServer;
 import zeppelin.MainProgramInterface;
-import QRCode.QRCodeHandler;
-
-import com.google.zxing.WriterException;
-
-import components.Motor;
 
 
 public class GuiController {
@@ -199,48 +187,92 @@ public class GuiController {
 		System.exit(0);
 	}
 	
-	public void setKp(double kp) {
+	public void setKpHeight(double kp) {
 		try {
-			zeppelin.setKp(kp);
+			zeppelin.setKpHeight(kp);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setKi(double ki) {
+	public void setKiHeight(double ki) {
 		try {
-			zeppelin.setKi(ki);
+			zeppelin.setKiHeight(ki);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setKd(double kd) {
+	public void setKdHeight(double kd) {
 		try {
-			zeppelin.setKd(kd);
+			zeppelin.setKdHeight(kd);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public double getKp() throws RemoteException {
-		return zeppelin.getKp();
+	public double getKpHeight() throws RemoteException {
+		return zeppelin.getKpHeight();
 	}
 	
-	public double getKd() throws RemoteException {
-		return zeppelin.getKd();
+	public double getKdHeight() throws RemoteException {
+		return zeppelin.getKdHeight();
 	}
 	
-	public double getKi() throws RemoteException {
-		return zeppelin.getKi();
+	public double getKiHeight() throws RemoteException {
+		return zeppelin.getKiHeight();
 	}
 	
-	public void setSafetyInterval(double safetyInterval) throws RemoteException {
-		zeppelin.setSafetyInterval(safetyInterval);
+	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
+		zeppelin.setSafetyIntervalHeight(safetyInterval);
 	}
 	
-	public double getSafetyInterval() throws RemoteException {
-		return zeppelin.getSafetyInterval();
+	public double getSafetyIntervalHeight() throws RemoteException {
+		return zeppelin.getSafetyIntervalHeight();
+	}
+	
+	public void setKpAngle(double kp) {
+		try {
+			zeppelin.setKpAngle(kp);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setKiAngle(double ki) {
+		try {
+			zeppelin.setKiAngle(ki);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setKdAngle(double kd) {
+		try {
+			zeppelin.setKdAngle(kd);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public double getKpAngle() throws RemoteException {
+		return zeppelin.getKpAngle();
+	}
+	
+	public double getKdAngle() throws RemoteException {
+		return zeppelin.getKdAngle();
+	}
+	
+	public double getKiAngle() throws RemoteException {
+		return zeppelin.getKiAngle();
+	}
+	
+	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
+		zeppelin.setSafetyIntervalAngle(safetyInterval);
+	}
+	
+	public double getSafetyIntervalAngle() throws RemoteException {
+		return zeppelin.getSafetyIntervalAngle();
 	}
 
 }

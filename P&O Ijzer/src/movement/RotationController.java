@@ -18,11 +18,11 @@ public class RotationController {
 	private PIDController pController = new PIDController();
 	private double safetyInterval = 5;
 
-	public double getSafetyInterval() {
+	public double getSafetyIntervalAngle() {
 		return safetyInterval;
 	}
 
-	public void setSafetyInterval(double safetyInterval) {
+	public void setSafetyIntervalAngle(double safetyInterval) {
 		this.safetyInterval = safetyInterval;
 	}
 
@@ -63,27 +63,27 @@ public class RotationController {
 		return Math.abs(mostRecentAngle-targetAngle)> safetyInterval;
 	}
 
-	public void setKp(double kp) {
+	public void setKpAngle(double kp) {
 		this.pController.setKp(kp);
 	}
 	
-	public void setKd(double kd) {
+	public void setKdAngle(double kd) {
 		this.pController.setKd(kd);
 	}
 	
-	public void setKi(double ki) {
+	public void setKiAngle(double ki) {
 		this.pController.setKi(ki);
 	}
 	
-	public double getKp() {
+	public double getKpAngle() {
 		return pController.getKp();
 	}
 	
-	public double getKd() {
+	public double getKdAngle() {
 		return pController.getKd();
 	}
 	
-	public double getKi() {
+	public double getKiAngle() {
 		return pController.getKi();
 	}
 

@@ -5,6 +5,22 @@
 package client;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.*;
 
 import it.sauronsoftware.ftp4j.FTPAbortedException;
@@ -22,10 +38,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -45,8 +58,6 @@ public class GuiPanel implements ActionListener
 	private JPanel actionsPanel = new JPanel();
 
 	// alle labels
-	private JLabel log = new JLabel("Log :");
-	private JLabel info = new JLabel("Info :");
 	private JLabel hoogte = new JLabel("Hoogte :");
 	private JLabel doelHoogte = new JLabel("Doelhoogte :");
 	private JLabel motor1 = new JLabel("   Links");
@@ -54,33 +65,43 @@ public class GuiPanel implements ActionListener
 	private JLabel motor3 = new JLabel("   Onder");
 	
 	private JLabel qrcode = new JLabel("Meest recente QR-code :");
-	private JLabel Kp = new JLabel("Kp:");
-	private JLabel Ki = new JLabel("Ki:");
-	private JLabel Kd = new JLabel("Kd:");
-	private JLabel safetyInterval = new JLabel("SafetyInterval: ");
+	private JLabel KpHeight = new JLabel("KpH:");
+	private JLabel KiHeight = new JLabel("KiH:");
+	private JLabel KdHeight = new JLabel("KdH:");
+	private JLabel safetyIntervalHeight = new JLabel("SafetyIntervalH: ");
+	private JLabel KpAngle = new JLabel("KpA:");
+	private JLabel KiAngle = new JLabel("KiA:");
+	private JLabel KdAngle = new JLabel("KdA:");
+	private JLabel safetyIntervalAngle = new JLabel("SafetyIntervalA: ");
 
 	// alle buttons
 	private JButton logfiles = new JButton("Vorige logfiles");
 	private JButton scanQRCode = new JButton("Scan QR-code");
 	private JButton setTargetHeight = new JButton("Pas hoogte aan");
-	private JButton setKp= new JButton("Kp");
-	private JButton setKi= new JButton("Ki");
-	private JButton setKd= new JButton("Kd");
-	private JButton setSafetyInterval = new JButton("SafetyInterval");
+	private JButton setKpHeight= new JButton("KpH");
+	private JButton setKiHeight= new JButton("KiH");
+	private JButton setKdHeight= new JButton("KdH");
+	private JButton setSafetyIntervalHeight = new JButton("SafetyIntervalH");
+	private JButton setKpAngle= new JButton("KpA");
+	private JButton setKiAngle= new JButton("KiA");
+	private JButton setKdAngle= new JButton("KdA");
+	private JButton setSafetyIntervalAngle = new JButton("SafetyIntervalA");
 	private BasicArrowButton arrowup = new BasicArrowButton(SwingConstants.NORTH);
 	private BasicArrowButton arrowleft = new BasicArrowButton(SwingConstants.WEST);
 	private BasicArrowButton arrowright = new BasicArrowButton(SwingConstants.EAST);
 	private BasicArrowButton arrowdown = new BasicArrowButton(SwingConstants.SOUTH);
 	
-	
-	
 	private JTextArea logTextArea = new JTextArea();
 	private JTextArea huidigeHoogte = new JTextArea();
 	private JTextArea targetHoogte = new JTextArea();
-	private JTextArea KpValue = new JTextArea();
-	private JTextArea KdValue  = new JTextArea();
-	private JTextArea KiValue  = new JTextArea();
-	private JTextArea safetyIntervalValue = new JTextArea();
+	private JTextArea KpValueHeight = new JTextArea();
+	private JTextArea KdValueHeight  = new JTextArea();
+	private JTextArea KiValueHeight  = new JTextArea();
+	private JTextArea safetyIntervalValueHeight = new JTextArea();
+	private JTextArea KpValueAngle = new JTextArea();
+	private JTextArea KdValueAngle  = new JTextArea();
+	private JTextArea KiValueAngle  = new JTextArea();
+	private JTextArea safetyIntervalValueAngle = new JTextArea();
 
 	// lettertype
 	private final Font font = new Font("Calibri", Font.PLAIN, 16);
@@ -120,37 +141,39 @@ public class GuiPanel implements ActionListener
 		addPanelToGUI(actionsPanel, 700, 400, 200, 150);
 
 		// voeg labels toe aan het correcte panel
-		//addLabelToPanel(log, 5, 0, 100, 30, logpanel);
-		//addLabelToPanel(info, 5, 0, 100, 30, infopanel);
 		addLabelToPanel(motor1, 69, 10, 75, 30, motorpanel);
 		addLabelToPanel(motor2, 213, 10, 75, 30, motorpanel);
 		addLabelToPanel(motor3, 356, 10, 75, 30, motorpanel);
-		//addLabelToPanel(motor4, 5, 175, 100, 30, motorpanel);
 		addLabelToPanel(qrcode, 5, 300, 400, 30, qrcodepanel);
 		addLabelToPanel(hoogte, 5, 5, 100, 50, infopanel);
+		
 		addLabelToPanel(doelHoogte, 5, 50, 100, 50, infopanel);
-		addLabelToPanel(Kp, 5, 110, 50, 50, infopanel);
-		addLabelToPanel(Kd, 85, 110, 50, 50, infopanel);
-		addLabelToPanel(Ki, 170, 110, 50, 50, infopanel);
-		addLabelToPanel(safetyInterval, 5, 150, 100, 50, infopanel);
+		addLabelToPanel(KpHeight, 5, 110, 50, 50, infopanel);
+		addLabelToPanel(KdHeight, 85, 110, 50, 50, infopanel);
+		addLabelToPanel(KiHeight, 170, 110, 50, 50, infopanel);
+		addLabelToPanel(safetyIntervalHeight, 5, 150, 100, 50, infopanel);
+		addLabelToPanel(KpAngle, 5, 110, 50, 50, infopanel);
+		addLabelToPanel(KdAngle, 85, 110, 50, 50, infopanel);
+		addLabelToPanel(KiAngle, 170, 110, 50, 50, infopanel);
+		addLabelToPanel(safetyIntervalAngle, 5, 150, 100, 50, infopanel);
 
-		//addLabelToPanel(lamp1, 200, 30, 20, 20, motorpanel);
 		turnLightOff(motor1);
-		//addLabelToPanel(lamp2, 200, 80, 20, 20, motorpanel);
 		turnLightOff(motor2);
-		//addLabelToPanel(lamp3, 200, 130, 20, 20, motorpanel);
 		turnLightOff(motor3);
-		//addLabelToPanel(lamp4, 200, 180, 20, 20, motorpanel);
-		//turnLightOff(lamp4);
 
 		// voeg buttons toe aan hun panel
 		addButtonToPanel(logfiles, 350, 270, 150, 30, KeyEvent.VK_L, logpanel);
 		addButtonToPanel(scanQRCode, 125, 5, 150, 30, KeyEvent.VK_3, qrcodepanel);
+		
 		addButtonToPanel(setTargetHeight, 5, 5, 150, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKp, 5, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKi, 70, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKd, 135, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setSafetyInterval, 5, 80, 150, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKpHeight, 5, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKiHeight, 70, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKdHeight, 135, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setSafetyIntervalHeight, 5, 80, 150, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKpAngle, 5, 120, 45, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKiAngle, 70, 120, 45, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKdAngle, 135, 120, 45, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setSafetyIntervalAngle, 5, 160, 150, 30, KeyEvent.VK_4, actionsPanel);
 
 		addArrowToPanel(arrowup, 75, 25, 50, 50, KeyEvent.VK_UP, arrows, false);
 		addArrowToPanel(arrowleft, 25, 75, 50, 50, KeyEvent.VK_LEFT, arrows, false);
@@ -166,10 +189,15 @@ public class GuiPanel implements ActionListener
 		addTextAreaToPanelWithScrolling(0, 0, 500, 250, logTextArea, logpanel);
 		addTextAreaToPanel(150, 15, 200, 20, huidigeHoogte, infopanel);
 		addTextAreaToPanel(150, 65, 200, 20, targetHoogte, infopanel);
-		addTextAreaToPanel(30, 125, 50, 20, KpValue, infopanel);
-		addTextAreaToPanel(110, 125, 50, 20, KdValue, infopanel);
-		addTextAreaToPanel(190, 125, 50, 20, KiValue, infopanel);
-		addTextAreaToPanel(130, 160, 50, 20, safetyIntervalValue, infopanel);
+		
+		addTextAreaToPanel(30, 125, 50, 20, KpValueHeight, infopanel);
+		addTextAreaToPanel(110, 125, 50, 20, KdValueHeight, infopanel);
+		addTextAreaToPanel(190, 125, 50, 20, KiValueHeight, infopanel);
+		addTextAreaToPanel(130, 160, 50, 20, safetyIntervalValueHeight, infopanel);
+		addTextAreaToPanel(30, 125, 50, 20, KpValueAngle, infopanel);
+		addTextAreaToPanel(110, 125, 50, 20, KdValueAngle, infopanel);
+		addTextAreaToPanel(190, 125, 50, 20, KiValueAngle, infopanel);
+		addTextAreaToPanel(130, 160, 50, 20, safetyIntervalValueAngle, infopanel);
 		
 
 		try {
@@ -246,7 +274,6 @@ public class GuiPanel implements ActionListener
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textArea.setBorder(BorderFactory.createLineBorder(Color.black));
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		scrollPane.setBounds(x,y,width,length);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		panel.add(scrollPane, BorderLayout.CENTER);
 	}
@@ -292,9 +319,9 @@ public class GuiPanel implements ActionListener
 	}
 	
 	public void setVariables() throws RemoteException {
-		this.KpValue.setText(Double.toString(guiController.getKp()));
-		this.KdValue.setText(Double.toString(guiController.getKd()));
-		this.KiValue.setText(Double.toString(guiController.getKi()));
+		this.KpValueHeight.setText(Double.toString(guiController.getKpHeight()));
+		this.KdValueHeight.setText(Double.toString(guiController.getKdHeight()));
+		this.KiValueHeight.setText(Double.toString(guiController.getKiHeight()));
 		this.targetHoogte.setText(Double.toString(guiController.getHeight()));
 	}
 
@@ -313,32 +340,60 @@ public class GuiPanel implements ActionListener
 			}
 			this.targetHoogte.setText(Double.toString(height));
 		}
-		else if (source == setKp) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuwe Kp in.");
+		else if (source == setKpHeight) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KpHeight in.");
 			double kp = Double.parseDouble(input);
-			this.guiController.setKp(kp);
-			this.KpValue.setText(Double.toString(kp));
+			this.guiController.setKpHeight(kp);
+			this.KpValueHeight.setText(Double.toString(kp));
 		}
-		else if (source == setKd) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuwe Kd in.");
+		else if (source == setKdHeight) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KdHeight in.");
 			double kd = Double.parseDouble(input);
-			this.guiController.setKd(kd);
-			this.KdValue.setText(Double.toString(kd));
+			this.guiController.setKdHeight(kd);
+			this.KdValueHeight.setText(Double.toString(kd));
 		}
-		else if (source == setKi) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuwe Ki in.");
+		else if (source == setKiHeight) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KiHeight in.");
 			double ki = Double.parseDouble(input);
-			this.guiController.setKi(ki);
-			this.KiValue.setText(Double.toString(ki));
+			this.guiController.setKiHeight(ki);
+			this.KiValueHeight.setText(Double.toString(ki));
 		}
-		else if (source == setSafetyInterval) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety interval in.");
+		else if (source == setSafetyIntervalHeight) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety intervalHeight in.");
 			double safety = Double.parseDouble(input);
 			try {
-				this.guiController.setSafetyInterval(safety);
+				this.guiController.setSafetyIntervalHeight(safety);
 			} catch (RemoteException e) {
 			}
-			this.safetyIntervalValue.setText(Double.toString(safety));
+			this.safetyIntervalValueHeight.setText(Double.toString(safety));
+		}
+		
+		else if (source == setKpAngle) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KpAngle in.");
+			double kp = Double.parseDouble(input);
+			this.guiController.setKpAngle(kp);
+			this.KpValueAngle.setText(Double.toString(kp));
+		}
+		else if (source == setKdAngle) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KdAngle in.");
+			double kd = Double.parseDouble(input);
+			this.guiController.setKdAngle(kd);
+			this.KdValueAngle.setText(Double.toString(kd));
+		}
+		else if (source == setKiAngle) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KiAngle in.");
+			double ki = Double.parseDouble(input);
+			this.guiController.setKiAngle(ki);
+			this.KiValueAngle.setText(Double.toString(ki));
+		}
+		else if (source == setSafetyIntervalAngle) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety intervalAngle in.");
+			double safety = Double.parseDouble(input);
+			try {
+				this.guiController.setSafetyIntervalAngle(safety);
+			} catch (RemoteException e) {
+			}
+			this.safetyIntervalValueAngle.setText(Double.toString(safety));
 		}
 		else if(source == logfiles)
 		{   

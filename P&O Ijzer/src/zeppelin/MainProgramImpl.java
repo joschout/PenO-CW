@@ -5,18 +5,10 @@
 
 package zeppelin;
 
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.swing.ImageIcon;
 
 import parser.Command;
 import parser.Parser;
@@ -28,12 +20,10 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.RaspiPin;
 
-import components.Motor;
 import controllers.CameraController;
 import controllers.MotorController;
 import controllers.SensorController;
 import controllers.SensorController.TimeoutException;
-import ftp.FTPFileInfo;
 import ftp.LogWriter;
 
 public class MainProgramImpl extends UnicastRemoteObject implements MainProgramInterface {
@@ -61,11 +51,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	private boolean qrCodeAvailable = false;
 	
 	public static final QRCodeHandler QR_CODE_READER = new QRCodeHandler();
-	
-	/**
-	 * Meest recente string die de zeppelin heeft gedecodeerd uit een QR-code.
-	 */
-	private String mostRecentQRDecode;
 	
 	/**
 	 * De zeppelin is nu bezig met landen en daarna de uitvoering te stoppen.
@@ -218,41 +203,84 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		MOTOR_CONTROLLER.stopHeightAdjustment();
 	}
 	
-	public void setKp(double kp) {
-		HEIGHT_ADJUSTER.setKp(kp);
+	@Override
+	public void setKpHeight(double kp) {
+		HEIGHT_ADJUSTER.setKpHeight(kp);
 	}
 	
-	public void setKd(double kd) {
-		HEIGHT_ADJUSTER.setKd(kd);
+	@Override
+	public void setKdHeight(double kd) {
+		HEIGHT_ADJUSTER.setKdHeight(kd);
 	}
 	
-	public void setKi(double ki) {
-		HEIGHT_ADJUSTER.setKi(ki);
+	@Override
+	public void setKiHeight(double ki) {
+		HEIGHT_ADJUSTER.setKiHeight(ki);
 	}
 
 	@Override
-	public double getKp() throws RemoteException {
-		return HEIGHT_ADJUSTER.getKp();
+	public double getKpHeight() throws RemoteException {
+		return HEIGHT_ADJUSTER.getKpHeight();
 	}
 
 	@Override
-	public double getKi() throws RemoteException {
-		return HEIGHT_ADJUSTER.getKd();
+	public double getKiHeight() throws RemoteException {
+		return HEIGHT_ADJUSTER.getKdHeight();
 	}
 
 	@Override
-	public double getKd() throws RemoteException {
-		return HEIGHT_ADJUSTER.getKi();
+	public double getKdHeight() throws RemoteException {
+		return HEIGHT_ADJUSTER.getKiHeight();
 	}
 
 	@Override
-	public void setSafetyInterval(double safetyInterval) throws RemoteException {
-		HEIGHT_ADJUSTER.setSafetyInterval(safetyInterval);
+	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
+		HEIGHT_ADJUSTER.setSafetyIntervalHeight(safetyInterval);
 	}
 
 	@Override
-	public double getSafetyInterval() throws RemoteException {
-		return HEIGHT_ADJUSTER.getSafetyInterval();
+	public double getSafetyIntervalHeight() throws RemoteException {
+		return HEIGHT_ADJUSTER.getSafetyIntervalHeight();
+	}
+	
+	@Override
+	public void setKpAngle(double kp) {
+		ROTATION_CONTROLLER.setKpAngle(kp);
+	}
+	
+	@Override
+	public void setKdAngle(double kd) {
+		ROTATION_CONTROLLER.setKdAngle(kd);
+	}
+	
+	@Override
+	public void setKiAngle(double ki) {
+		ROTATION_CONTROLLER.setKiAngle(ki);
+	}
+
+	@Override
+	public double getKpAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getKpAngle();
+	}
+
+	@Override
+	public double getKiAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getKdAngle();
+	}
+
+	@Override
+	public double getKdAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getKiAngle();
+	}
+
+	@Override
+	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
+		ROTATION_CONTROLLER.setSafetyIntervalAngle(safetyInterval);
+	}
+
+	@Override
+	public double getSafetyIntervalAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getSafetyIntervalAngle();
 	}
 
 	/**
@@ -301,4 +329,5 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 			
 		}
 	}
+
 }
