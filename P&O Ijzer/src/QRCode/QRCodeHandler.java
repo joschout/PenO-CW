@@ -79,8 +79,10 @@ public class QRCodeHandler {
 	
 	/**
 	 * 
+	 * 
+	 * 
 	 * @param zeppelinHeight
-	 * @return
+	 * @return 
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
@@ -100,31 +102,5 @@ public class QRCodeHandler {
 		}
 		return decoded;
 	}
-	
-	/**
-	 * obsolete
-	 * @param input
-	 * @return
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static ImageIcon encode(String input) {
-		try {
-			QRCodeWriter writer = new QRCodeWriter();
-			BitMatrix bitMatrix = null;
-			try {
-				Hashtable hintMap = new Hashtable();
-				hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-				hintMap.put(EncodeHintType.CHARACTER_SET, "ISO-8859-1");
-				bitMatrix = writer.encode(input, BarcodeFormat.QR_CODE, 300, 300, hintMap);
-				BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
-				return new ImageIcon(image);
-			} catch (WriterException e){
-				e.printStackTrace();
-				return null;
-			}
-		} catch(Exception e)  {
-			e.printStackTrace();
-			return null;
-		}
-	}
+
 }
