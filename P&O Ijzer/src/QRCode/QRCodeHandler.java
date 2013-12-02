@@ -19,9 +19,11 @@ import zeppelin.MainProgramImpl;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.EncodeHintType;
+import com.google.zxing.FormatException;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.Result;
+import com.google.zxing.ResultPoint;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -30,6 +32,7 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.google.zxing.qrcode.detector.Detector;
 
 import ftp.FTPFileInfo;
 
@@ -103,6 +106,27 @@ public class QRCodeHandler {
 		return decoded;
 	}
 	
-	
+	public ResultPoint[] findResultPoints(double zeppelinHeight, String filename) {
+		try {
+			if (zeppelinHeight <= 160)
+				MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, 800, 600);
+			else
+				MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, 1400, 800);
+			BufferedImage image = ImageIO.read(new File(filename + ".jpg"));
+			LuminanceSource source = new BufferedImageLuminanceSource(image);
+			BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+			Detector detector = new Detector(bitmap.getBlackMatrix());
+			return detector.detect().getPoints();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (NotFoundException e) {
+			e.printStackTrace();
+		} catch (FormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

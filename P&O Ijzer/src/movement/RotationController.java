@@ -1,10 +1,14 @@
 package movement;
 
+import zeppelin.MainProgramImpl;
+
 import com.google.zxing.ResultPoint;
 
 public class RotationController {
-		
-		public double calcRotation(ResultPoint[] points) {
+	
+		public double calcRotation(double zeppelinHeight, ResultPoint[] points) {
+			String filename = Long.toString(System.currentTimeMillis());
+			points = MainProgramImpl.QR_CODE_READER.findResultPoints(zeppelinHeight, filename);
 			ResultPoint a= points[1];
 		    ResultPoint b= points[2];
 		    ResultPoint c= points[0];

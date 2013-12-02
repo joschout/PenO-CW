@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import parser.Command;
 import parser.Parser;
 import movement.HeightAdjuster;
+import movement.RotationController;
 import QRCode.QRCodeHandler;
 
 import com.pi4j.io.gpio.GpioController;
@@ -53,6 +54,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public static final CameraController CAMERA_CONTROLLER = new CameraController();
 	public static final MotorController MOTOR_CONTROLLER = new MotorController();
 	public static final HeightAdjuster HEIGHT_ADJUSTER = new HeightAdjuster(MOTOR_CONTROLLER);
+	public static final RotationController ROTATION_CONTROLLER = new RotationController();
 	
 	private Parser parser;
 	
