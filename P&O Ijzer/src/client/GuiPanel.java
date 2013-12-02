@@ -78,8 +78,8 @@ public class GuiPanel implements ActionListener
 	private JTextArea huidigeHoogte = new JTextArea();
 	private JTextArea targetHoogte = new JTextArea();
 	private JTextArea KpValue = new JTextArea();
-	private JTextArea KiValue  = new JTextArea();
 	private JTextArea KdValue  = new JTextArea();
+	private JTextArea KiValue  = new JTextArea();
 	private JTextArea safetyIntervalValue = new JTextArea();
 
 	// lettertype
@@ -167,8 +167,8 @@ public class GuiPanel implements ActionListener
 		addTextAreaToPanel(150, 15, 200, 20, huidigeHoogte, infopanel);
 		addTextAreaToPanel(150, 65, 200, 20, targetHoogte, infopanel);
 		addTextAreaToPanel(30, 125, 50, 20, KpValue, infopanel);
-		addTextAreaToPanel(110, 125, 50, 20, KiValue, infopanel);
-		addTextAreaToPanel(190, 125, 50, 20, KdValue, infopanel);
+		addTextAreaToPanel(110, 125, 50, 20, KdValue, infopanel);
+		addTextAreaToPanel(190, 125, 50, 20, KiValue, infopanel);
 		addTextAreaToPanel(130, 160, 50, 20, safetyIntervalValue, infopanel);
 		
 
@@ -319,17 +319,17 @@ public class GuiPanel implements ActionListener
 			this.guiController.setKp(kp);
 			this.KpValue.setText(Double.toString(kp));
 		}
-		else if (source == setKi) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuwe Ki in.");
-			double ki = Double.parseDouble(input);
-			this.guiController.setKi(ki);
-			this.KiValue.setText(Double.toString(ki));
-		}
 		else if (source == setKd) {
 			String input = JOptionPane.showInputDialog(null, "Voer nieuwe Kd in.");
 			double kd = Double.parseDouble(input);
 			this.guiController.setKd(kd);
 			this.KdValue.setText(Double.toString(kd));
+		}
+		else if (source == setKi) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe Ki in.");
+			double ki = Double.parseDouble(input);
+			this.guiController.setKi(ki);
+			this.KiValue.setText(Double.toString(ki));
 		}
 		else if (source == setSafetyInterval) {
 			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety interval in.");

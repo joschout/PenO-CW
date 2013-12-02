@@ -34,6 +34,10 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import ftp.FTPFileInfo;
 
 /**
+ * Klasse voor het lezen van QR-codes. Maakt gebruik van de ZXing-library.
+ * 
+ * 
+ * 
  * http://www.vineetmanohar.com/2010/09/java-barcode-api/
  * http://stackoverflow.com/questions/11626307/how-to-save-java-swing-imageicon-image-to-file
  * @author Jonas
@@ -47,30 +51,10 @@ public class QRCodeHandler {
 		reader = new QRCodeReader();
 	}
 	
-	/**
-	 * obsolete
-	 * @param icon
-	 */
-	// save ImageIcon to file
-	public void save(ImageIcon icon){
-		// methode gevonden op http://stackoverflow.com/questions/11626307/how-to-save-java-swing-imageicon-image-to-file
-		Image img = icon.getImage();
-
-		BufferedImage bi = new BufferedImage(img.getWidth(null),img.getHeight(null),BufferedImage.TYPE_INT_ARGB);
-
-		Graphics2D g2 = bi.createGraphics();
-		g2.drawImage(img, 0, 0, null);
-		g2.dispose();
-		try {
-			ImageIO.write(bi, "png", new File("/home/r0294084/Downloads/img.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
 	/**
 	 * Probeert een QR-code te lezen uit de opgegeven foto.
+	 * 
 	 * @param	filename
 	 * 			Naam van de foto.
 	 * @return	De string die gedecodeerd werd uit de foto. Null als er geen QR-code werd gevonden
@@ -93,6 +77,13 @@ public class QRCodeHandler {
 		}  
 	}
 	
+	/**
+	 * 
+	 * @param zeppelinHeight
+	 * @return
+	 * @throws InterruptedException
+	 * @throws IOException
+	 */
 	public String tryReadQrCode(double zeppelinHeight) throws InterruptedException, IOException {
 		String filename = Long.toString(System.currentTimeMillis());
 		if (zeppelinHeight <= 160)
