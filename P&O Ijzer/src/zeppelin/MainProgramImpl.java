@@ -38,6 +38,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	private double mostRecentHeight;
 	
 	private double targetHeight;
+	private double targetAngle;
 	
 	// Controllers
 	public static final SensorController SENSOR_CONTROLLER = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);;
@@ -91,6 +92,14 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		this.targetHeight = height;
 	}
 	
+	public double getTargetAngle() {
+		return this.targetAngle;
+	}
+	
+	public void setTargetAngle(double targetAngle) {
+		this.targetAngle = targetAngle;
+	}
+	
 	private Parser getParser() {
 		return this.parser;
 	}
@@ -109,6 +118,8 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		this.exit = true;
 	}
 	
+	private boolean turning = false;
+	
 	/**
 	 * Zolang de cliënt contact onderhoudt met de zeppelin, moet deze
 	 * lus uitgevoerd worden. Om de beurt worden
@@ -124,6 +135,8 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 				this.mostRecentHeight = SENSOR_CONTROLLER.sensorReading();
 				try {
 					HEIGHT_ADJUSTER.takeAction(mostRecentHeight, targetHeight);
+					if (turning)
+						ROTATION_CONTROLLER.takeAction(targetAngle);
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}

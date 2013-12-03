@@ -27,9 +27,10 @@ public class CameraController implements Serializable {
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
-	public void takePicture(String pFileName, int width, int height) throws InterruptedException, IOException  
+	public void takePicture(String pFileName, double currentHeight) throws InterruptedException, IOException
 	{  
-		executeShellCommand("raspistill -t 1 -w " + width + " -h " + height + " -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg"); 
+		double[] resolution = this.decideResolution(currentHeight);
+		executeShellCommand("raspistill -t 1 -w " + resolution[0] + " -h " + resolution[1] + " -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg"); 
 //		executeShellCommand("raspistill -t 1 -w 800 -h 600 -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg");
 	} 
 
@@ -42,5 +43,12 @@ public class CameraController implements Serializable {
 		Runtime run = Runtime.getRuntime() ;  
 		Process pr = run.exec(pCommand) ;  
 		pr.waitFor() ;  
+	}
+	
+	private double[] decideResolution(double currentHeight) {
+		double[] toReturn = new double[2];
+		toReturn[0] = 800; // breedte
+		toReturn[1] = 600; // hoogte
+		return toReturn;
 	}
 }

@@ -27,9 +27,12 @@ public class GuiController {
 	
 	private WebClient ftpClient;
 	
+	private ResultPointFinder pointFinder;
+	
 	public GuiController() throws NotBoundException, IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		setZeppelin();
 		setWebClient();
+		this.pointFinder = new ResultPointFinder(ftpClient);
 	}
 
 

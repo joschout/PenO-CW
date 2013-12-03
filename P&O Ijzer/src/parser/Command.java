@@ -2,6 +2,7 @@ package parser;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import client.ResultPointFinder;
 import zeppelin.MainProgramImpl;
 import movement.HeightAdjuster;
 import controllers.MotorController;
@@ -10,6 +11,8 @@ import controllers.MotorController;
 public class Command {
 
 	private boolean executed = false;
+	
+	private ResultPointFinder finder;
 	/**
 	 * Voert dit commando uit. De acties die de zeppelin zal nemen verschillen naargelang
 	 * het type commando dit is.
@@ -111,7 +114,7 @@ public class Command {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-					}
+			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

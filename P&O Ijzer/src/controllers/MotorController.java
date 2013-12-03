@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.pi4j.io.gpio.GpioPinPwmOutput;
 import com.pi4j.io.gpio.RaspiPin;
+import com.pi4j.wiringpi.SoftPwm;
 
 import zeppelin.MainProgramImpl;
 import components.Motor;
@@ -23,6 +24,8 @@ public class MotorController implements Serializable {
 	private Motor rightMotor;
 	private Motor downwardMotor;
 	
+	private int softPwmValue = 0;
+	
 	private static final LogWriter logWriter = new LogWriter();
 	
 	// Motor 1: GPIO_05 en GPIO_07
@@ -33,6 +36,11 @@ public class MotorController implements Serializable {
 		leftMotor = new Motor(RaspiPin.GPIO_11, RaspiPin.GPIO_13); // motor 3
 		rightMotor = new Motor(RaspiPin.GPIO_04, RaspiPin.GPIO_00); // motor 2
 		downwardMotor = new Motor(RaspiPin.GPIO_14, RaspiPin.GPIO_12); // motor 4
+		SoftPwm.softPwmCreate(11, 0, 100);
+		SoftPwm.softPwmCreate(13, 0, 100);
+		SoftPwm.softPwmCreate(4, 0, 100);
+		SoftPwm.softPwmCreate(0, 0, 100);
+		
 	}
 	
 	public void setSpeed(int percentage) {
@@ -57,6 +65,10 @@ public class MotorController implements Serializable {
 		}
 		logWriter.writeToLog("Motoren laten draaien aan percentage: "
 				+ percentage);
+	}
+	
+	public void setTurnSpeed(int percentage) {
+		this.softPwmValue = percentage;
 	}
 	
 	public void left() {
@@ -138,6 +150,14 @@ public class MotorController implements Serializable {
 	
 	public boolean downwardIsOn() {
 		return this.downwardMotor.isOn();
+	}
+	
+	public boolean goingLeft() {
+        return this.leftMotor.goingCounterClockwise() && this.rightMotor.goingClockwise();
+	}
+
+	public boolean goingRight() {
+		return this.leftMotor.goingClockwise() && this.rightMotor.goingCounterClockwise();
 	}
 
 }

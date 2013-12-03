@@ -91,10 +91,7 @@ public class QRCodeHandler {
 	 */
 	public String tryReadQrCode(double zeppelinHeight) throws InterruptedException, IOException {
 		String filename = Long.toString(System.currentTimeMillis());
-		if (zeppelinHeight <= 160)
-			MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, 800, 600);
-		else
-			MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, 1400, 800);
+		MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, zeppelinHeight);
 		String decoded = this.scanQrCode(FTPFileInfo.PATH_TO_FTP_FILES + filename + ".jpg");
 		if (decoded != null) {
 			BufferedWriter output = new BufferedWriter(new FileWriter(
@@ -104,29 +101,6 @@ public class QRCodeHandler {
 			output.close();
 		}
 		return decoded;
-	}
-	
-	public ResultPoint[] findResultPoints(double zeppelinHeight, String filename) {
-		try {
-			if (zeppelinHeight <= 160)
-				MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, 800, 600);
-			else
-				MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, 1400, 800);
-			BufferedImage image = ImageIO.read(new File(filename + ".jpg"));
-			LuminanceSource source = new BufferedImageLuminanceSource(image);
-			BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-			Detector detector = new Detector(bitmap.getBlackMatrix());
-			return detector.detect().getPoints();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (NotFoundException e) {
-			e.printStackTrace();
-		} catch (FormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 }
