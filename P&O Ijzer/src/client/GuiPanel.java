@@ -170,6 +170,7 @@ public class GuiPanel implements ActionListener
 		addButtonToPanel(setKiHeight, 70, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setKdHeight, 135, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setSafetyIntervalHeight, 5, 80, 150, 30, KeyEvent.VK_4, actionsPanel);
+		// TODO: andere verticale coördinaten voor hoekconstanten
 		addButtonToPanel(setKpAngle, 5, 120, 45, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setKiAngle, 70, 120, 45, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setKdAngle, 135, 120, 45, 30, KeyEvent.VK_4, actionsPanel);
