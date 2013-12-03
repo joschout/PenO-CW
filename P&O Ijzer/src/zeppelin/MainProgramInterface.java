@@ -151,5 +151,7 @@ public interface MainProgramInterface extends Remote {
 	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException;
 	
 	public double getSafetyIntervalAngle() throws RemoteException;
+	
+	public void notifyClientAvailable() throws RemoteException;
 
 }

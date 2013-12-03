@@ -36,7 +36,6 @@ public class Test2QRcode {
 		try {
 			ImageIO.write(bi, "png", new File("/home/r0294084/Downloads/img.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -54,7 +53,6 @@ public class Test2QRcode {
   
 			System.out.println("Barcode text is " + result.getText());
 		} catch ( Exception e) {
-				// TODO Auto-generated catch block
 			e.printStackTrace();
 		}  
 	}

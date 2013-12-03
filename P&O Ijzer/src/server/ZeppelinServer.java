@@ -22,15 +22,11 @@ public class ZeppelinServer {
 		
 		try {
 		System.setProperty("java.rmi.server.hostname", PI_HOSTNAME); /* Maak kenbaar dat het RMI-register op dit adres
-			 																  gevonden kan worden.
-			 																  TODO: een manier vinden om te garanderen dat
-			 																  de cliënt zich kan verbinden met het register,
-			 																  hetzij door een statisch IP-adres voor de Pi te
-			 																  verkrijgen, hetzij door, wanneer je de server start
-			 																  op de Pi, het IP-adres van de Pi moet invoeren. */
+			 																  gevonden kan worden. */
 		LocateRegistry.createRegistry(1099); // maak een register op de opgegeven poort.
 		MainProgramImpl zeppelin = new MainProgramImpl();
 		Naming.rebind("rmi://localhost:1099/Zeppelin", zeppelin); // maak de zeppelin beschikbaar in het register.
+		// TODO: verbinding maken met ResultPointFinder op de client
 		zeppelin.startGameLoop(); // start d
 		}
 		catch (RemoteException e) {

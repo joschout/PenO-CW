@@ -8,6 +8,10 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -32,7 +36,7 @@ public class GuiController {
 	public GuiController() throws NotBoundException, IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		setZeppelin();
 		setWebClient();
-		this.pointFinder = new ResultPointFinder(ftpClient);
+		setFinder(ftpClient);
 	}
 
 
@@ -66,6 +70,22 @@ public class GuiController {
 		Registry registry = LocateRegistry.getRegistry(ZeppelinServer.PI_HOSTNAME,1099);
 		MainProgramInterface zeppelin = (MainProgramInterface) registry.lookup("Zeppelin");
 		this.zeppelin = zeppelin;
+	}
+	
+	public void setFinder(WebClient client) {
+		try {
+			System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
+			LocateRegistry.createRegistry(1099);
+			ResultPointFinder finder = new ResultPointFinder(client);
+			Naming.rebind("rmi://localhost:1099/Finder", finder);
+			this.zeppelin.notifyClientAvailable();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

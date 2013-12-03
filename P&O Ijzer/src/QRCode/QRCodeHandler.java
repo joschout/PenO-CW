@@ -74,7 +74,6 @@ public class QRCodeHandler {
 		} catch (NotFoundException e) {
 			return null;
 		} catch ( Exception e) {
-				 //TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}  

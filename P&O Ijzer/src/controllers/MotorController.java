@@ -43,7 +43,7 @@ public class MotorController implements Serializable {
 		
 	}
 	
-	public void setSpeed(int percentage) {
+	public void setHeightSpeed(int percentage) {
 		if (percentage < 0) {
 			System.out.println("Naar boven");
 			this.up();

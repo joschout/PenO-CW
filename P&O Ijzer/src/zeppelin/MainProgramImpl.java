@@ -6,7 +6,11 @@
 package zeppelin;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
@@ -14,7 +18,9 @@ import parser.Command;
 import parser.Parser;
 import movement.HeightAdjuster;
 import movement.RotationController;
+import QRCode.Orientation;
 import QRCode.QRCodeHandler;
+import client.ResultPointFinderInterface;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -36,6 +42,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 * Meest recente uitlezing van de sensor.
 	 */
 	private double mostRecentHeight;
+	private double mostRecentAngle;
 	
 	private double targetHeight;
 	private double targetAngle;
@@ -46,6 +53,9 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public static final MotorController MOTOR_CONTROLLER = new MotorController();
 	public static final HeightAdjuster HEIGHT_ADJUSTER = new HeightAdjuster(MOTOR_CONTROLLER);
 	public static final RotationController ROTATION_CONTROLLER = new RotationController();
+	
+	// Dit object berekent de oriëntatie van de zeppelin
+	public static final Orientation ORIENTATION = new Orientation();
 	
 	private Parser parser;
 	
@@ -63,6 +73,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public MainProgramImpl() throws RemoteException {
 		super();
 		parser = new Parser(this);
+		ROTATION_CONTROLLER.setZeppelin(this);
 		new Thread(new QrCodeLogicThread()).start();
 		
 		logWriter.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
@@ -74,13 +85,19 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public double sensorReading() throws RemoteException {
-		// TODO Auto-generated method stub
 		return this.mostRecentHeight;
+	}
+	
+	public double getMostRecentAngle() {
+		return this.mostRecentAngle;
+	}
+	
+	public void updateMostRecentAngle(double angle) {
+		this.mostRecentAngle = angle;
 	}
 	
 	public double getTargetHeight() throws RemoteException {
@@ -109,6 +126,10 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	}
 	
 	public void startGameLoop() throws InterruptedException {
+		System.out.println("Wachten op beschikbare client voor meten van hoek op basis van QR-codes");
+		while (! ORIENTATION.finderSet()) {
+			Thread.sleep(500);
+		}
 		System.out.println("Lus initialiseren; zeppelin is klaar om commando's uit te voeren.");
 		this.gameLoop();
 		System.out.println("Lus afgebroken; uitvoering is stopgezet.");
@@ -120,13 +141,16 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	
 	private boolean turning = false;
 	
+	public void setTurning(boolean value) {
+		this.turning = value;
+	}
+	
 	/**
 	 * Zolang de cliënt contact onderhoudt met de zeppelin, moet deze
 	 * lus uitgevoerd worden. Om de beurt worden
 	 * alle flags afgegaan en er wordt bepaald wat de zeppelin moet doen op basis
 	 * van de status van die flags.
-	 * 
-	 * TODO: flags maken voor motoren, acties gebaseerd op deze flags implementeren
+	 *
 	 * @throws InterruptedException 
 	 */
 	private void gameLoop() throws InterruptedException {
@@ -136,7 +160,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 				try {
 					HEIGHT_ADJUSTER.takeAction(mostRecentHeight, targetHeight);
 					if (turning)
-						ROTATION_CONTROLLER.takeAction(targetAngle);
+						ROTATION_CONTROLLER.takeAction(targetAngle, mostRecentHeight);
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
@@ -144,7 +168,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 				e.printStackTrace();
 			}
 			try {
-				Thread.sleep(500);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -164,6 +188,23 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	
 	private void offerQrCode() {
 		this.qrCodeAvailable = true;
+	}
+	
+	public void notifyClientAvailable() {
+		try {
+			Registry registry = LocateRegistry.getRegistry(java.rmi.server.RemoteServer.getClientHost(), 1099);
+			ResultPointFinderInterface finder = 
+					(ResultPointFinderInterface) registry.lookup("Finder");
+			ORIENTATION.setFinder(finder);
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (ServerNotActiveException e) {
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override

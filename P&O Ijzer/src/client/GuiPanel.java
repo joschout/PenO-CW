@@ -507,6 +507,7 @@ public class GuiPanel implements ActionListener
 				}
 			}
 		});
+		
 	}
 
 	/** Returns an ImageIcon, or null if the path was invalid. */

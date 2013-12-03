@@ -21,14 +21,20 @@ public class PIDController {
 
 	int amountOfData = 5;
 	
-	double Kp = 17;//Proportional gain
-	double Ki = 0.001;//Integral gain
-	double Kd = 13500;//Derivative gain
+	double Kp;//Proportional gain
+	double Ki;//Integral gain
+	double Kd;//Derivative gain
 	
 	//Lijst met de tijdstippen waarop de
 	private ArrayList<Double> timeStamps = new ArrayList<Double>();
 	private ArrayList<Double> errors = new ArrayList<Double>();
 	
+	
+	public PIDController(double Kp, double Ki, double Kd) {
+		this.Kp = Kp;
+		this.Ki = Ki;
+		this.Kd = Kd;
+	}
 
 	/**
 	 * Berekent de fout tussen de twee meegegeven parameters.

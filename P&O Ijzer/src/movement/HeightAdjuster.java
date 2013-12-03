@@ -9,7 +9,7 @@ import ftp.LogWriter;
 public class HeightAdjuster {
 	
 	private MotorController motorController;
-	private PIDController pController = new PIDController();
+	private PIDController pController = new PIDController(17, 0.001, 13500);
 	private double safetyInterval = 1;
 	
 	public double getSafetyIntervalHeight() {

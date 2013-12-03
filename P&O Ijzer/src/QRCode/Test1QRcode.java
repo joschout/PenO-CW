@@ -28,7 +28,6 @@ public class Test1QRcode {
   
 			System.out.println("Barcode text is " + result.getText());
 		} catch ( Exception e) {
-				// TODO Auto-generated catch block
 			e.printStackTrace();
 }  
  }
