@@ -3,11 +3,11 @@ package QRCode;
 import java.io.IOException;
 
 import zeppelin.MainProgramImpl;
-import client.ResultPointFinderInterface;
+import client.FTPOrientationIface;
 
 public class Orientation {
 	
-	private ResultPointFinderInterface finder;
+	private FTPOrientationIface finder;
 	
 	public double getOrientation(double currentHeight) throws IllegalStateException {
 		if (finder == null)
@@ -15,7 +15,6 @@ public class Orientation {
 		String filename = Long.toString(System.currentTimeMillis());
 		try {
 			MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, currentHeight);
-			System.out.println("Orientation: proberen finder oriëntatie te laten vinden");
 			return finder.findOrientationFromPicture(filename);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -25,7 +24,7 @@ public class Orientation {
 		return -1; // abnormale return-waarde
 	}
 	
-	public void setFinder(ResultPointFinderInterface finder) throws IllegalStateException {
+	public void setFinder(FTPOrientationIface finder) throws IllegalStateException {
 		if (this.finder != null)
 			throw new IllegalStateException("Kan finder in Orientation niet meer dan één keer instantiëren.");
 		this.finder = finder;

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import client.ResultPointFinder;
+import client.FTPOrientation;
 import zeppelin.MainProgramImpl;
 
 
@@ -54,7 +54,6 @@ public class Parser {
 		 
 		   String possibleParameterString =elementsOfSubStringList.get(1);
 		   double tempDouble = this.parseStringToParameter(possibleParameterString);
-		   System.out.println("Parser geeft deze zeppelin door: " + this.zeppelin);
 		   Command tempCommand = new Command(tempType,tempDouble,this.zeppelin);
 		   return tempCommand;
 	}

@@ -4,8 +4,8 @@ import java.rmi.RemoteException;
 
 import zeppelin.MainProgramImpl;
 import QRCode.Orientation;
-import client.ResultPointFinder;
-import client.ResultPointFinderInterface;
+import client.FTPOrientation;
+import client.FTPOrientationIface;
 
 import com.google.zxing.ResultPoint;
 
@@ -42,7 +42,7 @@ public class RotationController {
 		double pwm = 0;
 		double mostRecentAngle = MainProgramImpl.ORIENTATION.getOrientation(zeppelinHeight);
 		this.zeppelin.updateMostRecentAngle(mostRecentAngle);
-		if(Math.abs(mostRecentAngle-targetAngle)> safetyInterval){
+		if(! isInInterval(mostRecentAngle, targetAngle)){
 			pwm = this.getPWMValue(targetAngle, mostRecentAngle);
 		}
 		motorController.setTurnSpeed((int)pwm);
@@ -55,7 +55,7 @@ public class RotationController {
 	}
 	
 	public boolean isInInterval(double mostRecentAngle, double targetAngle) {
-		return Math.abs(mostRecentAngle-targetAngle)> safetyInterval;
+		return Math.abs(mostRecentAngle-targetAngle) < safetyInterval;
 	}
 
 	public void setKpAngle(double kp) {

@@ -2,7 +2,7 @@ package parser;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import client.ResultPointFinder;
+import client.FTPOrientation;
 import zeppelin.MainProgramImpl;
 import movement.HeightAdjuster;
 import movement.RotationController;
@@ -13,7 +13,7 @@ public class Command {
 
 	private boolean executed = false;
 	
-	private ResultPointFinder finder;
+	private FTPOrientation finder;
 	/**
 	 * Voert dit commando uit. De acties die de zeppelin zal nemen verschillen naargelang
 	 * het type commando dit is.
@@ -144,9 +144,9 @@ public class Command {
 	}
 	
 	private void goLeft() {
-		System.out.println("Ga in naar-links commando");
 		double currentAngle = requestAngleAndUpdate();
 		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle + this.getParameter()));
+		System.out.println("Huidige hoek: " + currentAngle + " ; doelhoek: " + this.zeppelin.getTargetAngle());
 		this.zeppelin.setTurning(true);
 		while (! MainProgramImpl.ROTATION_CONTROLLER.isInInterval(this.zeppelin.getMostRecentAngle(), this.zeppelin.getTargetAngle()))
 			try {
@@ -158,9 +158,9 @@ public class Command {
 	}
 	
 	private void goRight() {
-		System.out.println("Ga in naar-rechts commando");
 		double currentAngle = requestAngleAndUpdate();
 		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle - this.getParameter()));
+		System.out.println("Huidige hoek: " + currentAngle + " ; doelhoek: " + this.zeppelin.getTargetAngle());
 		this.zeppelin.setTurning(true);
 		while (! MainProgramImpl.ROTATION_CONTROLLER.isInInterval(this.zeppelin.getMostRecentAngle(), this.zeppelin.getTargetAngle()))
 			try {
@@ -173,10 +173,8 @@ public class Command {
 	
 	private double requestAngleAndUpdate() {
 		try {
-			System.out.println("Oriëntatie wordt opgevraagd");
 			double mostRecentAngle = MainProgramImpl.ORIENTATION.getOrientation(zeppelin.sensorReading());
 			this.zeppelin.updateMostRecentAngle(mostRecentAngle);
-			System.out.println("Return oriëntatie");
 			return mostRecentAngle;
 		} catch (RemoteException e) {
 			e.printStackTrace();
