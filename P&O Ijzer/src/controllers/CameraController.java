@@ -30,7 +30,7 @@ public class CameraController implements Serializable {
 	public void takePicture(String pFileName, double currentHeight) throws InterruptedException, IOException
 	{  
 		double[] resolution = this.decideResolution(currentHeight);
-		executeShellCommand("raspistill -t 1 -w " + resolution[0] + " -h " + resolution[1] + " -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg"); 
+		executeShellCommand("raspistill -t 1 -w " + resolution[0] + " -h " + resolution[1] + " -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg");
 //		executeShellCommand("raspistill -t 1 -w 800 -h 600 -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg");
 	} 
 

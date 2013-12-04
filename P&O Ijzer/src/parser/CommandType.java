@@ -6,7 +6,8 @@ A("A"),
 S("S"),
 D("D"),
 L("L"),
-R("R");
+R("R"),
+N("N");
 
 public String getCommandAbbrevString() {
 	return commandAbbrevString;

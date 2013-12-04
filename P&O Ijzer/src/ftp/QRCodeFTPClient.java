@@ -62,6 +62,7 @@ private FTPClient QRFileClient;
 	}
 	
 	public BufferedImage getImageFromFile(String fileName) throws IOException, IllegalStateException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		System.out.println("getImageFromFile argument: " + fileName + " met QRCodeFTPClient: " + this);
 		this.getFile(fileName + ".jpg", fileName + ".jpg");
 		File file = new File(fileName + ".jpg");
 		return ImageIO.read(file);

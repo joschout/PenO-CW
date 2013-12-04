@@ -25,15 +25,18 @@ public class PIDController {
 	double Ki;//Integral gain
 	double Kd;//Derivative gain
 	
+	PIDMode mode;
+	
 	//Lijst met de tijdstippen waarop de
 	private ArrayList<Double> timeStamps = new ArrayList<Double>();
 	private ArrayList<Double> errors = new ArrayList<Double>();
 	
 	
-	public PIDController(double Kp, double Ki, double Kd) {
+	public PIDController(double Kp, double Ki, double Kd, PIDMode mode) {
 		this.Kp = Kp;
 		this.Ki = Ki;
 		this.Kd = Kd;
+		this.mode = mode;
 	}
 
 	/**
@@ -47,6 +50,26 @@ public class PIDController {
 	private double calculateError(double targetValue, double currentValue) {
 		return targetValue - currentValue;
 	}
+	
+	/**
+	 * Berekent de fout tussen de twee hoeken op basis van de afstand die je zou moeten
+	 * overbruggen indien je naar links draait en indien je naar rechts draait. Neem
+	 * als conventie dat een positieve fout betekent dat de zeppelin naar links moet draaien
+	 * en dat een negatieve fout betekent dat de zeppelin naar rechts moet draaien.
+	 * @param	targetAngle
+	 * 			De hoek waar de zeppelin naartoe moet.
+	 * @param	currentAngle
+	 * 			De hoek waar de zeppelin zich nu naar richt.
+	 * @return	Als de naar-links afstand de kleinste is: RotationController.getLeftTurnDistance(currentAngle, targetAngle)
+	 * 			Als de naar-rechts afstand de kleinste is: - RotationController.getRightTurnDistance(currentAngle, targetAngle)
+	 */
+	private double calculateAngleError(double targetAngle, double currentAngle) {
+		double leftDistance = RotationController.getLeftTurnDistance(currentAngle, targetAngle);
+		double rightDistance = RotationController.getRightTurnDistance(currentAngle, targetAngle);
+		if (leftDistance <= rightDistance)
+			return leftDistance;
+		return - rightDistance;
+	}
 	/**
 	 * 
 	 * @param targetValue de doelwaarde
@@ -56,7 +79,15 @@ public class PIDController {
 	 * @throws InterruptedException
 	 */
 	private void measureData(double targetValue, double currentValue) throws RemoteException, TimeoutException, InterruptedException {
-		double error = calculateError(targetValue, currentValue);
+		double error;
+		if (this.mode == PIDMode.HEIGHT)
+		{
+			error = calculateError(targetValue, currentValue);
+		}
+		else // PIDMode.ANGLE
+		{
+			error = calculateAngleError(targetValue, currentValue);
+		}
 		Date date = new Date();
 		double time = date.getTime();
 		addToLists(time, error);

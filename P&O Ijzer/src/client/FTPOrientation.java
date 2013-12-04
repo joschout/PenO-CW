@@ -24,11 +24,11 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.detector.Detector;
 
-public class ResultPointFinder extends UnicastRemoteObject implements ResultPointFinderInterface {
+public class FTPOrientation extends UnicastRemoteObject implements FTPOrientationIface {
 
 	private WebClient client;
 	
-	public ResultPointFinder(WebClient client) throws RemoteException {
+	public FTPOrientation(WebClient client) throws RemoteException {
 		super();
 		this.client = client;
 		
@@ -43,8 +43,6 @@ public class ResultPointFinder extends UnicastRemoteObject implements ResultPoin
 	}
 	
 	private double calcRotation(ResultPoint[] points) {
-		String filename = Long.toString(System.currentTimeMillis());
-		points = this.findResultPoints(filename);
 		ResultPoint a= points[1];
 		ResultPoint b= points[2];
 		ResultPoint c= points[0];

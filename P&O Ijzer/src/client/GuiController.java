@@ -31,12 +31,12 @@ public class GuiController {
 	
 	private WebClient ftpClient;
 	
-	private ResultPointFinder pointFinder;
+	private FTPOrientation pointFinder;
 	
 	public GuiController() throws NotBoundException, IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		setZeppelin();
 		setWebClient();
-		setFinder(ftpClient);
+		setFinder(new WebClient());
 	}
 
 
@@ -76,7 +76,7 @@ public class GuiController {
 		try {
 			System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
 			LocateRegistry.createRegistry(1099);
-			ResultPointFinder finder = new ResultPointFinder(client);
+			FTPOrientation finder = new FTPOrientation(client);
 			Naming.rebind("rmi://localhost:1099/Finder", finder);
 			this.zeppelin.notifyClientAvailable();
 		} catch (UnknownHostException e) {

@@ -4,8 +4,8 @@ import java.rmi.RemoteException;
 
 import zeppelin.MainProgramImpl;
 import QRCode.Orientation;
-import client.ResultPointFinder;
-import client.ResultPointFinderInterface;
+import client.FTPOrientation;
+import client.FTPOrientationIface;
 
 import com.google.zxing.ResultPoint;
 
@@ -17,7 +17,7 @@ import ftp.LogWriter;
 public class RotationController {
 
 	private MotorController motorController;
-	private PIDController pController = new PIDController(17, 0.001, 13500); // TODO: constanten bepalen
+	private PIDController pController = new PIDController(17, 0.001, 13500, PIDMode.ANGLE); // TODO: constanten bepalen
 	private double safetyInterval = 5;
 	
 	private MainProgramImpl zeppelin;
@@ -38,10 +38,11 @@ public class RotationController {
 	private LogWriter logWriter;
 	
 	public void takeAction(double targetAngle, double zeppelinHeight) throws RemoteException, TimeoutException, InterruptedException {
+		this.checkState();
 		double pwm = 0;
 		double mostRecentAngle = MainProgramImpl.ORIENTATION.getOrientation(zeppelinHeight);
 		this.zeppelin.updateMostRecentAngle(mostRecentAngle);
-		if(Math.abs(mostRecentAngle-targetAngle)> safetyInterval){
+		if(! isInInterval(mostRecentAngle, targetAngle)){
 			pwm = this.getPWMValue(targetAngle, mostRecentAngle);
 		}
 		motorController.setTurnSpeed((int)pwm);
@@ -54,7 +55,7 @@ public class RotationController {
 	}
 	
 	public boolean isInInterval(double mostRecentAngle, double targetAngle) {
-		return Math.abs(mostRecentAngle-targetAngle)> safetyInterval;
+		return Math.abs(mostRecentAngle-targetAngle) < safetyInterval;
 	}
 
 	public void setKpAngle(double kp) {
@@ -86,6 +87,28 @@ public class RotationController {
 		if (angle < 0)
 			return toReturn + 360;
 		return toReturn;
+	}
+	
+	public static double getAngleComplement(double angle) {
+		return 360 - angle;
+	}
+	
+	/**
+	 * Neem als conventie dat 
+	 * @param angle
+	 * @param otherAngle
+	 * @return
+	 */
+	public static double getLeftTurnDistance(double angle, double otherAngle) {
+		if (angle > otherAngle)
+			return Math.abs(- angle - otherAngle);
+		return Math.abs(angle - otherAngle);
+	}
+	
+	public static double getRightTurnDistance(double angle, double otherAngle) {
+		if (otherAngle > angle)
+			return Math.abs(- angle - getAngleComplement(otherAngle));
+		return Math.abs(angle - otherAngle);
 	}
 	
 	private void checkState() throws IllegalArgumentException {

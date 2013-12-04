@@ -49,11 +49,9 @@ public class MotorController implements Serializable {
 	
 	public void setHeightSpeed(int percentage) {
 		if (percentage < 0) {
-			System.out.println("Naar boven");
 			this.up();
 		}
 		else {
-			System.out.println("Naar onder");
 			this.down();
 		}
 		if (PWMPin.getPwm() != percentage) {
@@ -67,16 +65,20 @@ public class MotorController implements Serializable {
 			int result = (int) factor * INTERVAL_LENGTH + MINIMUM_RESPONSE;
 			PWMPin.setPwm(Math.abs(result));
 		}
-		logWriter.writeToLog("Motoren laten draaien aan percentage: "
+		logWriter.writeToLog("Onderwaartse motor laten draaien aan percentage: "
 				+ percentage);
 	}
 	
 	public void setTurnSpeed(int percentage) {
-		if (percentage < 0) {
-			// TODO: moet de zeppelin naar links bij negatieve waarden of naar rechts?
+		if (percentage < 0) { // zeppelin moet naar rechts
+			logWriter.writeToLog("Rechtse motor laten draaien aan percentage: "
+					+ (- percentage));
+			this.right();
 		}
-		else {
-			
+		else { // zeppelin moet naar links
+			logWriter.writeToLog("Linkse motor laten draaien aan percentage: "
+					+ percentage);
+			this.left();
 		}
 		if (softPwmValue != percentage) {
 			if (percentage == 0) {
@@ -110,10 +112,7 @@ public class MotorController implements Serializable {
 	public void left() {
 		if (! this.goingLeft()) {
 			logWriter.writeToLog("Zeppelin naar links laten draaien.");
-			SoftPwm.softPwmWrite(LEFT_CLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(LEFT_COUNTERCLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(RIGHT_COUNTERCLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(RIGHT_CLOCKWISE_PIN, softPwmValue);
+			this.writeSoftPwmValues(0, 0, softPwmValue, 0);
 			this.rightMotor.clockwise();
 		}
 	}
@@ -121,10 +120,7 @@ public class MotorController implements Serializable {
 	public void right() {
 		if (! this.goingRight()) {
 			logWriter.writeToLog("Zeppelin naar rechts laten draaien.");
-			SoftPwm.softPwmWrite(LEFT_COUNTERCLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(RIGHT_COUNTERCLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(RIGHT_CLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(LEFT_CLOCKWISE_PIN, softPwmValue);
+			this.writeSoftPwmValues(softPwmValue, 0, 0, 0);
 			this.leftMotor.clockwise();
 		}
 	}
@@ -140,10 +136,7 @@ public class MotorController implements Serializable {
 	public void forward() {
 		if (! this.goingForward()) {
 			logWriter.writeToLog("Zeppelin vooruit laten gaan.");
-			SoftPwm.softPwmWrite(LEFT_COUNTERCLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(RIGHT_COUNTERCLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(RIGHT_CLOCKWISE_PIN, softPwmValue);
-			SoftPwm.softPwmWrite(LEFT_CLOCKWISE_PIN, softPwmValue);
+			this.writeSoftPwmValues(softPwmValue, 0, softPwmValue, 0);
 			this.leftMotor.clockwise();
 			this.rightMotor.clockwise();
 		}
@@ -152,10 +145,7 @@ public class MotorController implements Serializable {
 	public void backward() {
 		if (! this.goingBackward()) {
 			logWriter.writeToLog("Zeppelin achteruit laten gaan.");
-			SoftPwm.softPwmWrite(RIGHT_CLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(LEFT_CLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(LEFT_COUNTERCLOCKWISE_PIN, 0);
-			SoftPwm.softPwmWrite(RIGHT_COUNTERCLOCKWISE_PIN, 0);
+			this.writeSoftPwmValues(0, softPwmValue, 0, softPwmValue);
 			this.leftMotor.counterClockwise();
 			this.rightMotor.counterClockwise();
 		}
@@ -216,6 +206,13 @@ public class MotorController implements Serializable {
 	
 	public boolean goingBackward() {
 		return this.leftMotor.goingCounterClockwise() && this.rightMotor.goingCounterClockwise();
+	}
+	
+	private void writeSoftPwmValues(int leftClockwise, int leftCounterClockwise, int rightClockwise, int rightCounterClockwise) {
+		SoftPwm.softPwmWrite(LEFT_CLOCKWISE_PIN, leftClockwise);
+		SoftPwm.softPwmWrite(LEFT_COUNTERCLOCKWISE_PIN, leftCounterClockwise);
+		SoftPwm.softPwmWrite(RIGHT_CLOCKWISE_PIN, rightClockwise);
+		SoftPwm.softPwmWrite(RIGHT_COUNTERCLOCKWISE_PIN, rightCounterClockwise);
 	}
 
 }

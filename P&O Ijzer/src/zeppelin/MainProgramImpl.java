@@ -20,7 +20,7 @@ import movement.HeightAdjuster;
 import movement.RotationController;
 import QRCode.Orientation;
 import QRCode.QRCodeHandler;
-import client.ResultPointFinderInterface;
+import client.FTPOrientationIface;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -74,7 +74,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		super();
 		parser = new Parser(this);
 		ROTATION_CONTROLLER.setZeppelin(this);
-		new Thread(new QrCodeLogicThread()).start();
 		
 		logWriter.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
 		
@@ -130,6 +129,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		while (! ORIENTATION.finderSet()) {
 			Thread.sleep(500);
 		}
+		new Thread(new QrCodeLogicThread()).start();
 		System.out.println("Lus initialiseren; zeppelin is klaar om commando's uit te voeren.");
 		this.gameLoop();
 		System.out.println("Lus afgebroken; uitvoering is stopgezet.");
@@ -155,17 +155,20 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 */
 	private void gameLoop() throws InterruptedException {
 		while (!exit) {
+			System.out.println("Aan het draaien: " + turning);
 			try {
 				this.mostRecentHeight = SENSOR_CONTROLLER.sensorReading();
 				try {
 					HEIGHT_ADJUSTER.takeAction(mostRecentHeight, targetHeight);
-					if (turning)
+					if (turning) {
+						System.out.println("Zeppelin: In if-test met target angle: " + targetAngle);
 						ROTATION_CONTROLLER.takeAction(targetAngle, mostRecentHeight);
+					}
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
 			} catch (TimeoutException e) {
-				e.printStackTrace();
+				
 			}
 			try {
 				Thread.sleep(100);
@@ -193,8 +196,9 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public void notifyClientAvailable() {
 		try {
 			Registry registry = LocateRegistry.getRegistry(java.rmi.server.RemoteServer.getClientHost(), 1099);
-			ResultPointFinderInterface finder = 
-					(ResultPointFinderInterface) registry.lookup("Finder");
+			FTPOrientationIface finder = 
+					(FTPOrientationIface) registry.lookup("Finder");
+			System.out.println("Deze finder wordt gezet in Orientation: " + finder);
 			ORIENTATION.setFinder(finder);
 			
 		} catch (RemoteException e) {

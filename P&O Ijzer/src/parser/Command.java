@@ -2,7 +2,7 @@ package parser;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import client.ResultPointFinder;
+import client.FTPOrientation;
 import zeppelin.MainProgramImpl;
 import movement.HeightAdjuster;
 import movement.RotationController;
@@ -13,7 +13,7 @@ public class Command {
 
 	private boolean executed = false;
 	
-	private ResultPointFinder finder;
+	private FTPOrientation finder;
 	/**
 	 * Voert dit commando uit. De acties die de zeppelin zal nemen verschillen naargelang
 	 * het type commando dit is.
@@ -146,6 +146,7 @@ public class Command {
 	private void goLeft() {
 		double currentAngle = requestAngleAndUpdate();
 		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle + this.getParameter()));
+		System.out.println("Huidige hoek: " + currentAngle + " ; doelhoek: " + this.zeppelin.getTargetAngle());
 		this.zeppelin.setTurning(true);
 		while (! MainProgramImpl.ROTATION_CONTROLLER.isInInterval(this.zeppelin.getMostRecentAngle(), this.zeppelin.getTargetAngle()))
 			try {
@@ -157,14 +158,17 @@ public class Command {
 	}
 	
 	private void goRight() {
-		long duration = (long) this.getParameter() * RIGHT_SPEED;
-		MainProgramImpl.MOTOR_CONTROLLER.right();
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		double currentAngle = requestAngleAndUpdate();
+		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle - this.getParameter()));
+		System.out.println("Huidige hoek: " + currentAngle + " ; doelhoek: " + this.zeppelin.getTargetAngle());
+		this.zeppelin.setTurning(true);
+		while (! MainProgramImpl.ROTATION_CONTROLLER.isInInterval(this.zeppelin.getMostRecentAngle(), this.zeppelin.getTargetAngle()))
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		this.zeppelin.setTurning(false);
 	}
 	
 	private double requestAngleAndUpdate() {
