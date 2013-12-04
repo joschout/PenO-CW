@@ -155,17 +155,19 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 */
 	private void gameLoop() throws InterruptedException {
 		while (!exit) {
+			System.out.println("Aan het draaien: " + turning);
 			try {
 				this.mostRecentHeight = SENSOR_CONTROLLER.sensorReading();
 				try {
 					HEIGHT_ADJUSTER.takeAction(mostRecentHeight, targetHeight);
-					if (turning)
+					if (turning) {
 						ROTATION_CONTROLLER.takeAction(targetAngle, mostRecentHeight);
+					}
 				} catch (RemoteException e) {
 					e.printStackTrace();
 				}
 			} catch (TimeoutException e) {
-				e.printStackTrace();
+				
 			}
 			try {
 				Thread.sleep(100);
@@ -195,6 +197,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 			Registry registry = LocateRegistry.getRegistry(java.rmi.server.RemoteServer.getClientHost(), 1099);
 			ResultPointFinderInterface finder = 
 					(ResultPointFinderInterface) registry.lookup("Finder");
+			System.out.println("Deze finder wordt gezet in Orientation: " + finder);
 			ORIENTATION.setFinder(finder);
 			
 		} catch (RemoteException e) {

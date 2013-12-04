@@ -144,6 +144,7 @@ public class Command {
 	}
 	
 	private void goLeft() {
+		System.out.println("Ga in naar-links commando");
 		double currentAngle = requestAngleAndUpdate();
 		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle + this.getParameter()));
 		this.zeppelin.setTurning(true);
@@ -157,20 +158,25 @@ public class Command {
 	}
 	
 	private void goRight() {
-		long duration = (long) this.getParameter() * RIGHT_SPEED;
-		MainProgramImpl.MOTOR_CONTROLLER.right();
-		try {
-			Thread.sleep(duration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		System.out.println("Ga in naar-rechts commando");
+		double currentAngle = requestAngleAndUpdate();
+		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle - this.getParameter()));
+		this.zeppelin.setTurning(true);
+		while (! MainProgramImpl.ROTATION_CONTROLLER.isInInterval(this.zeppelin.getMostRecentAngle(), this.zeppelin.getTargetAngle()))
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		this.zeppelin.setTurning(false);
 	}
 	
 	private double requestAngleAndUpdate() {
 		try {
+			System.out.println("Oriëntatie wordt opgevraagd");
 			double mostRecentAngle = MainProgramImpl.ORIENTATION.getOrientation(zeppelin.sensorReading());
 			this.zeppelin.updateMostRecentAngle(mostRecentAngle);
+			System.out.println("Return oriëntatie");
 			return mostRecentAngle;
 		} catch (RemoteException e) {
 			e.printStackTrace();

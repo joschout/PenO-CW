@@ -15,6 +15,7 @@ public class Orientation {
 		String filename = Long.toString(System.currentTimeMillis());
 		try {
 			MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, currentHeight);
+			System.out.println("Orientation: proberen finder oriëntatie te laten vinden");
 			return finder.findOrientationFromPicture(filename);
 		} catch (InterruptedException e) {
 			e.printStackTrace();

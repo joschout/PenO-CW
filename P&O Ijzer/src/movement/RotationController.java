@@ -17,7 +17,7 @@ import ftp.LogWriter;
 public class RotationController {
 
 	private MotorController motorController;
-	private PIDController pController = new PIDController(17, 0.001, 13500); // TODO: constanten bepalen
+	private PIDController pController = new PIDController(17, 0.001, 13500, PIDMode.ANGLE); // TODO: constanten bepalen
 	private double safetyInterval = 5;
 	
 	private MainProgramImpl zeppelin;
@@ -38,6 +38,7 @@ public class RotationController {
 	private LogWriter logWriter;
 	
 	public void takeAction(double targetAngle, double zeppelinHeight) throws RemoteException, TimeoutException, InterruptedException {
+		this.checkState();
 		double pwm = 0;
 		double mostRecentAngle = MainProgramImpl.ORIENTATION.getOrientation(zeppelinHeight);
 		this.zeppelin.updateMostRecentAngle(mostRecentAngle);
@@ -86,6 +87,28 @@ public class RotationController {
 		if (angle < 0)
 			return toReturn + 360;
 		return toReturn;
+	}
+	
+	public static double getAngleComplement(double angle) {
+		return 360 - angle;
+	}
+	
+	/**
+	 * Neem als conventie dat 
+	 * @param angle
+	 * @param otherAngle
+	 * @return
+	 */
+	public static double getLeftTurnDistance(double angle, double otherAngle) {
+		if (angle > otherAngle)
+			return Math.abs(- angle - otherAngle);
+		return Math.abs(angle - otherAngle);
+	}
+	
+	public static double getRightTurnDistance(double angle, double otherAngle) {
+		if (otherAngle > angle)
+			return Math.abs(- angle - getAngleComplement(otherAngle));
+		return Math.abs(angle - otherAngle);
 	}
 	
 	private void checkState() throws IllegalArgumentException {
