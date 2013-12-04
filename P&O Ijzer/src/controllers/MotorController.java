@@ -45,7 +45,6 @@ public class MotorController implements Serializable {
 		SoftPwm.softPwmCreate(LEFT_COUNTERCLOCKWISE_PIN, 0, 100);
 		SoftPwm.softPwmCreate(RIGHT_CLOCKWISE_PIN, 0, 100);
 		SoftPwm.softPwmCreate(RIGHT_COUNTERCLOCKWISE_PIN, 0, 100);
-		
 	}
 	
 	public void setHeightSpeed(int percentage) {

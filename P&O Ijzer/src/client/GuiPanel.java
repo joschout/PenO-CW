@@ -65,27 +65,27 @@ public class GuiPanel implements ActionListener
 	private JLabel motor3 = new JLabel("   Onder");
 	
 	private JLabel qrcode = new JLabel("Meest recente QR-code :");
-	private JLabel KpHeight = new JLabel("KpH:");
-	private JLabel KiHeight = new JLabel("KiH:");
-	private JLabel KdHeight = new JLabel("KdH:");
-	private JLabel safetyIntervalHeight = new JLabel("SafetyIntervalH: ");
-	private JLabel KpAngle = new JLabel("KpA:");
-	private JLabel KiAngle = new JLabel("KiA:");
-	private JLabel KdAngle = new JLabel("KdA:");
-	private JLabel safetyIntervalAngle = new JLabel("SafetyIntervalA: ");
+	private JLabel KpHeight = new JLabel("KpHeight:");
+	private JLabel KiHeight = new JLabel("KiHeight:");
+	private JLabel KdHeight = new JLabel("KdHeight:");
+	private JLabel safetyIntervalHeight = new JLabel("SafetyHeight: ");
+	private JLabel KpAngle = new JLabel("KpAngle:");
+	private JLabel KiAngle = new JLabel("KiAngle:");
+	private JLabel KdAngle = new JLabel("KdAngle:");
+	private JLabel safetyIntervalAngle = new JLabel("SafetyAngle: ");
 
 	// alle buttons
 	private JButton logfiles = new JButton("Vorige logfiles");
 	private JButton scanQRCode = new JButton("Scan QR-code");
 	private JButton setTargetHeight = new JButton("Pas hoogte aan");
-	private JButton setKpHeight= new JButton("KpH");
-	private JButton setKiHeight= new JButton("KiH");
-	private JButton setKdHeight= new JButton("KdH");
-	private JButton setSafetyIntervalHeight = new JButton("SafetyIntervalH");
-	private JButton setKpAngle= new JButton("KpA");
-	private JButton setKiAngle= new JButton("KiA");
-	private JButton setKdAngle= new JButton("KdA");
-	private JButton setSafetyIntervalAngle = new JButton("SafetyIntervalA");
+	private JButton setKpHeight= new JButton("KpHeight");
+	private JButton setKiHeight= new JButton("KiHeight");
+	private JButton setKdHeight= new JButton("KdHeight");
+	private JButton setSafetyIntervalHeight = new JButton("SafetyHeight");
+	private JButton setKpAngle= new JButton("KpAngle");
+	private JButton setKiAngle= new JButton("KiAngle");
+	private JButton setKdAngle= new JButton("KdAngle");
+	private JButton setSafetyIntervalAngle = new JButton("SafetyAngle");
 	private BasicArrowButton arrowup = new BasicArrowButton(SwingConstants.NORTH);
 	private BasicArrowButton arrowleft = new BasicArrowButton(SwingConstants.WEST);
 	private BasicArrowButton arrowright = new BasicArrowButton(SwingConstants.EAST);
@@ -116,7 +116,7 @@ public class GuiPanel implements ActionListener
 
 	public GuiPanel() throws RemoteException {
 		try {
-			guiController = new GuiController();
+			//guiController = new GuiController();
 		} catch (Exception e) {
 			System.err.println("Fout bij het verbinden met de zeppelin:");
 			e.printStackTrace();
@@ -138,24 +138,25 @@ public class GuiPanel implements ActionListener
 		addPanelToGUI(motorpanel, 0, 500, 500, 50);
 		addPanelToGUI(qrcodepanel, 500, 0, 600, 400);
 		addPanelToGUI(arrows, 500, 400, 200, 150);
-		addPanelToGUI(actionsPanel, 700, 400, 200, 150);
+		addPanelToGUI(actionsPanel, 700, 400, 400, 150);
 
 		// voeg labels toe aan het correcte panel
 		addLabelToPanel(motor1, 69, 10, 75, 30, motorpanel);
 		addLabelToPanel(motor2, 213, 10, 75, 30, motorpanel);
 		addLabelToPanel(motor3, 356, 10, 75, 30, motorpanel);
 		addLabelToPanel(qrcode, 5, 300, 400, 30, qrcodepanel);
-		addLabelToPanel(hoogte, 5, 5, 100, 50, infopanel);
 		
-		addLabelToPanel(doelHoogte, 5, 50, 100, 50, infopanel);
-		addLabelToPanel(KpHeight, 5, 110, 50, 50, infopanel);
-		addLabelToPanel(KdHeight, 85, 110, 50, 50, infopanel);
-		addLabelToPanel(KiHeight, 170, 110, 50, 50, infopanel);
-		addLabelToPanel(safetyIntervalHeight, 5, 150, 100, 50, infopanel);
-		addLabelToPanel(KpAngle, 5, 110, 50, 50, infopanel);
-		addLabelToPanel(KdAngle, 85, 110, 50, 50, infopanel);
-		addLabelToPanel(KiAngle, 170, 110, 50, 50, infopanel);
-		addLabelToPanel(safetyIntervalAngle, 5, 150, 100, 50, infopanel);
+		addLabelToPanel(hoogte, 5, 5, 100, 50, infopanel);		
+		addLabelToPanel(doelHoogte, 5, 30, 100, 50, infopanel);
+		
+		addLabelToPanel(KpHeight, 5, 60, 65, 50, infopanel);
+		addLabelToPanel(KdHeight, 160, 60, 65, 50, infopanel);
+		addLabelToPanel(KiHeight, 305, 60, 65, 50, infopanel);
+		addLabelToPanel(safetyIntervalHeight, 5, 140, 100, 50, infopanel);
+		addLabelToPanel(KpAngle, 5, 100, 65, 50, infopanel);
+		addLabelToPanel(KdAngle, 160, 100, 65, 50, infopanel);
+		addLabelToPanel(KiAngle, 305, 100, 65, 50, infopanel);
+		addLabelToPanel(safetyIntervalAngle, 180, 140, 100, 50, infopanel);
 
 		turnLightOff(motor1);
 		turnLightOff(motor2);
@@ -166,15 +167,15 @@ public class GuiPanel implements ActionListener
 		addButtonToPanel(scanQRCode, 125, 5, 150, 30, KeyEvent.VK_3, qrcodepanel);
 		
 		addButtonToPanel(setTargetHeight, 5, 5, 150, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKpHeight, 5, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKiHeight, 70, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKdHeight, 135, 40, 45, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setSafetyIntervalHeight, 5, 80, 150, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKpHeight, 5, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKiHeight, 70, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKdHeight, 135, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setSafetyIntervalHeight, 5, 80, 100, 30, KeyEvent.VK_4, actionsPanel);
 		// TODO: andere verticale coördinaten voor hoekconstanten
-		addButtonToPanel(setKpAngle, 5, 120, 45, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKiAngle, 70, 120, 45, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKdAngle, 135, 120, 45, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setSafetyIntervalAngle, 5, 160, 150, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKpAngle, 5, 120, 55, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKiAngle, 70, 120, 55, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKdAngle, 135, 120, 55, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setSafetyIntervalAngle, 150, 80, 100, 30, KeyEvent.VK_4, actionsPanel);
 
 		addArrowToPanel(arrowup, 75, 25, 50, 50, KeyEvent.VK_UP, arrows, false);
 		addArrowToPanel(arrowleft, 25, 75, 50, 50, KeyEvent.VK_LEFT, arrows, false);
@@ -189,24 +190,24 @@ public class GuiPanel implements ActionListener
 		// voeg text area voor log toe
 		addTextAreaToPanelWithScrolling(0, 0, 500, 250, logTextArea, logpanel);
 		addTextAreaToPanel(150, 15, 200, 20, huidigeHoogte, infopanel);
-		addTextAreaToPanel(150, 65, 200, 20, targetHoogte, infopanel);
+		addTextAreaToPanel(150, 45, 200, 20, targetHoogte, infopanel);
 		
-		addTextAreaToPanel(30, 125, 50, 20, KpValueHeight, infopanel);
-		addTextAreaToPanel(110, 125, 50, 20, KdValueHeight, infopanel);
-		addTextAreaToPanel(190, 125, 50, 20, KiValueHeight, infopanel);
-		addTextAreaToPanel(130, 160, 50, 20, safetyIntervalValueHeight, infopanel);
-		addTextAreaToPanel(30, 125, 50, 20, KpValueAngle, infopanel);
-		addTextAreaToPanel(110, 125, 50, 20, KdValueAngle, infopanel);
-		addTextAreaToPanel(190, 125, 50, 20, KiValueAngle, infopanel);
-		addTextAreaToPanel(130, 160, 50, 20, safetyIntervalValueAngle, infopanel);
+		addTextAreaToPanel(85, 70, 50, 20, KpValueHeight, infopanel);
+		addTextAreaToPanel(230, 70, 50, 20, KdValueHeight, infopanel);
+		addTextAreaToPanel(375, 70, 50, 20, KiValueHeight, infopanel);
+		addTextAreaToPanel(110, 150, 50, 20, safetyIntervalValueHeight, infopanel);
+		addTextAreaToPanel(85, 110, 50, 20, KpValueAngle, infopanel);
+		addTextAreaToPanel(230, 110, 50, 20, KdValueAngle, infopanel);
+		addTextAreaToPanel(375, 110, 50, 20, KiValueAngle, infopanel);
+		addTextAreaToPanel(270, 150, 50, 20, safetyIntervalValueAngle, infopanel);
 		
-
+		/*
 		try {
 			targetHoogte.setText(Double.toString(this.guiController.getTargetHeight()));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-
+		
 		try {
 			ImageIcon icon = new ImageIcon(ImageIO.read(new File("empty.jpg")));
 			mostRecentQRCodeLabel = new JLabel("", icon, JLabel.CENTER);
@@ -216,6 +217,7 @@ public class GuiPanel implements ActionListener
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
 		
 		return guipanel;
 	}
@@ -319,12 +321,14 @@ public class GuiPanel implements ActionListener
 		light.setBackground(Color.green); // lamp op groen zetten : 'aan'
 	}
 	
+	
 	public void setVariables() throws RemoteException {
 		this.KpValueHeight.setText(Double.toString(guiController.getKpHeight()));
 		this.KdValueHeight.setText(Double.toString(guiController.getKdHeight()));
 		this.KiValueHeight.setText(Double.toString(guiController.getKiHeight()));
 		this.targetHoogte.setText(Double.toString(guiController.getHeight()));
 	}
+	
 
 	public void actionPerformed(ActionEvent event)
 	{
@@ -481,9 +485,9 @@ public class GuiPanel implements ActionListener
 				}
 			}
 		});
-		frame.setSize(950, 600);
+		frame.setSize(1100, 600);
 		frame.setVisible(true);
-		guipanel.setVariables();
+		//guipanel.setVariables();
 	}
 
 	public static void main(String[] args) throws RemoteException, NotBoundException {
