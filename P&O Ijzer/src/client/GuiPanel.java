@@ -116,7 +116,7 @@ public class GuiPanel implements ActionListener
 
 	public GuiPanel() throws RemoteException {
 		try {
-			//guiController = new GuiController();
+			guiController = new GuiController();
 		} catch (Exception e) {
 			System.err.println("Fout bij het verbinden met de zeppelin:");
 			e.printStackTrace();
@@ -171,7 +171,7 @@ public class GuiPanel implements ActionListener
 		addButtonToPanel(setKiHeight, 70, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setKdHeight, 135, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setSafetyIntervalHeight, 5, 80, 100, 30, KeyEvent.VK_4, actionsPanel);
-		// TODO: andere verticale coördinaten voor hoekconstanten
+
 		addButtonToPanel(setKpAngle, 5, 120, 55, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setKiAngle, 70, 120, 55, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setKdAngle, 135, 120, 55, 30, KeyEvent.VK_4, actionsPanel);
@@ -201,7 +201,6 @@ public class GuiPanel implements ActionListener
 		addTextAreaToPanel(375, 110, 50, 20, KiValueAngle, infopanel);
 		addTextAreaToPanel(270, 150, 50, 20, safetyIntervalValueAngle, infopanel);
 		
-		/*
 		try {
 			targetHoogte.setText(Double.toString(this.guiController.getTargetHeight()));
 		} catch (RemoteException e) {
@@ -217,7 +216,6 @@ public class GuiPanel implements ActionListener
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		*/
 		
 		return guipanel;
 	}
@@ -278,6 +276,7 @@ public class GuiPanel implements ActionListener
 		textArea.setBorder(BorderFactory.createLineBorder(Color.black));
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBounds(x, y, width, length);
 		panel.add(scrollPane, BorderLayout.CENTER);
 	}
 	
@@ -487,7 +486,7 @@ public class GuiPanel implements ActionListener
 		});
 		frame.setSize(1100, 600);
 		frame.setVisible(true);
-		//guipanel.setVariables();
+		guipanel.setVariables();
 	}
 
 	public static void main(String[] args) throws RemoteException, NotBoundException {
@@ -619,7 +618,7 @@ public class GuiPanel implements ActionListener
 		public Void doInBackground() throws InterruptedException {
 			while (true) {
 				try {
-					logText = GuiPanel.this.guiController.readLogFile();
+					logText = GuiPanel.this.guiController.readLog();
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							GuiPanel.this.logTextArea.setText(logText);

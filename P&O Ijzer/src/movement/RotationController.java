@@ -17,7 +17,7 @@ import ftp.LogWriter;
 public class RotationController {
 
 	private MotorController motorController;
-	private PIDController pController = new PIDController(17, 0.001, 13500, PIDMode.ANGLE); // TODO: constanten bepalen
+	private PIDController pController = new PIDController(0.01, 0.001, 50, PIDMode.ANGLE); // TODO: constanten bepalen
 	private double safetyInterval = 5;
 	
 	private MainProgramImpl zeppelin;
@@ -25,6 +25,13 @@ public class RotationController {
 	public void setZeppelin(MainProgramImpl zeppelin) throws IllegalStateException {
 		if (this.zeppelin != null)
 			throw new IllegalStateException("Probeerde in rotation controller de zeppelin meer dan eens te zetten.");
+		this.zeppelin = zeppelin;
+	}
+	
+	public void setMotorController(MotorController controller) {
+		if (this.motorController != null)
+			throw new IllegalStateException("Probeerde in rotation controller de motor controller meer dan eens te zetten.");
+		this.motorController = controller;
 	}
 	
 	public double getSafetyIntervalAngle() {
@@ -34,8 +41,6 @@ public class RotationController {
 	public void setSafetyIntervalAngle(double safetyInterval) {
 		this.safetyInterval = safetyInterval;
 	}
-
-	private LogWriter logWriter;
 	
 	public void takeAction(double targetAngle, double zeppelinHeight) throws RemoteException, TimeoutException, InterruptedException {
 		this.checkState();
@@ -93,26 +98,25 @@ public class RotationController {
 		return 360 - angle;
 	}
 	
-	/**
-	 * Neem als conventie dat 
-	 * @param angle
-	 * @param otherAngle
-	 * @return
-	 */
-	public static double getLeftTurnDistance(double angle, double otherAngle) {
-		if (angle > otherAngle)
-			return Math.abs(- angle - otherAngle);
-		return Math.abs(angle - otherAngle);
-	}
-	
-	public static double getRightTurnDistance(double angle, double otherAngle) {
-		if (otherAngle > angle)
-			return Math.abs(- angle - getAngleComplement(otherAngle));
-		return Math.abs(angle - otherAngle);
+	public static double getAngle(double currentAngle, double targetAngle) {
+		if(currentAngle == targetAngle) {
+			return 0;
+		}
+		double leftAngle = (currentAngle + 360 - targetAngle) % 360;
+		double rightAngle = (360 - currentAngle + targetAngle) % 360;
+		if (Math.min(rightAngle, leftAngle) == leftAngle) {
+			return -leftAngle;
+		}
+		else {
+			return rightAngle;
+		}
+		
 	}
 	
 	private void checkState() throws IllegalArgumentException {
 		if (this.zeppelin == null)
+			throw new IllegalArgumentException("Probeerde PID voor draaien te activeren, maar zeppelin was niet geïnstantieerd.");
+		if (this.motorController == null)
 			throw new IllegalArgumentException("Probeerde PID voor draaien te activeren, maar zeppelin was niet geïnstantieerd.");
 	}
 

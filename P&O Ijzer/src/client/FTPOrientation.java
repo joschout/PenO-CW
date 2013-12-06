@@ -43,6 +43,8 @@ public class FTPOrientation extends UnicastRemoteObject implements FTPOrientatio
 	}
 	
 	private double calcRotation(ResultPoint[] points) {
+		if (points == null)
+			return -1;
 		ResultPoint a= points[1];
 		ResultPoint b= points[2];
 		ResultPoint c= points[0];

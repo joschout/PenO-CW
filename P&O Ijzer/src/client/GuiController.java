@@ -197,8 +197,8 @@ public class GuiController {
 		return this.ftpClient.getImageFromFile(filename);
 	}
 	
-	public String readLogFile() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		return this.ftpClient.readLogFile();
+	public String readLog() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+		return this.zeppelin.readLog();
 	}
 
 	public void exit() {

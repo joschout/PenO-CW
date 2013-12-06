@@ -12,10 +12,15 @@ public class Orientation {
 	public double getOrientation(double currentHeight) throws IllegalStateException {
 		if (finder == null)
 			throw new IllegalStateException("Client is niet beschikbaar voor het vinden van de oriëntatie.");
-		String filename = Long.toString(System.currentTimeMillis());
 		try {
-			MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, currentHeight);
-			return finder.findOrientationFromPicture(filename);
+			double toReturn = -1;
+			String filename;
+			while (toReturn == -1) {
+				filename = Long.toString(System.currentTimeMillis());
+				MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, currentHeight);
+				toReturn = finder.findOrientationFromPicture(filename);
+			}
+			return toReturn;
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

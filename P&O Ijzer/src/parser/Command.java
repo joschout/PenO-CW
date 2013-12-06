@@ -155,6 +155,8 @@ public class Command {
 				e.printStackTrace();
 			}
 		this.zeppelin.setTurning(false);
+		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		MainProgramImpl.MOTOR_CONTROLLER.writeSoftPwmValues(0, 0, 0, 0);
 	}
 	
 	private void goRight() {
@@ -169,6 +171,8 @@ public class Command {
 				e.printStackTrace();
 			}
 		this.zeppelin.setTurning(false);
+		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		MainProgramImpl.MOTOR_CONTROLLER.writeSoftPwmValues(0, 0, 0, 0);
 	}
 	
 	private double requestAngleAndUpdate() {

@@ -34,7 +34,7 @@ import ftp.LogWriter;
 
 public class MainProgramImpl extends UnicastRemoteObject implements MainProgramInterface {
 
-	
+	// LogWriter
 	private static final long serialVersionUID = 1L;
 	public static final GpioController gpio = GpioFactory.getInstance();
 	
@@ -57,6 +57,8 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	// Dit object berekent de oriëntatie van de zeppelin
 	public static final Orientation ORIENTATION = new Orientation();
 	
+	public static final LogWriter LOG_WRITER = new LogWriter();
+	
 	private Parser parser;
 	
 	private boolean qrCodeAvailable = false;
@@ -67,15 +69,14 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 * De zeppelin is nu bezig met landen en daarna de uitvoering te stoppen.
 	 */
 	private boolean exit = false;
-	
-	private LogWriter logWriter = new LogWriter();
 
 	public MainProgramImpl() throws RemoteException {
 		super();
 		parser = new Parser(this);
 		ROTATION_CONTROLLER.setZeppelin(this);
+		ROTATION_CONTROLLER.setMotorController(MOTOR_CONTROLLER);
 		
-		logWriter.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
+		LOG_WRITER.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
 		
 		try {
 			this.targetHeight = SENSOR_CONTROLLER.sensorReading();
@@ -120,10 +121,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		return this.parser;
 	}
 	
-	private LogWriter getLogWriter() {
-		return this.logWriter;
-	}
-	
 	public void startGameLoop() throws InterruptedException {
 		System.out.println("Wachten op beschikbare client voor meten van hoek op basis van QR-codes");
 		while (! ORIENTATION.finderSet()) {
@@ -161,6 +158,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 				try {
 					HEIGHT_ADJUSTER.takeAction(mostRecentHeight, targetHeight);
 					if (turning) {
+						System.out.println("Huidige hoek van zeppelin: " + mostRecentAngle);
 						System.out.println("Zeppelin: In if-test met target angle: " + targetAngle);
 						ROTATION_CONTROLLER.takeAction(targetAngle, mostRecentHeight);
 					}
@@ -176,6 +174,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 				e.printStackTrace();
 			}
 		}
+		MOTOR_CONTROLLER.writeSoftPwmValues(0, 0, 0, 0);
 		MOTOR_CONTROLLER.stopRightAndLeftMotor();
 		MOTOR_CONTROLLER.stopHeightAdjustment();
 		System.exit(0);
@@ -340,6 +339,11 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public double getSafetyIntervalAngle() throws RemoteException {
 		return ROTATION_CONTROLLER.getSafetyIntervalAngle();
 	}
+	
+	@Override
+	public String readLog() throws RemoteException {
+		return LOG_WRITER.getLog();
+	}
 
 	/**
 	 * Staat in voor het constant zoeken naar een nieuwe QR-code en
@@ -377,7 +381,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 				}
 				else {
 					MainProgramImpl.this.offerQrCode();
-					MainProgramImpl.this.getLogWriter().writeToLog("QR-code gelezen met als resultaat: " + decoded);
+					LOG_WRITER.writeToLog("QR-code gelezen met als resultaat: " + decoded);
 					List<Command> commands = MainProgramImpl.this.getParser().parse(decoded);
 					for (Command command: commands) {
 						command.execute();

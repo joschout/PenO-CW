@@ -6,7 +6,6 @@ import java.util.List;
 import client.FTPOrientation;
 import zeppelin.MainProgramImpl;
 
-
 public class Parser {
 	
 	private MainProgramImpl zeppelin;

@@ -19,12 +19,9 @@ public class HeightAdjuster {
 	public void setSafetyIntervalHeight(double safetyInterval) {
 		this.safetyInterval = safetyInterval;
 	}
-
-	private LogWriter logWriter;
 	
 	public HeightAdjuster(MotorController motorController) {
 		this.motorController = motorController;
-		this.logWriter = new LogWriter();
 	}
 	
 	
