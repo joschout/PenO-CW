@@ -65,6 +65,7 @@ public class GuiPanel implements ActionListener
 	private JLabel motor3 = new JLabel("   Onder");
 	
 	private JLabel qrcode = new JLabel("Meest recente QR-code :");
+	private JLabel verwachtVolgnummer = new JLabel("Verwacht volgnummer :");
 	private JLabel KpHeight = new JLabel("KpHeight:");
 	private JLabel KiHeight = new JLabel("KiHeight:");
 	private JLabel KdHeight = new JLabel("KdHeight:");
@@ -116,7 +117,7 @@ public class GuiPanel implements ActionListener
 
 	public GuiPanel() throws RemoteException {
 		try {
-			guiController = new GuiController();
+			// guiController = new GuiController();
 		} catch (Exception e) {
 			System.err.println("Fout bij het verbinden met de zeppelin:");
 			e.printStackTrace();
@@ -145,6 +146,7 @@ public class GuiPanel implements ActionListener
 		addLabelToPanel(motor2, 213, 10, 75, 30, motorpanel);
 		addLabelToPanel(motor3, 356, 10, 75, 30, motorpanel);
 		addLabelToPanel(qrcode, 5, 300, 400, 30, qrcodepanel);
+		addLabelToPanel(verwachtVolgnummer, 5, 320, 400, 30, qrcodepanel);
 		
 		addLabelToPanel(hoogte, 5, 5, 100, 50, infopanel);		
 		addLabelToPanel(doelHoogte, 5, 30, 100, 50, infopanel);
@@ -201,21 +203,21 @@ public class GuiPanel implements ActionListener
 		addTextAreaToPanel(375, 110, 50, 20, KiValueAngle, infopanel);
 		addTextAreaToPanel(270, 150, 50, 20, safetyIntervalValueAngle, infopanel);
 		
-		try {
-			targetHoogte.setText(Double.toString(this.guiController.getTargetHeight()));
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			ImageIcon icon = new ImageIcon(ImageIO.read(new File("empty.jpg")));
-			mostRecentQRCodeLabel = new JLabel("", icon, JLabel.CENTER);
-			mostRecentQRCodeLabel.setLocation(70,10);
-			mostRecentQRCodeLabel.setSize(300, 222);
-			qrcodepanel.add(mostRecentQRCodeLabel);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			targetHoogte.setText(Double.toString(this.guiController.getTargetHeight()));
+//		} catch (RemoteException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		try {
+//			ImageIcon icon = new ImageIcon(ImageIO.read(new File("empty.jpg")));
+//			mostRecentQRCodeLabel = new JLabel("", icon, JLabel.CENTER);
+//			mostRecentQRCodeLabel.setLocation(70,10);
+//			mostRecentQRCodeLabel.setSize(300, 222);
+//			qrcodepanel.add(mostRecentQRCodeLabel);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		return guipanel;
 	}
@@ -486,7 +488,7 @@ public class GuiPanel implements ActionListener
 		});
 		frame.setSize(1100, 600);
 		frame.setVisible(true);
-		guipanel.setVariables();
+		// guipanel.setVariables();
 	}
 
 	public static void main(String[] args) throws RemoteException, NotBoundException {

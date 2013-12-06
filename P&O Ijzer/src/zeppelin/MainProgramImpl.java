@@ -37,34 +37,35 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	// LogWriter
 	private static final long serialVersionUID = 1L;
 	public static final GpioController gpio = GpioFactory.getInstance();
-	
+
 	/**
 	 * Meest recente uitlezing van de sensor.
 	 */
 	private double mostRecentHeight;
 	private double mostRecentAngle;
-	
+
 	private double targetHeight;
 	private double targetAngle;
-	
+
 	// Controllers
 	public static final SensorController SENSOR_CONTROLLER = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);;
 	public static final CameraController CAMERA_CONTROLLER = new CameraController();
 	public static final MotorController MOTOR_CONTROLLER = new MotorController();
 	public static final HeightAdjuster HEIGHT_ADJUSTER = new HeightAdjuster(MOTOR_CONTROLLER);
 	public static final RotationController ROTATION_CONTROLLER = new RotationController();
-	
+
 	// Dit object berekent de oriëntatie van de zeppelin
 	public static final Orientation ORIENTATION = new Orientation();
-	
+
 	public static final LogWriter LOG_WRITER = new LogWriter();
-	
+
 	private Parser parser;
-	
+
 	private boolean qrCodeAvailable = false;
-	
+	private int expectedSeqNum = 1;
+
 	public static final QRCodeHandler QR_CODE_READER = new QRCodeHandler();
-	
+
 	/**
 	 * De zeppelin is nu bezig met landen en daarna de uitvoering te stoppen.
 	 */
@@ -75,9 +76,9 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		parser = new Parser(this);
 		ROTATION_CONTROLLER.setZeppelin(this);
 		ROTATION_CONTROLLER.setMotorController(MOTOR_CONTROLLER);
-		
+
 		LOG_WRITER.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
-		
+
 		try {
 			this.targetHeight = SENSOR_CONTROLLER.sensorReading();
 		} catch (TimeoutException e) {
@@ -86,41 +87,41 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public double sensorReading() throws RemoteException {
 		return this.mostRecentHeight;
 	}
-	
+
 	public double getMostRecentAngle() {
 		return this.mostRecentAngle;
 	}
-	
+
 	public void updateMostRecentAngle(double angle) {
 		this.mostRecentAngle = angle;
 	}
-	
+
 	public double getTargetHeight() throws RemoteException {
 		return this.targetHeight;
 	}
-	
+
 	@Override
 	public void setTargetHeight(double height) throws RemoteException {
 		this.targetHeight = height;
 	}
-	
+
 	public double getTargetAngle() {
 		return this.targetAngle;
 	}
-	
+
 	public void setTargetAngle(double targetAngle) {
 		this.targetAngle = targetAngle;
 	}
-	
+
 	private Parser getParser() {
 		return this.parser;
 	}
-	
+
 	public void startGameLoop() throws InterruptedException {
 		System.out.println("Wachten op beschikbare client voor meten van hoek op basis van QR-codes");
 		while (! ORIENTATION.finderSet()) {
@@ -131,17 +132,17 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		this.gameLoop();
 		System.out.println("Lus afgebroken; uitvoering is stopgezet.");
 	}
-	
+
 	public void exit() {
 		this.exit = true;
 	}
-	
+
 	private boolean turning = false;
-	
+
 	public void setTurning(boolean value) {
 		this.turning = value;
 	}
-	
+
 	/**
 	 * Zolang de cliënt contact onderhoudt met de zeppelin, moet deze
 	 * lus uitgevoerd worden. Om de beurt worden
@@ -166,7 +167,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 					e.printStackTrace();
 				}
 			} catch (TimeoutException e) {
-				
+
 			}
 			try {
 				Thread.sleep(100);
@@ -179,19 +180,19 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		MOTOR_CONTROLLER.stopHeightAdjustment();
 		System.exit(0);
 	}
-	
+
 	public boolean qrCodeAvailable() throws RemoteException {
 		return this.qrCodeAvailable;
 	}
-	
+
 	public void qrCodeConsumed() throws RemoteException {
 		this.qrCodeAvailable = false;
 	}
-	
+
 	private void offerQrCode() {
 		this.qrCodeAvailable = true;
 	}
-	
+
 	public void notifyClientAvailable() {
 		try {
 			Registry registry = LocateRegistry.getRegistry(java.rmi.server.RemoteServer.getClientHost(), 1099);
@@ -199,7 +200,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 					(FTPOrientationIface) registry.lookup("Finder");
 			System.out.println("Deze finder wordt gezet in Orientation: " + finder);
 			ORIENTATION.setFinder(finder);
-			
+
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		} catch (ServerNotActiveException e) {
@@ -207,7 +208,15 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
-		
+
+	}
+
+	public int getExpectedSequenceNumber() {
+		return this.expectedSeqNum;
+	}
+
+	public void setExpectedSequenceNumber(int number) {
+		this.expectedSeqNum = number;
 	}
 
 	@Override
@@ -233,7 +242,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	@Override
 	public void goForward() throws RemoteException {
 		MOTOR_CONTROLLER.forward();
-		
+
 	}
 
 	@Override
@@ -255,21 +264,21 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public void stopRightAndLeft() throws RemoteException {
 		MOTOR_CONTROLLER.stopRightAndLeftMotor();
 	}
-	
+
 	public void stopDownward() throws RemoteException {
 		MOTOR_CONTROLLER.stopHeightAdjustment();
 	}
-	
+
 	@Override
 	public void setKpHeight(double kp) {
 		HEIGHT_ADJUSTER.setKpHeight(kp);
 	}
-	
+
 	@Override
 	public void setKdHeight(double kd) {
 		HEIGHT_ADJUSTER.setKdHeight(kd);
 	}
-	
+
 	@Override
 	public void setKiHeight(double ki) {
 		HEIGHT_ADJUSTER.setKiHeight(ki);
@@ -299,17 +308,17 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public double getSafetyIntervalHeight() throws RemoteException {
 		return HEIGHT_ADJUSTER.getSafetyIntervalHeight();
 	}
-	
+
 	@Override
 	public void setKpAngle(double kp) {
 		ROTATION_CONTROLLER.setKpAngle(kp);
 	}
-	
+
 	@Override
 	public void setKdAngle(double kd) {
 		ROTATION_CONTROLLER.setKdAngle(kd);
 	}
-	
+
 	@Override
 	public void setKiAngle(double ki) {
 		ROTATION_CONTROLLER.setKiAngle(ki);
@@ -339,7 +348,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public double getSafetyIntervalAngle() throws RemoteException {
 		return ROTATION_CONTROLLER.getSafetyIntervalAngle();
 	}
-	
+
 	@Override
 	public String readLog() throws RemoteException {
 		return LOG_WRITER.getLog();
@@ -352,10 +361,15 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 *
 	 */
 	private class QrCodeLogicThread implements Runnable {
-		
+
+
+
 		/**
 		 * - Kan een QR-code vinden?
 		 * 		-> nee: slaap een seconde lang, repeat
+		 * - QR-code bevat verwachte volgnummer?
+		 *      -> nee: slaap een seconde lang, repeat
+		 * - Verhoog verwacht volgnummer met één
 		 * - Parse QR-code
 		 * - Voer commando's uit
 		 * - repeat
@@ -379,16 +393,24 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 						e.printStackTrace();
 					}
 				}
-				else {
-					MainProgramImpl.this.offerQrCode();
-					LOG_WRITER.writeToLog("QR-code gelezen met als resultaat: " + decoded);
-					List<Command> commands = MainProgramImpl.this.getParser().parse(decoded);
-					for (Command command: commands) {
-						command.execute();
-					}
+				boolean correctSeqNumber = decoded.contains("N:" + MainProgramImpl.this.getExpectedSequenceNumber());
+				if (! correctSeqNumber) {
+					int NIndex = decoded.indexOf('N');
+					int codeSeqNum = Integer.parseInt(decoded.substring(NIndex + 2, NIndex + 3));
+					LOG_WRITER.writeToLog("WAARSCHUWING: scande QR-code met volgnummer " + 
+							codeSeqNum + " terwijl volgnummer " + MainProgramImpl.this.getExpectedSequenceNumber()
+							+ " werd verwacht; QR-code wordt toch uitgevoerd, maar verwacht volgnummer blijft onveranderd");
+				}
+					
+				MainProgramImpl.this.setExpectedSequenceNumber(MainProgramImpl.this.getExpectedSequenceNumber() + 1);
+				MainProgramImpl.this.offerQrCode();
+				LOG_WRITER.writeToLog("QR-code gelezen met als resultaat: " + decoded);
+				List<Command> commands = MainProgramImpl.this.getParser().parse(decoded);
+				for (Command command: commands) {
+					command.execute();
 				}
 			}
-			
+
 		}
 	}
 

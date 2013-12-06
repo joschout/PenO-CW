@@ -64,8 +64,8 @@ public class QRCodeHandler {
 	 */
 	public String scanQrCode(String filename) {
 		try {
-			InputStream barCodeInputStream = new FileInputStream(filename);
-			BufferedImage barCodeBufferedImage = ImageIO.read(barCodeInputStream);  
+			File file = new File(filename);
+			BufferedImage barCodeBufferedImage = ImageIO.read(file);  
   
 			LuminanceSource source = new BufferedImageLuminanceSource(barCodeBufferedImage);  
 			BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
