@@ -100,7 +100,6 @@ public class PIDController {
 	private Double differentiate() {
 		int size = errors.size();
 		if(size >= 2) {
-			
 			return (errors.get(size - 1) - errors.get(size - 2))/(timeStamps.get(size - 1) - timeStamps.get(size - 2));
 		}
 		return null;

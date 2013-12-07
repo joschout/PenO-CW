@@ -72,20 +72,16 @@ public class MotorController implements Serializable {
 		}
 		System.out.println("Laten draaien aan percentage: " + percentage);
 		if (percentage < 0) { // zeppelin moet naar rechts
-			MainProgramImpl.LOG_WRITER.writeToLog("Rechtse motor laten draaien aan percentage: "
-					+ (- percentage));
-			this.left();
-		}
-		else { // zeppelin moet naar links
 			MainProgramImpl.LOG_WRITER.writeToLog("Linkse motor laten draaien aan percentage: "
-					+ percentage);
+					+ (- percentage));
 			this.right();
 		}
-		if (softPwmValue != percentage) {
-			if (percentage == 0) {
-				updateSoftPwm(percentage);
-				return;
-			}
+		else { // zeppelin moet naar links
+			MainProgramImpl.LOG_WRITER.writeToLog("Rechtse motor laten draaien aan percentage: "
+					+ percentage);
+			this.left();
+		}
+		if (softPwmValue != Math.abs(percentage)) {
 			if (Math.abs(percentage) > 50)
 				percentage = 50;
 			this.softPwmValue = percentage;
@@ -94,11 +90,14 @@ public class MotorController implements Serializable {
 	}
 	
 	private void updateSoftPwm(int percentage) {
+		percentage = Math.abs(percentage);
 		if (goingLeft()) {
+			SoftPwm.softPwmWrite(LEFT_COUNTERCLOCKWISE_PIN, percentage);
 			SoftPwm.softPwmWrite(RIGHT_CLOCKWISE_PIN, percentage);
 		}
 		else if (goingRight()) {
 			SoftPwm.softPwmWrite(LEFT_CLOCKWISE_PIN, percentage);
+			SoftPwm.softPwmWrite(RIGHT_COUNTERCLOCKWISE_PIN, percentage);
 		}
 		else if (goingForward()) {
 			SoftPwm.softPwmWrite(LEFT_CLOCKWISE_PIN, percentage);
@@ -113,28 +112,45 @@ public class MotorController implements Serializable {
 	public void left() {
 		if (! this.goingLeft()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin naar links laten draaien.");
-			this.writeSoftPwmValues(0, softPwmValue, softPwmValue, 0);
-			this.leftMotor.counterClockwise();
-			this.rightMotor.clockwise();
 		}
+		this.writeSoftPwmValues(0, softPwmValue, softPwmValue, 0);
+		this.leftMotor.counterClockwise();
+		this.rightMotor.clockwise();
 	}
 	
 	public void right() {
 		if (! this.goingRight()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin naar rechts laten draaien.");
-			this.writeSoftPwmValues(softPwmValue, 0, 0, softPwmValue);
+		}
+		this.writeSoftPwmValues(softPwmValue, 0, 0, softPwmValue);
+		this.leftMotor.clockwise();
+		this.rightMotor.counterClockwise();
+	}
+	
+	public void clientLeft() {
+		if (! this.goingLeft()) {
+			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin naar links laten draaien.");
+			this.writeSoftPwmValues(0, 100, 100, 0);
+			this.leftMotor.counterClockwise();
+			this.rightMotor.clockwise();
+		}
+	}
+	
+	public void clientRight() {
+		if (! this.goingLeft()) {
+			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin naar rechts laten draaien.");
+			this.writeSoftPwmValues(100, 0, 0, 100);
 			this.leftMotor.clockwise();
 			this.rightMotor.counterClockwise();
 		}
 	}
 
-	
-	
 	public void stopRightAndLeftMotor() {
 		if (leftMotor.isOn() && rightMotor.isOn()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin de linker- en rechtermotor laten stoppen.");
 			this.rightMotor.stop();
 			this.leftMotor.stop();
+			this.writeSoftPwmValues(0, 0, 0, 0);
 		}
 	}
 	

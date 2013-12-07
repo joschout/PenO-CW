@@ -17,7 +17,7 @@ import ftp.LogWriter;
 public class RotationController {
 
 	private MotorController motorController;
-	private PIDController pController = new PIDController(0.01, 0.001, 50, PIDMode.ANGLE); // TODO: constanten bepalen
+	private PIDController pController = new PIDController(0.01, 0.001, 5, PIDMode.ANGLE); // TODO: constanten bepalen
 	private double safetyInterval = 5;
 	
 	private MainProgramImpl zeppelin;
@@ -92,10 +92,6 @@ public class RotationController {
 		if (angle < 0)
 			return toReturn + 360;
 		return toReturn;
-	}
-	
-	public static double getAngleComplement(double angle) {
-		return 360 - angle;
 	}
 	
 	public static double getAngle(double currentAngle, double targetAngle) {

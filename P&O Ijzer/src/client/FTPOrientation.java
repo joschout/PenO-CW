@@ -53,10 +53,8 @@ public class FTPOrientation extends UnicastRemoteObject implements FTPOrientatio
 		double x = c.getX()-a.getX();
 		double y = c.getY()-a.getY();
 		double theta = Math.toDegrees(Math.atan2(x, -y));
-		theta += 180;
-		if(theta < 0)
-			theta += 360;
-		return theta;
+		
+		return (-theta + 270) % 360;
 	}
 	
 	private ResultPoint[] findResultPoints(String filename) {
@@ -84,6 +82,10 @@ public class FTPOrientation extends UnicastRemoteObject implements FTPOrientatio
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public double getAngleComplement(double angle) {
+		return 360 - angle;
 	}
 	
 	

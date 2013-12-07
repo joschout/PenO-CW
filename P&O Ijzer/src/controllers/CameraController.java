@@ -17,6 +17,8 @@ import zeppelin.MainProgramInterface;
 public class CameraController implements Serializable {
 
 	private ImageIcon image;
+	
+	private static Object lock = new Object();
 
 	/**
 	 * Laat de Raspberry Pi een foto nemen
@@ -29,9 +31,13 @@ public class CameraController implements Serializable {
 	 */
 	public void takePicture(String pFileName, double currentHeight) throws InterruptedException, IOException
 	{  
-		double[] resolution = this.decideResolution(currentHeight);
-		executeShellCommand("raspistill -t 1 -w " + resolution[0] + " -h " + resolution[1] + " -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg");
-//		executeShellCommand("raspistill -t 1 -w 800 -h 600 -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg");
+		synchronized (lock) {
+			double[] resolution = this.decideResolution(currentHeight);
+			executeShellCommand("raspistill -t 1 -w " + resolution[0] + " -h "
+					+ resolution[1] + " -o " + FTPFileInfo.PATH_TO_FTP_FILES
+					+ pFileName + ".jpg");
+			//		executeShellCommand("raspistill -t 1 -w 800 -h 600 -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg");
+		}
 	} 
 
 	public ImageIcon getImage() {
@@ -47,8 +53,18 @@ public class CameraController implements Serializable {
 	
 	private double[] decideResolution(double currentHeight) {
 		double[] toReturn = new double[2];
-		toReturn[0] = 800; // breedte
-		toReturn[1] = 600; // hoogte
+		if (currentHeight <= 100) {
+			toReturn[0] = 400;
+			toReturn[1] = 300;
+		}
+		else if (currentHeight <= 160) {
+			toReturn[0] = 800;
+			toReturn[1] = 600;
+		}
+		else {
+			toReturn[0] = 1400;
+			toReturn[1] = 1050;
+		}
 		return toReturn;
 	}
 }

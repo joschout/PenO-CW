@@ -36,7 +36,7 @@ public class LogWriter {
 				wipeLog();
 			}
 			if (log.length() == 0)
-				log = hourSyntax.toString() + ":" + minuteSyntax.toString() + " - " + input;
+				log = "\n" + hourSyntax.toString() + ":" + minuteSyntax.toString() + " - " + input;
 			else log = log + "\n" + hourSyntax.toString() + ":" + minuteSyntax.toString() + " - " + input;
 		}
 	}

@@ -151,22 +151,6 @@ public class Command {
 	
 	private void goLeft() {
 		double currentAngle = requestAngleAndUpdate();
-		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle + this.getParameter()));
-		System.out.println("Huidige hoek: " + currentAngle + " ; doelhoek: " + this.zeppelin.getTargetAngle());
-		this.zeppelin.setTurning(true);
-		while (! MainProgramImpl.ROTATION_CONTROLLER.isInInterval(this.zeppelin.getMostRecentAngle(), this.zeppelin.getTargetAngle()))
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		this.zeppelin.setTurning(false);
-		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
-		MainProgramImpl.MOTOR_CONTROLLER.writeSoftPwmValues(0, 0, 0, 0);
-	}
-	
-	private void goRight() {
-		double currentAngle = requestAngleAndUpdate();
 		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle - this.getParameter()));
 		System.out.println("Huidige hoek: " + currentAngle + " ; doelhoek: " + this.zeppelin.getTargetAngle());
 		this.zeppelin.setTurning(true);
@@ -178,7 +162,21 @@ public class Command {
 			}
 		this.zeppelin.setTurning(false);
 		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
-		MainProgramImpl.MOTOR_CONTROLLER.writeSoftPwmValues(0, 0, 0, 0);
+	}
+	
+	private void goRight() {
+		double currentAngle = requestAngleAndUpdate();
+		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle + this.getParameter()));
+		System.out.println("Huidige hoek: " + currentAngle + " ; doelhoek: " + this.zeppelin.getTargetAngle());
+		this.zeppelin.setTurning(true);
+		while (! MainProgramImpl.ROTATION_CONTROLLER.isInInterval(this.zeppelin.getMostRecentAngle(), this.zeppelin.getTargetAngle()))
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		this.zeppelin.setTurning(false);
+		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
 	}
 	
 	private double requestAngleAndUpdate() {

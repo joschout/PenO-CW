@@ -153,13 +153,12 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 */
 	private void gameLoop() throws InterruptedException {
 		while (!exit) {
-			System.out.println("Aan het draaien: " + turning);
 			try {
 				this.mostRecentHeight = SENSOR_CONTROLLER.sensorReading();
 				try {
 					HEIGHT_ADJUSTER.takeAction(mostRecentHeight, targetHeight);
 					if (turning) {
-						System.out.println("Huidige hoek van zeppelin: " + mostRecentAngle);
+						System.out.println("Huidige hoek van zeppelin: " + mostRecentAngle + " met timestamp: " + System.currentTimeMillis());
 						System.out.println("Zeppelin: In if-test met target angle: " + targetAngle);
 						ROTATION_CONTROLLER.takeAction(targetAngle, mostRecentHeight);
 					}
@@ -252,12 +251,12 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 
 	@Override
 	public void turnLeft() throws RemoteException {
-		MOTOR_CONTROLLER.left();
+		MOTOR_CONTROLLER.clientLeft();
 	}
 
 	@Override
 	public void turnRight() throws RemoteException {
-		MOTOR_CONTROLLER.right();
+		MOTOR_CONTROLLER.clientRight();
 	}
 
 	@Override
@@ -362,8 +361,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 */
 	private class QrCodeLogicThread implements Runnable {
 
-
-
 		/**
 		 * - Kan een QR-code vinden?
 		 * 		-> nee: slaap een seconde lang, repeat
@@ -393,22 +390,26 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 						e.printStackTrace();
 					}
 				}
-				boolean correctSeqNumber = decoded.contains("N:" + MainProgramImpl.this.getExpectedSequenceNumber());
-				if (! correctSeqNumber) {
-					int NIndex = decoded.indexOf('N');
-					int codeSeqNum = Integer.parseInt(decoded.substring(NIndex + 2, NIndex + 3));
-					LOG_WRITER.writeToLog("WAARSCHUWING: scande QR-code met volgnummer " + 
-							codeSeqNum + " terwijl volgnummer " + MainProgramImpl.this.getExpectedSequenceNumber()
-							+ " werd verwacht; QR-code wordt toch uitgevoerd, maar verwacht volgnummer blijft onveranderd");
+				else
+				{
+					boolean correctSeqNumber = decoded.contains("N:" + MainProgramImpl.this.getExpectedSequenceNumber());
+					if (! correctSeqNumber) {
+						int NIndex = decoded.indexOf('N');
+						int codeSeqNum = Integer.parseInt(decoded.substring(NIndex + 2, NIndex + 3));
+						LOG_WRITER.writeToLog("WAARSCHUWING: scande QR-code met volgnummer " + 
+								codeSeqNum + " terwijl volgnummer " + MainProgramImpl.this.getExpectedSequenceNumber()
+								+ " werd verwacht; QR-code wordt toch uitgevoerd, maar verwacht volgnummer blijft onveranderd");
+					}
+						
+					MainProgramImpl.this.setExpectedSequenceNumber(MainProgramImpl.this.getExpectedSequenceNumber() + 1);
+					MainProgramImpl.this.offerQrCode();
+					LOG_WRITER.writeToLog("QR-code gelezen met als resultaat: " + decoded);
+					List<Command> commands = MainProgramImpl.this.getParser().parse(decoded);
+					for (Command command: commands) {
+						command.execute();
+					}
 				}
-					
-				MainProgramImpl.this.setExpectedSequenceNumber(MainProgramImpl.this.getExpectedSequenceNumber() + 1);
-				MainProgramImpl.this.offerQrCode();
-				LOG_WRITER.writeToLog("QR-code gelezen met als resultaat: " + decoded);
-				List<Command> commands = MainProgramImpl.this.getParser().parse(decoded);
-				for (Command command: commands) {
-					command.execute();
-				}
+				
 			}
 
 		}

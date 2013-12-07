@@ -91,6 +91,7 @@ public class QRCodeHandler {
 	public String tryReadQrCode(double zeppelinHeight) throws InterruptedException, IOException {
 		String filename = Long.toString(System.currentTimeMillis());
 		MainProgramImpl.CAMERA_CONTROLLER.takePicture(filename, zeppelinHeight);
+		System.out.println("Probeer file te lezen: " + FTPFileInfo.PATH_TO_FTP_FILES + filename + ".jpg");
 		String decoded = this.scanQrCode(FTPFileInfo.PATH_TO_FTP_FILES + filename + ".jpg");
 		if (decoded != null) {
 			BufferedWriter output = new BufferedWriter(new FileWriter(

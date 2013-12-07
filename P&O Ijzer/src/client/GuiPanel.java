@@ -77,7 +77,6 @@ public class GuiPanel implements ActionListener
 
 	// alle buttons
 	private JButton logfiles = new JButton("Vorige logfiles");
-	private JButton scanQRCode = new JButton("Scan QR-code");
 	private JButton setTargetHeight = new JButton("Pas hoogte aan");
 	private JButton setKpHeight= new JButton("KpHeight");
 	private JButton setKiHeight= new JButton("KiHeight");
@@ -117,7 +116,7 @@ public class GuiPanel implements ActionListener
 
 	public GuiPanel() throws RemoteException {
 		try {
-			// guiController = new GuiController();
+			guiController = new GuiController();
 		} catch (Exception e) {
 			System.err.println("Fout bij het verbinden met de zeppelin:");
 			e.printStackTrace();
@@ -166,7 +165,6 @@ public class GuiPanel implements ActionListener
 
 		// voeg buttons toe aan hun panel
 		addButtonToPanel(logfiles, 350, 270, 150, 30, KeyEvent.VK_L, logpanel);
-		addButtonToPanel(scanQRCode, 125, 5, 150, 30, KeyEvent.VK_3, qrcodepanel);
 		
 		addButtonToPanel(setTargetHeight, 5, 5, 150, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setKpHeight, 5, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
@@ -203,21 +201,21 @@ public class GuiPanel implements ActionListener
 		addTextAreaToPanel(375, 110, 50, 20, KiValueAngle, infopanel);
 		addTextAreaToPanel(270, 150, 50, 20, safetyIntervalValueAngle, infopanel);
 		
-//		try {
-//			targetHoogte.setText(Double.toString(this.guiController.getTargetHeight()));
-//		} catch (RemoteException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		try {
-//			ImageIcon icon = new ImageIcon(ImageIO.read(new File("empty.jpg")));
-//			mostRecentQRCodeLabel = new JLabel("", icon, JLabel.CENTER);
-//			mostRecentQRCodeLabel.setLocation(70,10);
-//			mostRecentQRCodeLabel.setSize(300, 222);
-//			qrcodepanel.add(mostRecentQRCodeLabel);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			targetHoogte.setText(Double.toString(this.guiController.getTargetHeight()));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			ImageIcon icon = new ImageIcon(ImageIO.read(new File("empty.jpg")));
+			mostRecentQRCodeLabel = new JLabel("", icon, JLabel.CENTER);
+			mostRecentQRCodeLabel.setLocation(70,10);
+			mostRecentQRCodeLabel.setSize(300, 222);
+			qrcodepanel.add(mostRecentQRCodeLabel);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		return guipanel;
 	}
@@ -488,7 +486,7 @@ public class GuiPanel implements ActionListener
 		});
 		frame.setSize(1100, 600);
 		frame.setVisible(true);
-		// guipanel.setVariables();
+		guipanel.setVariables();
 	}
 
 	public static void main(String[] args) throws RemoteException, NotBoundException {
@@ -623,7 +621,7 @@ public class GuiPanel implements ActionListener
 					logText = GuiPanel.this.guiController.readLog();
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
-							GuiPanel.this.logTextArea.setText(logText);
+							GuiPanel.this.logTextArea.append(logText);
 						}
 					});
 				} catch (IllegalStateException e) {
