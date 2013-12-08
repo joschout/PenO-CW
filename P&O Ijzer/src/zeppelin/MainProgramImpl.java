@@ -385,7 +385,8 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 				}
 				if (decoded == null) {
 					try {
-						Thread.sleep(1000);
+						LOG_WRITER.writeToLog("Geen QR-code gevonden");
+						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -398,7 +399,13 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 						int codeSeqNum = Integer.parseInt(decoded.substring(NIndex + 2, NIndex + 3));
 						LOG_WRITER.writeToLog("WAARSCHUWING: scande QR-code met volgnummer " + 
 								codeSeqNum + " terwijl volgnummer " + MainProgramImpl.this.getExpectedSequenceNumber()
-								+ " werd verwacht; QR-code wordt toch uitgevoerd, maar verwacht volgnummer blijft onveranderd");
+								+ " werd verwacht; QR-code wordt niet uitgevoerd");
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						continue;
 					}
 						
 					MainProgramImpl.this.setExpectedSequenceNumber(MainProgramImpl.this.getExpectedSequenceNumber() + 1);
