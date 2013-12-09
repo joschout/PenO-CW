@@ -1,4 +1,5 @@
 package parser;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -122,31 +123,11 @@ public class Command {
 	}
 
 	private void goBackward() {
-		long duration = (long) this.getParameter() * BACKWARD_SPEED;
-		long endTime = System.currentTimeMillis() + duration;
-		while (System.currentTimeMillis() <= endTime)
-		{
-			if (! MainProgramImpl.MOTOR_CONTROLLER.movingHorizontally())
-			{
-				MainProgramImpl.MOTOR_CONTROLLER.backward();
-			}
-		}
-		if (MainProgramImpl.MOTOR_CONTROLLER.goingBackward())
-			MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		MainProgramImpl.FORWARD_BACKWARD.goBackward(this.getParameter());
 	}
 
 	private void goForward() {
-		long duration = (long) this.getParameter() * FORWARD_SPEED;
-		long endTime = System.currentTimeMillis() + duration;
-		while (System.currentTimeMillis() <= endTime)
-		{
-			if (! MainProgramImpl.MOTOR_CONTROLLER.movingHorizontally())
-			{
-				MainProgramImpl.MOTOR_CONTROLLER.forward();
-			}
-		}
-		if (MainProgramImpl.MOTOR_CONTROLLER.goingForward())
-			MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		MainProgramImpl.FORWARD_BACKWARD.goForward(this.getParameter());
 	}
 	
 	private void goLeft() {

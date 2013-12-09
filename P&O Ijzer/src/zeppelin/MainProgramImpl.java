@@ -16,6 +16,7 @@ import java.util.List;
 
 import parser.Command;
 import parser.Parser;
+import movement.ForwardBackwardController;
 import movement.HeightAdjuster;
 import movement.RotationController;
 import QRCode.Orientation;
@@ -53,6 +54,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public static final MotorController MOTOR_CONTROLLER = new MotorController();
 	public static final HeightAdjuster HEIGHT_ADJUSTER = new HeightAdjuster(MOTOR_CONTROLLER);
 	public static final RotationController ROTATION_CONTROLLER = new RotationController();
+	public static final ForwardBackwardController FORWARD_BACKWARD = new ForwardBackwardController();
 
 	// Dit object berekent de oriëntatie van de zeppelin
 	public static final Orientation ORIENTATION = new Orientation();
@@ -76,6 +78,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		parser = new Parser(this);
 		ROTATION_CONTROLLER.setZeppelin(this);
 		ROTATION_CONTROLLER.setMotorController(MOTOR_CONTROLLER);
+		FORWARD_BACKWARD.setZeppelin(this);
 
 		LOG_WRITER.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
 

@@ -51,7 +51,7 @@ public class HeightAdjuster {
 	}
 
 	public boolean isInInterval(double mostRecentHeight, double targetHeight) {
-		return Math.abs(mostRecentHeight-targetHeight)> safetyInterval;
+		return Math.abs(mostRecentHeight-targetHeight) <= safetyInterval;
 	}
 
 	public void setKpHeight(double kp) {

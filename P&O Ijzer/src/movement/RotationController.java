@@ -56,7 +56,7 @@ public class RotationController {
 
 	public double getPWMValue(double mostRecentAngle, double targetAngle) throws RemoteException, TimeoutException, InterruptedException {
 		double pid = pController.takeAction(targetAngle, mostRecentAngle);
-		return pid*0.1;
+		return pid*0.05;
 	}
 	
 	public boolean isInInterval(double mostRecentAngle, double targetAngle) {

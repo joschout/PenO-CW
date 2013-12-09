@@ -568,6 +568,7 @@ public class GuiPanel implements ActionListener
 						try {
 							GuiPanel.this.huidigeHoogte.setText(Double.toString(GuiPanel.this.guiController.getHeight()));
 							GuiPanel.this.targetHoogte.setText(Double.toString(GuiPanel.this.guiController.getTargetHeight()));
+							GuiPanel.this.verwachtVolgnummer.setText("Verwacht volgnummer : " + GuiPanel.this.guiController.getExpectedSequenceNumber());
 							if (GuiPanel.this.guiController.qrCodeAvailable()) {
 								System.out.println("Proberen afbeelding te tonen en gedecodeerde.");
 								showImage(icon);

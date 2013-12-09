@@ -148,28 +148,28 @@ public class MotorController implements Serializable {
 	public void stopRightAndLeftMotor() {
 		if (leftMotor.isOn() && rightMotor.isOn()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin de linker- en rechtermotor laten stoppen.");
-			this.rightMotor.stop();
-			this.leftMotor.stop();
-			this.writeSoftPwmValues(0, 0, 0, 0);
 		}
+		this.writeSoftPwmValues(0, 0, 0, 0);
+		this.rightMotor.stop();
+		this.leftMotor.stop();
 	}
 	
 	public void forward() {
 		if (! this.goingForward()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin vooruit laten gaan.");
-			this.writeSoftPwmValues(100, 0, 100, 0);
-			this.leftMotor.clockwise();
-			this.rightMotor.clockwise();
 		}
+		this.writeSoftPwmValues(30, 0, 30, 0);
+		this.leftMotor.clockwise();
+		this.rightMotor.clockwise();
 	}
 	
 	public void backward() {
 		if (! this.goingBackward()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin achteruit laten gaan.");
-			this.writeSoftPwmValues(0, 100, 0, 100);
-			this.leftMotor.counterClockwise();
-			this.rightMotor.counterClockwise();
 		}
+		this.writeSoftPwmValues(0, 30, 0, 30);
+		this.leftMotor.counterClockwise();
+		this.rightMotor.counterClockwise();
 	}
 	
 	public void up() {
