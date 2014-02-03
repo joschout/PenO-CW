@@ -1,3 +1,7 @@
+/**
+ * Deprecated.
+ */
+
 package ftp;
 
 import java.io.File;

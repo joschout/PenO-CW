@@ -1,3 +1,7 @@
+/**
+ * Relevante informatie voor FTP-manipulaties.
+ */
+
 package ftp;
 
 public abstract class FTPFileInfo {

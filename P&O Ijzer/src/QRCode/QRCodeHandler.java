@@ -80,8 +80,8 @@ public class QRCodeHandler {
 	}
 	
 	/**
-	 * 
-	 * 
+	 * Probeert een QR-code te scannen. Als dit lukt, schrijf de bestandsnaam
+	 * en de geëncodeerde instructies in de timestamp lijst.
 	 * 
 	 * @param zeppelinHeight
 	 * @return 

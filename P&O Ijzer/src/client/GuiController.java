@@ -1,3 +1,8 @@
+/**
+ * Communicatielaag tussen de client en de zeppelin. Status opvragen van de zeppelin en relevante
+ * files downloaden van de zeppelin gebeurt via deze klasse.
+ */
+
 package client;
 
 import it.sauronsoftware.ftp4j.FTPAbortedException;
@@ -31,15 +36,11 @@ public class GuiController {
 	
 	private WebClient ftpClient;
 	
-	private FTPOrientation pointFinder;
-	
 	public GuiController() throws NotBoundException, IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		setZeppelin();
 		setWebClient();
 		setFinder(new WebClient());
 	}
-
-
 
 	/**
 	 * Associeer een zeppelin-object met deze GUI.
@@ -52,7 +53,7 @@ public class GuiController {
 	}
 
 	/**
-	 * 
+	 * Vraagt de hoogte van de zeppelin op.
 	 * @return
 	 * @throws RemoteException
 	 */
@@ -62,9 +63,11 @@ public class GuiController {
 
 
 	/**
-	 * 
+	 * Zoekt een zeppelin-object op het IP-adres gereserveerd voor de zeppelin.
+	 * Communicatie gebeurt daarna tussen de client en het gevonden zeppelin-object.
 	 * @throws RemoteException
 	 * @throws NotBoundException
+	 * 		   Er bestaat geen zeppelin-object.
 	 */
 	public void setZeppelin() throws RemoteException, NotBoundException {
 		Registry registry = LocateRegistry.getRegistry(ZeppelinServer.PI_HOSTNAME,1099);
@@ -72,6 +75,13 @@ public class GuiController {
 		this.zeppelin = zeppelin;
 	}
 	
+	/**
+	 * Maakt een FTPOrientation-object beschikbaar voor de zeppelin.
+	 * Als de zeppelin zijn oriëntatie wil weten, moet het dat object aanspreken.
+	 * @param client
+	 * 		  WebClient die de meest recent gescande QR-code haalt van de zeppelin
+	 * 		  wanneer de zeppelin zijn oriëntatie wil weten.
+	 */
 	public void setFinder(WebClient client) {
 		try {
 			System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
@@ -89,7 +99,7 @@ public class GuiController {
 	}
 	
 	/**
-	 * 
+	 * Setter voor web client.
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 * @throws FTPIllegalReplyException
@@ -100,8 +110,7 @@ public class GuiController {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Geeft aan of de linkermotor aanstaat.
 	 * @throws RemoteException
 	 */
 	public boolean leftIsOn() throws RemoteException {
@@ -109,8 +118,7 @@ public class GuiController {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Geeft aan of de rechtermotor aanstaat.
 	 * @throws RemoteException
 	 */
 	public boolean rightIsOn() throws RemoteException {
@@ -118,7 +126,7 @@ public class GuiController {
 	}
 	
 	/**
-	 * 
+	 * Geeft aan of de naar-beneden-gerichte motor aanstaat.
 	 * @return
 	 * @throws RemoteException
 	 */
@@ -126,28 +134,51 @@ public class GuiController {
 		return this.zeppelin.downwardIsOn();
 	}
 	
+	/**
+	 * Checkt of de zeppelin een nieuwe QR-code heeft gescand.
+	 * @throws RemoteException
+	 */
 	public boolean qrCodeAvailable() throws RemoteException {
 		return this.zeppelin.qrCodeAvailable();
 	}
 	
+	/**
+	 * Laat weten aan de zeppelin dat de GUI de meest recent gescande QR-code heeft
+	 * behandeld.
+	 * @throws RemoteException
+	 */
 	public void consumeQRCode() throws RemoteException {
 		this.zeppelin.qrCodeConsumed();
 	}
 	
+	/**
+	 * Haalt het volgnummer dat de zeppelin verwacht in de volgende QR-code.
+	 * @throws RemoteException
+	 */
 	public int getExpectedSequenceNumber() throws RemoteException {
 		return this.zeppelin.getExpectedSequenceNumber();
 	}
 	
+	/**
+	 * Past het verwachte volgnummer van de zeppelin aan.
+	 * @param sequenceNumber
+	 *        Nieuw verwachte volgnummer.
+	 * @throws RemoteException
+	 */
 	public void setExpectedSequenceNumber(int sequenceNumber) throws RemoteException {
 		this.zeppelin.setExpectedSequenceNumber(sequenceNumber);
 	}
 	
+	/**
+	 * Laat de zeppelin vooruit gaan.
+	 * @throws RemoteException
+	 */
 	public void goForward() throws RemoteException {
 		this.zeppelin.goForward();
 	}
 	
 	/**
-	 * 
+	 * Laat de zeppelin achteruit gaan.
 	 * @throws RemoteException
 	 */
 	public void goBackward() throws RemoteException {
@@ -155,7 +186,7 @@ public class GuiController {
 	}
 	
 	/**
-	 * 
+	 * Laat de zeppelin naar links draaien.
 	 * @throws RemoteException
 	 */
 	public void goLeft() throws RemoteException {
@@ -163,21 +194,35 @@ public class GuiController {
 	}
 	
 	/**
-	 * 
+	 * Laat de zeppelin naar rechts draaien.
 	 * @throws RemoteException
 	 */
 	public void goRight() throws RemoteException {
 		this.zeppelin.turnRight();
 	}
 	
+	/**
+	 * Laat de zeppelin de horizontaal gerichte motoren stoppen.
+	 * @throws RemoteException
+	 */
 	public void stopRightAndLeftMotor() throws RemoteException {
 		this.zeppelin.stopRightAndLeft();
 	}
 	
+	/**
+	 * Haal de doelhoogte van de zeppelin.
+	 * @throws RemoteException
+	 */
 	public double getTargetHeight() throws RemoteException {
 		return this.zeppelin.getTargetHeight();
 	}
 	
+	/**
+	 * Laat de zeppelin streven naar een nieuwe hoogte.
+	 * @param height
+	 *        Nieuwe hoogte.
+	 * @throws RemoteException
+	 */
 	public void setTargetHeight(double height) throws RemoteException {
 		this.zeppelin.setTargetHeight(height);
 	}
@@ -193,18 +238,54 @@ public class GuiController {
 		return this.zeppelin.readNewQRCode();
 	}
 	
+	/**
+	 * Zet informatie over de meest recent gescande QR-code in een array van Strings.
+	 * @return
+	 * Op plaats 0 staat de filename waarin de meest recente QR-code staat op de zeppelin;
+	 * op plaats 1 staat de instructie geëncodeerd in de QR-code.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws FTPIllegalReplyException
+	 * @throws FTPException
+	 * @throws FTPDataTransferException
+	 * @throws FTPAbortedException
+	 */
 	public String[] getLastScannedQrCodeInfo() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		return this.ftpClient.getLastScannedQrCodeInfo();
 	}
 	
+	/**
+	 * Maakt een BufferedImage object van de gegeven foto op de zeppelin.
+	 * @param filename
+	 *        Naam van de file op de zeppelin.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws FTPIllegalReplyException
+	 * @throws FTPException
+	 * @throws FTPDataTransferException
+	 * @throws FTPAbortedException
+	 */
 	public BufferedImage getImageFromFile(String filename) throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		return this.ftpClient.getImageFromFile(filename);
 	}
 	
+	/**
+	 * Leest de log op de zeppelin.
+	 * @throws IllegalStateException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws FTPIllegalReplyException
+	 * @throws FTPException
+	 * @throws FTPDataTransferException
+	 * @throws FTPAbortedException
+	 */
 	public String readLog() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		return this.zeppelin.readLog();
 	}
 
+	/**
+	 * Laat de zeppelin zijn activiteiten stoppen; sluit achteraf het programma af.
+	 */
 	public void exit() {
 		try {
 			this.zeppelin.exit();
@@ -214,6 +295,10 @@ public class GuiController {
 		System.exit(0);
 	}
 	
+	/**
+	 * Update de procesconstante voor de hoogte.
+	 * @param kp
+	 */
 	public void setKpHeight(double kp) {
 		try {
 			zeppelin.setKpHeight(kp);
@@ -222,6 +307,10 @@ public class GuiController {
 		}
 	}
 	
+	/**
+	 * Update de integraalconstante voor de hoogte.
+	 * @param ki
+	 */
 	public void setKiHeight(double ki) {
 		try {
 			zeppelin.setKiHeight(ki);
@@ -230,6 +319,10 @@ public class GuiController {
 		}
 	}
 	
+	/**
+	 * Update de derivative constante voor de hoogte.
+	 * @param kd
+	 */
 	public void setKdHeight(double kd) {
 		try {
 			zeppelin.setKdHeight(kd);
@@ -238,26 +331,54 @@ public class GuiController {
 		}
 	}
 	
+	/**
+	 * Haalt de procesconstante voor de hoogte.
+	 * @throws RemoteException
+	 */
 	public double getKpHeight() throws RemoteException {
 		return zeppelin.getKpHeight();
 	}
 	
+	/**
+	 * Haalt de derivate constante voor de hoogte.
+	 * @throws RemoteException
+	 */
 	public double getKdHeight() throws RemoteException {
 		return zeppelin.getKdHeight();
 	}
 	
+	/**
+	 * Haalt de integraalconstante voor de hoogte.
+	 * @throws RemoteException
+	 */
 	public double getKiHeight() throws RemoteException {
 		return zeppelin.getKiHeight();
 	}
 	
+	// wordt deze methode zelfs gebruikt?
+	/**
+	 * Zet het interval rond de doelhoogte waar de verticale motor alle activiteit
+	 * moet stoppen.
+	 * @param safetyInterval
+	 *        Waarde die een interval maakt volgens [getTargetHeight - safetyInterval, getTargetHeight + safetyInterval]
+	 * @throws RemoteException
+	 */
 	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
 		zeppelin.setSafetyIntervalHeight(safetyInterval);
 	}
 	
+	/**
+	 * Haalt het veiligheidsinterval voor de hoogte.
+	 * @throws RemoteException
+	 */
 	public double getSafetyIntervalHeight() throws RemoteException {
 		return zeppelin.getSafetyIntervalHeight();
 	}
 	
+	/**
+	 * Update de procesconstante voor de hoek.
+	 * @param kp
+	 */
 	public void setKpAngle(double kp) {
 		try {
 			zeppelin.setKpAngle(kp);
@@ -266,6 +387,10 @@ public class GuiController {
 		}
 	}
 	
+	/**
+	 * Update de integraalconstante voor de hoek.
+	 * @param ki
+	 */
 	public void setKiAngle(double ki) {
 		try {
 			zeppelin.setKiAngle(ki);
@@ -274,6 +399,10 @@ public class GuiController {
 		}
 	}
 	
+	/**
+	 * Update de derivative constante voor de hoek.
+	 * @param kd
+	 */
 	public void setKdAngle(double kd) {
 		try {
 			zeppelin.setKdAngle(kd);
@@ -282,22 +411,46 @@ public class GuiController {
 		}
 	}
 	
+	/**
+	 * Haal de procesconstante voor de hoek.
+	 * @throws RemoteException
+	 */
 	public double getKpAngle() throws RemoteException {
 		return zeppelin.getKpAngle();
 	}
 	
+	/**
+	 * Haal de derivative constante voor de hoek.
+	 * @throws RemoteException
+	 */
 	public double getKdAngle() throws RemoteException {
 		return zeppelin.getKdAngle();
 	}
 	
+	/**
+	 * Haal de integraalconstante voor de hoek.
+	 * @throws RemoteException
+	 */
 	public double getKiAngle() throws RemoteException {
 		return zeppelin.getKiAngle();
 	}
 	
+	/**
+	 * Zet het interval rond de doelhoek waar de zeppelin de horizontale motoren alle
+	 * activiteit moet laten stoppen.
+	 * @param safetyInterval
+	 * 		  Maakt een interval rond de doelhoek volgens [getTargetAngle - safetyInterval, getTargetAngle + safetyInterval].
+	 * 		  Natuurlijk gerekend modulo 360.
+	 * @throws RemoteException
+	 */
 	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
 		zeppelin.setSafetyIntervalAngle(safetyInterval);
 	}
 	
+	/**
+	 * Haal het interval waar de zeppelin de horizontale motoren niet meer mag laten werken.
+	 * @throws RemoteException
+	 */
 	public double getSafetyIntervalAngle() throws RemoteException {
 		return zeppelin.getSafetyIntervalAngle();
 	}

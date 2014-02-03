@@ -1,3 +1,7 @@
+/**
+ * Laat toe om de zeppelin horizontaal en verticaal te laten bewegen.
+ */
+
 package controllers;
 
 import java.io.Serializable;
@@ -14,8 +18,17 @@ import components.Motor;
 
 public class MotorController implements Serializable {
 
+	/**
+	 * De enige pin van de Raspberry Pi die PWM ondersteunt.
+	 */
 	private static final GpioPinPwmOutput PWMPin = MainProgramImpl.gpio.provisionPwmOutputPin(RaspiPin.GPIO_01);
+	/**
+	 * De minimale PWM-waarde waarvoor er merkbare respons is.
+	 */
 	private static final int MINIMUM_RESPONSE = 900;
+	/**
+	 * De maximale PWM-waarde waarvoor er respons is.
+	 */
 	private static final int MAXIMUM_RESPONSE = 1024;
 	private static final int INTERVAL_LENGTH = MAXIMUM_RESPONSE - MINIMUM_RESPONSE;
 	
@@ -28,6 +41,9 @@ public class MotorController implements Serializable {
 	private static final int RIGHT_CLOCKWISE_PIN = 4;
 	private static final int RIGHT_COUNTERCLOCKWISE_PIN = 0;
 	
+	/**
+	 * Waarde tussen 0 en 100 om software PWM voor de horizontale motoren te regelen.
+	 */
 	private int softPwmValue = 0;
 	
 	// Motor 1: GPIO_05 en GPIO_07
@@ -44,6 +60,9 @@ public class MotorController implements Serializable {
 		SoftPwm.softPwmCreate(RIGHT_COUNTERCLOCKWISE_PIN, 0, 100);
 	}
 	
+	/**
+	 * Zet de PWM-waarde voor de hoogte op het gegeven percentage.
+	 */
 	public void setHeightSpeed(int percentage) {
 		if (percentage < 0) {
 			this.up();
@@ -66,6 +85,10 @@ public class MotorController implements Serializable {
 				+ percentage);
 	}
 	
+	/**
+	 * Zet de PWM-waarde voor de hoek op het gegeven percentage.
+	 * @param percentage
+	 */
 	public void setTurnSpeed(int percentage) {
 		if (Math.abs(percentage) > 50) {
 			percentage = (int) Math.signum((double) percentage) * 50;
@@ -89,6 +112,9 @@ public class MotorController implements Serializable {
 		}
 	}
 	
+	/**
+	 * Zet de software PWM waarde voor de juiste pinnen voor de juiste motoren.
+	 */
 	private void updateSoftPwm(int percentage) {
 		percentage = Math.abs(percentage);
 		if (goingLeft()) {
@@ -109,6 +135,9 @@ public class MotorController implements Serializable {
 		}
 	}
 	
+	/**
+	 * Laat de zeppelin naar links draaien en hevelt de software PWM waarde over naar de juiste pinnen.
+	 */
 	public void left() {
 		if (! this.goingLeft()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin naar links laten draaien.");
@@ -118,6 +147,9 @@ public class MotorController implements Serializable {
 		this.rightMotor.clockwise();
 	}
 	
+	/**
+	 * Laat de zeppelin naar rechts draaien en hevelt de software PWM waarde over naar de juiste pinnen.
+	 */
 	public void right() {
 		if (! this.goingRight()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin naar rechts laten draaien.");
@@ -127,6 +159,10 @@ public class MotorController implements Serializable {
 		this.rightMotor.counterClockwise();
 	}
 	
+	/**
+	 * Laat de zeppelin naar links draaien. Aangezien de client de bron is,
+	 * laat de motoren draaien op volle kracht.
+	 */
 	public void clientLeft() {
 		if (! this.goingLeft()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin naar links laten draaien.");
@@ -136,6 +172,10 @@ public class MotorController implements Serializable {
 		}
 	}
 	
+	/**
+	 * Laat de zeppelin naar rechts draaien. Aangezien de client de bron is,
+	 * laat de motoren draaien op volle kracht.
+	 */
 	public void clientRight() {
 		if (! this.goingLeft()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin naar rechts laten draaien.");
@@ -145,6 +185,9 @@ public class MotorController implements Serializable {
 		}
 	}
 
+	/**
+	 * Zet de linker- en rechtermotor af.
+	 */
 	public void stopRightAndLeftMotor() {
 		if (leftMotor.isOn() && rightMotor.isOn()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin de linker- en rechtermotor laten stoppen.");
@@ -154,6 +197,11 @@ public class MotorController implements Serializable {
 		this.leftMotor.stop();
 	}
 	
+	/**
+	 * Laat de zeppelin vooruit gaan. Deze methode wordt opgeroepen door
+	 * ForwardBackwardController; daarom worden software PWM waardes van 30 geschreven
+	 * in plaats van 100.
+	 */
 	public void forward() {
 		if (! this.goingForward()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin vooruit laten gaan.");
@@ -163,6 +211,11 @@ public class MotorController implements Serializable {
 		this.rightMotor.clockwise();
 	}
 	
+	/**
+	 * Laat de zeppelin achteruit gaan. Deze methode wordt opgeroepen door
+	 * ForwardBackwardController; daarom worden software PWM waardes van 30 geschreven
+	 * in plaats van 100.
+	 */
 	public void backward() {
 		if (! this.goingBackward()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin achteruit laten gaan.");
@@ -172,6 +225,9 @@ public class MotorController implements Serializable {
 		this.rightMotor.counterClockwise();
 	}
 	
+	/**
+	 * Laat de zeppelin stijgen.
+	 */
 	public void up() {
 		if (! downwardMotor.goingClockwise()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin laten stijgen.");
@@ -179,6 +235,9 @@ public class MotorController implements Serializable {
 		}
 	}
 	
+	/**
+	 * Laat de zeppelin dalen.
+	 */
 	public void down() {
 		if (! downwardMotor.goingCounterClockwise()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin laten dalen.");
@@ -186,6 +245,9 @@ public class MotorController implements Serializable {
 		}
 	}
 	
+	/**
+	 * Laat de zeppelin de naar-beneden-gerichte motor afzetten.
+	 */
 	public void stopHeightAdjustment() {
 		if (downwardMotor.isOn()) {
 			MainProgramImpl.LOG_WRITER.writeToLog("Zeppelin laten stoppen met zijn hoogte aan te passen.");
@@ -193,6 +255,9 @@ public class MotorController implements Serializable {
 		}
 	}
 	
+	/**
+	 * Deprecated.
+	 */
 	public ArrayList<Motor> getMotors() {
 		ArrayList<Motor> toReturn = new ArrayList<Motor>();
 		toReturn.add(leftMotor);
@@ -201,18 +266,38 @@ public class MotorController implements Serializable {
 		return toReturn;
 	}
 	
+	/**
+	 * Geeft aan of de linkermotor aanstaat.
+	 */
 	public boolean leftIsOn() {
 		return this.leftMotor.isOn();
 	}
 	
+	/**
+	 * Geeft aan of de rechtermotor aanstaat.
+	 */
 	public boolean rightIsOn() {
 		return this.rightMotor.isOn();
 	}
 	
+	/**
+	 * Geeft aan of de naar-beneden-gerichte motor aanstaat.
+	 */
 	public boolean downwardIsOn() {
 		return this.downwardMotor.isOn();
 	}
 	
+	/**
+	 * Schrijft de gegeven software PWM values weg voor de respectievelijke pinnen.
+	 * @param leftClockwise
+	 *        Software PWM waarde die geschreven moet worden voor de kloksgewijze pin van de linkermotor.
+	 * @param leftCounterClockwise
+	 *        Software PWM waarde die geschreven moet worden voor de tegenkloksgewijze pin van de linkermotor.
+	 * @param rightClockwise
+	 *        Software PWM waarde die geschreven moet worden voor de kloksgewijze pin van de rechtermotor.
+	 * @param rightCounterClockwise
+	 *        Software PWM waarde die geschreven moet worden voor de tegenkloksgewijze pin van de rechtermotor.
+	 */
 	public void writeSoftPwmValues(int leftClockwise, int leftCounterClockwise, int rightClockwise, int rightCounterClockwise) {
 		SoftPwm.softPwmWrite(LEFT_CLOCKWISE_PIN, leftClockwise);
 		SoftPwm.softPwmWrite(LEFT_COUNTERCLOCKWISE_PIN, leftCounterClockwise);
@@ -220,22 +305,37 @@ public class MotorController implements Serializable {
 		SoftPwm.softPwmWrite(RIGHT_COUNTERCLOCKWISE_PIN, rightCounterClockwise);
 	}
 	
+	/**
+	 * Geeft aan of de zeppelin vooruit aan het gaan is.
+	 */
 	public boolean goingForward() {
 		return this.leftMotor.goingClockwise() && this.rightMotor.goingClockwise();
 	}
 	
+	/**
+	 * Geeft aan of de zeppelin achteruit aan het gaan is.
+	 */
 	public boolean goingBackward() {
 		return this.leftMotor.goingCounterClockwise() && this.rightMotor.goingCounterClockwise();
 	}
 	
+	/**
+	 * Geeft aan of de zeppelin naar links aan het draaien is.
+	 */
 	public boolean goingLeft() {
 		return this.leftMotor.goingCounterClockwise() && this.rightMotor.goingClockwise();
 	}
 	
+	/**
+	 * Geeft aan of de zeppelin naar rechts aan het draaien is.
+	 */
 	public boolean goingRight() {
 		return this.leftMotor.goingClockwise() && this.rightMotor.goingCounterClockwise();
 	}
 	
+	/**
+	 * Geeft aan of de zeppelin zich op horizontaal vlak aan het bewegen is.
+	 */
 	public boolean movingHorizontally() {
 		return this.goingForward() || this.goingBackward() || this.goingLeft() || this.goingRight();
 	}

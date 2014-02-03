@@ -1,3 +1,8 @@
+/**
+ * Laag tussen de zeppelin en de client. Maakt het mogelijk om de client de
+ * oriëntatiehoek van de zeppelin te laten berekenen.
+ */
+
 package QRCode;
 
 import java.io.IOException;
@@ -9,6 +14,14 @@ public class Orientation {
 	
 	private FTPOrientationIface finder;
 	
+	/**
+	 * Laat de client de oriëntatiehoek berekenen. Neem eerst een foto en laat de client
+	 * de oriëntatiehoek daaruit gebruiken.
+	 * @param currentHeight
+	 *        Meest recent gemeten hoogte van de zeppelin. Wordt gebruikt om te bepalen
+	 *        op welke resolutie de foto moet worden genomen.
+	 * @throws IllegalStateException
+	 */
 	public double getOrientation(double currentHeight) throws IllegalStateException {
 		if (finder == null)
 			throw new IllegalStateException("Client is niet beschikbaar voor het vinden van de oriëntatie.");

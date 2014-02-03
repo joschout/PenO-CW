@@ -120,42 +120,125 @@ public interface MainProgramInterface extends Remote {
 	 */
 	public void qrCodeConsumed() throws RemoteException;
 
+	/**
+	 * Update de procesconstante voor de hoogte.
+	 * @throws RemoteException
+	 */
 	public void setKpHeight(double kp) throws RemoteException;
 	
+	/**
+	 * Update de integraalconstante voor de hoogte.
+	 * @throws RemoteException
+	 */
 	public void setKiHeight(double ki) throws RemoteException;
 	
+	/**
+	 * Update de derivative constante voor de hoogte.
+	 * @throws RemoteException
+	 */
 	public void setKdHeight(double kd) throws RemoteException;
 	
+	/**
+	 * Haal de procesconstante voor de hoogte.
+	 * @throws RemoteException
+	 */
 	public double getKpHeight() throws RemoteException;
 	
+	/**
+	 * Haal de integraalconstante voor de hoogte.
+	 * @throws RemoteException
+	 */
 	public double getKiHeight() throws RemoteException;
 	
+	/**
+	 * Haal de derivative constante voor de hoogte.
+	 * @throws RemoteException
+	 */
 	public double getKdHeight() throws RemoteException;
 	
+	/**
+	 * Update het veiligheidsinterval rond de hoogte. Als de gemeten hoogte van de zeppelin
+	 * in dit interval ligt, mag de verticale motor niets meer doen.
+	 * @param safetyInterval
+	 *        Maakt een interval volgens: [getTargetHeight - safetyInterval, getTargetHeight + safetyInterval]
+	 * @throws RemoteException
+	 */
 	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException;
 	
+	/**
+	 * Haal het veiligheidsinterval rond de hoogte.
+	 * @throws RemoteException
+	 */
 	public double getSafetyIntervalHeight() throws RemoteException;
 	
+	/**
+	 * Update de procesconstante voor de hoek.
+	 * @throws RemoteException
+	 */
 	public void setKpAngle(double kp) throws RemoteException;
 	
+	/**
+	 * Update de integraalconstante voor de hoek.
+	 * @throws RemoteException
+	 */
 	public void setKiAngle(double ki) throws RemoteException;
 	
+	/**
+	 * Update de derivative constante voor de hoek.
+	 * @throws RemoteException
+	 */
 	public void setKdAngle(double kd) throws RemoteException;
 	
+	/**
+	 * Haal de procesconstante voor de hoek.
+	 * @throws RemoteException
+	 */
 	public double getKpAngle() throws RemoteException;
 	
+	/**
+	 * Haal de integraalconstante voor de hoek.
+	 * @throws RemoteException
+	 */
 	public double getKiAngle() throws RemoteException;
 	
+	/**
+	 * Haal de derivative constante voor de hoek.
+	 * @throws RemoteException
+	 */
 	public double getKdAngle() throws RemoteException;
 	
+	/**
+	 * Update het veiligheidsinterval rond de doelhoek. Als de gemeten hoek van de zeppelin
+	 * in dit interval ligt, mogen de horizontale motoren niets meer doen.
+	 * @param safetyInterval
+	 *        Maakt een interval als volgt: [getTargetAngle - safetyInterval, getTargetAngle + safetyInterval]
+	 * @throws RemoteException
+	 */
 	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException;
 	
+	/**
+	 * Haal het veiligheidsinterval rond de hoek.
+	 * @throws RemoteException
+	 */
 	public double getSafetyIntervalAngle() throws RemoteException;
 	
+	/**
+	 * Laat weten aan de zeppelin dat er een client beschikbaar is.
+	 * @throws RemoteException
+	 */
 	public void notifyClientAvailable() throws RemoteException;
 	
+	/**
+	 * Leest de log.
+	 * @throws RemoteException
+	 */
 	public String readLog() throws RemoteException;
 	
+	/**
+	 * Haalt het volgnummer waarvan de zeppelin verwacht dat de volgende gescande
+	 * QR-code die heeft.
+	 * @throws RemoteException
+	 */
 	public int getExpectedSequenceNumber() throws RemoteException;
 	
 	/**

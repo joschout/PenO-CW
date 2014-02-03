@@ -1,3 +1,7 @@
+/**
+ * Opsomming van alle mogelijke types van instructies.
+ */
+
 package parser;
 
 public enum CommandType {

@@ -69,7 +69,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public static final QRCodeHandler QR_CODE_READER = new QRCodeHandler();
 
 	/**
-	 * De zeppelin is nu bezig met landen en daarna de uitvoering te stoppen.
+	 * Geeft aan of de zeppelin zijn activiteiten moet stopzetten.
 	 */
 	private boolean exit = false;
 
@@ -148,9 +148,8 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 
 	/**
 	 * Zolang de cliënt contact onderhoudt met de zeppelin, moet deze
-	 * lus uitgevoerd worden. Om de beurt worden
-	 * alle flags afgegaan en er wordt bepaald wat de zeppelin moet doen op basis
-	 * van de status van die flags.
+	 * lus uitgevoerd worden. In elke iteratie wordt er actie genomen om
+	 * de huidige doelhoogte en huidige doelhoek te bereiken.
 	 *
 	 * @throws InterruptedException 
 	 */
@@ -191,6 +190,9 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		this.qrCodeAvailable = false;
 	}
 
+	/**
+	 * Geef aan dat er een nieuwe QR-code beschikbaar is.
+	 */
 	private void offerQrCode() {
 		this.qrCodeAvailable = true;
 	}

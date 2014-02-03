@@ -1,3 +1,7 @@
+/**
+ * Bevat de relevante operaties op de FTP-server op de zeppelin.
+ */
+
 package client;
 
 import it.sauronsoftware.ftp4j.FTPAbortedException;
@@ -25,6 +29,17 @@ public class WebClient {
 		this.qrCodeClient = new QRCodeFTPClient();
 	}
 	
+	/**
+	 * Deprecated: log wordt nu bijgehouden in het geheugen van de Pi.
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws FTPIllegalReplyException
+	 * @throws FTPException
+	 * @throws FTPDataTransferException
+	 * @throws FTPAbortedException
+	 */
 	public String readLogFile() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		this.logClient.getLogFile();
 		BufferedReader reader = new BufferedReader(new FileReader(FTPFileInfo.LOGFILE_LOCALFILENAME));
@@ -38,10 +53,31 @@ public class WebClient {
 		return builder.toString();
 	}
 	
+	/**
+	 * Zie getLastScannedImageInfo in QRCodeFTPClient voor details.
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws FTPIllegalReplyException
+	 * @throws FTPException
+	 * @throws FTPDataTransferException
+	 * @throws FTPAbortedException
+	 */
 	public String[] getLastScannedQrCodeInfo() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		return this.qrCodeClient.getLastScannedImageInfo();
 	}
 	
+	/**
+	 * Zie getImageFromFile in QRCodeFTPClient voor details.
+	 * @param filename
+	 *        Naam van file waaruit QR-code moet worden gehaald.
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 * @throws FTPIllegalReplyException
+	 * @throws FTPException
+	 * @throws FTPDataTransferException
+	 * @throws FTPAbortedException
+	 */
 	public BufferedImage getImageFromFile(String filename) throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
 		return this.qrCodeClient.getImageFromFile(filename);
 	}

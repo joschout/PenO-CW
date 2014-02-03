@@ -15,7 +15,7 @@ import zeppelin.MainProgramImpl;
 
 public class ZeppelinServer {
 	
-	//Het IP-adres van de Raspberry Pi op het ad-hoc netwerk
+	// Afgesproken vaste IP-adres van de zeppelin in de LAN.
 	public static final String PI_HOSTNAME = "192.168.2.150";
 	
 	public static void main(String[] args) throws InterruptedException, TimeoutException {

@@ -1,22 +1,15 @@
 /**
- * 
+ * Laat toe dat de zeppelin de camera aanspreekt.
  */
 
 package controllers;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.ImageIcon;
 
 import ftp.FTPFileInfo;
-import zeppelin.MainProgramInterface;
 
 public class CameraController implements Serializable {
-
-	private ImageIcon image;
 	
 	private static Object lock = new Object();
 
@@ -26,6 +19,9 @@ public class CameraController implements Serializable {
 	 * 			De naam die de Pi zal geven aan de nieuwe foto. Uiteindelijk zal
 	 * 			de naam van de foto de volgende vorm hebben:
 	 * 			pFileName.jpg
+	 * @param   currentHeight
+	 * 			De huidige hoogte van de zeppelin. Dit zal bepalen op welke
+	 * 			resolutie de foto genomen wordt.
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
@@ -38,10 +34,6 @@ public class CameraController implements Serializable {
 					+ pFileName + ".jpg");
 			//		executeShellCommand("raspistill -t 1 -w 800 -h 600 -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg");
 		}
-	} 
-
-	public ImageIcon getImage() {
-		return this.image;
 	}
 
 	private void executeShellCommand(String pCommand) throws InterruptedException, IOException  

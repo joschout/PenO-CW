@@ -1,3 +1,9 @@
+/**
+ * Voor automatische beweging vooruit of achteruit. Laat de motoren draaien tot
+ * ofwel de geschatte tijd nodig om de gewenste afstand te overbruggen gepasseerd is
+ * of tot er een volgende QR-code is gevonden.
+ */
+
 package movement;
 
 import java.io.IOException;
@@ -7,8 +13,8 @@ import zeppelin.MainProgramImpl;
 
 public class ForwardBackwardController {
 	
-	private static final long FORWARD_SPEED = 100; // 1 m per 3.42 seconden
-	private static final long BACKWARD_SPEED = 150; // 1 m per 7.43 seconden
+	private static final long FORWARD_SPEED = 100;
+	private static final long BACKWARD_SPEED = 150;
 	
 	private MainProgramImpl zeppelin;
 	

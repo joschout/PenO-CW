@@ -1,20 +1,19 @@
+/**
+ * Abstracte voorstelling van één enkele instructie in een QR-code.
+ */
+
 package parser;
-import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 
 import client.FTPOrientation;
 import zeppelin.MainProgramImpl;
-import movement.HeightAdjuster;
 import movement.RotationController;
-import controllers.MotorController;
 
 
 public class Command {
 
 	private boolean executed = false;
 	
-	private FTPOrientation finder;
 	/**
 	 * Voert dit commando uit. De acties die de zeppelin zal nemen verschillen naargelang
 	 * het type commando dit is.
@@ -45,13 +44,16 @@ public class Command {
 		else this.setExecuted();
 	}
 
+	/**
+	 * Geef aan dat dit commando is uitgevoerd.
+	 */
 	private void setExecuted() {
 		this.executed = true;
 	}
 
-	
-	
-	
+	/**
+	 * Geeft aan of dit commando is uitgevoerd.
+	 */
 	public boolean isExecuted() {
 		return this.executed;
 	}
@@ -79,17 +81,12 @@ public class Command {
 	public void setParameter(Double parameter) {
 		this.parameter = parameter;
 	}
-
-
-
-
-	private static final long FORWARD_SPEED = 34; // 1 m per 3.42 seconden
-	private static final long BACKWARD_SPEED = 74; // 1 m per 7.43 seconden
-	private static final long LEFT_SPEED = 38; // nog testen
-	private static final long RIGHT_SPEED = 41; // nog testen
 	
 	private MainProgramImpl zeppelin;
 	
+	/**
+	 * Laat de zeppelin stijgen. Ga pas verder naar het volgende commando als de doelhoogte is bereikt.
+	 */
 	private void ascend() {
 		try {
 			zeppelin.setTargetHeight(zeppelin.sensorReading() + this.getParameter());
@@ -106,6 +103,9 @@ public class Command {
 		}
 	}
 	
+	/**
+	 * Laat de zeppelin dalen. Ga pas verder naar het volgende commando als de doelhoogte is bereikt.
+	 */
 	private void descend() {
 		try {
 			zeppelin.setTargetHeight(zeppelin.sensorReading() - this.getParameter());
@@ -122,14 +122,24 @@ public class Command {
 		}
 	}
 
+	/**
+	 * Laat de zeppelin vooruit gaan volgens de parameter meegegeven aan dit commando.
+	 */
 	private void goBackward() {
 		MainProgramImpl.FORWARD_BACKWARD.goBackward(this.getParameter());
 	}
 
+	/**
+	 * Laat de zeppelin achteruit gaan volgens de parameter meegegeven aan dit commando.
+	 */
 	private void goForward() {
 		MainProgramImpl.FORWARD_BACKWARD.goForward(this.getParameter());
 	}
 	
+	/**
+	 * Laat de zeppelin naar links draaien volgens de parameter meegegeven aan dit commando.
+	 * Ga pas verder naar het volgende commando als de doelhoek is bereikt.
+	 */
 	private void goLeft() {
 		double currentAngle = requestAngleAndUpdate();
 		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle - this.getParameter()));
@@ -145,6 +155,10 @@ public class Command {
 		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
 	}
 	
+	/**
+	 * Laat de zeppelin naar rechts draaien volgens de parameter meegegeven aan dit commando.
+	 * Ga pas verder naar het volgende commando als de doelhoek is bereikt.
+	 */
 	private void goRight() {
 		double currentAngle = requestAngleAndUpdate();
 		this.zeppelin.setTargetAngle(RotationController.convertToCorrectFormat(currentAngle + this.getParameter()));
@@ -160,6 +174,11 @@ public class Command {
 		MainProgramImpl.MOTOR_CONTROLLER.stopRightAndLeftMotor();
 	}
 	
+	/**
+	 * Vraag aan de client om de oriëntatiehoek te berekenen. Laat de zeppelin zijn
+	 * meest recent gemeten hoek updaten met het resultaat. 0 wordt als standaardwaarde
+	 * meegegeven als er geen hoek gemeten kon worden.
+	 */
 	private double requestAngleAndUpdate() {
 		try {
 			double mostRecentAngle = MainProgramImpl.ORIENTATION.getOrientation(zeppelin.sensorReading());

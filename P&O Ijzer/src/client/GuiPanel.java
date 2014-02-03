@@ -1,5 +1,6 @@
 /**
- * TODO: Refactor alles
+ * Bevat het main-programma voor de client-side. Initialiseert de GUI en maakt de verbinding
+ * met de zeppelin.
  */
 
 package client;
@@ -121,12 +122,16 @@ public class GuiPanel implements ActionListener
 			System.err.println("Fout bij het verbinden met de zeppelin:");
 			e.printStackTrace();
 		}
-		heightAndMotorWorker motorUpdater = new heightAndMotorWorker();
-		logUpdater logUpdater = new logUpdater();
+		HeightAndMotorWorker motorUpdater = new HeightAndMotorWorker();
+		LogUpdater logUpdater = new LogUpdater();
 		motorUpdater.execute();
 		logUpdater.execute();
 	}
 
+	/**
+	 * Verzorgt het uiterlijk van de GUI. Call dit als deel van de initialisatieroutine.
+	 * @return GUI-scherm met alle elementen op de juiste plaats.
+	 */
 	public JPanel setGuipanel() // de frame-constructor methode
 	{ 
 		guipanel.setLayout(null);
@@ -221,7 +226,19 @@ public class GuiPanel implements ActionListener
 	}
 
 
-
+	/**
+	 * Voeg gegeven panel toe aan de GUI.
+	 * @param panel
+	 * 		  Toe te voegen panel.
+	 * @param x
+	 * 		  Horizontale coördinaat van de linkerbovenhoek.
+	 * @param y
+	 * 	      Verticale coördinaat van de linkerbovenhoek.
+	 * @param width
+	 * 		  Hoeveel plaats de panel moet innemen in de breedte.
+	 * @param length
+	 * 		  Hoeveel plaats de panel moet innemen in de lengte.
+	 */
 	public void addPanelToGUI(JPanel panel, int x, int y, int width, int length)
 	{
 		// voeg panel toe aan GUI
@@ -233,6 +250,21 @@ public class GuiPanel implements ActionListener
 		guipanel.add(panel); // panel toevoegen aan meest algemene panel (guipanel) 
 	}
 
+	/**
+	 * Voeg de gegeven label toe aan de gegeven panel.
+	 * @param label
+	 * 		  Toe te voegen label.
+	 * @param x
+	 *		  Horizontale coördinaat van de linkerbovenhoek.
+	 * @param y
+	 * 		  Verticale coördinaat van de linkerbovenhoek.
+	 * @param width
+	 * 		  Breedte.
+	 * @param length
+	 * 		  Lengte.
+	 * @param panel
+	 * 		  Panel waaraan label moet worden toegevoegd.
+	 */
 	public void addLabelToPanel(JLabel label, int x, int y, int width, int length, JPanel panel)
 	{
 		// voeg label toe aan het correcte panel
@@ -243,6 +275,23 @@ public class GuiPanel implements ActionListener
 		panel.add(label); // label toevoegen aan correcte panel
 	}
 
+	/**
+	 * Voegt de gegeven knop toe aan de gegeven panel.
+	 * @param button
+	 * 		  Toe te voegen knop.
+	 * @param x
+	 * 		  Horizontale coördinaat van de linkerbovenhoek.
+	 * @param y
+	 * 		  Verticale coördinaat van de linkerbovenhoek.
+	 * @param width
+	 * 	      Breedte.
+	 * @param length
+	 *        Lengte.
+	 * @param key
+	 *        Toets die geassocieerd wordt met button.
+	 * @param panel
+	 * 		  Panel waaraan button moet toegevoegd worden.
+	 */
 	public void addButtonToPanel(JButton button, int x, int y, int width, int length, int key, JPanel panel)
 	{
 		// voeg button toe aan het correcte panel
@@ -255,6 +304,25 @@ public class GuiPanel implements ActionListener
 		panel.add(button);
 	}
 
+	/**
+	 * Voeg de gegeven pijlknop toe aan de gegeven panel
+	 * @param button
+	 * 		  Toe te voegen pijlknop.
+	 * @param x
+	 * 		  Horizontale coördinaat van de linkerbovenhoek.
+	 * @param y
+	 * 		  Verticale coördinaat van de linkerbovenhoek.
+	 * @param width
+	 *        Breedte.
+	 * @param length
+	 *        Lengte.
+	 * @param key
+	 *        Toets die geassocieerd wordt met button.
+	 * @param panel
+	 *        Panel waaraan button moet worden toegevoegd.
+	 * @param border
+	 *        Geeft aan of de randen zwart moeten worden gemaakt.
+	 */
 	public void addArrowToPanel(BasicArrowButton button, int x, int y, int width, int length, int key, JPanel panel, boolean border)
 	{
 		// voeg button toe aan het correcte panel
@@ -268,6 +336,21 @@ public class GuiPanel implements ActionListener
 		panel.add(button);
 	}
 	
+	/**
+	 * Voegt de gegeven text area toe aan de gegeven panel; laat scrollen toe.
+	 * @param x
+	 *        Horizontale coördinaat van de linkerbovenhoek.
+	 * @param y
+	 *        Verticale coördinaat van de linkerbovenhoek.
+	 * @param width
+	 *        Breedte.
+	 * @param length
+	 *        Lengte.
+	 * @param textArea
+	 *        Text area die moet worden toegevoegd aan panel.
+	 * @param panel
+	 *        Panel waaraan textArea moet worden toegevoegd.
+	 */
 	public void addTextAreaToPanelWithScrolling(int x, int y, int width, int length, JTextArea textArea, JPanel panel) {
 		textArea.setLineWrap(true);
 		textArea.setEditable(false);
@@ -280,6 +363,21 @@ public class GuiPanel implements ActionListener
 		panel.add(scrollPane, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Voeg de gegeven text area toe aan de gegeven panel.
+	 * @param x
+	 *        Horizontale coördinaat van de linkerbovenhoek.
+	 * @param y
+	 *        Verticale coördinaat van de linkerbovenhoek.
+	 * @param width
+	 *        Breedte.
+	 * @param length
+	 *        Lengte.
+	 * @param textArea
+	 *        Text area die moet worden toegevoegd aan panel.
+	 * @param panel
+	 *        Panel waaraan textArea moet worden toegevoegd.
+	 */
 	public void addTextAreaToPanel(int x, int y, int width, int length, JTextArea textArea, JPanel panel) {
 		textArea.setLineWrap(false);
 		textArea.setEditable(false);
@@ -289,16 +387,25 @@ public class GuiPanel implements ActionListener
 		panel.add(textArea, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Voeg timer toe aan gegeven pijlknop. Zo wordt ervoor gezorgd dat de juiste motor
+	 * wordt aangezet als je op de knop drukt en ook wordt afgezet als je de knop loslaat.
+	 * @param arrowButton
+	 * 		  Pijlknop waaraan timer moet worden toegevoegd. Verwacht wordt dat dit
+	 *        arrowup, arrowleft, arrowright of arrowdown is.
+	 */
 	public void addTimerToArrowButton(BasicArrowButton arrowButton) {
 		final ButtonModel bModel = arrowButton.getModel();
 		final MotorTimer timer = new MotorTimer(arrowButton);
 		bModel.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent cEvt) {
 	            if (bModel.isPressed() && !timer.isRunning()) {
-	               timer.start();
+	               timer.start(); // zet de juiste motor aan.
 	            } else if (!bModel.isPressed() && timer.isRunning()) {
 	               timer.stop();
 	               try {
+	            	// de instructie om de motor te stoppen moet hier, omdat
+	            	// de interface voor Timer niet toelaat om het daar te zetten.
 					GuiPanel.this.guiController.stopRightAndLeftMotor();
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -320,7 +427,12 @@ public class GuiPanel implements ActionListener
 		light.setBackground(Color.green); // lamp op groen zetten : 'aan'
 	}
 	
-	
+	/**
+	 * Update de respectievelijke tekstvelden met de waarden voor de procesconstante,
+	 * de derivative constante, integraalconstante en de huidige hoogte van de zeppelin.
+	 * @throws RemoteException
+	 * 		   Verbinding met de zeppelin is weggevallen.
+	 */
 	public void setVariables() throws RemoteException {
 		this.KpValueHeight.setText(Double.toString(guiController.getKpHeight()));
 		this.KdValueHeight.setText(Double.toString(guiController.getKdHeight()));
@@ -429,8 +541,12 @@ public class GuiPanel implements ActionListener
 
 	}
 
-
-	private void showImage(ImageIcon image)
+	/**
+	 * Toon de gegeven foto van een QR-code in de QR-code panel.
+	 * @param image
+	 * 	      Foto van een QR-code.
+	 */
+	private void showQrCodeImage(ImageIcon image)
 	{
 		JLabel label = new JLabel("", image, JLabel.CENTER);
 		if (this.mostRecentQRCodeLabel != null)
@@ -446,6 +562,15 @@ public class GuiPanel implements ActionListener
 		qrcodepanel.add(label);
 	}
 
+	/**
+	 * Top-level methode voor het initialiseren van de GUI. Call dit vanuit de main methode.
+	 * @throws RemoteException
+	 * @throws NotBoundException
+	 * @throws ClassNotFoundException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws UnsupportedLookAndFeelException
+	 */
 	private static void createAndShowGUI() throws RemoteException, NotBoundException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		
 		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -526,7 +651,14 @@ public class GuiPanel implements ActionListener
 		}
 	}
 	
-	private class heightAndMotorWorker extends SwingWorker<Void, Void> {
+	/**
+	 * Verzorgt het constant updaten van het hoogteveld, het groen en roodmaken van
+	 * de motorlabels en het tonen van een QR-code mocht er één beschikbaar zijn gemaakt
+	 * door de zeppelin.
+	 * 
+	 *
+	 */
+	private class HeightAndMotorWorker extends SwingWorker<Void, Void> {
 		
 		boolean leftOn;
 		boolean rightOn;
@@ -587,6 +719,8 @@ public class GuiPanel implements ActionListener
 						}
 					}
 				});
+				// Waarschijnlijk de bron van de imprecisie van de motorlabels.
+				// Er kan overwogen worden om dit te verlagen.
 				Thread.sleep(1000);
 			}
 		}
@@ -604,7 +738,7 @@ public class GuiPanel implements ActionListener
 		}
 		
 		private void showImage(ImageIcon icon) {
-			GuiPanel.this.showImage(icon);
+			GuiPanel.this.showQrCodeImage(icon);
 		}
 		
 		private void showDecoded() {
@@ -612,8 +746,15 @@ public class GuiPanel implements ActionListener
 		}
 	}
 	
-	private class logUpdater extends SwingWorker<Void, Void> {
+	/**
+	 * Verzorgt het constant updaten van de log.
+	 *
+	 */
+	private class LogUpdater extends SwingWorker<Void, Void> {
 		
+		// moet een klassevariabele zijn omdat het enige alternatief is dat het
+		// een final lokale variabele is in doInBackground(), wat te streng is
+		// voor onze doeleinden.
 		private String logText;
 		
 		public Void doInBackground() throws InterruptedException {
@@ -645,6 +786,13 @@ public class GuiPanel implements ActionListener
 		}
 	}
 	
+	/**
+	 * Zorgt ervoor dat, als je op een pijlknop drukt, er een timer gaat die
+	 * een event vuurt. Op basis van die event kan je extern checken of de knop nog wordt
+	 * ingedrukt. Zorgt er ook voor dat de juiste motor wordt aangesproken voor de 
+	 * juiste pijlknop.
+	 *
+	 */
 	private class MotorTimer extends Timer {
 
 		BasicArrowButton arrowButton;

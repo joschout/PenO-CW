@@ -3,22 +3,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import client.FTPOrientation;
 import zeppelin.MainProgramImpl;
 
 public class Parser {
 	
 	private MainProgramImpl zeppelin;
 	
-	/**
-	 * 
-	 * @param zeppelin
-	 */
 	public Parser(MainProgramImpl zeppelin) {
 		this.zeppelin = zeppelin;
 	}
 
-
+	/**
+	 * Parse een set van instructies.
+	 * @return Een lijst van uitvoerbare commando's.
+	 */
 	public List<Command> parse(String commandString)throws IllegalSyntaxException{
 		 List<Command> commandList = new ArrayList<Command>();   
 		
@@ -38,7 +36,7 @@ public class Parser {
 	}
 	
 	/**
-	 * 
+	 * Parse één enkele instructie.
 	 * @param commandString
 	 * @return
 	 */
@@ -58,7 +56,7 @@ public class Parser {
 	}
 
 	/**
-	 * 
+	 * Leidt het type van commando af dat door de gegeven instructie voorgesteld wordt.
 	 * @param possibleCommandTypeString
 	 * @return
 	 * @throws IllegalSyntaxException
@@ -73,7 +71,7 @@ public class Parser {
 	}
 	
 	/**
-	 * 
+	 * Leidt de parameter af die hoort bij de gegeven instructie.
 	 * @param possibleParameterString
 	 * @return
 	 * @throws NumberFormatException

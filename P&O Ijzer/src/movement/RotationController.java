@@ -1,3 +1,8 @@
+/**
+ * Automatische regeling van het draaien. Bepaalt hoe sterk de linker- en rechtermotoren
+ * moeten draaien met behulp van een PID controller.
+ */
+
 package movement;
 
 import java.rmi.RemoteException;
@@ -53,7 +58,6 @@ public class RotationController {
 		motorController.setTurnSpeed((int)pwm);
 	}
 
-
 	public double getPWMValue(double mostRecentAngle, double targetAngle) throws RemoteException, TimeoutException, InterruptedException {
 		double pid = pController.takeAction(targetAngle, mostRecentAngle);
 		return pid*0.05;
@@ -94,6 +98,13 @@ public class RotationController {
 		return toReturn;
 	}
 	
+	/**
+	 * Berekent de fout voor de gegeven gemeten hoek en de gegeven doelhoek.
+	 * @param currentAngle
+	 *        Gemeten hoek.
+	 * @param targetAngle
+	 *        Doelhoek.
+	 */
 	public static double getAngle(double currentAngle, double targetAngle) {
 		if(currentAngle == targetAngle) {
 			return 0;
