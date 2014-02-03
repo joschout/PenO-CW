@@ -168,8 +168,8 @@ public class GuiPanel implements ActionListener
 		
 		addButtonToPanel(setTargetHeight, 5, 5, 150, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setKpHeight, 5, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKiHeight, 70, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKdHeight, 135, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKdHeight, 70, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
+		addButtonToPanel(setKiHeight, 135, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setSafetyIntervalHeight, 5, 80, 100, 30, KeyEvent.VK_4, actionsPanel);
 
 		addButtonToPanel(setKpAngle, 5, 120, 55, 30, KeyEvent.VK_4, actionsPanel);
