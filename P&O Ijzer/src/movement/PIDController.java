@@ -19,7 +19,7 @@ import controllers.SensorController.TimeoutException;
  */
 public class PIDController {
 
-	int amountOfData = 5;
+	int amountOfData = 2;
 	
 	double Kp;//Proportional gain
 	double Ki;//Integral gain
@@ -30,6 +30,7 @@ public class PIDController {
 	//Lijst met de tijdstippen waarop de
 	private ArrayList<Double> timeStamps = new ArrayList<Double>();
 	private ArrayList<Double> errors = new ArrayList<Double>();
+	private double integral;
 	
 	
 	public PIDController(double Kp, double Ki, double Kd, PIDMode mode) {
@@ -37,6 +38,7 @@ public class PIDController {
 		this.Ki = Ki;
 		this.Kd = Kd;
 		this.mode = mode;
+		this.integral = 0;
 	}
 
 	/**
@@ -99,10 +101,10 @@ public class PIDController {
 	 */
 	private Double differentiate() {
 		int size = errors.size();
-		if(size >= 2) {
+//		if(size >= 2) {
 			return (errors.get(size - 1) - errors.get(size - 2))/(timeStamps.get(size - 1) - timeStamps.get(size - 2));
-		}
-		return null;
+//		}
+//		return null;
 	}
 	
 	/**
@@ -110,12 +112,13 @@ public class PIDController {
 	 * @return
 	 */
 	private Double integrate() {
-		int i = 0;
-		double integral = 0;
-		while (i < errors.size() - 1) {
-			integral = integral + (timeStamps.get(i + 1) - timeStamps.get(i))*(errors.get(i + 1) + errors.get(i))/2;
-			i++;
-		}
+//		int i = 0;
+		integral = integral + (timeStamps.get(errors.size() - 1) - timeStamps.get(errors.size() - 2))*(errors.get(errors.size() - 1) + errors.get(errors.size() - 2))/2;
+		
+//		while (i < errors.size() - 1) {
+//			integral = integral + (timeStamps.get(i + 1) - timeStamps.get(i))*(errors.get(i + 1) + errors.get(i))/2;
+//			i++;
+//		}
 		return integral;
 	}
 	
