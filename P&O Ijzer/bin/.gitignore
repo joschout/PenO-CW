@@ -1,9 +1,9 @@
 /client
-/controllers
-/QRCode
-/parser
-/movement
-/zeppelin
-/ftp
-/server
 /components
+/controllers
+/ftp
+/movement
+/parser
+/server
+/zeppelin
+/coordinate
