@@ -31,7 +31,6 @@ import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -44,8 +43,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.plaf.basic.BasicArrowButton;
 import javax.swing.text.DefaultCaret;
-
-import net.coobird.thumbnailator.Thumbnails;
 
 public class GuiPanel implements ActionListener
 {	
@@ -542,27 +539,6 @@ public class GuiPanel implements ActionListener
 	}
 
 	/**
-	 * Toon de gegeven foto van een QR-code in de QR-code panel.
-	 * @param image
-	 * 	      Foto van een QR-code.
-	 */
-	private void showQrCodeImage(ImageIcon image)
-	{
-		JLabel label = new JLabel("", image, JLabel.CENTER);
-		if (this.mostRecentQRCodeLabel != null)
-		{
-			qrcodepanel.remove(this.mostRecentQRCodeLabel);
-			qrcodepanel.revalidate();
-			qrcodepanel.repaint();
-		}
-		this.mostRecentQRCodeLabel = label;
-		this.mostRecentQRCodeLabel.setSize(300,222);
-		this.mostRecentQRCodeLabel.setLocation(70, 10);
-		//JOptionPane.showMessageDialog(null, label);
-		qrcodepanel.add(label);
-	}
-
-	/**
 	 * Top-level methode voor het initialiseren van de GUI. Call dit vanuit de main methode.
 	 * @throws RemoteException
 	 * @throws NotBoundException
@@ -664,59 +640,21 @@ public class GuiPanel implements ActionListener
 		boolean rightOn;
 		boolean downwardOn;
 		
-		String[] info;
-		ImageIcon icon;
-		
 		public Void doInBackground() throws RemoteException, InterruptedException {
 			while (true) {
 				leftOn = GuiPanel.this.guiController.leftIsOn();
 				rightOn = GuiPanel.this.guiController.rightIsOn();
 				downwardOn = GuiPanel.this.guiController.downwardIsOn();
-				if (GuiPanel.this.guiController.qrCodeAvailable()) {
-					System.out.println("QR-code beschikbaar!");
-					try {
-						info = GuiPanel.this.guiController.getLastScannedQrCodeInfo();
-						System.out.println(info[1]);
-						BufferedImage image = Thumbnails.of(GuiPanel.this.guiController.getImageFromFile(info[0])).size(300, 222).asBufferedImage();
-						icon = new ImageIcon(image);
-						System.out.println("Icon gemaakt.");
-					} catch (IllegalStateException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					} catch (FTPIllegalReplyException e) {
-						e.printStackTrace();
-					} catch (FTPException e) {
-						e.printStackTrace();
-					} catch (FTPDataTransferException e) {
-						e.printStackTrace();
-					} catch (FTPAbortedException e) {
-						e.printStackTrace();
-					}
-				}
 				
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						try {
 							GuiPanel.this.huidigeHoogte.setText(Double.toString(GuiPanel.this.guiController.getHeight()));
 							GuiPanel.this.targetHoogte.setText(Double.toString(GuiPanel.this.guiController.getTargetHeight()));
-							GuiPanel.this.verwachtVolgnummer.setText("Verwacht volgnummer : " + GuiPanel.this.guiController.getExpectedSequenceNumber());
-							if (GuiPanel.this.guiController.qrCodeAvailable()) {
-								System.out.println("Proberen afbeelding te tonen en gedecodeerde.");
-								showImage(icon);
-								showDecoded();
-							}
 						} catch (RemoteException e) {
 							e.printStackTrace();
 						}
 						decideLightColours();
-						try {
-							if (GuiPanel.this.guiController.qrCodeAvailable()) {
-								GuiPanel.this.guiController.consumeQRCode();
-							}
-						} catch (RemoteException e) {
-							e.printStackTrace();
-						}
 					}
 				});
 				// Waarschijnlijk de bron van de imprecisie van de motorlabels.
@@ -735,14 +673,6 @@ public class GuiPanel implements ActionListener
 			if (downwardOn)
 				GuiPanel.this.turnLightOn(GuiPanel.this.motor3);
 			else GuiPanel.this.turnLightOff(GuiPanel.this.motor3);
-		}
-		
-		private void showImage(ImageIcon icon) {
-			GuiPanel.this.showQrCodeImage(icon);
-		}
-		
-		private void showDecoded() {
-			GuiPanel.this.qrcode.setText("Meest recente QR-code: " + info[1]);
 		}
 	}
 	

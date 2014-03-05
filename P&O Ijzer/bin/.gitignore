@@ -1,9 +1,1 @@
-/client
-/controllers
-/QRCode
-/parser
-/movement
-/zeppelin
-/ftp
-/server
-/components
+/positioning

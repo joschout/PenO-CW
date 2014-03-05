@@ -34,12 +34,8 @@ public class GuiController {
 	 */
 	private MainProgramInterface zeppelin;
 	
-	private WebClient ftpClient;
-	
 	public GuiController() throws NotBoundException, IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
 		setZeppelin();
-		setWebClient();
-		setFinder(new WebClient());
 	}
 
 	/**
@@ -76,40 +72,6 @@ public class GuiController {
 	}
 	
 	/**
-	 * Maakt een FTPOrientation-object beschikbaar voor de zeppelin.
-	 * Als de zeppelin zijn oriëntatie wil weten, moet het dat object aanspreken.
-	 * @param client
-	 * 		  WebClient die de meest recent gescande QR-code haalt van de zeppelin
-	 * 		  wanneer de zeppelin zijn oriëntatie wil weten.
-	 */
-	public void setFinder(WebClient client) {
-		try {
-			System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
-			LocateRegistry.createRegistry(1099);
-			FTPOrientation finder = new FTPOrientation(client);
-			Naming.rebind("rmi://localhost:1099/Finder", finder);
-			this.zeppelin.notifyClientAvailable();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Setter voor web client.
-	 * @throws IllegalStateException
-	 * @throws IOException
-	 * @throws FTPIllegalReplyException
-	 * @throws FTPException
-	 */
-	public void setWebClient() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
-		this.ftpClient = new WebClient();
-	}
-	
-	/**
 	 * Geeft aan of de linkermotor aanstaat.
 	 * @throws RemoteException
 	 */
@@ -132,41 +94,6 @@ public class GuiController {
 	 */
 	public boolean downwardIsOn() throws RemoteException {
 		return this.zeppelin.downwardIsOn();
-	}
-	
-	/**
-	 * Checkt of de zeppelin een nieuwe QR-code heeft gescand.
-	 * @throws RemoteException
-	 */
-	public boolean qrCodeAvailable() throws RemoteException {
-		return this.zeppelin.qrCodeAvailable();
-	}
-	
-	/**
-	 * Laat weten aan de zeppelin dat de GUI de meest recent gescande QR-code heeft
-	 * behandeld.
-	 * @throws RemoteException
-	 */
-	public void consumeQRCode() throws RemoteException {
-		this.zeppelin.qrCodeConsumed();
-	}
-	
-	/**
-	 * Haalt het volgnummer dat de zeppelin verwacht in de volgende QR-code.
-	 * @throws RemoteException
-	 */
-	public int getExpectedSequenceNumber() throws RemoteException {
-		return this.zeppelin.getExpectedSequenceNumber();
-	}
-	
-	/**
-	 * Past het verwachte volgnummer van de zeppelin aan.
-	 * @param sequenceNumber
-	 *        Nieuw verwachte volgnummer.
-	 * @throws RemoteException
-	 */
-	public void setExpectedSequenceNumber(int sequenceNumber) throws RemoteException {
-		this.zeppelin.setExpectedSequenceNumber(sequenceNumber);
 	}
 	
 	/**
@@ -225,48 +152,6 @@ public class GuiController {
 	 */
 	public void setTargetHeight(double height) throws RemoteException {
 		this.zeppelin.setTargetHeight(height);
-	}
-	
-	/**
-	 * Laat de zeppelin een QR-code lezen.
-	 * @return Het resultaat van de volgende oproep: zeppelin.readNewQRCode()
-	 * @throws InterruptedException 
-	 * @throws IOException 
-	 * @throws RemoteException 
-	 */
-	public String newQRReading() throws RemoteException, IOException, InterruptedException {
-		return this.zeppelin.readNewQRCode();
-	}
-	
-	/**
-	 * Zet informatie over de meest recent gescande QR-code in een array van Strings.
-	 * @return
-	 * Op plaats 0 staat de filename waarin de meest recente QR-code staat op de zeppelin;
-	 * op plaats 1 staat de instructie geëncodeerd in de QR-code.
-	 * @throws IllegalStateException
-	 * @throws IOException
-	 * @throws FTPIllegalReplyException
-	 * @throws FTPException
-	 * @throws FTPDataTransferException
-	 * @throws FTPAbortedException
-	 */
-	public String[] getLastScannedQrCodeInfo() throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		return this.ftpClient.getLastScannedQrCodeInfo();
-	}
-	
-	/**
-	 * Maakt een BufferedImage object van de gegeven foto op de zeppelin.
-	 * @param filename
-	 *        Naam van de file op de zeppelin.
-	 * @throws IllegalStateException
-	 * @throws IOException
-	 * @throws FTPIllegalReplyException
-	 * @throws FTPException
-	 * @throws FTPDataTransferException
-	 * @throws FTPAbortedException
-	 */
-	public BufferedImage getImageFromFile(String filename) throws IllegalStateException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
-		return this.ftpClient.getImageFromFile(filename);
 	}
 	
 	/**
