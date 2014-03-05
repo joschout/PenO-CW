@@ -24,7 +24,7 @@ public class Rotation {
 		GridMarker rightMarkerProjection.setCoordinates(rightMarker.getX() - leftMarker.getX(), newRightMarkerY - newLeftMarkerY);
 		
 		double sProduct = rightMarker.getX();
-		double angle = Math.acos(sProduct/(Math.sqrt(Math.pow(rightMarkerProjection.getX(), 2) + Math.pow(rightMarkerProjection.getY(), 2)));
+		double angle = Math.acos(sProduct/(Math.sqrt(Math.pow(rightMarkerProjection.getX(), 2) + Math.pow(rightMarkerProjection.getY(), 2))));
 		
 		if(angle > 180) {
 			angle = 360 - angle;
