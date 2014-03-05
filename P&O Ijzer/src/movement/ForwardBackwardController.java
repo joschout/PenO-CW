@@ -24,7 +24,7 @@ public class ForwardBackwardController {
 			long endTime = System.currentTimeMillis() + upperLimit;
 			
 			zeppelin.goForward();
-			while (System.currentTimeMillis() <= endTime && ! correctSeqNum(MainProgramImpl.QR_CODE_READER.tryReadQrCode(zeppelin.sensorReading()))) {
+			while (System.currentTimeMillis() <= endTime) {
 				System.out.println("Vooruit while");
 			}
 			if (System.currentTimeMillis() > endTime) {
@@ -35,11 +35,8 @@ public class ForwardBackwardController {
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
+		}
+		finally {
 			try {
 				zeppelin.stopRightAndLeft();
 			} catch (RemoteException e) {
@@ -54,7 +51,7 @@ public class ForwardBackwardController {
 			long endTime = System.currentTimeMillis() + upperLimit;
 
 			zeppelin.goBackward();
-			while (System.currentTimeMillis() <= endTime && ! correctSeqNum(MainProgramImpl.QR_CODE_READER.tryReadQrCode(zeppelin.sensorReading()))) {
+			while (System.currentTimeMillis() <= endTime) {
 				System.out.println("Achteruit while");
 			}
 			if (System.currentTimeMillis() > endTime) {
@@ -65,11 +62,8 @@ public class ForwardBackwardController {
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
+		}
+		finally {
 			try {
 				zeppelin.stopRightAndLeft();
 			} catch (RemoteException e) {
@@ -80,11 +74,5 @@ public class ForwardBackwardController {
 	
 	public void setZeppelin(MainProgramImpl zeppelin) {
 		this.zeppelin = zeppelin;
-	}
-	
-	private boolean correctSeqNum(String decoded) {
-		if (decoded == null)
-			return false;
-		return decoded.contains("N:" + zeppelin.getExpectedSequenceNumber());
 	}
 }

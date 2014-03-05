@@ -7,8 +7,6 @@ package controllers;
 import java.io.IOException;
 import java.io.Serializable;
 
-import ftp.FTPFileInfo;
-
 public class CameraController implements Serializable {
 	
 	private static Object lock = new Object();
@@ -30,8 +28,7 @@ public class CameraController implements Serializable {
 		synchronized (lock) {
 			double[] resolution = this.decideResolution(currentHeight);
 			executeShellCommand("raspistill -t 1 -w " + resolution[0] + " -h "
-					+ resolution[1] + " -o " + FTPFileInfo.PATH_TO_FTP_FILES
-					+ pFileName + ".jpg");
+					+ resolution[1] + " -o " + pFileName + ".jpg");
 			//		executeShellCommand("raspistill -t 1 -w 800 -h 600 -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg");
 		}
 	}

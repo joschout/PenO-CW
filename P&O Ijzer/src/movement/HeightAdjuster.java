@@ -7,9 +7,9 @@ package movement;
 
 import java.rmi.RemoteException;
 
+import logger.LogWriter;
 import controllers.MotorController;
 import controllers.SensorController.TimeoutException;
-import ftp.LogWriter;
 
 public class HeightAdjuster {
 	

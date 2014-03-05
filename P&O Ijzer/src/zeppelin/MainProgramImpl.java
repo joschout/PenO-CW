@@ -5,23 +5,13 @@
 
 package zeppelin;
 
-import java.io.IOException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.ServerNotActiveException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
 
-import parser.Command;
-import parser.Parser;
+import logger.LogWriter;
 import movement.ForwardBackwardController;
 import movement.HeightAdjuster;
 import movement.RotationController;
-import QRCode.Orientation;
-import QRCode.QRCodeHandler;
-import client.FTPOrientationIface;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -31,7 +21,6 @@ import controllers.CameraController;
 import controllers.MotorController;
 import controllers.SensorController;
 import controllers.SensorController.TimeoutException;
-import ftp.LogWriter;
 
 public class MainProgramImpl extends UnicastRemoteObject implements MainProgramInterface {
 
@@ -57,16 +46,10 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public static final ForwardBackwardController FORWARD_BACKWARD = new ForwardBackwardController();
 
 	// Dit object berekent de oriëntatie van de zeppelin
-	public static final Orientation ORIENTATION = new Orientation();
 
 	public static final LogWriter LOG_WRITER = new LogWriter();
 
-	private Parser parser;
-
 	private boolean qrCodeAvailable = false;
-	private int expectedSeqNum = 1;
-
-	public static final QRCodeHandler QR_CODE_READER = new QRCodeHandler();
 
 	/**
 	 * Geeft aan of de zeppelin zijn activiteiten moet stopzetten.
@@ -75,7 +58,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 
 	public MainProgramImpl() throws RemoteException {
 		super();
-		parser = new Parser(this);
 		ROTATION_CONTROLLER.setZeppelin(this);
 		ROTATION_CONTROLLER.setMotorController(MOTOR_CONTROLLER);
 		FORWARD_BACKWARD.setZeppelin(this);
@@ -121,16 +103,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		this.targetAngle = targetAngle;
 	}
 
-	private Parser getParser() {
-		return this.parser;
-	}
-
 	public void startGameLoop() throws InterruptedException {
-		System.out.println("Wachten op beschikbare client voor meten van hoek op basis van QR-codes");
-		while (! ORIENTATION.finderSet()) {
-			Thread.sleep(500);
-		}
-		new Thread(new QrCodeLogicThread()).start();
 		System.out.println("Lus initialiseren; zeppelin is klaar om commando's uit te voeren.");
 		this.gameLoop();
 		System.out.println("Lus afgebroken; uitvoering is stopgezet.");
@@ -188,44 +161,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 
 	public void qrCodeConsumed() throws RemoteException {
 		this.qrCodeAvailable = false;
-	}
-
-	/**
-	 * Geef aan dat er een nieuwe QR-code beschikbaar is.
-	 */
-	private void offerQrCode() {
-		this.qrCodeAvailable = true;
-	}
-
-	public void notifyClientAvailable() {
-		try {
-			Registry registry = LocateRegistry.getRegistry(java.rmi.server.RemoteServer.getClientHost(), 1099);
-			FTPOrientationIface finder = 
-					(FTPOrientationIface) registry.lookup("Finder");
-			System.out.println("Deze finder wordt gezet in Orientation: " + finder);
-			ORIENTATION.setFinder(finder);
-
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (ServerNotActiveException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public int getExpectedSequenceNumber() {
-		return this.expectedSeqNum;
-	}
-
-	public void setExpectedSequenceNumber(int number) {
-		this.expectedSeqNum = number;
-	}
-
-	@Override
-	public String readNewQRCode() throws RemoteException, IOException, InterruptedException {
-		return QR_CODE_READER.tryReadQrCode(this.sensorReading());
 	}
 
 	@Override
@@ -356,75 +291,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	@Override
 	public String readLog() throws RemoteException {
 		return LOG_WRITER.getLog();
-	}
-
-	/**
-	 * Staat in voor het constant zoeken naar een nieuwe QR-code en
-	 * het uitvoeren van instructies geëncodeerd in een QR-code
-	 * @author Thomas
-	 *
-	 */
-	private class QrCodeLogicThread implements Runnable {
-
-		/**
-		 * - Kan een QR-code vinden?
-		 * 		-> nee: slaap een seconde lang, repeat
-		 * - QR-code bevat verwachte volgnummer?
-		 *      -> nee: slaap een seconde lang, repeat
-		 * - Verhoog verwacht volgnummer met één
-		 * - Parse QR-code
-		 * - Voer commando's uit
-		 * - repeat
-		 */
-		public void run() {
-			while (true) {
-				String decoded = null;
-				try {
-					decoded = MainProgramImpl.this.readNewQRCode();
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				if (decoded == null) {
-					try {
-						LOG_WRITER.writeToLog("Geen QR-code gevonden");
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				else
-				{
-					boolean correctSeqNumber = decoded.contains("N:" + MainProgramImpl.this.getExpectedSequenceNumber());
-					if (! correctSeqNumber) {
-						int NIndex = decoded.indexOf('N');
-						int codeSeqNum = Integer.parseInt(decoded.substring(NIndex + 2, NIndex + 3));
-						LOG_WRITER.writeToLog("WAARSCHUWING: scande QR-code met volgnummer " + 
-								codeSeqNum + " terwijl volgnummer " + MainProgramImpl.this.getExpectedSequenceNumber()
-								+ " werd verwacht; QR-code wordt niet uitgevoerd");
-						try {
-							Thread.sleep(100);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						continue;
-					}
-						
-					MainProgramImpl.this.setExpectedSequenceNumber(MainProgramImpl.this.getExpectedSequenceNumber() + 1);
-					MainProgramImpl.this.offerQrCode();
-					LOG_WRITER.writeToLog("QR-code gelezen met als resultaat: " + decoded);
-					List<Command> commands = MainProgramImpl.this.getParser().parse(decoded);
-					for (Command command: commands) {
-						command.execute();
-					}
-				}
-				
-			}
-
-		}
 	}
 
 }

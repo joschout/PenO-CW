@@ -8,15 +8,9 @@ package movement;
 import java.rmi.RemoteException;
 
 import zeppelin.MainProgramImpl;
-import QRCode.Orientation;
-import client.FTPOrientation;
-import client.FTPOrientationIface;
-
-import com.google.zxing.ResultPoint;
 
 import controllers.MotorController;
 import controllers.SensorController.TimeoutException;
-import ftp.LogWriter;
 
 
 public class RotationController {
@@ -50,7 +44,7 @@ public class RotationController {
 	public void takeAction(double targetAngle, double zeppelinHeight) throws RemoteException, TimeoutException, InterruptedException {
 		this.checkState();
 		double pwm = 0;
-		double mostRecentAngle = MainProgramImpl.ORIENTATION.getOrientation(zeppelinHeight);
+		double mostRecentAngle = 0;
 		this.zeppelin.updateMostRecentAngle(mostRecentAngle);
 		if(! isInInterval(mostRecentAngle, targetAngle)){
 			pwm = this.getPWMValue(targetAngle, mostRecentAngle);
@@ -126,8 +120,5 @@ public class RotationController {
 		if (this.motorController == null)
 			throw new IllegalArgumentException("Probeerde PID voor draaien te activeren, maar zeppelin was niet geïnstantieerd.");
 	}
-
-
-
 }
 

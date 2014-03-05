@@ -3,7 +3,7 @@
  * Ophalen van de inhoud is een destructieve operatie.
  */
 
-package ftp;
+package logger;
 
 import java.util.Calendar;
 

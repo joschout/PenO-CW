@@ -26,15 +26,6 @@ public interface MainProgramInterface extends Remote {
 	public void exit() throws RemoteException;
 	
 	/**
-	 * De zeppelin neemt een foto en probeert een QR-code te lezen uit die foto.
-	 * @return	Een string als er een QR-code kon gedecodeerd worden, anders null.
-	 * @throws RemoteException
-	 * @throws IOException
-	 * @throws InterruptedException
-	 */
-	public String readNewQRCode() throws RemoteException, IOException, InterruptedException;
-	
-	/**
 	 * Geeft de doelhoogte terug.
 	 * @return	De doelhoogte.
 	 * @throws RemoteException
@@ -105,20 +96,6 @@ public interface MainProgramInterface extends Remote {
 	 * @throws RemoteException
 	 */
 	public void stopDownward() throws RemoteException;
-	
-	/**
-	 * Geeft aan of de zeppelin minstens één nieuwe QR-code heeft gescand.
-	 * @return	De zeppelin heeft mintens één nieuwe QR-code beschikbaar.
-	 * @throws RemoteException
-	 */
-	public boolean qrCodeAvailable() throws RemoteException;
-	
-	/**
-	 * Laat weten aan de zeppelin dat de meest recent gescande QR-code afgehaald is
-	 * vanop de FTP-server.
-	 * @throws RemoteException
-	 */
-	public void qrCodeConsumed() throws RemoteException;
 
 	/**
 	 * Update de procesconstante voor de hoogte.
@@ -223,28 +200,9 @@ public interface MainProgramInterface extends Remote {
 	public double getSafetyIntervalAngle() throws RemoteException;
 	
 	/**
-	 * Laat weten aan de zeppelin dat er een client beschikbaar is.
-	 * @throws RemoteException
-	 */
-	public void notifyClientAvailable() throws RemoteException;
-	
-	/**
 	 * Leest de log.
 	 * @throws RemoteException
 	 */
 	public String readLog() throws RemoteException;
-	
-	/**
-	 * Haalt het volgnummer waarvan de zeppelin verwacht dat de volgende gescande
-	 * QR-code die heeft.
-	 * @throws RemoteException
-	 */
-	public int getExpectedSequenceNumber() throws RemoteException;
-	
-	/**
-	 * Past het verwachte volgnummer van de volgende QR-code aan.
-	 * @throws RemoteException
-	 */
-	public void setExpectedSequenceNumber(int number) throws RemoteException;
 
 }
