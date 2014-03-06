@@ -21,5 +21,10 @@
 	<classpathentry kind="lib" path="lib/javase-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/ftp4j-1.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/thumbnailator-0.4.6.jar"/>
+	<classpathentry kind="lib" path="lib/opencv-java300.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="P&amp;O Ijzer/lib/opencvbindings"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

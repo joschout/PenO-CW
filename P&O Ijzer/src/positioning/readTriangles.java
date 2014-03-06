@@ -1,13 +1,14 @@
 package positioning;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import coordinate.GridMarker;
 
 public class readTriangles {
 	
-	ArrayList<GridMarker> markers;
-	ArrayList<Couple> couples;
+	List<GridMarker> markers;
+	List<Couple> couples;
 
 	public void getFiguresImage() {	
 		markers = getMarkers();		

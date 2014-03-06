@@ -5,6 +5,7 @@
 
 package zeppelin;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -21,6 +22,9 @@ import controllers.CameraController;
 import controllers.MotorController;
 import controllers.SensorController;
 import controllers.SensorController.TimeoutException;
+import coordinate.Grid;
+import coordinate.GridInitialiser;
+import coordinate.GridPoint;
 
 public class MainProgramImpl extends UnicastRemoteObject implements MainProgramInterface {
 
@@ -61,6 +65,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		ROTATION_CONTROLLER.setZeppelin(this);
 		ROTATION_CONTROLLER.setMotorController(MOTOR_CONTROLLER);
 		FORWARD_BACKWARD.setZeppelin(this);
+		this.initialiseGrid();
 
 		LOG_WRITER.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
 
@@ -292,5 +297,37 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public String readLog() throws RemoteException {
 		return LOG_WRITER.getLog();
 	}
+	
+	private Grid grid;
+	
+	public Grid getGrid()
+	{
+		return this.grid;
+	}
+	
+	private void initialiseGrid()
+	{
+		GridInitialiser init = new GridInitialiser();
+		try {
+			this.grid = init.readGrid("grid");
+		} catch (IOException e) {
+			System.err.println("WAARSCHUWING: kon grid niet initialiseren.");
+			e.printStackTrace();
+		}
+	}
+	
+	private GridPoint position;
+	
+	public GridPoint getPosition()
+	{
+		return this.position;
+	}
+	
+	public void setPotision(GridPoint point)
+	{
+		this.position = point;
+	}
+	
+	
 
 }

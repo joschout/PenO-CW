@@ -1,6 +1,7 @@
 package coordinate;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,7 +12,8 @@ public class GridInitialiser {
 	
 	private static final String EMPTY_CELL = "E";
 	private static final String NOT_USED = "XX";
-	private static final double MATRIX_DISPLACEMENT = 20;
+	private static final double X_DISPLACEMENT = 20;
+	private static final double Y_DISPLACEMENT = 20 * Math.sqrt(3);
 
 	public Grid readGrid(String filename) throws IOException
 	{
@@ -28,6 +30,7 @@ public class GridInitialiser {
 		return new Grid(triangles);
 	}
 
+	// maakt een down-facing driehoek
 	private void constructUpperTriangle(List<String[]> matrix,
 			List<GridTriangle> triangles, int y, int x) {
 		try
@@ -44,12 +47,15 @@ public class GridInitialiser {
 			if (! representsShape(localToken))
 				return;
 			GridMarker localMarker = parseFileShape(localToken);
-			Point leftUpPoint = new Point(x-1 * MATRIX_DISPLACEMENT, y-1 * MATRIX_DISPLACEMENT);
-			Point rightUpPoint = new Point(x+1 * MATRIX_DISPLACEMENT, y-1 * MATRIX_DISPLACEMENT);
-			Point localPoint = new Point(x * MATRIX_DISPLACEMENT, y * MATRIX_DISPLACEMENT);
+			GridPoint leftUpPoint = new GridPoint((x-1) * X_DISPLACEMENT, (y-1) * Y_DISPLACEMENT);
+			GridPoint rightUpPoint = new GridPoint((x+1) * X_DISPLACEMENT, (y-1) * Y_DISPLACEMENT);
+			GridPoint localPoint = new GridPoint(x * X_DISPLACEMENT, y * Y_DISPLACEMENT);
 			leftUpMarker.setPoint(leftUpPoint);
 			rightUpMarker.setPoint(rightUpPoint);
 			localMarker.setPoint(localPoint);
+			leftUpMarker.setOrientation(MarkerOrientation.LEFT);
+			rightUpMarker.setOrientation(MarkerOrientation.RIGHT);
+			localMarker.setOrientation(MarkerOrientation.DOWN);
 			List<GridMarker> markers = new ArrayList<GridMarker>();
 			markers.add(leftUpMarker);
 			markers.add(rightUpMarker);
@@ -62,6 +68,7 @@ public class GridInitialiser {
 		}
 	}
 	
+	// maakt een up-facing driehoek
 	private void constructLowerTriangle(List<String[]> matrix,
 			List<GridTriangle> triangles, int y, int x)
 	{
@@ -79,12 +86,15 @@ public class GridInitialiser {
 			if (! representsShape(localToken))
 				return;
 			GridMarker localMarker = parseFileShape(localToken);
-			Point leftDownPoint = new Point((x-1) * MATRIX_DISPLACEMENT, (y+1) * MATRIX_DISPLACEMENT);
-			Point rightDownPoint = new Point((x+1) * MATRIX_DISPLACEMENT, (y+1) * MATRIX_DISPLACEMENT);
-			Point localPoint = new Point(x * MATRIX_DISPLACEMENT, y * MATRIX_DISPLACEMENT);
+			GridPoint leftDownPoint = new GridPoint((x-1) * X_DISPLACEMENT, (y+1) * Y_DISPLACEMENT);
+			GridPoint rightDownPoint = new GridPoint((x+1) * X_DISPLACEMENT, (y+1) * Y_DISPLACEMENT);
+			GridPoint localPoint = new GridPoint(x * X_DISPLACEMENT, y * Y_DISPLACEMENT);
 			leftDownMarker.setPoint(leftDownPoint);
 			rightDownMarker.setPoint(rightDownPoint);
 			localMarker.setPoint(localPoint);
+			leftDownMarker.setOrientation(MarkerOrientation.LEFT);
+			rightDownMarker.setOrientation(MarkerOrientation.RIGHT);
+			localMarker.setOrientation(MarkerOrientation.UP);
 			List<GridMarker> markers = new ArrayList<GridMarker>();
 			markers.add(leftDownMarker);
 			markers.add(rightDownMarker);
@@ -100,13 +110,23 @@ public class GridInitialiser {
 	private List<String[]> constructMatrix(String filename) throws FileNotFoundException,
 			IOException {
 		String withExtension = filename + ".txt";
-		BufferedReader reader =  new BufferedReader(new FileReader(withExtension));
+		File file = new File(withExtension);
+		if (! file.exists() || file.isDirectory())
+		{
+			withExtension = filename + ".csv";
+			file = new File(withExtension);
+		}
+		BufferedReader reader =  new BufferedReader(new FileReader(file));
 		List<String[]> matrix = new ArrayList<String[]>();
 		String input = reader.readLine();
 		boolean shortRow = false;
 		while (input != null)
 		{
 			String[] tokens = input.split(", ");
+			if (tokens.length <= 1)
+			{
+				tokens = input.split(",");
+			}
 			String[] matrixRow = new String[tokens.length * 2];
 			int tokenCursor = 0;
 			if (shortRow)

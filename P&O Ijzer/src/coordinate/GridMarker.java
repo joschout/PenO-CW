@@ -2,21 +2,27 @@ package coordinate;
 
 public class GridMarker {
 	
-	public GridMarker(String colour, String shape, Point point)
+	public GridMarker(String colour, String shape, GridPoint point, MarkerOrientation orientation)
 	{
 		this.shape = shape;
 		this.colour = colour;
 		this.point = point;
+		this.orientation = orientation;
+	}
+	
+	public GridMarker(String colour, String shape, GridPoint point)
+	{
+		this(colour, shape, point, null);
 	}
 	
 	public GridMarker(String colour, String shape)
 	{
-		this(colour, shape, null);
+		this(colour, shape, null, null);
 	}
 	
 	public GridMarker()
 	{
-		this(null, null, null);
+		this(null, null, null, null);
 	}
 	
 	private String shape;
@@ -43,16 +49,33 @@ public class GridMarker {
 		this.colour = colour;
 	}
 	
-	private Point point;
+	private GridPoint point;
 	
-	public Point getPoint()
+	public GridPoint getPoint()
 	{
 		return point;
 	}
-	
-	public void setPoint(Point point)
+
+	public void setPoint(GridPoint point)
 	{
 		this.point = point;
+	}
+	
+	public GridPoint findMidpointBetween(GridMarker other)
+	{
+		return this.point.findMidpointBetween(other.getPoint());
+	}
+	
+	private MarkerOrientation orientation;
+	
+	public MarkerOrientation getOrientation()
+	{
+		return this.orientation;
+	}
+	
+	public void setOrientation(MarkerOrientation orientation)
+	{
+		this.orientation = orientation;
 	}
 
 	@Override
@@ -64,6 +87,9 @@ public class GridMarker {
 		return result;
 	}
 
+	/**
+	 * Vergelijkt twee GridMarkers, gebaseerd op hun shape en hun colour
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
