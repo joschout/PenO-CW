@@ -11,7 +11,7 @@ public class TestConstants {
 	public static void main(String[] args) throws RemoteException, InterruptedException {
 		
 		MotorController motorController = new MotorController();
-		HeightAdjuster heightAdjuster = new HeightAdjuster(motorController);
+		HeightController heightAdjuster = new HeightController(motorController);
 		
 		Random randHeightGen = new Random();
 		double randHeight = randHeightGen.nextDouble();
@@ -21,7 +21,7 @@ public class TestConstants {
 		int i =0;
 		while (i<=20)
 			try {				
-				heightAdjuster.takeAction(randHeight, targetHeight);
+				heightAdjuster.goToHeight(randHeight, targetHeight);
 			} catch (TimeoutException e) {
 				e.printStackTrace();
 			}

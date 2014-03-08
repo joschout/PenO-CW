@@ -54,7 +54,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getHeight() throws RemoteException {
-		return this.zeppelin.sensorReading();
+		return this.zeppelin.getHeight();
 	}
 
 
@@ -185,11 +185,7 @@ public class GuiController {
 	 * @param kp
 	 */
 	public void setKpHeight(double kp) {
-		try {
-			zeppelin.setKpHeight(kp);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		zeppelin.getHeightController().getpController().setKp(kp);
 	}
 	
 	/**
@@ -197,11 +193,7 @@ public class GuiController {
 	 * @param ki
 	 */
 	public void setKiHeight(double ki) {
-		try {
-			zeppelin.setKiHeight(ki);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		zeppelin.getHeightController().getpController().setKi(ki);
 	}
 	
 	/**
@@ -209,11 +201,7 @@ public class GuiController {
 	 * @param kd
 	 */
 	public void setKdHeight(double kd) {
-		try {
-			zeppelin.setKdHeight(kd);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		zeppelin.getHeightController().getpController().setKd(kd);
 	}
 	
 	/**
@@ -221,7 +209,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKpHeight() throws RemoteException {
-		return zeppelin.getKpHeight();
+		return zeppelin.getHeightController().getpController().getKp();
 	}
 	
 	/**
@@ -229,7 +217,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKdHeight() throws RemoteException {
-		return zeppelin.getKdHeight();
+		return zeppelin.getHeightController().getpController().getKd();
 	}
 	
 	/**
@@ -237,7 +225,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKiHeight() throws RemoteException {
-		return zeppelin.getKiHeight();
+		return zeppelin.getHeightController().getpController().getKi();
 	}
 	
 	// wordt deze methode zelfs gebruikt?
@@ -249,7 +237,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
-		zeppelin.setSafetyIntervalHeight(safetyInterval);
+		zeppelin.getHeightController().setSafetyIntervalHeight(safetyInterval);
 	}
 	
 	/**
@@ -257,7 +245,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getSafetyIntervalHeight() throws RemoteException {
-		return zeppelin.getSafetyIntervalHeight();
+		return zeppelin.getHeightController().getSafetyIntervalHeight();
 	}
 	
 	/**
@@ -265,11 +253,7 @@ public class GuiController {
 	 * @param kp
 	 */
 	public void setKpAngle(double kp) {
-		try {
-			zeppelin.setKpAngle(kp);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		zeppelin.getRotationController().getpController().setKp(kp);
 	}
 	
 	/**
@@ -277,11 +261,7 @@ public class GuiController {
 	 * @param ki
 	 */
 	public void setKiAngle(double ki) {
-		try {
-			zeppelin.setKiAngle(ki);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		zeppelin.getRotationController().getpController().setKi(ki);
 	}
 	
 	/**
@@ -289,11 +269,7 @@ public class GuiController {
 	 * @param kd
 	 */
 	public void setKdAngle(double kd) {
-		try {
-			zeppelin.setKdAngle(kd);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+		zeppelin.getRotationController().getpController().setKd(kd);
 	}
 	
 	/**
@@ -301,7 +277,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKpAngle() throws RemoteException {
-		return zeppelin.getKpAngle();
+		return zeppelin.getRotationController().getpController().getKp();
 	}
 	
 	/**
@@ -309,7 +285,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKdAngle() throws RemoteException {
-		return zeppelin.getKdAngle();
+		return zeppelin.getRotationController().getpController().getKd();
 	}
 	
 	/**
@@ -317,7 +293,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKiAngle() throws RemoteException {
-		return zeppelin.getKiAngle();
+		return zeppelin.getRotationController().getpController().getKi();
 	}
 	
 	/**
@@ -329,7 +305,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
-		zeppelin.setSafetyIntervalAngle(safetyInterval);
+		zeppelin.getRotationController().setSafetyIntervalAngle(safetyInterval);
 	}
 	
 	/**
@@ -337,7 +313,7 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getSafetyIntervalAngle() throws RemoteException {
-		return zeppelin.getSafetyIntervalAngle();
+		return zeppelin.getRotationController().getSafetyIntervalAngle();
 	}
 
 }

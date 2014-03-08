@@ -7,6 +7,8 @@ package movement;
 
 import java.rmi.RemoteException;
 
+import positioning.RotationCalculator;
+
 import zeppelin.MainProgramImpl;
 
 import controllers.MotorController;
@@ -14,24 +16,34 @@ import controllers.SensorController.TimeoutException;
 
 
 public class RotationController {
-
+	
 	private MotorController motorController;
 	private PIDController pController = new PIDController(0.01, 0.001, 5, PIDMode.ANGLE); // TODO: constanten bepalen
 	private double safetyInterval = 5;
+	private RotationCalculator rotationCalculator = new RotationCalculator();
 	
 	private MainProgramImpl zeppelin;
+	
 
+	public RotationController(MotorController motorcontroller) {
+		this.motorController = motorController;
+	}
+
+	
 	public void setZeppelin(MainProgramImpl zeppelin) throws IllegalStateException {
 		if (this.zeppelin != null)
 			throw new IllegalStateException("Probeerde in rotation controller de zeppelin meer dan eens te zetten.");
 		this.zeppelin = zeppelin;
 	}
 	
+	//TODO OBSOLETE?!
+		/*
 	public void setMotorController(MotorController controller) {
 		if (this.motorController != null)
 			throw new IllegalStateException("Probeerde in rotation controller de motor controller meer dan eens te zetten.");
 		this.motorController = controller;
 	}
+	*/
 	
 	public double getSafetyIntervalAngle() {
 		return safetyInterval;
@@ -41,11 +53,12 @@ public class RotationController {
 		this.safetyInterval = safetyInterval;
 	}
 	
-	public void takeAction(double targetAngle, double zeppelinHeight) throws RemoteException, TimeoutException, InterruptedException {
+	public void goToAngle(double targetAngle) throws RemoteException, TimeoutException, InterruptedException {
 		this.checkState();
 		double pwm = 0;
-		double mostRecentAngle = 0;
-		this.zeppelin.updateMostRecentAngle(mostRecentAngle);
+		double mostRecentAngle = rotationCalculator.getAngle();
+		this.zeppelin.setAngle(mostRecentAngle);
+		//this.zeppelin.updateMostRecentAngle(mostRecentAngle); TODO OBSOLETE?
 		if(! isInInterval(mostRecentAngle, targetAngle)){
 			pwm = this.getPWMValue(targetAngle, mostRecentAngle);
 		}
@@ -53,7 +66,7 @@ public class RotationController {
 	}
 
 	public double getPWMValue(double mostRecentAngle, double targetAngle) throws RemoteException, TimeoutException, InterruptedException {
-		double pid = pController.takeAction(targetAngle, mostRecentAngle);
+		double pid = pController.getPIDValue(targetAngle, mostRecentAngle);
 		return pid*0.05;
 	}
 	
@@ -61,29 +74,35 @@ public class RotationController {
 		return Math.abs(mostRecentAngle-targetAngle) < safetyInterval;
 	}
 
-	public void setKpAngle(double kp) {
-		this.pController.setKp(kp);
+	public PIDController getpController() {
+		return pController;
 	}
 	
-	public void setKdAngle(double kd) {
-		this.pController.setKd(kd);
-	}
 	
-	public void setKiAngle(double ki) {
-		this.pController.setKi(ki);
-	}
-	
-	public double getKpAngle() {
-		return pController.getKp();
-	}
-	
-	public double getKdAngle() {
-		return pController.getKd();
-	}
-	
-	public double getKiAngle() {
-		return pController.getKi();
-	}
+	//TODO OBSOLETE
+//	public void setKpAngle(double kp) {
+//		this.pController.setKp(kp);
+//	}
+//	
+//	public void setKdAngle(double kd) {
+//		this.pController.setKd(kd);
+//	}
+//	
+//	public void setKiAngle(double ki) {
+//		this.pController.setKi(ki);
+//	}
+//	
+//	public double getKpAngle() {
+//		return pController.getKp();
+//	}
+//	
+//	public double getKdAngle() {
+//		return pController.getKd();
+//	}
+//	
+//	public double getKiAngle() {
+//		return pController.getKi();
+//	}
 	
 	public static double convertToCorrectFormat(double angle) {
 		double toReturn = angle % 360;

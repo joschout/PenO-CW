@@ -4,6 +4,11 @@
  * of tot er een volgende QR-code is gevonden.
  */
 
+
+
+
+// TODO OBSOLETE?!
+
 package movement;
 
 import java.io.IOException;

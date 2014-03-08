@@ -73,5 +73,7 @@ public class GridPoint {
 			return false;
 		return true;
 	}
+	
+	
 
 }

@@ -136,7 +136,7 @@ public class PositionCalculator {
 			GridPoint rightProjection = new GridPoint(otherPoint.x - originPoint.x, newRightY - newLeftY);
 			return angleWithOffset(rightProjection.y, rightProjection.x, 0);
 		}
-		// geval 1a omgekeerd
+		// geval 1a omgekeerd --> VOLGENS MIJ KAN JE HIER GEWOON + 180 dDOEN TOV GEVAL 1A 
 		if (orientationAtZero == MarkerOrientation.RIGHT && orientationAtOne == MarkerOrientation.LEFT)
 		{
 			originMarker = foundMarkers.get(foundMarkers.indexOf(equivalentMarkers.get(1)));

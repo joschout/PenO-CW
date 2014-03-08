@@ -154,7 +154,7 @@ public class PIDController {
 	 * @throws TimeoutException
 	 * @throws InterruptedException
 	 */
-	public Double takeAction(double targetValue, double currentValue) throws RemoteException, TimeoutException, InterruptedException {
+	public Double getPIDValue(double targetValue, double currentValue) throws RemoteException, TimeoutException, InterruptedException {
 		measureData(targetValue, currentValue);
 		if(errors.size() >= 2 && !(Kp == 0 && Ki == 0 && Kd == 0)) {
 			return getPID();

@@ -7,15 +7,27 @@ package movement;
 
 import java.rmi.RemoteException;
 
+import zeppelin.MainProgramImpl;
+
 import logger.LogWriter;
 import controllers.MotorController;
+import controllers.SensorController;
 import controllers.SensorController.TimeoutException;
 
-public class HeightAdjuster {
+public class HeightController {
 	
 	private MotorController motorController;
 	private PIDController pController = new PIDController(17, 0.001, 13500, PIDMode.HEIGHT);
 	private double safetyInterval = 1;
+	private SensorController sensorController;
+	
+	public HeightController(SensorController sensorController, MotorController motorController) {
+		this.motorController = motorController;
+		this.sensorController = sensorController;
+	}
+
+
+	private MainProgramImpl zeppelin;
 	
 	public double getSafetyIntervalHeight() {
 		return safetyInterval;
@@ -25,8 +37,12 @@ public class HeightAdjuster {
 		this.safetyInterval = safetyInterval;
 	}
 	
-	public HeightAdjuster(MotorController motorController) {
-		this.motorController = motorController;
+	
+	
+	public void setZeppelin(MainProgramImpl zeppelin) throws IllegalStateException {
+		if (this.zeppelin != null)
+			throw new IllegalStateException("Probeerde in height controller de zeppelin meer dan eens te zetten.");
+		this.zeppelin = zeppelin;
 	}
 	
 	
@@ -41,7 +57,7 @@ public class HeightAdjuster {
 	 * @throws InterruptedException
 	 */
 	public double getPWMValue(double mostRecentValue, double targetValue) throws RemoteException, TimeoutException, InterruptedException {
-		double pid = pController.takeAction(targetValue, mostRecentValue);
+		double pid = pController.getPIDValue(targetValue, mostRecentValue);
 		return pid*0.1;
 	}
 	
@@ -56,8 +72,10 @@ public class HeightAdjuster {
 	 * @throws TimeoutException
 	 * @throws InterruptedException
 	 */
-	public void takeAction(double mostRecentHeight, double targetHeight) throws RemoteException, TimeoutException, InterruptedException {
+	public void goToHeight(double targetHeight) throws RemoteException, TimeoutException, InterruptedException {
 		double pwm =0;
+		double mostRecentHeight = sensorController.sensorReading();
+		this.zeppelin.setHeight(mostRecentHeight);
 		if(Math.abs(mostRecentHeight-targetHeight)> safetyInterval){
 			pwm = this.getPWMValue(targetHeight, mostRecentHeight);
 		}
@@ -77,46 +95,51 @@ public class HeightAdjuster {
 		return Math.abs(mostRecentHeight-targetHeight) <= safetyInterval;
 	}
 
-	/**
-	 * Zet de procesconstante.
-	 */
-	public void setKpHeight(double kp) {
-		this.pController.setKp(kp);
+	public PIDController getpController() {
+		return pController;
 	}
 	
-	/**
-	 * Zet de derivative constante.
-	 */
-	public void setKdHeight(double kd) {
-		this.pController.setKd(kd);
-	}
-	
-	/**
-	 * Zet de integraalconstante.
-	 */
-	public void setKiHeight(double ki) {
-		this.pController.setKi(ki);
-	}
-	
-	/**
-	 * Haalt de procesconstante.
-	 */
-	public double getKpHeight() {
-		return pController.getKp();
-	}
-	
-	/**
-	 * Haalt de derivative constante.
-	 */
-	public double getKdHeight() {
-		return pController.getKd();
-	}
-	
-	/**
-	 * Haalt de integraalconstante.
-	 */
-	public double getKiHeight() {
-		return pController.getKi();
-	}
+	//TODO OBSOLETE
+//	/**
+//	 * Zet de procesconstante.
+//	 */
+//	public void setKpHeight(double kp) {
+//		this.pController.setKp(kp);
+//	}
+//	
+//	/**
+//	 * Zet de derivative constante.
+//	 */
+//	public void setKdHeight(double kd) {
+//		this.pController.setKd(kd);
+//	}
+//	
+//	/**
+//	 * Zet de integraalconstante.
+//	 */
+//	public void setKiHeight(double ki) {
+//		this.pController.setKi(ki);
+//	}
+//	
+//	/**
+//	 * Haalt de procesconstante.
+//	 */
+//	public double getKpHeight() {
+//		return pController.getKp();
+//	}
+//	
+//	/**
+//	 * Haalt de derivative constante.
+//	 */
+//	public double getKdHeight() {
+//		return pController.getKd();
+//	}
+//	
+//	/**
+//	 * Haalt de integraalconstante.
+//	 */
+//	public double getKiHeight() {
+//		return pController.getKi();
+//	}
 	
 }

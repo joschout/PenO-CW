@@ -11,7 +11,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 import logger.LogWriter;
 import movement.ForwardBackwardController;
-import movement.HeightAdjuster;
+import movement.HeightController;
 import movement.RotationController;
 
 import com.pi4j.io.gpio.GpioController;
@@ -45,15 +45,15 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public static final SensorController SENSOR_CONTROLLER = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);;
 	public static final CameraController CAMERA_CONTROLLER = new CameraController();
 	public static final MotorController MOTOR_CONTROLLER = new MotorController();
-	public static final HeightAdjuster HEIGHT_ADJUSTER = new HeightAdjuster(MOTOR_CONTROLLER);
-	public static final RotationController ROTATION_CONTROLLER = new RotationController();
+	public static final HeightController HEIGHT_CONTROLLER = new HeightController(SENSOR_CONTROLLER, MOTOR_CONTROLLER);
+	public static final RotationController ROTATION_CONTROLLER = new RotationController(MOTOR_CONTROLLER);
 	public static final ForwardBackwardController FORWARD_BACKWARD = new ForwardBackwardController();
 
 	// Dit object berekent de oriëntatie van de zeppelin
 
 	public static final LogWriter LOG_WRITER = new LogWriter();
 
-	private boolean qrCodeAvailable = false;
+	private boolean qrCodeAvailable = false; //TODO OBSOLETE?
 
 	/**
 	 * Geeft aan of de zeppelin zijn activiteiten moet stopzetten.
@@ -63,8 +63,9 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public MainProgramImpl() throws RemoteException {
 		super();
 		ROTATION_CONTROLLER.setZeppelin(this);
-		ROTATION_CONTROLLER.setMotorController(MOTOR_CONTROLLER);
-		FORWARD_BACKWARD.setZeppelin(this);
+		//ROTATION_CONTROLLER.setMotorController(MOTOR_CONTROLLER); TODO OBSOLETE?!
+		HEIGHT_CONTROLLER.setZeppelin(this);
+		FORWARD_BACKWARD.setZeppelin(this); //TODO OBSOLETE?
 		this.initialiseGrid();
 
 		LOG_WRITER.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
@@ -79,15 +80,34 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	}
 
 	@Override
+	public HeightController getHeightController() {
+		return HEIGHT_CONTROLLER;
+	}
+
+	@Override
+	public RotationController getRotationController() {
+		return ROTATION_CONTROLLER;
+	}
+
+	
+	/*
+	@Override
 	public double sensorReading() throws RemoteException {
 		return this.mostRecentHeight;
 	}
+	*/
 
 	public double getMostRecentAngle() {
 		return this.mostRecentAngle;
 	}
+	
+	/*
+	public double getMostRecentHeight() {
+		return this.mostRecentHeight;
+	}
+	*/
 
-	public void updateMostRecentAngle(double angle) {
+	public void setAngle(double angle) {
 		this.mostRecentAngle = angle;
 	}
 
@@ -134,13 +154,12 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	private void gameLoop() throws InterruptedException {
 		while (!exit) {
 			try {
-				this.mostRecentHeight = SENSOR_CONTROLLER.sensorReading();
 				try {
-					HEIGHT_ADJUSTER.takeAction(mostRecentHeight, targetHeight);
+					HEIGHT_CONTROLLER.goToHeight(targetHeight);
 					if (turning) {
 						System.out.println("Huidige hoek van zeppelin: " + mostRecentAngle + " met timestamp: " + System.currentTimeMillis());
 						System.out.println("Zeppelin: In if-test met target angle: " + targetAngle);
-						ROTATION_CONTROLLER.takeAction(targetAngle, mostRecentHeight);
+						ROTATION_CONTROLLER.goToAngle(targetAngle);
 					}
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -159,7 +178,9 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		MOTOR_CONTROLLER.stopHeightAdjustment();
 		System.exit(0);
 	}
-
+	
+	//TODO OBSOLETE
+	/*
 	public boolean qrCodeAvailable() throws RemoteException {
 		return this.qrCodeAvailable;
 	}
@@ -167,7 +188,9 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public void qrCodeConsumed() throws RemoteException {
 		this.qrCodeAvailable = false;
 	}
-
+	*/
+	
+	
 	@Override
 	public boolean leftIsOn() throws RemoteException {
 		return MOTOR_CONTROLLER.leftIsOn();
@@ -213,44 +236,47 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		MOTOR_CONTROLLER.stopHeightAdjustment();
 	}
 
+	
+	//TODO OBSOLETE
+	/*
 	@Override
 	public void setKpHeight(double kp) {
-		HEIGHT_ADJUSTER.setKpHeight(kp);
+		HEIGHT_CONTROLLER.setKpHeight(kp);
 	}
 
 	@Override
 	public void setKdHeight(double kd) {
-		HEIGHT_ADJUSTER.setKdHeight(kd);
+		HEIGHT_CONTROLLER.setKdHeight(kd);
 	}
 
 	@Override
 	public void setKiHeight(double ki) {
-		HEIGHT_ADJUSTER.setKiHeight(ki);
+		HEIGHT_CONTROLLER.setKiHeight(ki);
 	}
 
 	@Override
 	public double getKpHeight() throws RemoteException {
-		return HEIGHT_ADJUSTER.getKpHeight();
+		return HEIGHT_CONTROLLER.getKpHeight();
 	}
 
 	@Override
 	public double getKiHeight() throws RemoteException {
-		return HEIGHT_ADJUSTER.getKdHeight();
+		return HEIGHT_CONTROLLER.getKdHeight();
 	}
 
 	@Override
 	public double getKdHeight() throws RemoteException {
-		return HEIGHT_ADJUSTER.getKiHeight();
+		return HEIGHT_CONTROLLER.getKiHeight();
 	}
 
 	@Override
 	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
-		HEIGHT_ADJUSTER.setSafetyIntervalHeight(safetyInterval);
+		HEIGHT_CONTROLLER.setSafetyIntervalHeight(safetyInterval);
 	}
 
 	@Override
 	public double getSafetyIntervalHeight() throws RemoteException {
-		return HEIGHT_ADJUSTER.getSafetyIntervalHeight();
+		return HEIGHT_CONTROLLER.getSafetyIntervalHeight();
 	}
 
 	@Override
@@ -292,7 +318,9 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public double getSafetyIntervalAngle() throws RemoteException {
 		return ROTATION_CONTROLLER.getSafetyIntervalAngle();
 	}
-
+    */
+	
+	
 	@Override
 	public String readLog() throws RemoteException {
 		return LOG_WRITER.getLog();
@@ -326,6 +354,15 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public void setPotision(GridPoint point)
 	{
 		this.position = point;
+	}
+
+	@Override
+	public double getHeight() {
+		return this.mostRecentHeight;
+	}
+	
+	public void setHeight(double height) {
+		this.mostRecentHeight = height;
 	}
 	
 	
