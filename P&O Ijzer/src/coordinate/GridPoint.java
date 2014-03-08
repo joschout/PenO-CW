@@ -22,6 +22,16 @@ public class GridPoint {
 		return new GridPoint(this.x + x, this.y + y);
 	}
 	
+	public GridPoint add(GridPoint other)
+	{
+		return new GridPoint(this.x + other.x, this.y + other.y);
+	}
+	
+	public GridPoint subtract(GridPoint other)
+	{
+		return new GridPoint(this.x - other.x, this.y - other.y);
+	}
+	
 	public GridPoint multiply(double scalar)
 	{
 		return new GridPoint(this.x * scalar, this.y * scalar);
