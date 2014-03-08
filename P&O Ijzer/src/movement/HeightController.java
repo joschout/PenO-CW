@@ -9,7 +9,6 @@ import java.rmi.RemoteException;
 
 import zeppelin.MainProgramImpl;
 
-import logger.LogWriter;
 import controllers.MotorController;
 import controllers.SensorController;
 import controllers.SensorController.TimeoutException;

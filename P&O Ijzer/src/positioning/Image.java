@@ -1,10 +1,12 @@
 package positioning;
 
 import java.io.File;
+import java.util.List;
 
 import org.opencv.core.Mat;
 import org.opencv.highgui.Highgui;
 
+import coordinate.GridMarker;
 import coordinate.GridPoint;
 
 /**
@@ -15,6 +17,7 @@ import coordinate.GridPoint;
 public class Image {
 	
 	private Mat image;
+	private List<GridMarker> markers;
 	
 	/**
 	 * Initialiseert deze image met de foto waarnaar filePath wijst.
@@ -38,6 +41,7 @@ public class Image {
 			throw new IllegalArgumentException("Kan image niet initialiseren met niet-bestaande foto.");
 		}
 		this.image = Highgui.imread(filePath);
+		setMarkers();
 	}
 	
 	public Mat getImage()
@@ -65,6 +69,15 @@ public class Image {
 		double width = this.getWidth();
 		double height = this.getHeight();
 		return new GridPoint(width / 2, height / 2);
+	}
+	
+	public void setMarkers() {
+		ImageAnalyser imageAnalyser = new ImageAnalyser(this);
+		this.markers = imageAnalyser.analysePicture();
+	}
+	
+	public List<GridMarker> getMarkers() {
+		return this.markers;
 	}
 
 }

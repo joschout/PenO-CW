@@ -17,16 +17,21 @@ import coordinate.GridPoint;
 
 public class ImageAnalyser {
 	
+	Image image;
+	
+	public ImageAnalyser(Image image) {
+		this.image = image;
+	}
+	
 	/**
 	 * Analyseert de gegeven foto om de vormen met hun kleur te vinden.
 	 * @param filePath
 	 * 		Pad naar de foto, relatief tegenover de folder waar het programma uitgevoerd wordt.
 	 * @return Een lijst met vormen met hun kleur en hun middelpunt in de foto.
 	 */
-	public List<GridMarker> analysePicture(String filePath)
+	public List<GridMarker> analysePicture()
 	{
 		List<GridMarker> toReturn = new ArrayList<GridMarker>();
-		Image image = new Image(filePath);
 		List<MatOfPoint> contours = this.calcContours(image);
 		for (MatOfPoint contour: contours)
 		{
