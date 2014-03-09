@@ -20,7 +20,7 @@ public class ReadTriangles {
 		markers = image.getMarkers();
 	}
 	
-	//TODO ALLE KOPPELS DIE EEN DRIEHOEK VORMEN UIT LIJST COUPLES HALEN!
+
 	public void getTriangles() {
 		getCouples();
 		for(Couple couple1: couples) {
@@ -32,6 +32,17 @@ public class ReadTriangles {
 		}
 	}
 	
+	
+	//houdt geen rekening met left, right, up, down!
+	private void addTriangle(Couple couple1, Couple couple2) {
+		GridMarker marker1 = couple1.getMarker1();
+		GridMarker marker2 = couple1.getMarker2();
+		GridMarker marker3 = couple2.getMarker1();
+		GridMarker marker4 = couple2.getMarker2();
+		
+		triangles.add(new GridTriangle(couple1.getNonRedundantMarkers(marker1, marker2, marker3, marker4)));
+	}
+
 	public void getCouples() {
 		double pixellength = getPixellengthTriangle();
 		for(GridMarker marker1: markers) {
@@ -58,8 +69,7 @@ public class ReadTriangles {
 	}
 
 	private double getDistance(GridMarker marker1, GridMarker marker2) {
-		// TODO  NOG DISTANCE BEPALEN: VECTOR REKENEN.
-		return 0;
+		return marker1.getPoint().distanceTo(marker2.getPoint());
 	}
 	
 	private boolean checkCouple(GridMarker marker1, GridMarker marker2) {

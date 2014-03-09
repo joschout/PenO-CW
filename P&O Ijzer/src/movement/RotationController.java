@@ -6,11 +6,7 @@
 package movement;
 
 import java.rmi.RemoteException;
-
-import positioning.RotationCalculator;
-
 import zeppelin.MainProgramImpl;
-
 import controllers.MotorController;
 import controllers.SensorController.TimeoutException;
 
@@ -20,7 +16,6 @@ public class RotationController {
 	private MotorController motorController;
 	private PIDController pController = new PIDController(0.01, 0.001, 5, PIDMode.ANGLE); // TODO: constanten bepalen
 	private double safetyInterval = 5;
-	private RotationCalculator rotationCalculator = new RotationCalculator();
 	
 	private MainProgramImpl zeppelin;
 	
@@ -56,7 +51,9 @@ public class RotationController {
 	public void goToAngle(double targetAngle) throws RemoteException, TimeoutException, InterruptedException {
 		this.checkState();
 		double pwm = 0;
-		double mostRecentAngle = rotationCalculator.getAngle();
+		
+		//TODO foto nemen en AngleCalculator laten werken.
+		double mostRecentAngle = 0;
 		this.zeppelin.setAngle(mostRecentAngle);
 		//this.zeppelin.updateMostRecentAngle(mostRecentAngle); TODO OBSOLETE?
 		if(! isInInterval(mostRecentAngle, targetAngle)){

@@ -1,9 +1,13 @@
 package positioning;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import coordinate.GridMarker;
 
 public class Couple {
 	
+	private static final double SMALL_TRIANGLE = 0; //TODO pixel bepalen voor klein opp
 	private GridMarker marker1;
 	private GridMarker marker2;
 
@@ -37,16 +41,38 @@ public class Couple {
 			return false;
 		}
 		if(this.marker1 == marker1 || this.marker1 == marker2 || this.marker2 == marker1 || this.marker2 == marker2) {
-			if(!formLine(this.marker1, this.marker2, marker1, marker2)) {
+			if(!formLine(getNonRedundantMarkers(this.marker1, this.marker2, marker1, marker2))) {
 				return true;
 			}
 		}
 		return false;
 	}
+	
+	public List<GridMarker> getNonRedundantMarkers(GridMarker marker1, GridMarker marker2, GridMarker marker3, GridMarker marker4) {
+		List<GridMarker> markers = new ArrayList<GridMarker>();
+		if(!(marker1 == marker2 || marker1 == marker3 || marker1 == marker4)) {
+			markers.add(marker1);
+		}
+		if(!(marker2 == marker1 || marker2 == marker3 || marker2 == marker4)) {
+			markers.add(marker2);
+		}
+		if(!(marker3 == marker2 || marker3 == marker1 || marker3 == marker4)) {
+			markers.add(marker3);
+		}
+		if(!(marker4 == marker2 || marker4 == marker3 || marker4 == marker1)) {
+			markers.add(marker4);
+		}
+		return markers;
+			
+	}
 
-	//TODO CHECKEN WELKE GRIDMARK REDUNDANT IS -> OVERIGE 3 CHECKEN OP DRIEHOEKOPP.
-	private boolean formLine(GridMarker marker1, GridMarker marker2, GridMarker marker3, GridMarker marker4) {
-		Ax * (By - Cy) + Bx * (Cy - Ay) + Cx * (Ay - By)
+	//check op driehoek oppervlak
+	private boolean formLine(List<GridMarker> markers) {
+		if(markers.get(0).getPoint().x * (markers.get(1).getPoint().y - markers.get(2).getPoint().y) +
+				markers.get(1).getPoint().x * (markers.get(2).getPoint().y - markers.get(0).getPoint().y) + 
+					markers.get(2).getPoint().x * (markers.get(0).getPoint().y - markers.get(1).getPoint().y) < SMALL_TRIANGLE) {
+			return true;
+		}
 		return false;
 	}
 	

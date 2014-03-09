@@ -11,6 +11,9 @@ import coordinate.MarkerOrientation;
 
 public class AngleCalculator {
 	
+	//TODO Triangle klasse integreren!
+	
+	
 	private MainProgramImpl zeppelin;
 	private Grid grid;
 	private Image image;
@@ -38,7 +41,7 @@ public class AngleCalculator {
 	 * 		Naam van de foto op basis van dewelke de nieuwe positie van de zeppelin
 	 * 		wordt berekend.
 	 */
-	public void updatePositionAndAngle(String fileName)
+	public void updatePositionAndAngle()
 	{
 		List<GridMarker> foundMarkers = analyser.analysePicture();
 		GridTriangle triangle = grid.getBestMatch(foundMarkers, zeppelin.getPosition());
