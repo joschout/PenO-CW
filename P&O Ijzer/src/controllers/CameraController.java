@@ -4,8 +4,13 @@
 
 package controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+
+import org.opencv.highgui.Highgui;
+
+import positioning.Image;
 
 public class CameraController implements Serializable {
 	
@@ -23,15 +28,24 @@ public class CameraController implements Serializable {
 	 * @throws InterruptedException
 	 * @throws IOException
 	 */
-	public void takePicture(String pFileName, double currentHeight) throws InterruptedException, IOException
+	public Image takePicture(String pFileName) throws InterruptedException, IOException
 	{  
-		synchronized (lock) {
-			double[] resolution = this.decideResolution(currentHeight);
-			executeShellCommand("raspistill -t 1 -w " + resolution[0] + " -h "
-					+ resolution[1] + " -o " + pFileName + ".jpg");
-			//		executeShellCommand("raspistill -t 1 -w 800 -h 600 -o " + FTPFileInfo.PATH_TO_FTP_FILES+pFileName+".jpg");
+		if (pFileName == null)
+		{
+			throw new IllegalArgumentException("Kan image niet initialiseren met null filePath.");
 		}
+		File file = new File(pFileName);
+		if (! file.exists() || file.isDirectory())
+		{
+			throw new IllegalArgumentException("Kan image niet initialiseren met niet-bestaande foto.");
+		}
+		synchronized (lock) {
+			executeShellCommand("raspistill -t 1 -w " + 500 + " -h "
+					+ 500 + " -o " + "/run/shm/" + pFileName + ".jpg");
+		}
+		return new Image(Highgui.imread("/run/shm/" + pFileName + ".jpg"));
 	}
+	
 
 	private void executeShellCommand(String pCommand) throws InterruptedException, IOException  
 	{   
@@ -40,6 +54,7 @@ public class CameraController implements Serializable {
 		pr.waitFor() ;  
 	}
 	
+	/*
 	private double[] decideResolution(double currentHeight) {
 		double[] toReturn = new double[2];
 		if (currentHeight <= 100) {
@@ -56,4 +71,5 @@ public class CameraController implements Serializable {
 		}
 		return toReturn;
 	}
+	*/
 }

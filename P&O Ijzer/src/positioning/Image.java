@@ -29,18 +29,9 @@ public class Image {
 	 * @throws IllegalArgumentException
 	 * 		filePath wijst naar niet-bestaande file.
 	 */
-	public Image(String filePath) throws IllegalArgumentException
+	public Image(Mat image)
 	{
-		if (filePath == null)
-		{
-			throw new IllegalArgumentException("Kan image niet initialiseren met null filePath.");
-		}
-		File file = new File(filePath);
-		if (! file.exists() || file.isDirectory())
-		{
-			throw new IllegalArgumentException("Kan image niet initialiseren met niet-bestaande foto.");
-		}
-		this.image = Highgui.imread(filePath);
+		this.image = image;
 		setMarkers();
 	}
 	
