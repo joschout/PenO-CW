@@ -1,10 +1,2 @@
-/client
-/components
-/controllers
-/coordinate
-/logger
-/movement
 /positioning
-/server
 /test
-/zeppelin

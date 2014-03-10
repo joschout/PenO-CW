@@ -18,6 +18,7 @@ public class Image {
 	
 	private Mat image;
 	private List<GridMarker> markers;
+	private double pixelLength;
 	
 	/**
 	 * Initialiseert deze image met de foto waarnaar filePath wijst.
@@ -69,6 +70,16 @@ public class Image {
 	
 	public List<GridMarker> getMarkers() {
 		return this.markers;
+	}
+	
+	public double getPixelLength()
+	{
+		return this.pixelLength;
+	}
+	
+	public void setPixelLength(double pixelLength)
+	{
+		this.pixelLength = pixelLength;
 	}
 
 }

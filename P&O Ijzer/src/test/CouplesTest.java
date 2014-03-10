@@ -22,28 +22,19 @@ public class CouplesTest {
 	}
 	
 	CameraController camera = new CameraController();
-
-	public Test() throws InterruptedException, IOException {
-		getMarkersPicture();
-	}
 	
-	
-	
-	
-	
-	
-	private void getMarkersPicture() throws InterruptedException, IOException {
-		Long startTime = System.currentTimeMillis();
-		Image image = takePictureRam("test");
-		ImageAnalyser analyser = new ImageAnalyser(image);
-		List<GridMarker> markers = analyser.analysePicture();
-		for(GridMarker marker: markers) {
-			System.out.println("marker: " + marker.getShape() + ", " + marker.getColour());
-		}
-		
-		Long endTime = System.currentTimeMillis();
-		System.out.println("durationRam: " + (endTime - startTime));
-		
-	}
+//	private void getMarkersPicture() throws InterruptedException, IOException {
+//		Long startTime = System.currentTimeMillis();
+//		Image image = takePictureRam("test");
+//		ImageAnalyser analyser = new ImageAnalyser(image);
+//		List<GridMarker> markers = analyser.analysePicture();
+//		for(GridMarker marker: markers) {
+//			System.out.println("marker: " + marker.getShape() + ", " + marker.getColour());
+//		}
+//		
+//		Long endTime = System.currentTimeMillis();
+//		System.out.println("durationRam: " + (endTime - startTime));
+//		
+//	}
 
 }
