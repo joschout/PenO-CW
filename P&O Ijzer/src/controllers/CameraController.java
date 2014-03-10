@@ -34,11 +34,6 @@ public class CameraController implements Serializable {
 		{
 			throw new IllegalArgumentException("Kan image niet initialiseren met null filePath.");
 		}
-		File file = new File(pFileName);
-		if (! file.exists() || file.isDirectory())
-		{
-			throw new IllegalArgumentException("Kan image niet initialiseren met niet-bestaande foto.");
-		}
 		synchronized (lock) {
 			executeShellCommand("raspistill -t 1 -w " + 500 + " -h "
 					+ 500 + " -o " + "/run/shm/" + pFileName + ".jpg");
