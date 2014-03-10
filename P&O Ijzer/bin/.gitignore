@@ -1,5 +1,10 @@
-/positioning
-/movement
-/zeppelin
-/coordinate
 /client
+/components
+/controllers
+/coordinate
+/grid.csv
+/grid2.csv
+/gridTestFile.csv
+/gridTestFile2.csv
+/movement
+/positioning
