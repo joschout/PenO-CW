@@ -16,6 +16,12 @@ public class GridInitialiser {
 	private static final double X_DISPLACEMENT = 20;
 	private static final double Y_DISPLACEMENT = 20 * Math.sqrt(3);
 
+	
+	
+	public static double getMatrixDisplacementY(){
+		return Y_DISPLACEMENT;
+	}
+	
 	/**
 	 * Geeft een opbject van de klasse Grid terug
 	 * @param filename

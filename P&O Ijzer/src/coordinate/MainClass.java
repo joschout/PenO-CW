@@ -29,7 +29,7 @@ public class MainClass extends JFrame {
         setTitle("Playfield");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //add(new Field(0, 400, 400));
-        add(new Field(50,50,2,2));
+        add(new FieldPanel(50,50,2,2));
 
         //grootte van het venster in pixels
         setSize(windowX, windowY);
