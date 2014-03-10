@@ -2,9 +2,20 @@
 /components
 /controllers
 /coordinate
+<<<<<<< HEAD
 /grid.csv
 /grid2.csv
 /gridTestFile.csv
 /gridTestFile2.csv
 /movement
 /positioning
+=======
+/logger
+/movement
+/server
+/zeppelin
+/grid.csv
+/grid2.csv
+/gridTestFile.csv
+/gridTestFile2.csv
+>>>>>>> branch 'master' of https://github.com/joschout/PenOCW.git

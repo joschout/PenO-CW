@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 XX,XX,RH,GO,WO,RH,XX
 XX,BH,RH,WS,WR,YS,XX
 XX,BR,YH,RH,GS,GO,YH
@@ -5,3 +6,12 @@ BS,RS,GO,BS,RH,BH,GS
 XX,RR,YR,GH,WO,BH,WR
 XX,WR,YS,BO,WS,GR,XX
 XX,XX,GH,RS,BO,GR,XX
+=======
+XX,XX,RH,GO,WO,RH,XX
+XX,BH,RH,WS,WR,YS,XX
+XX,BR,YH,RH,GS,GO,YH
+BS,RS,GO,BS,RH,BH,GS
+XX,RR,YR,GH,WO,BH,WR
+XX,WR,YS,BO,WS,GR,XX
+XX,XX,GH,RS,BO,GR,XX
+>>>>>>> branch 'master' of https://github.com/joschout/PenOCW.git
