@@ -1,21 +1,26 @@
 package coordinate;
 
-public class GridMarker {
+import java.awt.Graphics;
+
+
+public abstract class GridMarker extends Marker {
 	
-	public GridMarker(String colour, String shape, GridPoint point, MarkerOrientation orientation)
+
+	public GridMarker(Colour colour, String shape, GridPoint point, MarkerOrientation orientation)
 	{
+		super(point);
 		this.shape = shape;
 		this.colour = colour;
 		this.point = point;
 		this.orientation = orientation;
 	}
 	
-	public GridMarker(String colour, String shape, GridPoint point)
+	public GridMarker(Colour colour, String shape, GridPoint point)
 	{
 		this(colour, shape, point, null);
 	}
 	
-	public GridMarker(String colour, String shape)
+	public GridMarker(Colour colour, String shape)
 	{
 		this(colour, shape, null, null);
 	}
@@ -25,7 +30,9 @@ public class GridMarker {
 		this(null, null, null, null);
 	}
 	
-	private String shape;
+	public abstract void drawMarker(Graphics g, double x, double y);
+	
+	protected String shape;
 	
 	public String getShape()
 	{
@@ -37,14 +44,14 @@ public class GridMarker {
 		this.shape = shape;
 	}
 	
-	private String colour;
+	protected Colour colour;
 	
-	public String getColour()
+	public Colour getColour()
 	{
 		return colour;
 	}
 	
-	public void setColour(String colour)
+	public void setColour(Colour colour)
 	{
 		this.colour = colour;
 	}
@@ -66,7 +73,7 @@ public class GridMarker {
 		return this.point.findMidpointBetween(other.getPoint());
 	}
 	
-	private MarkerOrientation orientation;
+	protected MarkerOrientation orientation;
 	
 	public MarkerOrientation getOrientation()
 	{
@@ -115,6 +122,6 @@ public class GridMarker {
 	@Override
 	public String toString()
 	{
-		return colour + " " + shape + " " + point.toString();
+		return colour + " " + shape + " " + getPoint().toString();
 	}
 }

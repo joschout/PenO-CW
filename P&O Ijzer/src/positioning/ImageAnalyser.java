@@ -12,8 +12,14 @@ import org.opencv.core.Rect;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
+import coordinate.Colour;
 import coordinate.GridMarker;
 import coordinate.GridPoint;
+import coordinate.Heart;
+import coordinate.Oval;
+import coordinate.Rectangle;
+import coordinate.Star;
+import coordinate.UndeterminedShape;
 
 public class ImageAnalyser {
 	
@@ -36,14 +42,38 @@ public class ImageAnalyser {
 		for (MatOfPoint contour: contours)
 		{
 			String shape = this.determineShape(contour);
-			String color = this.determineColour(contour, image);
+			Colour color = this.determineColour(contour, image);
 			GridPoint contourCenter = this.centerOfContour(contour);
-			GridMarker marker = new GridMarker(color, shape, contourCenter);
+			GridMarker marker = initialiseMarker(color, shape, contourCenter);
 			toReturn.add(marker);
 		}
 		return toReturn;
 	}
 	
+	private GridMarker initialiseMarker(Colour color, String shape,
+			GridPoint contourCenter) {
+		if (shape.equals("heart"))
+		{
+			return new Heart(color, shape, contourCenter);
+		}
+		else if (shape.equals("rectangle"))
+		{
+			return new Rectangle(color, shape, contourCenter);
+		}
+		else if (shape.equals("oval"))
+		{
+			return new Oval(color, shape, contourCenter);
+		}
+		else if (shape.equals("star"))
+		{
+			return new Star(color, shape, contourCenter);
+		}
+		else // shape.equals("undetermined"))
+		{
+			return new UndeterminedShape(color, shape, contourCenter);
+		}
+	}
+
 	private List<MatOfPoint> calcContours(Image image)
 	{
 		Mat src = image.getImage();
@@ -118,12 +148,11 @@ public class ImageAnalyser {
 			if (Math.abs(cosinus) <= 0.1)
 					perp_count++;
 		}
-		return perp_count > 2;
+		return perp_count >= 2;
 	}
 	
 	private boolean checkOval(List<Double> cos, double variance, double neg)
 	{
-		System.out.println(cos.size() + " " + variance);
 		if ((neg / cos.size()) < 0.8)
 		{
 			return false;
@@ -161,7 +190,7 @@ public class ImageAnalyser {
 		return false;
 	}
 	
-	private String determineColour(MatOfPoint contour, Image image)
+	private Colour determineColour(MatOfPoint contour, Image image)
 	{
 		Mat hsv = new Mat();
 		Imgproc.cvtColor(image.getImage(), hsv, Imgproc.COLOR_BGR2HSV);
@@ -225,7 +254,7 @@ public class ImageAnalyser {
 		return new GridPoint(centerWidth, centerHeight);
 	}
 	
-	private String applyRanges(double[] color)
+	private Colour applyRanges(double[] color)
 	{
 		double H = color[0]; double S = color[1]; double V = color[2];
 		double whiteVThreshold = 100;
@@ -234,46 +263,46 @@ public class ImageAnalyser {
 		{
 			if (V >= whiteVThreshold && S <= whiteSThreshold)
 			{
-				return "white";
+				return Colour.WHITE;
 			}
 			else
 			{
-				return "red";
+				return Colour.RED;
 			}
 		}
 		else if (H <= 65)
 		{
 			if (V >= whiteVThreshold && S <= whiteSThreshold)
 			{
-				return "white";
+				return Colour.WHITE;
 			}
-			else return "yellow";
+			else return Colour.YELLOW;
 		}
 		else if (H <= 180)
 		{
 			if (V >= whiteVThreshold && S <= whiteSThreshold)
 			{
-				return "white";
+				return Colour.WHITE;
 			}
-			else return "green";
+			else return Colour.GREEN;
 		}
 		else if (H <= 260)
 		{
 			if (V >= whiteVThreshold && S <= whiteSThreshold)
 			{
-				return "white";
+				return Colour.WHITE;
 			}
-			else return "blue";
+			else return Colour.BLUE;
 		}
 		else if (H <= 360)
 		{
 			if (V >= whiteVThreshold && S <= whiteSThreshold)
 			{
-				return "white";
+				return Colour.WHITE;
 			}
-			else return "red";
+			else return Colour.RED;
 		}
-		else return "undetermined colour";
+		else return Colour.UNDETERMINED;
 	}
 
 }
