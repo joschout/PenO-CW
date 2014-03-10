@@ -3,6 +3,8 @@ package coordinate;
 import java.util.ArrayList;
 import java.util.List;
 
+import positioning.Couple;
+
 public class GridTriangle {
 	
 	/**
@@ -15,6 +17,8 @@ public class GridTriangle {
 	public GridTriangle(List<GridMarker> gridMarkers)
 	{
 		this.gridMarkers = gridMarkers;
+		this.centroid = this.findCentroid();
+		this.initialiseCouples();
 	}
 	
 	private List<GridMarker> gridMarkers;
@@ -22,6 +26,49 @@ public class GridTriangle {
 	public List<GridMarker> getGridMarkers()
 	{
 		return gridMarkers;
+	}
+	
+	private List<Couple> markerCouples;
+	
+	private void initialiseCouples()
+	{
+		markerCouples = new ArrayList<Couple>();
+		for (int i = 0; i < this.gridMarkers.size(); i++)
+		{
+			for (int j = i+1; j < this.gridMarkers.size(); j++)
+			{
+				GridMarker marker1 = this.gridMarkers.get(i);
+				GridMarker marker2 = this.gridMarkers.get(j);
+				markerCouples.add(new Couple(marker1, marker2));
+			}
+		}
+	}
+	
+	public int countMatchingCouples(List<Couple> pictureCouples)
+	{
+		List<Couple> copyOfTriangleCouples = new ArrayList<Couple>(markerCouples);
+		int matches = 0;
+		for (Couple pictureCouple : pictureCouples)
+		{
+			if (copyOfTriangleCouples.contains(pictureCouple))
+			{
+				matches++;
+				copyOfTriangleCouples.remove(pictureCouple);
+			}
+		}
+		return matches;
+	}
+	
+	public Couple getMatchingCouple(Couple pictureCouple)
+	{
+		for (Couple triangleCouple : markerCouples)
+		{
+			if (triangleCouple.equals(pictureCouple))
+			{
+				return triangleCouple;
+			}
+		}
+		return null;
 	}
 	
 	public int countMatchingMarkers(List<GridMarker> markers)
@@ -61,6 +108,8 @@ public class GridTriangle {
 		return toReturn;
 	}
 	
+	private GridPoint centroid;
+	
 	/**
 	 * Berekent de afstand van het gegeven punt tot het centrum van deze driehoek.
 	 * @param point
@@ -69,8 +118,12 @@ public class GridTriangle {
 	 */
 	public double distanceToCenter(GridPoint point)
 	{
-		GridPoint centroid = findCentroid();
-		return centroid.distanceTo(point);
+		return this.getCentroid().distanceTo(point);
+	}
+	
+	public GridPoint getCentroid()
+	{
+		return this.centroid;
 	}
 	
 	/**
@@ -78,7 +131,7 @@ public class GridTriangle {
 	 * van deze driehoek.
 	 * @return Het zwaartepunt
 	 */
-	public GridPoint findCentroid()
+	private GridPoint findCentroid()
 	{
 		GridPoint midpoint = gridMarkers.get(0).findMidpointBetween(gridMarkers.get(1));
 		GridPoint oppositePoint = gridMarkers.get(2).getPoint();

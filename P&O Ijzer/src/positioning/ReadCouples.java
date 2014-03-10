@@ -1,26 +1,33 @@
 package positioning;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import coordinate.GridMarker;
 import coordinate.GridTriangle;
 
-public class ReadTriangles {
+public class ReadCouples {
 	
 	private List<GridMarker> markers;
-	private List<Couple> couples;
-	private List<GridTriangle> triangles;
+	private List<Couple> couples = new ArrayList<Couple>();
+	//private List<GridTriangle> triangles = new ArrayList<GridTriangle>();
 	private Image image;
 	
-	public ReadTriangles(Image image) {
+	public ReadCouples(Image image) {
 		this.image = image;
+		getFiguresImage();
+		getCouples();
 	}
 
 	public void getFiguresImage() {	
 		markers = image.getMarkers();
 	}
 	
-
+	public List<Couple> getListCouples() {
+		return couples;
+	}
+	
+	/*
 	public void getTriangles() {
 		getCouples();
 		for(Couple couple1: couples) {
@@ -31,8 +38,9 @@ public class ReadTriangles {
 			}
 		}
 	}
+	*/
 	
-	
+	/*
 	//houdt geen rekening met left, right, up, down!
 	private void addTriangle(Couple couple1, Couple couple2) {
 		GridMarker marker1 = couple1.getMarker1();
@@ -42,19 +50,20 @@ public class ReadTriangles {
 		
 		triangles.add(new GridTriangle(couple1.getNonRedundantMarkers(marker1, marker2, marker3, marker4)));
 	}
+	*/
 
 	public void getCouples() {
-		double pixellength = getPixellengthTriangle();
+		double pixellength = getPixellengthCouples();
 		for(GridMarker marker1: markers) {
 			for(GridMarker marker2: markers) {
-				if(checkCouple(marker1, marker2) && getDistance(marker1, marker2) < pixellength*1.15) { // 15% foutmarge
+				if(!marker1.equals(marker2) && checkCouple(marker1, marker2) && getDistance(marker1, marker2) < pixellength*1.15) { // 15% foutmarge
 					couples.add(new Couple(marker1, marker2));   //koppel dat bij elkaar hoort in klasse Couple steken.
 				}
 			}
 		}
 	}
 	
-	public double getPixellengthTriangle() {
+	public double getPixellengthCouples() {
 		GridMarker firstMarker = markers.get(0);
 		double smallestDistance = image.getHeight();
 		for(int i=1; i < markers.size(); i++) {
@@ -63,6 +72,7 @@ public class ReadTriangles {
 				smallestDistance = distance;
 			}
 		}
+		System.out.println("Pixels: "   +smallestDistance);
 		return smallestDistance; //aantal pixels dat 40cm in het echt voorstel (ongeveer)
 			
 	
@@ -79,6 +89,10 @@ public class ReadTriangles {
 			}
 		}
 		return true;
+	}
+	
+	public List<GridMarker> getMarkers() {
+		return markers;
 	}
 	
 	
