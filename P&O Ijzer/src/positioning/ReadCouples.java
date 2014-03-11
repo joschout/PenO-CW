@@ -72,7 +72,7 @@ public class ReadCouples {
 				smallestDistance = distance;
 			}
 		}
-		System.out.println("Pixels: "   +smallestDistance);
+		image.setPixelLength(smallestDistance / 40);
 		return smallestDistance; //aantal pixels dat 40cm in het echt voorstel (ongeveer)
 			
 	

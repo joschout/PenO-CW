@@ -37,6 +37,24 @@ public class GridPoint {
 		return new GridPoint(this.x * scalar, this.y * scalar);
 	}
 	
+	public GridPoint rotate(double angle)
+	{
+		/*
+		 * Deze matrix draait in tegenwijerzin terwijl wij wijzerzin beschouwen
+		 * als een optelling van een driehoek, dus deze matrix is wat we moeten hebben 
+		 */
+		angle = Math.toRadians(angle);
+		double[][] rotationMatrix = new double[2][2];
+		rotationMatrix[0][0] = Math.cos(Math.toRadians(angle));
+		rotationMatrix[0][1] = - Math.sin(Math.toRadians(angle));
+		rotationMatrix[1][0] = Math.sin(Math.toRadians(angle));
+		rotationMatrix[0][1] = Math.cos(Math.toRadians(angle));
+		
+		double newX = rotationMatrix[0][0] * this.x + rotationMatrix[0][1] * this.y;
+		double newY = rotationMatrix[1][0] * this.x + rotationMatrix[1][1] * this.y;
+		return new GridPoint(newX, newY);
+	}
+	
 	public double distanceTo(GridPoint other)
 	{
 		double xComponent = Math.pow(this.x - other.x, 2);
