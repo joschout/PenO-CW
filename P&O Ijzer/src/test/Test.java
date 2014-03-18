@@ -3,14 +3,12 @@ package test;
 import java.io.IOException;
 import java.util.List;
 
-import org.opencv.core.Mat;
-import org.opencv.highgui.Highgui;
-
 import positioning.AngleCalculator;
 import positioning.Couple;
 import positioning.CoupleTriangleMatcher;
 import positioning.Image;
 import positioning.ImageAnalyser;
+import positioning.PositionCalculator;
 import positioning.ReadCouples;
 
 import controllers.CameraController;
@@ -29,12 +27,20 @@ public class Test {
 	public Test() throws InterruptedException, IOException {
 
 		GridInitialiser gridInit = new GridInitialiser();
-		Grid grid = gridInit.readGrid("field");
+		Grid grid = gridInit.readGrid("grid");
 		Image image = takePictureRam("test");
+//		for (GridMarker marker: image.getMarkers())
+//		{
+//			System.out.println(marker.toString());
+//		}
 		ReadCouples readCouples = new ReadCouples(image);
 		GridTriangle triangle = triangleMatch(grid, image, readCouples);
 		Couple pictureCouple = null;
 		Couple triangleCouple = null;
+		for (GridMarker marker : triangle.getGridMarkers())
+		{
+			System.out.println(marker.toString());
+		}
 		for (Couple pictureCoupleFor : readCouples.getListCouples())
 		{
 			Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor);
@@ -46,8 +52,14 @@ public class Test {
 			triangleCouple = triangleCoupleFor;
 			break;
 		}
+//		System.out.println("Picture couple: " + pictureCouple);
+//		System.out.println("Triangle couple: " + triangleCouple);
 		AngleCalculator calc = new AngleCalculator(image, pictureCouple, triangleCouple);
-		System.out.println("Angle: " + (360 - calc.calculateAngle()));
+		double angle = calc.calculateAngle();
+		System.out.println("Angle: " + angle);
+		PositionCalculator calcPos = new PositionCalculator(image, pictureCouple, triangleCouple);
+		GridPoint position = calcPos.calculatePosition(angle);
+		System.out.println("X: " + position.x + ", Y: " + position.y);
 	}
 	
 	
@@ -116,5 +128,26 @@ public class Test {
 		Process pr = run.exec(pCommand) ;  
 		pr.waitFor() ;  
 	}
+	
+//	GridInitialiser gridInit = new GridInitialiser();
+//	Grid grid = gridInit.readGrid("field");
+//	Image image = takePictureRam("test");
+//	ReadCouples readCouples = new ReadCouples(image);
+//	GridTriangle triangle = triangleMatch(grid, image, readCouples);
+//	Couple pictureCouple = null;
+//	Couple triangleCouple = null;
+//	for (Couple pictureCoupleFor : readCouples.getListCouples())
+//	{
+//		Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor);
+//		if (triangleCoupleFor == null)
+//		{
+//			continue;
+//		}
+//		pictureCouple = pictureCoupleFor;
+//		triangleCouple = triangleCoupleFor;
+//		break;
+//	}
+//	AngleCalculator calc = new AngleCalculator(image, pictureCouple, triangleCouple);
+//	System.out.println("Angle: " + (360 - calc.calculateAngle()));
 
 }

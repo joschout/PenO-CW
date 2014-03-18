@@ -60,5 +60,10 @@ public class Couple {
 		return false;
 	}
 	
+	@Override
+	public String toString() {
+		return "Marker 1: " + getMarker1().toString() + ", Marker 2: " + getMarker2().toString();
+	}
+	
 	
 }
