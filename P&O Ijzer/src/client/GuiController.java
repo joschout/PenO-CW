@@ -183,24 +183,27 @@ public class GuiController {
 	/**
 	 * Update de procesconstante voor de hoogte.
 	 * @param kp
+	 * @throws RemoteException 
 	 */
-	public void setKpHeight(double kp) {
+	public void setKpHeight(double kp) throws RemoteException {
 		zeppelin.getHeightController().getpController().setKp(kp);
 	}
 	
 	/**
 	 * Update de integraalconstante voor de hoogte.
 	 * @param ki
+	 * @throws RemoteException 
 	 */
-	public void setKiHeight(double ki) {
+	public void setKiHeight(double ki) throws RemoteException {
 		zeppelin.getHeightController().getpController().setKi(ki);
 	}
 	
 	/**
 	 * Update de derivative constante voor de hoogte.
 	 * @param kd
+	 * @throws RemoteException 
 	 */
-	public void setKdHeight(double kd) {
+	public void setKdHeight(double kd) throws RemoteException {
 		zeppelin.getHeightController().getpController().setKd(kd);
 	}
 	
@@ -251,24 +254,27 @@ public class GuiController {
 	/**
 	 * Update de procesconstante voor de hoek.
 	 * @param kp
+	 * @throws RemoteException 
 	 */
-	public void setKpAngle(double kp) {
+	public void setKpAngle(double kp) throws RemoteException {
 		zeppelin.getRotationController().getpController().setKp(kp);
 	}
 	
 	/**
 	 * Update de integraalconstante voor de hoek.
 	 * @param ki
+	 * @throws RemoteException 
 	 */
-	public void setKiAngle(double ki) {
+	public void setKiAngle(double ki) throws RemoteException {
 		zeppelin.getRotationController().getpController().setKi(ki);
 	}
 	
 	/**
 	 * Update de derivative constante voor de hoek.
 	 * @param kd
+	 * @throws RemoteException 
 	 */
-	public void setKdAngle(double kd) {
+	public void setKdAngle(double kd) throws RemoteException {
 		zeppelin.getRotationController().getpController().setKd(kd);
 	}
 	

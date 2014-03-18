@@ -100,9 +100,9 @@ public interface MainProgramInterface extends Remote {
 	 */
 	public void stopDownward() throws RemoteException;
 
-	public HeightController getHeightController();
+	public HeightController getHeightController() throws RemoteException;
 
-	public RotationController getRotationController();
+	public RotationController getRotationController() throws RemoteException;
 	
 
 	
@@ -218,6 +218,6 @@ public interface MainProgramInterface extends Remote {
 	 */
 	public String readLog() throws RemoteException;
 
-	public double getHeight();
+	public double getHeight() throws RemoteException;
 
 }
