@@ -155,13 +155,15 @@ public class GridInitialiser {
 	private List<String[]> constructMatrix(String filename) throws FileNotFoundException,
 			IOException {
 
-		String withExtension = filename + ".txt";
-		File file = new File(withExtension);
-		if (! file.exists() || file.isDirectory())
-		{
-			withExtension = filename + ".csv";
-			file = new File(withExtension);
-		}
+		File file = new File(filename);
+//		String withExtension = filename + ".txt";
+//		File file = new File(withExtension);
+//		if (! file.exists() || file.isDirectory())
+//		{
+//			withExtension = filename + ".csv";
+//			file = new File(withExtension);
+//		}
+		
 		BufferedReader reader =  new BufferedReader(new FileReader(file));
 		List<String[]> matrix = new ArrayList<String[]>();
 		String input = reader.readLine();
@@ -247,6 +249,8 @@ public class GridInitialiser {
 			return "rectangle";
 		case 'O':
 			return "oval";
+		case 'C':
+			return "oval";	
 		case 'S':
 			return "star";
 		default:

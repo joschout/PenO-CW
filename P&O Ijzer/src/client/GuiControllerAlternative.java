@@ -5,32 +5,27 @@
 
 package client;
 
-import it.sauronsoftware.ftp4j.FTPAbortedException;
-import it.sauronsoftware.ftp4j.FTPDataTransferException;
-import it.sauronsoftware.ftp4j.FTPException;
-import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+
 import server.ZeppelinServer;
 import zeppelin.MainProgramInterface;
 
 
-public class GuiController {
-
-
+public class GuiControllerAlternative {
 	/**
 	 * Zeppelin-object gehaald van de server
 	 */
 	private MainProgramInterface zeppelin;
 	
-	public GuiController() throws NotBoundException, IllegalStateException, IOException, FTPIllegalReplyException, FTPException {
+	public GuiControllerAlternative() throws NotBoundException, IllegalStateException, IOException {
 		setZeppelin();
 	}
 
@@ -53,18 +48,52 @@ public class GuiController {
 		return this.zeppelin.getHeight();
 	}
 
-
+	
+	public boolean checkRegistryFound(){
+		return this.registryFound;
+	}
+	
+	public boolean checkZeppelinFound(){
+		return this.zeppelinFound;
+	}
+	
+	private boolean registryFound = false;
+	private boolean zeppelinFound = false;
 	/**
 	 * Zoekt een zeppelin-object op het IP-adres gereserveerd voor de zeppelin.
-	 * Communicatie gebeurt daarna tussen de client en het gevonden zeppelin-object.
-	 * @throws RemoteException
-	 * @throws NotBoundException
+	 * Communicatie gebeurt daarna tussen de client en het gevonden zeppelin-object.n
 	 * 		   Er bestaat geen zeppelin-object.
 	 */
-	public void setZeppelin() throws RemoteException, NotBoundException {
-		Registry registry = LocateRegistry.getRegistry(ZeppelinServer.PI_HOSTNAME,1099);
-		MainProgramInterface zeppelin = (MainProgramInterface) registry.lookup("Zeppelin");
-		this.zeppelin = zeppelin;
+	public void setZeppelin()  throws RemoteException, NotBoundException{
+		Registry registry;
+		MainProgramInterface zeppelin;
+		try {
+			registry = LocateRegistry.getRegistry(ZeppelinServer.PI_HOSTNAME,1099);
+			registryFound = true;
+			
+			try {
+				zeppelin = (MainProgramInterface) registry.lookup("Zeppelin");
+				this.zeppelin = zeppelin;
+				zeppelinFound = true;
+			} catch (AccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NotBoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} catch (RemoteException e) {
+			registryFound = false;
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 	}
 	
 	/**
@@ -72,7 +101,10 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public boolean leftIsOn() throws RemoteException {
-		return this.zeppelin.leftIsOn();
+		if (checkRegistryFound()&&checkZeppelinFound()) {
+			return this.zeppelin.leftIsOn();
+		}
+		else return false;
 	}
 	
 	/**
@@ -80,7 +112,10 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public boolean rightIsOn() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return this.zeppelin.rightIsOn();
+		}
+		else return false;
 	}
 	
 	/**
@@ -89,7 +124,10 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public boolean downwardIsOn() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return this.zeppelin.downwardIsOn();
+		}
+		else return false;
 	}
 	
 	/**
@@ -97,7 +135,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public void goForward() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		this.zeppelin.goForward();
+		}
 	}
 	
 	/**
@@ -105,7 +145,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public void goBackward() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		this.zeppelin.goBackward();
+		}
 	}
 	
 	/**
@@ -113,7 +155,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public void goLeft() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		this.zeppelin.turnLeft();
+		}
 	}
 	
 	/**
@@ -121,7 +165,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public void goRight() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		this.zeppelin.turnRight();
+		}
 	}
 	
 	/**
@@ -129,7 +175,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public void stopRightAndLeftMotor() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		this.zeppelin.stopRightAndLeft();
+		}
 	}
 	
 	/**
@@ -137,7 +185,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getTargetHeight() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return this.zeppelin.getTargetHeight();
+		}else return 0;
 	}
 	
 	/**
@@ -147,7 +197,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public void setTargetHeight(double height) throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		this.zeppelin.setTargetHeight(height);
+		}
 	}
 	
 	/**
@@ -155,13 +207,11 @@ public class GuiController {
 	 * @throws IllegalStateException
 	 * @throws FileNotFoundException
 	 * @throws IOException
-	 * @throws FTPIllegalReplyException
-	 * @throws FTPException
-	 * @throws FTPDataTransferException
-	 * @throws FTPAbortedException
 	 */
-	public String readLog() throws IllegalStateException, FileNotFoundException, IOException, FTPIllegalReplyException, FTPException, FTPDataTransferException, FTPAbortedException {
+	public String readLog() throws IllegalStateException, FileNotFoundException, IOException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return this.zeppelin.readLog();
+		} else return "Geen zeppelin geinitialiseerd, dus geen log";
 	}
 
 	/**
@@ -181,7 +231,9 @@ public class GuiController {
 	 * @param kp
 	 */
 	public void setKpHeight(double kp) {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		zeppelin.getHeightController().getpController().setKp(kp);
+		}
 	}
 	
 	/**
@@ -189,7 +241,9 @@ public class GuiController {
 	 * @param ki
 	 */
 	public void setKiHeight(double ki) {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		zeppelin.getHeightController().getpController().setKi(ki);
+		}
 	}
 	
 	/**
@@ -197,7 +251,9 @@ public class GuiController {
 	 * @param kd
 	 */
 	public void setKdHeight(double kd) {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		zeppelin.getHeightController().getpController().setKd(kd);
+		}
 	}
 	
 	/**
@@ -205,7 +261,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKpHeight() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return zeppelin.getHeightController().getpController().getKp();
+		}else return 0;
 	}
 	
 	/**
@@ -213,7 +271,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKdHeight() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return zeppelin.getHeightController().getpController().getKd();
+		} else return 0;
 	}
 	
 	/**
@@ -221,7 +281,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKiHeight() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return zeppelin.getHeightController().getpController().getKi();
+		} else return 0;
 	}
 	
 	// wordt deze methode zelfs gebruikt?
@@ -233,7 +295,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		zeppelin.getHeightController().setSafetyIntervalHeight(safetyInterval);
+		}
 	}
 	
 	/**
@@ -241,7 +305,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getSafetyIntervalHeight() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return zeppelin.getHeightController().getSafetyIntervalHeight();
+		} else return 0;
 	}
 	
 	/**
@@ -249,7 +315,9 @@ public class GuiController {
 	 * @param kp
 	 */
 	public void setKpAngle(double kp) {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		zeppelin.getRotationController().getpController().setKp(kp);
+		}
 	}
 	
 	/**
@@ -257,7 +325,9 @@ public class GuiController {
 	 * @param ki
 	 */
 	public void setKiAngle(double ki) {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		zeppelin.getRotationController().getpController().setKi(ki);
+		}
 	}
 	
 	/**
@@ -265,7 +335,9 @@ public class GuiController {
 	 * @param kd
 	 */
 	public void setKdAngle(double kd) {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		zeppelin.getRotationController().getpController().setKd(kd);
+		}
 	}
 	
 	/**
@@ -273,7 +345,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKpAngle() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return zeppelin.getRotationController().getpController().getKp();
+		} else return 0;
 	}
 	
 	/**
@@ -281,7 +355,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKdAngle() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return zeppelin.getRotationController().getpController().getKd();
+		} else return 0;
 	}
 	
 	/**
@@ -289,7 +365,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getKiAngle() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return zeppelin.getRotationController().getpController().getKi();
+		}else return 0;
 	}
 	
 	/**
@@ -301,7 +379,9 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		zeppelin.getRotationController().setSafetyIntervalAngle(safetyInterval);
+		}
 	}
 	
 	/**
@@ -309,7 +389,10 @@ public class GuiController {
 	 * @throws RemoteException
 	 */
 	public double getSafetyIntervalAngle() throws RemoteException {
+		if (checkRegistryFound()&&checkZeppelinFound()) {
 		return zeppelin.getRotationController().getSafetyIntervalAngle();
+		}else return 0;
 	}
+
 
 }

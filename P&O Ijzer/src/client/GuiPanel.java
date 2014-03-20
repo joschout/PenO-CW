@@ -104,7 +104,7 @@ public class GuiPanel implements ActionListener
 	// lettertype
 	private final Font font = new Font("Calibri", Font.PLAIN, 16);
 
-	private GuiController guiController;
+	private GuiControllerAlternative guiController;
 	
 	/**
 	 * Hou de meest recent label die overeenstemt met de meest recente gescande QR-code
@@ -114,7 +114,7 @@ public class GuiPanel implements ActionListener
 
 	public GuiPanel() throws RemoteException {
 		try {
-			guiController = new GuiController();
+			guiController = new GuiControllerAlternative();
 		} catch (Exception e) {
 			System.err.println("Fout bij het verbinden met de zeppelin:");
 			e.printStackTrace();
@@ -701,14 +701,6 @@ public class GuiPanel implements ActionListener
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (FTPIllegalReplyException e) {
-					e.printStackTrace();
-				} catch (FTPException e) {
-					e.printStackTrace();
-				} catch (FTPDataTransferException e) {
-					e.printStackTrace();
-				} catch (FTPAbortedException e) {
 					e.printStackTrace();
 				}
 				Thread.sleep(1000);

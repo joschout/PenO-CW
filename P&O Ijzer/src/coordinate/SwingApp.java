@@ -2,23 +2,33 @@ package coordinate;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.GridBagLayout;
 import java.awt.SystemColor;
+
 import javax.swing.JPanel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import java.awt.Color;
+
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JScrollBar;
@@ -27,8 +37,18 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JSlider;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.Timer;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import client.GuiControllerAlternative;
+
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 
 //TIMER
@@ -39,9 +59,14 @@ public class SwingApp {
 
 	private JFrame frame;
 	
-	private JButton setTargetHeight ;
+	private JButton setTargetHeight, btnLogfiles;
+	private JLabel doelhoogteLabel;
+	private JPanel logpanel, lightpanel, fieldpanel, variablepanel, arrowpanel;
 	private JTextArea huidigeHoogte, targetHoogte, logTextArea, KpValueHeight, KdValueHeight, KiValueHeight, safetyIntervalValueHeight, KpValueAngle, KdValueAngle, KiValueAngle, safetyIntervalValueAngle;
 	private JSlider setKpHeight, setKiHeight, setKdHeight, setSafetyIntervalHeight, setKpAngle, setKiAngle, setKdAngle, setSafetyIntervalAngle;
+	private BasicArrowButton arrowup, arrowdown, arrowleft, arrowright;
+	
+	
 	
 	/**
 	 * Launch the application.
@@ -49,7 +74,7 @@ public class SwingApp {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try {				
 					SwingApp window = new SwingApp();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -59,10 +84,28 @@ public class SwingApp {
 		});
 	}
 
+	
+	public GuiControllerAlternative guiController;
+
+	
 	/**
 	 * Create the application.
 	 */
 	public SwingApp() {
+
+
+		try {
+			guiController = new GuiControllerAlternative();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initialize();
 	}
 
@@ -76,7 +119,7 @@ public class SwingApp {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JPanel logpanel = new JPanel();
+		logpanel = new JPanel();
 		logpanel.setToolTipText("");
 		logpanel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		logpanel.setBounds(0, 0, 375, 328);
@@ -94,7 +137,7 @@ public class SwingApp {
 		logTextArea.setEditable(false);
 		scrollPane.setViewportView(logTextArea);
 		
-		JButton btnLogfiles = new JButton("Vorige logfiles");
+		btnLogfiles = new JButton("Vorige logfiles");
 		btnLogfiles.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnLogfiles.setBounds(219, 278, 146, 23);
 		logpanel.add(btnLogfiles);
@@ -107,8 +150,7 @@ public class SwingApp {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JPanel fieldpanel = new FieldPanel(85,20,1,1);
-		//JPanel panel_6 = new Field(0,0,1,1);
+		fieldpanel = new FieldPanel(85,20,1,1);;
 		fieldpanel.setBounds(10, 11, 528, 392);
 		panel_1.add(fieldpanel);
 		
@@ -148,47 +190,23 @@ public class SwingApp {
 		huidigeHoogte.setBounds(94, 54, 48, 22);
 		heightpanel.add(huidigeHoogte);
 		
-		JLabel label_1 = new JLabel("Doelhoogte:");
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label_1.setBounds(7, 97, 87, 19);
-		heightpanel.add(label_1);
+		doelhoogteLabel = new JLabel("Doelhoogte:");
+		doelhoogteLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		doelhoogteLabel.setBounds(7, 97, 87, 19);
+		heightpanel.add(doelhoogteLabel);
 		
 		targetHoogte = new JTextArea();
 		targetHoogte.setEditable(false);
 		targetHoogte.setBounds(94, 96, 48, 22);
 		heightpanel.add(targetHoogte);
 		
-		JPanel lightpanel = new JPanel();
+		lightpanel = new JPanel();
 		lightpanel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		lightpanel.setBounds(0, 510, 375, 93);
 		frame.getContentPane().add(lightpanel);
 		lightpanel.setLayout(null);
-		
-		JLabel lblLinks = new JLabel("Links");
-		lblLinks.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblLinks.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLinks.setBounds(24, 31, 87, 37);
-		lblLinks.setOpaque(true);
-		lblLinks.setBackground(Color.red);
-		lightpanel.add(lblLinks);
-		
-		JLabel lblRechts = new JLabel("Rechts");
-		lblRechts.setOpaque(true);
-		lblRechts.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRechts.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblRechts.setBackground(Color.RED);
-		lblRechts.setBounds(143, 31, 87, 37);
-		lightpanel.add(lblRechts);
-		
-		JLabel lblMidden = new JLabel("Midden");
-		lblMidden.setOpaque(true);
-		lblMidden.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMidden.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblMidden.setBackground(Color.RED);
-		lblMidden.setBounds(260, 31, 87, 37);
-		lightpanel.add(lblMidden);
-		
-		JPanel variablepanel = new JPanel();
+				
+		variablepanel = new JPanel();
 		variablepanel.setBounds(373, 406, 548, 197);
 		frame.getContentPane().add(variablepanel);
 		variablepanel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
@@ -354,34 +372,166 @@ public class SwingApp {
 		setSafetyIntervalAngle.setBounds(389, 139, 137, 17);
 		variablepanel.add(setSafetyIntervalAngle);
 		
-		JPanel arrowpanel = new JPanel();
+		arrowpanel = new JPanel();
 		arrowpanel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
 		arrowpanel.setBounds(149, 323, 226, 190);
 		frame.getContentPane().add(arrowpanel);
 		arrowpanel.setLayout(null);
 		
-		BasicArrowButton arrowup = new BasicArrowButton(SwingConstants.NORTH);
+		arrowup = new BasicArrowButton(SwingConstants.NORTH);
 		arrowup.setBackground(Color.CYAN);
 		arrowup.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		arrowup.setBounds(81, 23, 66, 56);
 		arrowpanel.add(arrowup);
 		
-		BasicArrowButton arrowleft = new BasicArrowButton(SwingConstants.WEST);
+		arrowleft = new BasicArrowButton(SwingConstants.WEST);
 		arrowleft.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		arrowleft.setBackground(Color.CYAN);
 		arrowleft.setBounds(10, 80, 66, 56);
 		arrowpanel.add(arrowleft);
 		
-		BasicArrowButton arrowright = new BasicArrowButton(SwingConstants.EAST);
+		arrowright = new BasicArrowButton(SwingConstants.EAST);
 		arrowright.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		arrowright.setBackground(Color.CYAN);
 		arrowright.setBounds(150, 80, 66, 56);
 		arrowpanel.add(arrowright);
 		
-		BasicArrowButton arrowdown = new BasicArrowButton(SwingConstants.SOUTH);
+		arrowdown = new BasicArrowButton(SwingConstants.SOUTH);
 		arrowdown.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		arrowdown.setBackground(Color.CYAN);
 		arrowdown.setBounds(81, 80, 66, 56);
 		arrowpanel.add(arrowdown);
 	}
+	
+	
+	////////////////////
+	/**
+	 * Verzorgt het constant updaten van het hoogteveld, het groen en roodmaken van
+	 * de motorlabels en het tonen van een QR-code mocht er één beschikbaar zijn gemaakt
+	 * door de zeppelin.
+	 * 
+	 *
+	 */
+	private class HeightAndMotorWorker extends SwingWorker<Void, Void> {
+		
+		boolean leftOn;
+		boolean rightOn;
+		boolean downwardOn;
+		
+		public Void doInBackground() throws RemoteException, InterruptedException {
+			while (true) {
+				leftOn = SwingApp.this.guiController.leftIsOn();
+				rightOn = SwingApp.this.guiController.rightIsOn();
+				downwardOn = SwingApp.this.guiController.downwardIsOn();
+				
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							SwingApp.this.huidigeHoogte.setText(Double.toString(SwingApp.this.guiController.getHeight()));
+							SwingApp.this.targetHoogte.setText(Double.toString(SwingApp.this.guiController.getTargetHeight()));
+						} catch (RemoteException e) {
+							e.printStackTrace();
+						}
+					}
+				});
+				// Waarschijnlijk de bron van de imprecisie van de motorlabels.
+				// Er kan overwogen worden om dit te verlagen.
+				Thread.sleep(1000);
+			}
+		}
+		
+
+	}
+	
+	/**
+	 * Verzorgt het constant updaten van de log.
+	 *
+	 */
+	private class LogUpdater extends SwingWorker<Void, Void> {
+		
+		// moet een klassevariabele zijn omdat het enige alternatief is dat het
+		// een final lokale variabele is in doInBackground(), wat te streng is
+		// voor onze doeleinden.
+		private String logText;
+		
+		public Void doInBackground() throws InterruptedException {
+			while (true) {
+				try {
+					logText = SwingApp.this.guiController.readLog();
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							SwingApp.this.logTextArea.append(logText);
+						}
+					});
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				Thread.sleep(1000);
+			}
+		}
+	}
+	
+	/**
+	 * Zorgt ervoor dat, als je op een pijlknop drukt, er een timer gaat die
+	 * een event vuurt. Op basis van die event kan je extern checken of de knop nog wordt
+	 * ingedrukt. Zorgt er ook voor dat de juiste motor wordt aangesproken voor de 
+	 * juiste pijlknop.
+	 *
+	 */
+	private class MotorTimer extends Timer {
+
+		BasicArrowButton arrowButton;
+		
+		public MotorTimer(BasicArrowButton arrowButton) throws IllegalArgumentException {
+			super(100, null);
+			if (! (arrowButton == SwingApp.this.arrowup || arrowButton == SwingApp.this.arrowleft ||
+					arrowButton == SwingApp.this.arrowright || arrowButton == SwingApp.this.arrowdown)) {
+				throw new IllegalArgumentException("Timerconstructor moet bestaande pijltoets hebben als argument");
+			}
+			this.arrowButton = arrowButton;
+			ActionListener listener = new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (MotorTimer.this.arrowButton == SwingApp.this.arrowup) {
+						try {
+							SwingApp.this.guiController.goForward();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					}
+					else if (MotorTimer.this.arrowButton == SwingApp.this.arrowleft) {
+						try {
+							SwingApp.this.guiController.goLeft();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					}
+					else if (MotorTimer.this.arrowButton == SwingApp.this.arrowright) {
+						try {
+							SwingApp.this.guiController.goRight();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					}
+					else if (MotorTimer.this.arrowButton == SwingApp.this.arrowdown) {
+						try {
+							SwingApp.this.guiController.goBackward();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
+				
+			};
+			super.removeActionListener(null);
+			super.addActionListener(listener);
+		}
+	}
 }
+
+

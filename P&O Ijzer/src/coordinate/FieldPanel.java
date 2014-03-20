@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public	class FieldPanel extends JPanel {
 
@@ -45,30 +47,46 @@ public	class FieldPanel extends JPanel {
 		this.scaleY = scaleY;
 	}
 
-
 	private double translationX;
 	private double translationY;
 	private double scaleX;
 	private double scaleY;
-	
+	private String absoluteGridFilePath;
 	
 	/////////////
-	 private int frameRate = 5;
+    private int frameRate = 5;
 	/////////////
 	public FieldPanel(double translationX, double translationY, double scaleX, double scaleY){
 		setTranslationX(translationX);
 		setTranslationY(translationY);
 		setScaleX(scaleX);
 		setScaleY(scaleY);
-		setZeppelinMarker(new ZeppelinMarker(new GridPoint(40, 2*GridInitialiser.getMatrixDisplacementY())));
-		
+		setZeppelinMarkerList(new ArrayList<ZeppelinMarker>());
+		getZeppelinMarkerList().add(new ZeppelinMarker(new GridPoint(40, 2*GridInitialiser.getMatrixDisplacementY())));
+
+		this.direction = true;
 		GridInitialiser gritInitialiser = new GridInitialiser();
+
 		try {
-			setFieldGrid(gritInitialiser.readGrid("C:\\Users\\Jonas\\Desktop\\PenO\\gridTestFile2"));
+			
+			
+		    JFileChooser chooser = new JFileChooser();
+		    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		        "CSV & TXT Images", "csv", "txt");
+		    chooser.setFileFilter(filter);
+		    int returnVal = chooser.showOpenDialog(getParent());
+		    if(returnVal == JFileChooser.APPROVE_OPTION) {
+		    setFieldGrid(gritInitialiser.readGrid(chooser.getSelectedFile().getAbsolutePath()));
+		    }
+		    else{
+		    
+			setFieldGrid(gritInitialiser.readGrid("G:\\gridTestFile.csv"));
+			
+		    }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	//////////////////////	
+
 		 Thread animationThread = new Thread () {
 	         @Override
 	         public void run() {
@@ -88,14 +106,39 @@ public	class FieldPanel extends JPanel {
 
 	
 	
+	
+	
+	
+	
+	public GridPoint testDestination1 = new GridPoint(40, 2*GridInitialiser.getMatrixDisplacementY());
+	public GridPoint testDestination2 = new GridPoint(160, 4*GridInitialiser.getMatrixDisplacementY());
+	public boolean direction;
+	
+	
 	/** Update the position based on speed and direction of the sprite */
 	   public void update() {
 		   
 		  double x= getZeppelinMarker().getPoint().x;
 		  double y= getZeppelinMarker().getPoint().y;
 		  
-		  x+=20;
-		  y+=GridInitialiser.getMatrixDisplacementY();
+		  if(this.direction == true){
+			  
+			  x+=10;
+			  y+=GridInitialiser.getMatrixDisplacementY()/2;
+			  
+		  }
+		  if(this.direction == false){
+			  x-=10;
+			  y-=GridInitialiser.getMatrixDisplacementY()/2;  
+		  }
+		  if(x<40){
+			 this.direction = true;
+		  }
+		  if(x>120){
+			  this.direction = false;
+		  }
+		  
+		  
 		   GridPoint point = new GridPoint(x,y);
 		   getZeppelinMarker().setPoint(point);
 		   
@@ -147,7 +190,8 @@ public	class FieldPanel extends JPanel {
 		g2d.scale(getScaleX(), getScaleY());
 
 		drawField(g2d);
-		drawZeppelinMarker(g2d);
+		drawZeppelinMarkers(g2d);
+		//drawZeppelinMarker(g2d);
 	}
 
 	private void drawField(Graphics2D g2d){
@@ -194,16 +238,39 @@ public	class FieldPanel extends JPanel {
 		
 	}
 	
+	
+	public List<ZeppelinMarker> zeppelinMarkerList;
+		
+	public List<ZeppelinMarker> getZeppelinMarkerList() {
+		return zeppelinMarkerList;
+	}
+
+	public void setZeppelinMarkerList(List<ZeppelinMarker> zeppelinMarkerList) {
+		this.zeppelinMarkerList = zeppelinMarkerList;
+	}
+
+	
+	public void drawZeppelinMarkers(Graphics g){
+		for(ZeppelinMarker marker:zeppelinMarkerList){
+			marker.drawMarker(g);	
+		}
+	}
+	
+	
+	@Deprecated
 	public ZeppelinMarker zeppelinMarker;
 	
+	@Deprecated
 	public ZeppelinMarker getZeppelinMarker() {
 		return zeppelinMarker;
 	}
 
+	@Deprecated
 	public void setZeppelinMarker(ZeppelinMarker zeppelinMarker) {
 		this.zeppelinMarker = zeppelinMarker;
 	}
 
+	@Deprecated
 	public void drawZeppelinMarker(Graphics g){
 		
 		getZeppelinMarker().drawMarker(g);
