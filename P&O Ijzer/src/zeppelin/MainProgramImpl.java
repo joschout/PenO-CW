@@ -35,7 +35,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	/**
 	 * Meest recente uitlezing van de sensor.
 	 */
-	private double mostRecentHeight;
+	//private double mostRecentHeight;
 	private double mostRecentAngle;
 
 	private double targetHeight;
@@ -64,7 +64,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		super();
 		ROTATION_CONTROLLER.setZeppelin(this);
 		//ROTATION_CONTROLLER.setMotorController(MOTOR_CONTROLLER); TODO OBSOLETE?!
-		HEIGHT_CONTROLLER.setZeppelin(this);
 		FORWARD_BACKWARD.setZeppelin(this); //TODO OBSOLETE?
 		this.initialiseGrid();
 
@@ -355,16 +354,13 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	{
 		this.position = point;
 	}
-
-	@Override
-	public double getHeight() {
-		return this.mostRecentHeight;
-	}
 	
 	public void setHeight(double height) {
-		this.mostRecentHeight = height;
+		HEIGHT_CONTROLLER.setHeight(height);
 	}
 	
-	
+	public double getHeight() {
+		return HEIGHT_CONTROLLER.getHeight();
+	}
 
 }

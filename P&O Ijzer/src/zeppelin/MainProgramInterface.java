@@ -218,6 +218,5 @@ public interface MainProgramInterface extends Remote {
 	 */
 	public String readLog() throws RemoteException;
 
-	public double getHeight();
 
 }

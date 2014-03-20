@@ -7,8 +7,6 @@ package movement;
 
 import java.rmi.RemoteException;
 
-import zeppelin.MainProgramImpl;
-
 import controllers.MotorController;
 import controllers.SensorController;
 import controllers.SensorController.TimeoutException;
@@ -16,17 +14,16 @@ import controllers.SensorController.TimeoutException;
 public class HeightController {
 	
 	private MotorController motorController;
-	private PIDController pController = new PIDController(17, 0.001, 13500, PIDMode.HEIGHT);
+	private PIDController pController = new PIDController(17, 0, 13500, PIDMode.HEIGHT);
 	private double safetyInterval = 1;
 	private SensorController sensorController;
+	
+	private double mostRecentHeight;
 	
 	public HeightController(SensorController sensorController, MotorController motorController) {
 		this.motorController = motorController;
 		this.sensorController = sensorController;
 	}
-
-
-	private MainProgramImpl zeppelin;
 	
 	public double getSafetyIntervalHeight() {
 		return safetyInterval;
@@ -35,15 +32,6 @@ public class HeightController {
 	public void setSafetyIntervalHeight(double safetyInterval) {
 		this.safetyInterval = safetyInterval;
 	}
-	
-	
-	
-	public void setZeppelin(MainProgramImpl zeppelin) throws IllegalStateException {
-		if (this.zeppelin != null)
-			throw new IllegalStateException("Probeerde in height controller de zeppelin meer dan eens te zetten.");
-		this.zeppelin = zeppelin;
-	}
-	
 	
 	/**
 	 * Bepaalt een nieuwe PWM-waarde met behulp van de PID-controller.
@@ -57,7 +45,7 @@ public class HeightController {
 	 */
 	public double getPWMValue(double mostRecentValue, double targetValue) throws RemoteException, TimeoutException, InterruptedException {
 		double pid = pController.getPIDValue(targetValue, mostRecentValue);
-		return pid*0.1;
+		return pid;
 	}
 	
 	
@@ -74,8 +62,8 @@ public class HeightController {
 	public void goToHeight(double targetHeight) throws RemoteException, TimeoutException, InterruptedException {
 		double pwm =0;
 		double mostRecentHeight = sensorController.sensorReading();
-		this.zeppelin.setHeight(mostRecentHeight);
-		if(Math.abs(mostRecentHeight-targetHeight)> safetyInterval){
+		this.mostRecentHeight = mostRecentHeight;
+		if(Math.abs(mostRecentHeight-targetHeight) > safetyInterval){
 			pwm = this.getPWMValue(targetHeight, mostRecentHeight);
 		}
 		motorController.setHeightSpeed((int) pwm);
@@ -97,48 +85,13 @@ public class HeightController {
 	public PIDController getpController() {
 		return pController;
 	}
+
+	public void setHeight(double height) {
+		this.mostRecentHeight = height;
+	}
 	
-	//TODO OBSOLETE
-//	/**
-//	 * Zet de procesconstante.
-//	 */
-//	public void setKpHeight(double kp) {
-//		this.pController.setKp(kp);
-//	}
-//	
-//	/**
-//	 * Zet de derivative constante.
-//	 */
-//	public void setKdHeight(double kd) {
-//		this.pController.setKd(kd);
-//	}
-//	
-//	/**
-//	 * Zet de integraalconstante.
-//	 */
-//	public void setKiHeight(double ki) {
-//		this.pController.setKi(ki);
-//	}
-//	
-//	/**
-//	 * Haalt de procesconstante.
-//	 */
-//	public double getKpHeight() {
-//		return pController.getKp();
-//	}
-//	
-//	/**
-//	 * Haalt de derivative constante.
-//	 */
-//	public double getKdHeight() {
-//		return pController.getKd();
-//	}
-//	
-//	/**
-//	 * Haalt de integraalconstante.
-//	 */
-//	public double getKiHeight() {
-//		return pController.getKi();
-//	}
+	public double getHeight() {
+		return this.mostRecentHeight;
+	}
 	
 }
