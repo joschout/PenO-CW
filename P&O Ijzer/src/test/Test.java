@@ -3,6 +3,9 @@ package test;
 import java.io.IOException;
 import java.util.List;
 
+import org.opencv.core.Mat;
+import org.opencv.highgui.Highgui;
+
 import positioning.AngleCalculator;
 import positioning.Couple;
 import positioning.CoupleTriangleMatcher;
@@ -10,7 +13,6 @@ import positioning.Image;
 import positioning.ImageAnalyser;
 import positioning.PositionCalculator;
 import positioning.ReadCouples;
-
 import controllers.CameraController;
 import coordinate.Grid;
 import coordinate.GridInitialiser;
@@ -28,11 +30,13 @@ public class Test {
 
 		GridInitialiser gridInit = new GridInitialiser();
 		Grid grid = gridInit.readGrid("grid");
-		Image image = takePictureRam("test");
-//		for (GridMarker marker: image.getMarkers())
-//		{
-//			System.out.println(marker.toString());
-//		}
+		System.out.println(grid);
+		Mat img = Highgui.imread("voetenweg.jpg");
+		Image image = new Image(img);
+		for (GridMarker marker: image.getMarkers())
+		{
+			System.out.println(marker.toString());
+		}
 		ReadCouples readCouples = new ReadCouples(image);
 		GridTriangle triangle = triangleMatch(grid, image, readCouples);
 		Couple pictureCouple = null;
@@ -52,8 +56,8 @@ public class Test {
 			triangleCouple = triangleCoupleFor;
 			break;
 		}
-//		System.out.println("Picture couple: " + pictureCouple);
-//		System.out.println("Triangle couple: " + triangleCouple);
+		System.out.println("Picture couple: " + pictureCouple);
+		System.out.println("Triangle couple: " + triangleCouple);
 		AngleCalculator calc = new AngleCalculator(image, pictureCouple, triangleCouple);
 		double angle = calc.calculateAngle();
 		System.out.println("Angle: " + angle);

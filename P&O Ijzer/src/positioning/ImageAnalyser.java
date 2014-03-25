@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
@@ -37,6 +40,7 @@ public class ImageAnalyser {
 	 */
 	public List<GridMarker> analysePicture()
 	{
+		Mat dst = image.getImage().clone();
 		List<GridMarker> toReturn = new ArrayList<GridMarker>();
 		List<MatOfPoint> contours = this.calcContours(image);
 		for (MatOfPoint contour: contours)
@@ -45,8 +49,13 @@ public class ImageAnalyser {
 			Colour color = this.determineColour(contour, image);
 			GridPoint contourCenter = this.centerOfContour(contour);
 			GridMarker marker = initialiseMarker(color, shape, contourCenter);
-			toReturn.add(marker);
+			if (! undeterminedCheck(marker))
+			{
+				toReturn.add(marker);
+			}
+//			setLabel(dst, color + " " + shape, contour);
 		}
+		Highgui.imwrite("markers.jpg", dst);
 		return toReturn;
 	}
 	
@@ -72,6 +81,11 @@ public class ImageAnalyser {
 		{
 			return new UndeterminedShape(color, shape, contourCenter);
 		}
+	}
+	
+	private boolean undeterminedCheck(GridMarker marker)
+	{
+		return (marker.getShape().equals("undetermined") || marker.getColour() == Colour.UNDETERMINED);
 	}
 
 	private List<MatOfPoint> calcContours(Image image)
@@ -272,13 +286,13 @@ public class ImageAnalyser {
 		}
 		else if (H <= 65)
 		{
-			if (V >= whiteVThreshold && S <= whiteSThreshold)
+			if (V >= whiteVThreshold && S <= 100)
 			{
 				return Colour.WHITE;
 			}
 			else return Colour.YELLOW;
 		}
-		else if (H <= 180)
+		else if (H <= 200) // 200?
 		{
 			if (V >= whiteVThreshold && S <= whiteSThreshold)
 			{
@@ -286,7 +300,7 @@ public class ImageAnalyser {
 			}
 			else return Colour.GREEN;
 		}
-		else if (H <= 260)
+		else if (H <= 230) // 230?
 		{
 			if (V >= whiteVThreshold && S <= whiteSThreshold)
 			{
@@ -303,6 +317,22 @@ public class ImageAnalyser {
 			else return Colour.RED;
 		}
 		else return Colour.UNDETERMINED;
-	}
+//	}
+//	
+//	public static void setLabel(Mat im, String label, MatOfPoint contour)
+//	{
+//		int fontface = Core.FONT_HERSHEY_TRIPLEX;
+//		double scale = 0.4;
+//		int thickness = 1;
+//		int[] baseline = {0};
+//		
+//		Size text = Core.getTextSize(label, fontface, scale, thickness, baseline);
+//		Rect r = Imgproc.boundingRect(contour);
+//		
+//		Point pt = new Point(r.x + ((r.width - text.width) /2), r.y + ((r.height + text.height) / 2));
+//		Core.rectangle(im, new Point(pt.x, pt.y + baseline[0]), new Point(pt.x + text.width, pt.y - text.height), new Scalar(255,255,255), Core.FILLED );
+//		Core.putText(im, label, pt, fontface, scale, new Scalar(0,0,0), thickness);
+//	}
 
+	}
 }

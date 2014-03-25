@@ -36,7 +36,7 @@ public class CoupleTriangleMatcher {
 				match = triangle;
 				distanceHeuristic = distanceToCenter;
 			}
-			else if (distanceToCenter < distanceHeuristic)
+			else if (numMatches == matchHeuristic && distanceToCenter < distanceHeuristic)
 			{
 				match = triangle;
 				distanceHeuristic = distanceToCenter;
