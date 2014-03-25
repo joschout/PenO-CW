@@ -103,9 +103,9 @@ public interface MainProgramInterface extends Remote {
 	
 	public double getHeight() throws RemoteException;
 
-	public HeightController getHeightController();
+	public HeightController getHeightController() throws RemoteException;
 
-	public RotationController getRotationController();
+	public RotationController getRotationController() throws RemoteException;
 	
 	
 	

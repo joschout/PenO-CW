@@ -5,13 +5,16 @@
 
 package movement;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 
 import controllers.MotorController;
 import controllers.SensorController;
 import controllers.SensorController.TimeoutException;
 
-public class HeightController {
+public class HeightController implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private MotorController motorController;
 	private PIDController pController = new PIDController(17, 0, 13500, PIDMode.HEIGHT);
