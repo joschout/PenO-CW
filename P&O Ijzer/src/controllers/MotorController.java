@@ -339,4 +339,6 @@ public class MotorController implements Serializable {
 	public boolean movingHorizontally() {
 		return this.goingForward() || this.goingBackward() || this.goingLeft() || this.goingRight();
 	}
+
+	
 }
