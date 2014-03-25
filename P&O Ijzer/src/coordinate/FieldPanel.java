@@ -2,6 +2,9 @@ package coordinate;
 
 //http://www.zetcode.com/gfx/java2d/basicdrawing/
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -10,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -276,4 +280,22 @@ public	class FieldPanel extends JPanel {
 		getZeppelinMarker().drawMarker(g);
 	}
 	
+	
+	
+	
+	
+	
+	public static void main(String[] args) {
+		FieldPanel panel = new FieldPanel(0,0,1,1);
+		JFrame f = new JFrame("Heart");
+		f.getContentPane().add( panel, "Center" );
+
+		f.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+		f.setSize(new Dimension(450, 250));
+		f.setVisible(true);
+	}
 }
