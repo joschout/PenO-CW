@@ -100,12 +100,13 @@ public interface MainProgramInterface extends Remote {
 	 * @throws RemoteException
 	 */
 	public void stopDownward() throws RemoteException;
+	
+	public double getHeight() throws RemoteException;
 
 	public HeightController getHeightController();
 
 	public RotationController getRotationController();
 	
-
 	
 	
 	//TODO OBSOLETE
