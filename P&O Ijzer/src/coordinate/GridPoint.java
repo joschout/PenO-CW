@@ -40,18 +40,20 @@ public class GridPoint {
 	public GridPoint rotate(double angle)
 	{
 		/*
-		 * Deze matrix draait in tegenwijerzin terwijl wij wijzerzin beschouwen
-		 * als een optelling van een hoek, dus deze matrix is wat we moeten hebben 
+		 * We hebben een 'top-left' oorsprong waarbij een draaiing met een positieve hoek
+		 * een draaiing naar rechts is. 
 		 */
 		angle = Math.toRadians(angle);
-		double[][] rotationMatrix = new double[2][2];
-		rotationMatrix[0][0] = Math.cos(Math.toRadians(angle));
-		rotationMatrix[0][1] = - Math.sin(Math.toRadians(angle));
-		rotationMatrix[1][0] = Math.sin(Math.toRadians(angle));
-		rotationMatrix[1][1] = Math.cos(Math.toRadians(angle));
+		double cosine = Math.cos(angle);
+		double sine = Math.sin(angle);
 		
-		double newX = rotationMatrix[0][0] * this.x + rotationMatrix[0][1] * this.y;
-		double newY = rotationMatrix[1][0] * this.x + rotationMatrix[1][1] * this.y;
+		/*
+		 * [ cos(angle) -sin(angle) ]
+		 * [ sin(angle)  cos(angle) ]
+		 */
+		
+		double newX = this.x * cosine + this.y * (- sine);
+		double newY = this.x * sine + this.y * cosine;
 		return new GridPoint(newX, newY);
 	}
 	

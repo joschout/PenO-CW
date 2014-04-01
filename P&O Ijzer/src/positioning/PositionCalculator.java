@@ -19,20 +19,15 @@ public class PositionCalculator {
 	
 	public GridPoint calculatePosition(double angle)
 	{
-//		GridPoint imageCenter = image.getCenterCoordinatesOfImage();
-//		double newPictureY = - (this.picturePoint.y - image.getHeight());
-//		
-//		GridPoint newPicturePoint = new GridPoint(this.picturePoint.x, this.picturePoint.y);
-//		
-//		GridPoint imageRotated = imageCenter.rotate(360 - (angle + 90)); // 360 - (angle + 90))
-//		GridPoint pictureRotated = newPicturePoint.rotate(360 - (angle + 90));
-//		
-//		double diffX = (imageRotated.x - pictureRotated.x) / image.getPixelLength();
-//		double baseDiffY = - ((imageRotated.y - pictureRotated.y) - image.getHeight());
-//		double diffY = baseDiffY / image.getPixelLength();
-//		
-//		return new GridPoint(trianglePoint.x + diffX, trianglePoint.y + diffY);
-		return trianglePoint;
+		GridPoint imageCenter = image.getCenterCoordinatesOfImage();
+		
+		GridPoint newPicturePoint = this.picturePoint.subtract(imageCenter);
+		GridPoint pictureRotated = newPicturePoint.rotate(90 - angle);
+//		GridPoint pictureRotated = newPicturePoint.rotate(0);
+		GridPoint pictureScaled = pictureRotated.multiply(1 / image.getPixelLength());
+		
+		return new GridPoint(trianglePoint.x - pictureScaled.x, trianglePoint.y - pictureScaled.y);
+//		return trianglePoint;
 	}
 	
 	private void matchMarkers(Couple pictureCouple, Couple triangleCouple)
