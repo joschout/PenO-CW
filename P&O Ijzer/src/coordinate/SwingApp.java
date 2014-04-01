@@ -24,10 +24,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import javax.swing.ButtonModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -44,8 +47,15 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import client.GuiControllerAlternative;
+import client.GuiControllerAlternative2;
 
+
+
+
+
+
+
+import coordinate.SwingApp.MotorTimer;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -59,7 +69,7 @@ public class SwingApp {
 
 	private JFrame frame;
 	
-	private JButton setTargetHeight, btnLogfiles;
+	private JButton setTargetHeight, logfiles;
 	private JLabel doelhoogteLabel;
 	private JPanel logpanel, lightpanel, fieldpanel, variablepanel, arrowpanel;
 	private JTextArea huidigeHoogte, targetHoogte, logTextArea, KpValueHeight, KdValueHeight, KiValueHeight, safetyIntervalValueHeight, KpValueAngle, KdValueAngle, KiValueAngle, safetyIntervalValueAngle;
@@ -77,6 +87,8 @@ public class SwingApp {
 				try {				
 					SwingApp window = new SwingApp();
 					window.frame.setVisible(true);
+					window.setVariables();
+				
 				} catch (Exception e) {
 					e.printStackTrace();
 				}				
@@ -85,7 +97,7 @@ public class SwingApp {
 	}
 
 	
-	public GuiControllerAlternative guiController;
+	public GuiControllerAlternative2 guiController;
 
 	
 	/**
@@ -95,17 +107,17 @@ public class SwingApp {
 
 
 		try {
-			guiController = new GuiControllerAlternative();
+			guiController = new GuiControllerAlternative2();
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		/////////////////////////////////////////////////////
+		HeightAndMotorWorker motorUpdater = new HeightAndMotorWorker();
+		LogUpdater logUpdater = new LogUpdater();
+		motorUpdater.execute();
+		logUpdater.execute();
+		/////////////////////////////////////////////////////
 		initialize();
 	}
 
@@ -137,10 +149,10 @@ public class SwingApp {
 		logTextArea.setEditable(false);
 		scrollPane.setViewportView(logTextArea);
 		
-		btnLogfiles = new JButton("Vorige logfiles");
-		btnLogfiles.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnLogfiles.setBounds(219, 278, 146, 23);
-		logpanel.add(btnLogfiles);
+		logfiles = new JButton("Vorige logfiles");
+		logfiles.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		logfiles.setBounds(219, 278, 146, 23);
+		logpanel.add(logfiles);
 		
 		
 		JPanel panel_1 = new JPanel();
@@ -383,26 +395,177 @@ public class SwingApp {
 		arrowup.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		arrowup.setBounds(81, 23, 66, 56);
 		arrowpanel.add(arrowup);
+		addTimerToArrowButton(arrowup);
 		
 		arrowleft = new BasicArrowButton(SwingConstants.WEST);
 		arrowleft.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		arrowleft.setBackground(Color.CYAN);
 		arrowleft.setBounds(10, 80, 66, 56);
 		arrowpanel.add(arrowleft);
+		addTimerToArrowButton(arrowleft);
 		
 		arrowright = new BasicArrowButton(SwingConstants.EAST);
 		arrowright.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		arrowright.setBackground(Color.CYAN);
 		arrowright.setBounds(150, 80, 66, 56);
 		arrowpanel.add(arrowright);
+		addTimerToArrowButton(arrowright);
 		
 		arrowdown = new BasicArrowButton(SwingConstants.SOUTH);
 		arrowdown.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		arrowdown.setBackground(Color.CYAN);
 		arrowdown.setBounds(81, 80, 66, 56);
 		arrowpanel.add(arrowdown);
+		addTimerToArrowButton(arrowdown);
 	}
 	
+	
+	/**
+	 * Voeg timer toe aan gegeven pijlknop. Zo wordt ervoor gezorgd dat de juiste motor
+	 * wordt aangezet als je op de knop drukt en ook wordt afgezet als je de knop loslaat.
+	 * @param arrowButton
+	 * 		  Pijlknop waaraan timer moet worden toegevoegd. Verwacht wordt dat dit
+	 *        arrowup, arrowleft, arrowright of arrowdown is.
+	 */
+	public void addTimerToArrowButton(BasicArrowButton arrowButton) {
+		final ButtonModel bModel = arrowButton.getModel();
+		final MotorTimer timer = new MotorTimer(arrowButton);
+		bModel.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent cEvt) {
+	            if (bModel.isPressed() && !timer.isRunning()) {
+	               timer.start(); // zet de juiste motor aan.
+	            } else if (!bModel.isPressed() && timer.isRunning()) {
+	               timer.stop();
+	               try {
+	            	// de instructie om de motor te stoppen moet hier, omdat
+	            	// de interface voor Timer niet toelaat om het daar te zetten.
+					SwingApp.this.guiController.stopRightAndLeftMotor();
+				} catch (RemoteException e) {
+					e.printStackTrace();
+				}
+	            }
+	         }
+		});
+	}
+	
+	
+	/**
+	 * Update de respectievelijke tekstvelden met de waarden voor de procesconstante,
+	 * de derivative constante, integraalconstante en de huidige hoogte van de zeppelin.
+	 * @throws RemoteException
+	 * 		   Verbinding met de zeppelin is weggevallen.
+	 */
+	public void setVariables() throws RemoteException {
+		this.KpValueHeight.setText(Double.toString(guiController.getKpHeight()));
+		this.KdValueHeight.setText(Double.toString(guiController.getKdHeight()));
+		this.KiValueHeight.setText(Double.toString(guiController.getKiHeight()));
+		this.targetHoogte.setText(Double.toString(guiController.getHeight()));
+	}
+	
+ 
+	/**
+	 * Los gekopieerd uit GuiPanel
+	 * @param event
+	 */
+	public void actionPerformed(ActionEvent event)
+	{
+		Object source = event.getSource();
+		
+		if (source == setTargetHeight) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe doelhoogte in.");
+			double height = Double.parseDouble(input);
+			try {
+				this.guiController.setTargetHeight(height);
+			} catch (RemoteException e) {
+				JOptionPane.showMessageDialog(null, "Fout bij het aanpassen van doelhoogte, zie standard out");
+				e.printStackTrace();
+			}
+			this.targetHoogte.setText(Double.toString(height));
+		}
+		else if (source == setKpHeight) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KpHeight in.");
+			double kp = Double.parseDouble(input);
+			this.guiController.setKpHeight(kp);
+			this.KpValueHeight.setText(Double.toString(kp));
+		}
+		else if (source == setKdHeight) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KdHeight in.");
+			double kd = Double.parseDouble(input);
+			this.guiController.setKdHeight(kd);
+			this.KdValueHeight.setText(Double.toString(kd));
+		}
+		else if (source == setKiHeight) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KiHeight in.");
+			double ki = Double.parseDouble(input);
+			this.guiController.setKiHeight(ki);
+			this.KiValueHeight.setText(Double.toString(ki));
+		}
+		else if (source == setSafetyIntervalHeight) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety intervalHeight in.");
+			double safety = Double.parseDouble(input);
+			try {
+				this.guiController.setSafetyIntervalHeight(safety);
+			} catch (RemoteException e) {
+			}
+			this.safetyIntervalValueHeight.setText(Double.toString(safety));
+		}
+		
+		else if (source == setKpAngle) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KpAngle in.");
+			double kp = Double.parseDouble(input);
+			this.guiController.setKpAngle(kp);
+			this.KpValueAngle.setText(Double.toString(kp));
+		}
+		else if (source == setKdAngle) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KdAngle in.");
+			double kd = Double.parseDouble(input);
+			this.guiController.setKdAngle(kd);
+			this.KdValueAngle.setText(Double.toString(kd));
+		}
+		else if (source == setKiAngle) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KiAngle in.");
+			double ki = Double.parseDouble(input);
+			this.guiController.setKiAngle(ki);
+			this.KiValueAngle.setText(Double.toString(ki));
+		}
+		else if (source == setSafetyIntervalAngle) {
+			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety intervalAngle in.");
+			double safety = Double.parseDouble(input);
+			try {
+				this.guiController.setSafetyIntervalAngle(safety);
+			} catch (RemoteException e) {
+			}
+			this.safetyIntervalValueAngle.setText(Double.toString(safety));
+		}
+		else if(source == logfiles)
+		{   
+			//Logfile aangemaakt en opgeslagen.
+			PrintWriter writer = null;
+			try {
+				writer = new PrintWriter("logfile.txt");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			//Tekst schrijven naar de logfile.
+			writer.println(logTextArea.getText());
+			writer.close();
+
+			//Logfile-dialog
+			JTextArea textLog = new JTextArea(50,60); //JTextArea is een 'multi-line area' waar gewone tekst getoond kan worden. 
+			try {
+				textLog.read(new FileReader("logfile.txt"), null);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} //Leest de text uit de logfile en zet het in de JTextArea.
+			textLog.setEditable(false);
+
+			JOptionPane.showMessageDialog(null, new JScrollPane(textLog),"Logfile", JOptionPane.PLAIN_MESSAGE); //JScrollPane zorgt ervoor dat je kan scrollen in de logfile (horizontaal en verticaal).
+		}  
+
+	}
 	
 	////////////////////
 	/**
@@ -482,7 +645,7 @@ public class SwingApp {
 	 * juiste pijlknop.
 	 *
 	 */
-	private class MotorTimer extends Timer {
+	public class MotorTimer extends Timer {
 
 		BasicArrowButton arrowButton;
 		
