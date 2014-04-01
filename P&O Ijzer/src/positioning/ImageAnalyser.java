@@ -40,7 +40,7 @@ public class ImageAnalyser {
 	 */
 	public List<GridMarker> analysePicture()
 	{
-		Mat dst = image.getImage().clone();
+//		Mat dst = image.getImage().clone();
 		List<GridMarker> toReturn = new ArrayList<GridMarker>();
 		List<MatOfPoint> contours = this.calcContours(image);
 		for (MatOfPoint contour: contours)
@@ -55,7 +55,7 @@ public class ImageAnalyser {
 			}
 //			setLabel(dst, color + " " + shape, contour);
 		}
-		Highgui.imwrite("markers.jpg", dst);
+//		Highgui.imwrite("markers.jpg", dst);
 		return toReturn;
 	}
 	

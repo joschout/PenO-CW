@@ -31,8 +31,7 @@ public class Test {
 		GridInitialiser gridInit = new GridInitialiser();
 		Grid grid = gridInit.readGrid("grid");
 		System.out.println(grid);
-		Mat img = Highgui.imread("voetenweg.jpg");
-		Image image = new Image(img);
+		Image image = takePictureRam("test");
 		for (GridMarker marker: image.getMarkers())
 		{
 			System.out.println(marker.toString());
