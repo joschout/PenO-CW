@@ -11,10 +11,11 @@ import com.google.zxing.common.HybridBinarizer;
 
 public class DecodeQR {
 
-	private String decodeString;
+	Command command;
 
 	public DecodeQR(String fileName) {
-		decodeString = decodeImage(fileName);
+		String decodeString = decodeImage(fileName);
+		this.command = new DecodeCommand(decodeString).getCommand();
 	}
 
 	private String decodeImage(String fileName) {
@@ -32,8 +33,8 @@ public class DecodeQR {
 		return result.getText();
 	}
 	
-	public String getDecodedString() {
-		return this.decodeString;
+	public Command getCommand() {
+		return this.command;
 	}
 
 }
