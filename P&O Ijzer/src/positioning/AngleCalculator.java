@@ -222,8 +222,9 @@ public class AngleCalculator {
 		double newOtherY = - (otherPoint.y - image.getHeight());
 		
 		GridPoint otherProjection = new GridPoint(otherPoint.x - originPoint.x, newOtherY - newOriginY);
-//		return (angleWithOffset(otherProjection.y, otherProjection.x, angleOffset));
-		return (((angleWithOffset(otherProjection.y, otherProjection.x, angleOffset)) % 360) + 90) % 360;
-//		return (((360 - angleWithOffset(otherProjection.y, otherProjection.x, angleOffset)) % 360) + 90) % 360;
+		
+//		return (360 - angleWithOffset(otherProjection.y, otherProjection.x, angleOffset));
+//		return (((angleWithOffset(otherProjection.y, otherProjection.x, angleOffset))) + 90) % 360;
+		return (((360 - angleWithOffset(otherProjection.y, otherProjection.x, angleOffset))) + 90) % 360;
 	}
 }

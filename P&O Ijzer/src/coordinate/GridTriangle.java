@@ -71,6 +71,31 @@ public class GridTriangle {
 		return null;
 	}
 	
+	public Couple getMatchingCoupleWithOrientation(Couple pictureCouple)
+	{
+		for (Couple triangleCouple : markerCouples)
+		{
+			if (triangleCouple.equalsWithOrientation(pictureCouple))
+			{
+				return triangleCouple;
+			}
+		}
+		return null;
+	}
+	
+	public List<MarkerOrientation> allOrientationsOf(GridMarker marker)
+	{
+		List<MarkerOrientation> toReturn = new ArrayList<MarkerOrientation>();
+		for (GridMarker triangleMarker : this.getGridMarkers())
+		{
+			if (triangleMarker.equals(marker))
+			{
+				toReturn.add(triangleMarker.getOrientation());
+			}
+		}
+		return toReturn;
+	}
+	
 	public int countMatchingMarkers(List<GridMarker> markers)
 	{
 		List<GridMarker> copyOfGridMarkers = new ArrayList<GridMarker>(gridMarkers);
@@ -138,6 +163,17 @@ public class GridTriangle {
 		double xComponent = oppositePoint.x + (2/3) * (midpoint.x - oppositePoint.x);
 		double yComponent = oppositePoint.y + (2/3) * (midpoint.y - oppositePoint.y);
 		return new GridPoint(xComponent, yComponent);
+	}
+	
+	public String toString()
+	{
+		StringBuilder toReturn = new StringBuilder();
+		toReturn.append("Triangle: ");
+		for (GridMarker marker: this.getGridMarkers())
+		{
+			toReturn.append(marker + " " + marker.getOrientation() + "; ");
+		}
+		return toReturn.toString();
 	}
 
 }

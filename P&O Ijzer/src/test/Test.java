@@ -19,6 +19,7 @@ import coordinate.GridInitialiser;
 import coordinate.GridMarker;
 import coordinate.GridPoint;
 import coordinate.GridTriangle;
+import coordinate.MarkerOrientation;
 
 
 
@@ -31,19 +32,24 @@ public class Test {
 		GridInitialiser gridInit = new GridInitialiser();
 		Grid grid = gridInit.readGrid("grid");
 		System.out.println(grid);
-		Image image = takePictureRam("test");
+		Mat img = Highgui.imread("pic-27-03-14--3.jpg");
+		Image image = new Image(img);
+		System.out.println("=== GEZIENE MARKERS ===");
 		for (GridMarker marker: image.getMarkers())
 		{
 			System.out.println(marker.toString());
 		}
+		System.out.println("=== EINDE GEZIENE MARKERS ===");
 		ReadCouples readCouples = new ReadCouples(image);
 		GridTriangle triangle = triangleMatch(grid, image, readCouples);
 		Couple pictureCouple = null;
 		Couple triangleCouple = null;
+		System.out.println("=== GEKOZEN DRIEHOEK ===");
 		for (GridMarker marker : triangle.getGridMarkers())
 		{
 			System.out.println(marker.toString());
 		}
+		System.out.println("=== EINDE GEKOZEN DRIEHOEK ===");
 		for (Couple pictureCoupleFor : readCouples.getListCouples())
 		{
 			Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor);
@@ -55,6 +61,13 @@ public class Test {
 			triangleCouple = triangleCoupleFor;
 			break;
 		}
+		GridMarker marker1 = pictureCouple.getMarker1();
+		GridMarker marker2 = pictureCouple.getMarker2();
+		List<MarkerOrientation> marker1Orientations = triangle.allOrientationsOf(marker1);
+		List<MarkerOrientation> marker2Orientations = triangle.allOrientationsOf(marker2);
+		marker1.setOrientation(marker1Orientations.get(0));
+		marker2.setOrientation(marker2Orientations.get(0));
+		triangleCouple = triangle.getMatchingCoupleWithOrientation(pictureCouple);
 		System.out.println("Picture couple: " + pictureCouple);
 		System.out.println("Triangle couple: " + triangleCouple);
 		AngleCalculator calc = new AngleCalculator(image, pictureCouple, triangleCouple);

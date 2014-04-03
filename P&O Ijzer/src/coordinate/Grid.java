@@ -53,5 +53,18 @@ public class Grid {
 		}
 		return bestMatch;
 	}
+	
+	@Override
+	public String toString()
+	{
+		StringBuilder toReturn = new StringBuilder();
+		toReturn.append("=== GRID DUMP ===\n");
+		for (GridTriangle triangle: this.getGridTriangles())
+		{
+			toReturn.append(triangle + "\n");
+		}
+		toReturn.append("=== END GRID DUMP ===");
+		return toReturn.toString();
+	}
 
 }

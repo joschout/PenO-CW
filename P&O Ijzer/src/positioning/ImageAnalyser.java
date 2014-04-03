@@ -40,7 +40,6 @@ public class ImageAnalyser {
 	 */
 	public List<GridMarker> analysePicture()
 	{
-//		Mat dst = image.getImage().clone();
 		List<GridMarker> toReturn = new ArrayList<GridMarker>();
 		List<MatOfPoint> contours = this.calcContours(image);
 		for (MatOfPoint contour: contours)
@@ -53,9 +52,7 @@ public class ImageAnalyser {
 			{
 				toReturn.add(marker);
 			}
-//			setLabel(dst, color + " " + shape, contour);
 		}
-//		Highgui.imwrite("markers.jpg", dst);
 		return toReturn;
 	}
 	
@@ -317,22 +314,5 @@ public class ImageAnalyser {
 			else return Colour.RED;
 		}
 		else return Colour.UNDETERMINED;
-//	}
-//	
-//	public static void setLabel(Mat im, String label, MatOfPoint contour)
-//	{
-//		int fontface = Core.FONT_HERSHEY_TRIPLEX;
-//		double scale = 0.4;
-//		int thickness = 1;
-//		int[] baseline = {0};
-//		
-//		Size text = Core.getTextSize(label, fontface, scale, thickness, baseline);
-//		Rect r = Imgproc.boundingRect(contour);
-//		
-//		Point pt = new Point(r.x + ((r.width - text.width) /2), r.y + ((r.height + text.height) / 2));
-//		Core.rectangle(im, new Point(pt.x, pt.y + baseline[0]), new Point(pt.x + text.width, pt.y - text.height), new Scalar(255,255,255), Core.FILLED );
-//		Core.putText(im, label, pt, fontface, scale, new Scalar(0,0,0), thickness);
-//	}
-
 	}
 }

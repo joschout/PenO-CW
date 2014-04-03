@@ -22,7 +22,8 @@ public class PositionCalculator {
 		GridPoint imageCenter = image.getCenterCoordinatesOfImage();
 		
 		GridPoint newPicturePoint = this.picturePoint.subtract(imageCenter);
-		GridPoint pictureRotated = newPicturePoint.rotate(90 - angle);
+//		GridPoint pictureRotated = newPicturePoint.rotate(360 - angle);
+		GridPoint pictureRotated = newPicturePoint.rotate(angle - 90);
 //		GridPoint pictureRotated = newPicturePoint.rotate(0);
 		GridPoint pictureScaled = pictureRotated.multiply(1 / image.getPixelLength());
 		
