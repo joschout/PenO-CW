@@ -32,8 +32,7 @@ public class Test {
 		GridInitialiser gridInit = new GridInitialiser();
 		Grid grid = gridInit.readGrid("grid");
 		System.out.println(grid);
-		Mat img = Highgui.imread("pic-27-03-14--3.jpg");
-		Image image = new Image(img);
+		Image image = takePictureRam("test.jpg");
 		System.out.println("=== GEZIENE MARKERS ===");
 		for (GridMarker marker: image.getMarkers())
 		{
