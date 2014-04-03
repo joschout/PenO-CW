@@ -1,7 +1,13 @@
-package positioning;
+package traversal;
 
 import java.io.IOException;
 
+import positioning.AngleCalculator;
+import positioning.Couple;
+import positioning.CoupleTriangleMatcher;
+import positioning.Image;
+import positioning.PositionCalculator;
+import positioning.ReadCouples;
 import coordinate.Grid;
 import coordinate.GridPoint;
 import coordinate.GridTriangle;

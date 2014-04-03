@@ -10,7 +10,9 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import positioning.Image;
-import positioning.PositionUpdater;
+import qrcode.DecodeQR;
+import traversal.HeightUpdater;
+import traversal.PositionUpdater;
 import logger.LogWriter;
 import movement.ForwardBackwardController;
 import movement.HeightController;
@@ -56,6 +58,14 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	private double mostRecentAngle;
 	private GridPoint position;
 	
+	// ======== Updatet de hoek en de huidige positie ========
+	private PositionUpdater positionUpdater;
+	
+	// ======== Beweegt naar de doelpositie toe ========
+	private TraversalHandler traversalHandler;
+	
+	private DecodeQR qrCodeReader;
+	
 	/**
 	 * Geeft aan of de zeppelin zijn activiteiten moet stopzetten.
 	 */
@@ -72,7 +82,11 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		this.cameraController = new CameraController();
 		this.motorController = new MotorController();
 		this.heightController = new HeightController(sensorController, motorController);
-		this.rotationController = new RotationController(motorController);
+		this.rotationController = new RotationController(this, motorController);
+		this.positionUpdater = new PositionUpdater(this);
+		this.traversalHandler = new TraversalHandler(this);
+		
+		this.setTargetPosition(new GridPoint(-1, -1));
 		
 		this.initialiseThreads();
 
@@ -105,6 +119,10 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public SensorController getSensorController() {
 		return this.sensorController;
 	}
+	
+	public RotationController getRotationController() {
+		return this.rotationController;
+	}
 
 	public Grid getGrid()
 	{
@@ -125,6 +143,10 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 
 	public double getMostRecentAngle() {
 		return this.mostRecentAngle;
+	}
+	
+	public PositionUpdater getPositionUpdater() {
+		return this.getPositionUpdater();
 	}
 	
 	public GridPoint getPosition()
@@ -155,6 +177,10 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	@Override
 	public boolean downwardIsOn() throws RemoteException {
 		return motorController.downwardIsOn();
+	}
+	
+	public TraversalHandler getTraversalHandler() {
+		return this.traversalHandler;
 	}
 	
 	//TODO OBSOLETE
@@ -338,6 +364,11 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	{
 		this.position = point;
 	}
+	
+	public void setTargetPosition(GridPoint point)
+	{
+		this.targetPosition = point;
+	}
 
 	@Override
 	public void setTargetHeight(double height) throws RemoteException {
@@ -372,16 +403,42 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 * @throws InterruptedException 
 	 */
 	private void gameLoop() throws InterruptedException {
+		GridPoint dummyPoint = new GridPoint(-1, -1);
+		
+		boolean detectingQrCode = false;
+		boolean qrCodeFound = false;
+		boolean movedTowardsTarget = false; 
+		
 		while (!exit) {
+			if (! detectingQrCode)
+			{
+				this.getPositionUpdater().update();
+			}
+			if (this.getTargetPosition().equals(dummyPoint))
+			{
+				continue;
+			}
 			try {
-				try {
-					this.setHeight(this.getSensorController().sensorReading());
-					heightController.goToHeight(targetHeight);
-				} catch (RemoteException e) {
-					e.printStackTrace();
+				movedTowardsTarget = this.getTraversalHandler().moveTowardsPoint();
+				detectingQrCode = (! movedTowardsTarget && ! qrCodeFound);
+				while (detectingQrCode)
+				{
+					String fileName = Long.toString(System.currentTimeMillis());
+					String result = qrCodeReader.decodeImage(CameraController.PICTURE_PATH + fileName);
+					if (result != null)
+					{
+						detectingQrCode = false;
+						qrCodeFound = true;
+					}
 				}
-			} catch (TimeoutException e) {
-
+				if (! movedTowardsTarget && qrCodeFound)
+				{
+					this.setTargetHeight(0);
+				}
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			} catch (TimeoutException e1) {
+				e1.printStackTrace();
 			}
 			try {
 				Thread.sleep(100);
@@ -405,7 +462,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	@Override
 	public void goForward() throws RemoteException {
 		motorController.forward();
-
 	}
 
 	@Override
@@ -432,6 +488,18 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		motorController.stopHeightAdjustment();
 	}
 	
+	public void moveTowardsTargetHeight() throws RemoteException, TimeoutException, InterruptedException {
+		this.getHeightController().goToHeight(this.getTargetHeight());
+	}
+	
+	public void moveTowardsTargetAngle() throws RemoteException, InterruptedException, TimeoutException {
+		this.getRotationController().goToAngle(this.getTargetAngle());
+	}
+	
+	public boolean angleInAcceptableRange(double angle) {
+		return this.rotationController.isInInterval(angle, this.getTargetAngle());
+	}
+	
 	public double measureHeight() throws TimeoutException, InterruptedException
 	{
 		return this.getSensorController().sensorReading();
@@ -450,10 +518,8 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	
 	private void initialiseThreads()
 	{
-		Thread positionUpdateThread = new Thread(new PositionUpdater(this));
-		positionUpdateThread.run();
-		
-		
+		Thread heightUpdaterThread = new Thread(new HeightUpdater(this));
+		heightUpdaterThread.run();
 	}
 
 }
