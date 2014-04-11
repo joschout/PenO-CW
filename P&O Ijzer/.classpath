@@ -26,14 +26,18 @@
 	<classpathentry exported="true" kind="lib" path="lib/javase-2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ftp4j-1.7.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/thumbnailator-0.4.6.jar"/>
-	<classpathentry kind="lib" path="lib/rabbitmq-java-client-bin-3.2.4/commons-cli-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/rabbitmq-java-client-bin-3.2.4/commons-io-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/rabbitmq-java-client-bin-3.2.4/junit.jar"/>
-	<classpathentry kind="lib" path="lib/rabbitmq-java-client-bin-3.2.4/rabbitmq-client.jar">
+	<classpathentry kind="lib" path="lib/commons-cli-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/LICENSE"/>
+	<classpathentry kind="lib" path="lib/LICENSE-APACHE2"/>
+	<classpathentry kind="lib" path="lib/LICENSE-GPL2"/>
+	<classpathentry kind="lib" path="lib/LICENSE-MPL-RabbitMQ"/>
+	<classpathentry kind="lib" path="lib/rabbitmq-client-tests.jar"/>
+	<classpathentry kind="lib" path="lib/rabbitmq-client.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="http://www.rabbitmq.com/javadoc/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/rabbitmq-java-client-bin-3.2.4/rabbitmq-client-tests.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

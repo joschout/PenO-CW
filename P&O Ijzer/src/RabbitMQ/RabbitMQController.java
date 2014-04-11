@@ -2,18 +2,18 @@ package RabbitMQ;
 
 public class RabbitMQController {
 
-	private Reciever recv;
+	private ZeppelinReciever recv;
 	
-	public Reciever getRecv() {
+	public ZeppelinReciever getRecv() {
 		return recv;
 	}
 
-	public void setRecv(Reciever recv) {
+	public void setRecv(ZeppelinReciever recv) {
 		this.recv = recv;
 	}
 
 	public RabbitMQController(){
-	 setRecv(new Reciever(Reciever.generateBindingKeys()));
+	 setRecv(new ZeppelinReciever(ZeppelinReciever.generateBindingKeys()));
 		
 		
 	}

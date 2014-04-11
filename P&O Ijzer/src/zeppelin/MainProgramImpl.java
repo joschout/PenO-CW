@@ -8,6 +8,10 @@ package zeppelin;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import positioning.Image;
 import qrcode.DecodeQR;
@@ -30,7 +34,22 @@ import coordinate.Grid;
 import coordinate.GridInitialiser;
 import coordinate.GridPoint;
 
-public class MainProgramImpl extends UnicastRemoteObject implements MainProgramInterface {
+public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, MainProgramInterface {
+
+	private Map<String, IZeppelin> otherKnownZeppelins = new HashMap<String, IZeppelin>();	
+	
+	public Map<String, IZeppelin> getOtherKnownZeppelins() {
+		return otherKnownZeppelins;
+	}
+
+	public void setOtherKnownZeppelins(Map<String, IZeppelin> otherKnownZeppelins) {
+		this.otherKnownZeppelins = otherKnownZeppelins;
+	}
+	
+	public void addOtherKnownZeppelin(String name) {
+		IZeppelin newZeppelin = new Zeppelin();
+		this.getOtherKnownZeppelins().put(name, newZeppelin);
+	}
 
 	private static final long serialVersionUID = 1L;
 	
