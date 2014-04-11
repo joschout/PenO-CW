@@ -28,6 +28,7 @@ public class GridInitialiser {
 		//Elk element van de lijst is een rij van de file 
 		List<String[]> matrix = constructMatrix(filename);
 		List<GridTriangle> triangles = new ArrayList<GridTriangle>();
+		List<Tablet> tablets = new ArrayList<Tablet>();
 		
 		for (int y = 0; y < matrix.size(); y++) // y is vertikale index
 		{
@@ -37,7 +38,41 @@ public class GridInitialiser {
 				constructLowerTriangle(matrix, triangles, y ,x);
 			}
 		}
-		return new Grid(triangles);
+		
+		tablets = getTablets(filename);
+		
+		return new Grid(triangles, tablets);
+	}
+	
+	private List<Tablet> getTablets(String filename) throws IOException {
+		String withExtension = filename + ".txt";
+		File file = new File(withExtension);
+		if (! file.exists() || file.isDirectory())
+		{
+			withExtension = filename + ".csv";
+			file = new File(withExtension);
+		}
+		BufferedReader reader =  new BufferedReader(new FileReader(file));
+		
+		List<Tablet> tablets = new ArrayList<Tablet>();
+		String input = reader.readLine();
+		while (input != null)
+		{
+			String[] tokens = input.replaceAll(" ","").split(",");
+			if(tokens[0].equals("1")) {
+				while (input != null) {
+					tokens = input.replaceAll(" ","").split(",");
+					Tablet tablet = new Tablet(tokens[0], tokens[1], tokens[2]);
+					tablets.add(tablet);
+					input = reader.readLine();
+				}
+				break;
+			}
+			else {
+				input = reader.readLine();
+			}
+		}
+		return null;
 	}
 
 
@@ -163,6 +198,9 @@ public class GridInitialiser {
 		while (input != null)
 		{
 			String[] tokens = input.replaceAll(" ","").split(",");
+			if(tokens[0].equals("1")) {
+				break; //stopt als die tablet vindt
+			}
 			String[] matrixRow = new String[tokens.length * 2];
 			int tokenCursor = 0;
 			if (shortRow)
