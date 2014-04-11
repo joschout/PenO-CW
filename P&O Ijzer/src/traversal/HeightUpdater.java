@@ -1,4 +1,6 @@
-package positioning;
+package traversal;
+
+import java.rmi.RemoteException;
 
 import controllers.SensorController.TimeoutException;
 import zeppelin.MainProgramImpl;
@@ -12,17 +14,19 @@ public class HeightUpdater implements Runnable {
 		this.zeppelin = zeppelin;
 	}
 	
+	@Override
 	public void run()
 	{
 		while (true)
 		{
 			try {
-				this.getZeppelin().setHeight(this.getZeppelin().measureHeight());
-				this.getZeppelin().
-				Thread.sleep(100);
+				this.getZeppelin().moveTowardsTargetHeight();
+				Thread.sleep(10);
 			} catch (TimeoutException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
 		}
