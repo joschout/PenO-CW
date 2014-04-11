@@ -10,7 +10,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.QueueingConsumer;
 
-public class ZeppelinReciever {
+public class ZeppelinReceiver {
 
 	private MessageParser parser;
 	private static final String EXCHANGE_NAME = "server";	
@@ -38,7 +38,7 @@ public class ZeppelinReciever {
 	}
 	
 	
-	public ZeppelinReciever(MainProgramImpl zeppelin){
+	public ZeppelinReceiver(MainProgramImpl zeppelin){
 		Connection connection = null;
 	    Channel channel = null;
 	    try {
