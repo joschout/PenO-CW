@@ -24,7 +24,7 @@ public class MessageParser {
 		this.zeppelin = zeppelin;
 	}
 	//routingKeyParser
-	public String routingKeyDelimiter =".";
+	public String routingKeyDelimiter = "\\.";
 
 	public void parse(String routingKey, String message) throws InvalidBindingKeyException, RemoteException{
 		String[] routingKeyTokens = routingKey.split(routingKeyDelimiter);

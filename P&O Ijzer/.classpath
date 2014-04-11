@@ -29,10 +29,6 @@
 	<classpathentry kind="lib" path="lib/commons-cli-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
-	<classpathentry kind="lib" path="lib/LICENSE"/>
-	<classpathentry kind="lib" path="lib/LICENSE-APACHE2"/>
-	<classpathentry kind="lib" path="lib/LICENSE-GPL2"/>
-	<classpathentry kind="lib" path="lib/LICENSE-MPL-RabbitMQ"/>
 	<classpathentry kind="lib" path="lib/rabbitmq-client-tests.jar"/>
 	<classpathentry kind="lib" path="lib/rabbitmq-client.jar">
 		<attributes>

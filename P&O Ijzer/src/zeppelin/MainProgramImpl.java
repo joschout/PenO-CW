@@ -21,6 +21,7 @@ import logger.LogWriter;
 import movement.ForwardBackwardController;
 import movement.HeightController;
 import movement.RotationController;
+import RabbitMQ.RabbitMQController;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -47,8 +48,8 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	}
 	
 	public void addOtherKnownZeppelin(String name) {
-		IZeppelin newZeppelin = new Zeppelin();
-		this.getOtherKnownZeppelins().put(name, newZeppelin);
+//		IZeppelin newZeppelin = new Zeppelin();
+//		this.getOtherKnownZeppelins().put(name, newZeppelin);
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -61,6 +62,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	private MotorController motorController;
 	private HeightController heightController;
 	private RotationController rotationController;
+	private RabbitMQController rabbitMQController;
 
 	// ======== Grid ========
 	private Grid grid;
@@ -104,6 +106,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 		this.rotationController = new RotationController(this, motorController);
 		this.positionUpdater = new PositionUpdater(this);
 		this.traversalHandler = new TraversalHandler(this);
+		this.rabbitMQController = new RabbitMQController(this);
 		
 		this.setTargetPosition(new GridPoint(-1, -1));
 		
@@ -538,7 +541,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	private void initialiseThreads()
 	{
 		Thread heightUpdaterThread = new Thread(new HeightUpdater(this));
-		heightUpdaterThread.run();
+		heightUpdaterThread.start();
 	}
 
 }
