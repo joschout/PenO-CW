@@ -12,6 +12,7 @@ import java.util.List;
 import logger.LogWriter;
 
 import com.pi4j.io.gpio.GpioPinPwmOutput;
+import com.pi4j.io.gpio.PinMode;
 import com.pi4j.io.gpio.RaspiPin;
 import com.pi4j.wiringpi.SoftPwm;
 
@@ -24,6 +25,7 @@ public class MotorController implements Serializable {
 	 * De enige pin van de Raspberry Pi die PWM ondersteunt.
 	 */
 	private static final GpioPinPwmOutput PWMPin = MainProgramImpl.gpio.provisionPwmOutputPin(RaspiPin.GPIO_01);
+	
 	/**
 	 * De minimale PWM-waarde waarvoor er merkbare respons is.
 	 */
@@ -53,6 +55,7 @@ public class MotorController implements Serializable {
 	// Motor 3: GPIO_13 en GPIO_11
 	// Motor 4: GPIO_12 en GPIO_14
 	public MotorController() {
+		PWMPin.setMode(PinMode.PWM_OUTPUT);
 		leftMotor = new Motor(RaspiPin.GPIO_11, RaspiPin.GPIO_13); // motor 3
 		rightMotor = new Motor(RaspiPin.GPIO_04, RaspiPin.GPIO_00); // motor 2
 		downwardMotor = new Motor(RaspiPin.GPIO_14, RaspiPin.GPIO_12); // motor 4
@@ -80,7 +83,7 @@ public class MotorController implements Serializable {
 			if (Math.abs(percentage) > 100)
 				percentage = 100;
 			double factor = (double) Math.abs(percentage) / 100;
-			int result = (int) factor * INTERVAL_LENGTH + MINIMUM_RESPONSE;
+			int result = (int) (factor * INTERVAL_LENGTH + MINIMUM_RESPONSE);
 			PWMPin.setPwm(Math.abs(result));
 		}
 		LogWriter.INSTANCE.writeToLog("Onderwaartse motor laten draaien aan percentage: "
