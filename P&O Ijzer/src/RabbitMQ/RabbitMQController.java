@@ -5,26 +5,25 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import zeppelin.MainProgramImpl;
+/**
+ * Controllerklasse voor alles wat met RAbbitMQ te maken heeft.
+ * @author Jonas
+ *
+ */
+public abstract class RabbitMQController {
 
-public class RabbitMQController {
-
+	
+	
 	private Connection connection;
-	private ZeppelinReceiver recv;
-	
-	
+
+
+	/**
+	 * Constructor voor de controller
+	 * @param zeppelin
+	 */
 	public RabbitMQController(MainProgramImpl zeppelin)
 	{
-		initialiseConnection();
-		Thread receiverThread = new Thread(new ZeppelinReceiver(zeppelin, this.getConnection()));
-		receiverThread.start();
-	}
-	
-	public ZeppelinReceiver getRecv() {
-		return recv;
-	}
-
-	public void setRecv(ZeppelinReceiver recv) {
-		this.recv = recv;
+		initialiseConnection();		
 	}
 	
 	public Connection getConnection() {
@@ -40,6 +39,9 @@ public class RabbitMQController {
 	      }
 	}
 	
+	/**
+	 * Initialiseert de connection
+	 */
 	private void initialiseConnection() {
 	    try {
 	      ConnectionFactory factory = new ConnectionFactory();
@@ -54,6 +56,8 @@ public class RabbitMQController {
 	      e.printStackTrace();
 	    }
 	}
+
+
 	
 	
 }
