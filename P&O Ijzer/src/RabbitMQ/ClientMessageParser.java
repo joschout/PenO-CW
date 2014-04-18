@@ -7,22 +7,22 @@ import java.util.Set;
 import javax.management.openmbean.InvalidKeyException;
 
 import coordinate.GridPoint;
-import zeppelin.MainProgramImpl;
+//import zeppelin.MainProgramImpl;
 
-public class MessageParser {
+public class ClientMessageParser {
 
-
-	public MessageParser(MainProgramImpl zeppelin){
-		setZeppelin(zeppelin);
-	}
-	MainProgramImpl zeppelin;
-
-	public MainProgramImpl getZeppelin() {
-		return zeppelin;
-	}
-	public void setZeppelin(MainProgramImpl zeppelin) {
-		this.zeppelin = zeppelin;
-	}
+//
+//	public ClientMessageParser(MainProgramImpl zeppelin){
+//		setZeppelin(zeppelin);
+//	}
+//	MainProgramImpl zeppelin;
+//
+//	public MainProgramImpl getZeppelin() {
+//		return zeppelin;
+//	}
+//	public void setZeppelin(MainProgramImpl zeppelin) {
+//		this.zeppelin = zeppelin;
+//	}
 	//routingKeyParser
 	public String routingKeyDelimiter = "\\.";
 
@@ -35,10 +35,10 @@ public class MessageParser {
 		}
 //geldige naam niet gelijk aan ijzer
 		if(! zeppelinName.equals("ijzer")){
-			if(! zeppelin.getOtherKnownZeppelins().containsKey(zeppelinName)){
-				zeppelin.addOtherKnownZeppelin(zeppelinName);
-			}
-			String commandName = routingKeyTokens[1];   
+//			if(! zeppelin.getOtherKnownZeppelins().containsKey(zeppelinName)){
+//				zeppelin.addOtherKnownZeppelin(zeppelinName);
+//			}
+//			String commandName = routingKeyTokens[1];   
 			if(!commandTypes.contains(commandName)){
 				throw new InvalidBindingKeyException("De binding key bevat een onbestaand commando");
 			}
@@ -92,12 +92,64 @@ public class MessageParser {
 				System.out.println("lcommand's worden niet ondersteunt" );
 			}
 			if(commandName.equals("private")){
-				
-				/*
-				 * insert magic here
-				 */
-				
-				
+				String privateCommandtype = routingKeyTokens[2];
+				if(privateCommandtype.equals("log")){
+					System.out.println("Het log-command is enkel bedoeld voor de client");
+				}if(privateCommandtype.equals("height")){
+					String heightCommType = routingKeyTokens[3];
+					if(heightCommType.equals("getP")){
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_GETP);
+					}
+					if(heightCommType.equals("getI")){
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_GETI);
+					}
+					if(heightCommType.equals("getD")){
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_GETD);
+					}if(heightCommType.equals("setP")){
+						message = message.replaceAll("\\s+", "");
+						if(message.matches("\\d+")){
+						zeppelin.getHeightController().getpController().setKp(Double.parseDouble(message));
+						}
+					}if(heightCommType.equals("setI")){
+						message = message.replaceAll("\\s+", "");
+						if(message.matches("\\d+")){
+						zeppelin.getHeightController().getpController().setKi(Double.parseDouble(message));
+						}
+					}if(heightCommType.equals("setD")){
+						message = message.replaceAll("\\s+", "");
+						if(message.matches("\\d+")){
+						zeppelin.getHeightController().getpController().setKd(Double.parseDouble(message));
+						}
+					}
+					
+					
+				}if(privateCommandtype.equals("angle")){
+					String angleCommType = routingKeyTokens[3];
+					if(angleCommType.equals("getP")){
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_GETP);
+					}
+					if(angleCommType.equals("getI")){
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_GETI);
+					}
+					if(angleCommType.equals("getD")){
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_GETD);
+					}if(angleCommType.equals("setP")){
+						message = message.replaceAll("\\s+", "");
+						if(message.matches("\\d+")){
+						zeppelin.getRotationController().getpController().setKp(Double.parseDouble(message));
+						}
+					}if(angleCommType.equals("setI")){
+						message = message.replaceAll("\\s+", "");
+						if(message.matches("\\d+")){
+						zeppelin.getRotationController().getpController().setKi(Double.parseDouble(message));
+						}
+					}if(angleCommType.equals("setD")){
+						message = message.replaceAll("\\s+", "");
+						if(message.matches("\\d+")){
+						zeppelin.getRotationController().getpController().setKd(Double.parseDouble(message));
+						}
+					}					
+				}
 			}
 		}
 	}

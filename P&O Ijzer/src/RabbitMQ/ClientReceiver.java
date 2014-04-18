@@ -15,7 +15,7 @@ import com.rabbitmq.client.ShutdownSignalException;
 
 public class ClientReceiver implements Runnable {
 
-	private MessageParser parser;
+	private ZeppelinMessageParser parser;
 	private MainProgramImpl zeppelin;
 	private Channel channel;
 	private String queueName;
@@ -54,7 +54,7 @@ public class ClientReceiver implements Runnable {
 		try {
 			consumer = new QueueingConsumer(channel);
 			this.getChannel().basicConsume(this.queueName, true, consumer);
-			parser = new MessageParser(zeppelin);
+			parser = new ZeppelinMessageParser(zeppelin);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

@@ -22,6 +22,7 @@ import movement.ForwardBackwardController;
 import movement.HeightController;
 import movement.RotationController;
 import RabbitMQ.RabbitMQController;
+import RabbitMQ.RabbitMQControllerZeppelin;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -34,6 +35,7 @@ import controllers.SensorController.TimeoutException;
 import coordinate.Grid;
 import coordinate.GridInitialiser;
 import coordinate.GridPoint;
+import RabbitMQ.*;
 
 public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, MainProgramInterface {
 
@@ -62,7 +64,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	private MotorController motorController;
 	private HeightController heightController;
 	private RotationController rotationController;
-	private RabbitMQController rabbitMQController;
+	private RabbitMQControllerZeppelin rabbitMQControllerZeppelin;
 
 	// ======== Grid ========
 	private Grid grid;
@@ -106,7 +108,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 		this.rotationController = new RotationController(this, motorController);
 		this.positionUpdater = new PositionUpdater(this);
 		this.traversalHandler = new TraversalHandler(this);
-		this.rabbitMQController = new RabbitMQController(this);
+		this.rabbitMQControllerZeppelin = new RabbitMQControllerZeppelin(this);
 		
 		this.setTargetPosition(new GridPoint(-1, -1));
 		
@@ -144,6 +146,10 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	
 	public RotationController getRotationController() {
 		return this.rotationController;
+	}
+	
+	public RabbitMQControllerZeppelin getRabbitMQControllerZeppelin(){
+		return this.rabbitMQControllerZeppelin;
 	}
 
 	public Grid getGrid()

@@ -11,11 +11,8 @@ import zeppelin.MainProgramImpl;
  *
  */
 public abstract class RabbitMQController {
-
-	
 	
 	private Connection connection;
-
 
 	/**
 	 * Constructor voor de controller

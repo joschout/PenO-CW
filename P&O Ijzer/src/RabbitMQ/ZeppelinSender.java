@@ -4,14 +4,11 @@ import java.io.IOException;
 
 import logger.LogWriter;
 import zeppelin.MainProgramImpl;
-import logger.LogWriter;
-
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 
 public class ZeppelinSender {
 
-	private MessageParser parser;
 	private MainProgramImpl zeppelin;
 	private Channel channel;
 	private static final String EXCHANGE_NAME = "server";
@@ -66,7 +63,7 @@ public class ZeppelinSender {
 		}
 	}
 
-	private void sendPrivateMessage(PrivateRoutingKeyTypes type){
+	public void sendPrivateMessage(PrivateRoutingKeyTypes type){
 		String lastRoutingKeyPart = type.getRoutingKeyPart();
 		String firstRoutingKeyPart = "ijzer.private";
 		String routingKey = firstRoutingKeyPart + lastRoutingKeyPart;
