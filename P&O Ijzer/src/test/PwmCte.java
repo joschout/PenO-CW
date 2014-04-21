@@ -17,7 +17,6 @@ public class PIDTest {
 	public static void main(String[] args) {
 		MotorController motorController = new MotorController();
 		SensorController sensorController = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
-		HeightController heightController = new HeightController(sensorController, motorController);
 		
 		motorController.setHeightSpeed(pwmValue);
 	}
