@@ -10,9 +10,6 @@ import controllers.SensorController;
 import movement.HeightController;
 
 public class PwmCte {
-
-	private static int pwmValue = 10;
-	
 	
 	/**
 	 * @param args
@@ -20,9 +17,8 @@ public class PwmCte {
 	 */
 	public static void main(String[] args) throws IOException {
 		MotorController motorController = new MotorController();
-		SensorController sensorController = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
 		
-		motorController.setHeightSpeed(pwmValue);
+		motorController.setHeightSpeed(Integer.parseInt(args[0]));
 		
 		System.out.println("Druk op q om af te sluiten.");
 		boolean exit = false;
