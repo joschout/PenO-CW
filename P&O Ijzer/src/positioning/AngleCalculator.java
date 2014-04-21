@@ -182,8 +182,8 @@ public class AngleCalculator {
 		{
 			pictureMarkers.add(pictureCouple.getMarker2());
 			pictureMarkers.add(pictureMarker1);
-			triangleMarkers.add(triangleCouple.getMarker2());
 			triangleMarkers.add(triangleCouple.getMarker1());
+			triangleMarkers.add(triangleCouple.getMarker2());
 		}
 	}
 	
@@ -222,18 +222,9 @@ public class AngleCalculator {
 		double newOtherY = - (otherPoint.y - image.getHeight());
 		
 		GridPoint otherProjection = new GridPoint(otherPoint.x - originPoint.x, newOtherY - newOriginY);
-		return angleWithOffset(otherProjection.y, otherProjection.x, angleOffset);
-	}
-	
-	// TODO: refactor naar een position calculator klasse
-	private double[][] makeRotationMatrix(double angle)
-	{
-		// 360 - angle, want er is een afwijking van "angle graden" naar rechts, dus ga naar links
-		double[][] toReturn = new double[2][2];
-		toReturn[0][0] = Math.cos(Math.toRadians(360 - angle));
-		toReturn[0][1] = Math.sin(Math.toRadians(360 - angle));
-		toReturn[1][0] = - Math.sin(Math.toRadians(360 - angle));
-		toReturn[0][1] = Math.cos(Math.toRadians(360 - angle));
-		return toReturn;
+		
+//		return (360 - angleWithOffset(otherProjection.y, otherProjection.x, angleOffset));
+//		return (((angleWithOffset(otherProjection.y, otherProjection.x, angleOffset))) + 90) % 360;
+		return (((360 - angleWithOffset(otherProjection.y, otherProjection.x, angleOffset))) + 90) % 360;
 	}
 }

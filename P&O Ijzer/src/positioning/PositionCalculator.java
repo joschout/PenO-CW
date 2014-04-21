@@ -8,8 +8,8 @@ import coordinate.GridPoint;
 public class PositionCalculator {
 	
 	private Image image;
-	private GridMarker pictureMarker;
-	private GridMarker triangleMarker;
+	private GridPoint trianglePoint;
+	private GridPoint picturePoint;
 	
 	public PositionCalculator(Image image, Couple pictureCouple, Couple triangleCouple)
 	{
@@ -19,7 +19,16 @@ public class PositionCalculator {
 	
 	public GridPoint calculatePosition(double angle)
 	{
+		GridPoint imageCenter = image.getCenterCoordinatesOfImage();
 		
+		GridPoint newPicturePoint = this.picturePoint.subtract(imageCenter);
+//		GridPoint pictureRotated = newPicturePoint.rotate(360 - angle);
+		GridPoint pictureRotated = newPicturePoint.rotate(angle - 90);
+//		GridPoint pictureRotated = newPicturePoint.rotate(0);
+		GridPoint pictureScaled = pictureRotated.multiply(1 / image.getPixelLength());
+		
+		return new GridPoint(trianglePoint.x - pictureScaled.x, trianglePoint.y - pictureScaled.y);
+//		return trianglePoint;
 	}
 	
 	private void matchMarkers(Couple pictureCouple, Couple triangleCouple)
@@ -28,14 +37,13 @@ public class PositionCalculator {
 		GridMarker triangleMarker1 = triangleCouple.getMarker1();
 		if (pictureMarker1.equals(triangleMarker1))
 		{
-			this.pictureMarker = pictureMarker1;
-			this.triangleMarker = triangleMarker1;
+			this.picturePoint = pictureMarker1.getPoint();
+			this.trianglePoint = triangleMarker1.getPoint();;
 		}
 		else
 		{
-			this.pictureMarker = pictureCouple.getMarker1();
-			this.triangleMarker = triangleCouple.getMarker2();
+			this.picturePoint = pictureMarker1.getPoint();
+			this.trianglePoint = triangleCouple.getMarker2().getPoint();
 		}
 	}
-
 }

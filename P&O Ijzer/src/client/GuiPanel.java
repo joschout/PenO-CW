@@ -174,11 +174,6 @@ public class GuiPanel implements ActionListener
 		addButtonToPanel(setKiHeight, 135, 40, 55, 30, KeyEvent.VK_4, actionsPanel);
 		addButtonToPanel(setSafetyIntervalHeight, 5, 80, 100, 30, KeyEvent.VK_4, actionsPanel);
 
-		addButtonToPanel(setKpAngle, 5, 120, 55, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKiAngle, 70, 120, 55, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setKdAngle, 135, 120, 55, 30, KeyEvent.VK_4, actionsPanel);
-		addButtonToPanel(setSafetyIntervalAngle, 150, 80, 100, 30, KeyEvent.VK_4, actionsPanel);
-
 		addArrowToPanel(arrowup, 75, 25, 50, 50, KeyEvent.VK_UP, arrows, false);
 		addArrowToPanel(arrowleft, 25, 75, 50, 50, KeyEvent.VK_LEFT, arrows, false);
 		addArrowToPanel(arrowright, 125, 75, 50, 50, KeyEvent.VK_RIGHT, arrows, false);
@@ -456,19 +451,34 @@ public class GuiPanel implements ActionListener
 		else if (source == setKpHeight) {
 			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KpHeight in.");
 			double kp = Double.parseDouble(input);
-			this.guiController.setKpHeight(kp);
+			try {
+				this.guiController.setKpHeight(kp);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.KpValueHeight.setText(Double.toString(kp));
 		}
 		else if (source == setKdHeight) {
 			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KdHeight in.");
 			double kd = Double.parseDouble(input);
-			this.guiController.setKdHeight(kd);
+			try {
+				this.guiController.setKdHeight(kd);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.KdValueHeight.setText(Double.toString(kd));
 		}
 		else if (source == setKiHeight) {
 			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KiHeight in.");
 			double ki = Double.parseDouble(input);
-			this.guiController.setKiHeight(ki);
+			try {
+				this.guiController.setKiHeight(ki);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.KiValueHeight.setText(Double.toString(ki));
 		}
 		else if (source == setSafetyIntervalHeight) {
@@ -479,34 +489,6 @@ public class GuiPanel implements ActionListener
 			} catch (RemoteException e) {
 			}
 			this.safetyIntervalValueHeight.setText(Double.toString(safety));
-		}
-		
-		else if (source == setKpAngle) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KpAngle in.");
-			double kp = Double.parseDouble(input);
-			this.guiController.setKpAngle(kp);
-			this.KpValueAngle.setText(Double.toString(kp));
-		}
-		else if (source == setKdAngle) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KdAngle in.");
-			double kd = Double.parseDouble(input);
-			this.guiController.setKdAngle(kd);
-			this.KdValueAngle.setText(Double.toString(kd));
-		}
-		else if (source == setKiAngle) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KiAngle in.");
-			double ki = Double.parseDouble(input);
-			this.guiController.setKiAngle(ki);
-			this.KiValueAngle.setText(Double.toString(ki));
-		}
-		else if (source == setSafetyIntervalAngle) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety intervalAngle in.");
-			double safety = Double.parseDouble(input);
-			try {
-				this.guiController.setSafetyIntervalAngle(safety);
-			} catch (RemoteException e) {
-			}
-			this.safetyIntervalValueAngle.setText(Double.toString(safety));
 		}
 		else if(source == logfiles)
 		{   

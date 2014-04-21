@@ -20,8 +20,9 @@ public class RotationController {
 	private MainProgramImpl zeppelin;
 	
 
-	public RotationController(MotorController motorcontroller) {
-		this.motorController = motorController;
+	public RotationController(MainProgramImpl zeppelin, MotorController motorcontroller) {
+		this.zeppelin = zeppelin;
+		this.motorController = motorcontroller;
 	}
 
 	
@@ -48,7 +49,7 @@ public class RotationController {
 		this.safetyInterval = safetyInterval;
 	}
 	
-	public void goToAngle(double targetAngle) throws RemoteException, TimeoutException, InterruptedException {
+	public void goToAngle(double targetAngle) throws RemoteException, InterruptedException, TimeoutException {
 		this.checkState();
 		double pwm = 0;
 		

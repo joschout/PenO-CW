@@ -1,3 +1,4 @@
+
 /**
  * Deze interface dient als de brug tussen de cliënt op één van onze laptops en de server op de Raspberry Pi.
  * De cliënt roept geen methoden op op een object van klasse Zeppelin, maar op een object van deze klasse.
@@ -99,13 +100,10 @@ public interface MainProgramInterface extends Remote {
 	 * @throws RemoteException
 	 */
 	public void stopDownward() throws RemoteException;
-
-	public HeightController getHeightController();
-
-	public RotationController getRotationController();
 	
+	public double getHeight() throws RemoteException;
 
-	
+	public HeightController getHeightController() throws RemoteException;
 	
 	//TODO OBSOLETE
 //	
@@ -218,6 +216,5 @@ public interface MainProgramInterface extends Remote {
 	 */
 	public String readLog() throws RemoteException;
 
-	public double getHeight();
 
 }

@@ -37,6 +37,26 @@ public class GridPoint {
 		return new GridPoint(this.x * scalar, this.y * scalar);
 	}
 	
+	public GridPoint rotate(double angle)
+	{
+		/*
+		 * We hebben een 'top-left' oorsprong waarbij een draaiing met een positieve hoek
+		 * een draaiing naar rechts is. 
+		 */
+		angle = Math.toRadians(angle);
+		double cosine = Math.cos(angle);
+		double sine = Math.sin(angle);
+		
+		/*
+		 * [ cos(angle) -sin(angle) ]
+		 * [ sin(angle)  cos(angle) ]
+		 */
+		
+		double newX = this.x * cosine + this.y * (- sine);
+		double newY = this.x * sine + this.y * cosine;
+		return new GridPoint(newX, newY);
+	}
+	
 	public double distanceTo(GridPoint other)
 	{
 		double xComponent = Math.pow(this.x - other.x, 2);
@@ -84,6 +104,10 @@ public class GridPoint {
 		return true;
 	}
 	
-	
+	@Override
+	public String toString()
+	{
+		return "x: " + this.x + ", y: " + this.y;
+	}
 
 }

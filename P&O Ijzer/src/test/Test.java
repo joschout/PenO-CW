@@ -11,14 +11,15 @@ import positioning.Couple;
 import positioning.CoupleTriangleMatcher;
 import positioning.Image;
 import positioning.ImageAnalyser;
+import positioning.PositionCalculator;
 import positioning.ReadCouples;
-
 import controllers.CameraController;
 import coordinate.Grid;
 import coordinate.GridInitialiser;
 import coordinate.GridMarker;
 import coordinate.GridPoint;
 import coordinate.GridTriangle;
+import coordinate.MarkerOrientation;
 
 
 
@@ -29,12 +30,25 @@ public class Test {
 	public Test() throws InterruptedException, IOException {
 
 		GridInitialiser gridInit = new GridInitialiser();
-		Grid grid = gridInit.readGrid("field");
-		Image image = takePictureRam("test");
+		Grid grid = gridInit.readGrid("grid");
+		System.out.println(grid);
+		Image image = takePictureRam("test.jpg");
+		System.out.println("=== GEZIENE MARKERS ===");
+		for (GridMarker marker: image.getMarkers())
+		{
+			System.out.println(marker.toString());
+		}
+		System.out.println("=== EINDE GEZIENE MARKERS ===");
 		ReadCouples readCouples = new ReadCouples(image);
 		GridTriangle triangle = triangleMatch(grid, image, readCouples);
 		Couple pictureCouple = null;
 		Couple triangleCouple = null;
+		System.out.println("=== GEKOZEN DRIEHOEK ===");
+		for (GridMarker marker : triangle.getGridMarkers())
+		{
+			System.out.println(marker.toString());
+		}
+		System.out.println("=== EINDE GEKOZEN DRIEHOEK ===");
 		for (Couple pictureCoupleFor : readCouples.getListCouples())
 		{
 			Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor);
@@ -46,8 +60,21 @@ public class Test {
 			triangleCouple = triangleCoupleFor;
 			break;
 		}
+		GridMarker marker1 = pictureCouple.getMarker1();
+		GridMarker marker2 = pictureCouple.getMarker2();
+		List<MarkerOrientation> marker1Orientations = triangle.allOrientationsOf(marker1);
+		List<MarkerOrientation> marker2Orientations = triangle.allOrientationsOf(marker2);
+		marker1.setOrientation(marker1Orientations.get(0));
+		marker2.setOrientation(marker2Orientations.get(0));
+		triangleCouple = triangle.getMatchingCoupleWithOrientation(pictureCouple);
+		System.out.println("Picture couple: " + pictureCouple);
+		System.out.println("Triangle couple: " + triangleCouple);
 		AngleCalculator calc = new AngleCalculator(image, pictureCouple, triangleCouple);
-		System.out.println("Angle: " + (360 - calc.calculateAngle()));
+		double angle = calc.calculateAngle();
+		System.out.println("Angle: " + angle);
+		PositionCalculator calcPos = new PositionCalculator(image, pictureCouple, triangleCouple);
+		GridPoint position = calcPos.calculatePosition(angle);
+		System.out.println("X: " + position.x + ", Y: " + position.y);
 	}
 	
 	
@@ -116,5 +143,26 @@ public class Test {
 		Process pr = run.exec(pCommand) ;  
 		pr.waitFor() ;  
 	}
+	
+//	GridInitialiser gridInit = new GridInitialiser();
+//	Grid grid = gridInit.readGrid("field");
+//	Image image = takePictureRam("test");
+//	ReadCouples readCouples = new ReadCouples(image);
+//	GridTriangle triangle = triangleMatch(grid, image, readCouples);
+//	Couple pictureCouple = null;
+//	Couple triangleCouple = null;
+//	for (Couple pictureCoupleFor : readCouples.getListCouples())
+//	{
+//		Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor);
+//		if (triangleCoupleFor == null)
+//		{
+//			continue;
+//		}
+//		pictureCouple = pictureCoupleFor;
+//		triangleCouple = triangleCoupleFor;
+//		break;
+//	}
+//	AngleCalculator calc = new AngleCalculator(image, pictureCouple, triangleCouple);
+//	System.out.println("Angle: " + (360 - calc.calculateAngle()));
 
 }

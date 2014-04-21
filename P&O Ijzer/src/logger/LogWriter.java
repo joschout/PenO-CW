@@ -8,11 +8,18 @@ package logger;
 import java.util.Calendar;
 
 public class LogWriter {
+	
+	public static LogWriter INSTANCE = new LogWriter();
+	
+	private LogWriter()
+	{
+		
+	}
 
 	/**
 	 * Dummyobject om mutual exclusion te verzekeren.
 	 */
-	private static final Object lock = new Object();
+	private final Object lock = new Object();
 	
 	private String log = "";
 

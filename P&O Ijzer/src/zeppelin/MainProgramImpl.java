@@ -8,11 +8,21 @@ package zeppelin;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import positioning.Image;
+import qrcode.DecodeQR;
+import traversal.HeightUpdater;
+import traversal.PositionUpdater;
 import logger.LogWriter;
 import movement.ForwardBackwardController;
 import movement.HeightController;
 import movement.RotationController;
+import RabbitMQ.RabbitMQController;
+import RabbitMQ.RabbitMQControllerZeppelin;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -25,53 +35,89 @@ import controllers.SensorController.TimeoutException;
 import coordinate.Grid;
 import coordinate.GridInitialiser;
 import coordinate.GridPoint;
+import RabbitMQ.*;
 
-public class MainProgramImpl extends UnicastRemoteObject implements MainProgramInterface {
+public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, MainProgramInterface {
 
-	// LogWriter
+	private Map<String, IZeppelin> otherKnownZeppelins = new HashMap<String, IZeppelin>();	
+	
+	public Map<String, IZeppelin> getOtherKnownZeppelins() {
+		return otherKnownZeppelins;
+	}
+
+	public void setOtherKnownZeppelins(Map<String, IZeppelin> otherKnownZeppelins) {
+		this.otherKnownZeppelins = otherKnownZeppelins;
+	}
+	
+	public void addOtherKnownZeppelin(String name) {
+//		IZeppelin newZeppelin = new Zeppelin();
+//		this.getOtherKnownZeppelins().put(name, newZeppelin);
+	}
+
 	private static final long serialVersionUID = 1L;
+	
 	public static final GpioController gpio = GpioFactory.getInstance();
 
+	// ======== Controllers ========
+	private SensorController sensorController;
+	private CameraController cameraController;
+	private MotorController motorController;
+	private HeightController heightController;
+	private RotationController rotationController;
+	private RabbitMQControllerZeppelin rabbitMQControllerZeppelin;
+
+	// ======== Grid ========
+	private Grid grid;
+	
+	// ======== Doelvariabelen ========
+	private double targetHeight;
+	private double targetAngle;
+	private GridPoint targetPosition;
+	
+	// ======== State variabelen ========
 	/**
 	 * Meest recente uitlezing van de sensor.
 	 */
-	private double mostRecentHeight;
 	private double mostRecentAngle;
-
-	private double targetHeight;
-	private double targetAngle;
-
-	// Controllers
-	public static final SensorController SENSOR_CONTROLLER = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);;
-	public static final CameraController CAMERA_CONTROLLER = new CameraController();
-	public static final MotorController MOTOR_CONTROLLER = new MotorController();
-	public static final HeightController HEIGHT_CONTROLLER = new HeightController(SENSOR_CONTROLLER, MOTOR_CONTROLLER);
-	public static final RotationController ROTATION_CONTROLLER = new RotationController(MOTOR_CONTROLLER);
-	public static final ForwardBackwardController FORWARD_BACKWARD = new ForwardBackwardController();
-
-	// Dit object berekent de oriëntatie van de zeppelin
-
-	public static final LogWriter LOG_WRITER = new LogWriter();
-
-	private boolean qrCodeAvailable = false; //TODO OBSOLETE?
-
+	private GridPoint position;
+	
+	// ======== Updatet de hoek en de huidige positie ========
+	private PositionUpdater positionUpdater;
+	
+	// ======== Beweegt naar de doelpositie toe ========
+	private TraversalHandler traversalHandler;
+	
+	private DecodeQR qrCodeReader;
+	
 	/**
 	 * Geeft aan of de zeppelin zijn activiteiten moet stopzetten.
 	 */
 	private boolean exit = false;
 
+	private boolean turning = false;
+
 	public MainProgramImpl() throws RemoteException {
 		super();
-		ROTATION_CONTROLLER.setZeppelin(this);
-		//ROTATION_CONTROLLER.setMotorController(MOTOR_CONTROLLER); TODO OBSOLETE?!
-		HEIGHT_CONTROLLER.setZeppelin(this);
-		FORWARD_BACKWARD.setZeppelin(this); //TODO OBSOLETE?
+		
 		this.initialiseGrid();
+		
+		this.sensorController = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
+		this.cameraController = new CameraController();
+		this.motorController = new MotorController();
+		this.heightController = new HeightController(sensorController, motorController);
+		this.rotationController = new RotationController(this, motorController);
+		this.positionUpdater = new PositionUpdater(this);
+		this.traversalHandler = new TraversalHandler(this);
+		this.rabbitMQControllerZeppelin = new RabbitMQControllerZeppelin(this);
+		
+		this.setTargetPosition(new GridPoint(-1, -1));
+		
+		this.initialiseThreads();
 
-		LOG_WRITER.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
+		LogWriter.INSTANCE.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
 
 		try {
-			this.targetHeight = SENSOR_CONTROLLER.sensorReading();
+			this.targetHeight = sensorController.sensorReading();
 		} catch (TimeoutException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -79,40 +125,277 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		}
 	}
 
+	// ======== Getters ========
+	
 	@Override
 	public HeightController getHeightController() {
-		return HEIGHT_CONTROLLER;
+		return heightController;
 	}
-
-	@Override
-	public RotationController getRotationController() {
-		return ROTATION_CONTROLLER;
-	}
-
 	
-	/*
-	@Override
-	public double sensorReading() throws RemoteException {
-		return this.mostRecentHeight;
+	public CameraController getCameraController() {
+		return this.cameraController;
 	}
-	*/
+	
+	public MotorController getMotorController() {
+		return this.motorController;
+	}
+	
+	public SensorController getSensorController() {
+		return this.sensorController;
+	}
+	
+	public RotationController getRotationController() {
+		return this.rotationController;
+	}
+	
+	public RabbitMQControllerZeppelin getRabbitMQControllerZeppelin(){
+		return this.rabbitMQControllerZeppelin;
+	}
+
+	public Grid getGrid()
+	{
+		return this.grid;
+	}
+
+	public double getTargetAngle() {
+		return this.targetAngle;
+	}
+
+	public double getTargetHeight() throws RemoteException {
+		return this.targetHeight;
+	}
+	
+	public GridPoint getTargetPosition() {
+		return this.targetPosition;
+	}
 
 	public double getMostRecentAngle() {
 		return this.mostRecentAngle;
 	}
 	
+	public PositionUpdater getPositionUpdater() {
+		return this.getPositionUpdater();
+	}
+	
+	public GridPoint getPosition()
+	{
+		return this.position;
+	}
+	
+	public double getHeight() {
+		return heightController.getHeight();
+	}
+
+	@Override
+	public String readLog() throws RemoteException {
+		return LogWriter.INSTANCE.getLog();
+	}
+	
+	@Override
+	public boolean leftIsOn() throws RemoteException {
+		return motorController.leftIsOn();
+	}
+	
+	
+	@Override
+	public boolean rightIsOn() throws RemoteException {
+		return motorController.rightIsOn();
+	}
+	
+	@Override
+	public boolean downwardIsOn() throws RemoteException {
+		return motorController.downwardIsOn();
+	}
+	
+	public TraversalHandler getTraversalHandler() {
+		return this.traversalHandler;
+	}
+	
+	//TODO OBSOLETE
 	/*
-	public double getMostRecentHeight() {
-		return this.mostRecentHeight;
+	@Override
+	public void setKpHeight(double kp) {
+		HEIGHT_CONTROLLER.setKpHeight(kp);
+	}
+	
+	@Override
+	public void setKdHeight(double kd) {
+		HEIGHT_CONTROLLER.setKdHeight(kd);
+	}
+	
+	@Override
+	public void setKiHeight(double ki) {
+		HEIGHT_CONTROLLER.setKiHeight(ki);
+	}
+	
+	@Override
+	public double getKpHeight() throws RemoteException {
+		return HEIGHT_CONTROLLER.getKpHeight();
+	}
+	
+	@Override
+	public double getKiHeight() throws RemoteException {
+		return HEIGHT_CONTROLLER.getKdHeight();
+	}
+	
+	@Override
+	public double getKdHeight() throws RemoteException {
+		return HEIGHT_CONTROLLER.getKiHeight();
+	}
+	
+	@Override
+	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
+		HEIGHT_CONTROLLER.setSafetyIntervalHeight(safetyInterval);
+	}
+	
+	@Override
+	public double getSafetyIntervalHeight() throws RemoteException {
+		return HEIGHT_CONTROLLER.getSafetyIntervalHeight();
+	}
+	
+	@Override
+	public void setKpAngle(double kp) {
+		ROTATION_CONTROLLER.setKpAngle(kp);
+	}
+	
+	@Override
+	public void setKdAngle(double kd) {
+		ROTATION_CONTROLLER.setKdAngle(kd);
+	}
+	
+	@Override
+	public void setKiAngle(double ki) {
+		ROTATION_CONTROLLER.setKiAngle(ki);
+	}
+	
+	@Override
+	public double getKpAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getKpAngle();
+	}
+	
+	@Override
+	public double getKiAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getKdAngle();
+	}
+	
+	@Override
+	public double getKdAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getKiAngle();
+	}
+	
+	@Override
+	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
+		ROTATION_CONTROLLER.setSafetyIntervalAngle(safetyInterval);
+	}
+	
+	@Override
+	public double getSafetyIntervalAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getSafetyIntervalAngle();
 	}
 	*/
+	
+	
+	//TODO OBSOLETE
+	/*
+	@Override
+	public void setKpHeight(double kp) {
+		HEIGHT_CONTROLLER.setKpHeight(kp);
+	}
+	
+	@Override
+	public void setKdHeight(double kd) {
+		HEIGHT_CONTROLLER.setKdHeight(kd);
+	}
+	
+	@Override
+	public void setKiHeight(double ki) {
+		HEIGHT_CONTROLLER.setKiHeight(ki);
+	}
+	
+	@Override
+	public double getKpHeight() throws RemoteException {
+		return HEIGHT_CONTROLLER.getKpHeight();
+	}
+	
+	@Override
+	public double getKiHeight() throws RemoteException {
+		return HEIGHT_CONTROLLER.getKdHeight();
+	}
+	
+	@Override
+	public double getKdHeight() throws RemoteException {
+		return HEIGHT_CONTROLLER.getKiHeight();
+	}
+	
+	@Override
+	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
+		HEIGHT_CONTROLLER.setSafetyIntervalHeight(safetyInterval);
+	}
+	
+	@Override
+	public double getSafetyIntervalHeight() throws RemoteException {
+		return HEIGHT_CONTROLLER.getSafetyIntervalHeight();
+	}
+	
+	@Override
+	public void setKpAngle(double kp) {
+		ROTATION_CONTROLLER.setKpAngle(kp);
+	}
+	
+	@Override
+	public void setKdAngle(double kd) {
+		ROTATION_CONTROLLER.setKdAngle(kd);
+	}
+	
+	@Override
+	public void setKiAngle(double ki) {
+		ROTATION_CONTROLLER.setKiAngle(ki);
+	}
+	
+	@Override
+	public double getKpAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getKpAngle();
+	}
+	
+	@Override
+	public double getKiAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getKdAngle();
+	}
+	
+	@Override
+	public double getKdAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getKiAngle();
+	}
+	
+	@Override
+	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
+		ROTATION_CONTROLLER.setSafetyIntervalAngle(safetyInterval);
+	}
+	
+	@Override
+	public double getSafetyIntervalAngle() throws RemoteException {
+		return ROTATION_CONTROLLER.getSafetyIntervalAngle();
+	}
+	*/
+	
+	// ======== Setters ========
+	
+	public void setHeight(double height) {
+		heightController.setHeight(height);
+	}
 
 	public void setAngle(double angle) {
 		this.mostRecentAngle = angle;
 	}
-
-	public double getTargetHeight() throws RemoteException {
-		return this.targetHeight;
+	
+	public void setPosition(GridPoint point)
+	{
+		this.position = point;
+	}
+	
+	public void setTargetPosition(GridPoint point)
+	{
+		this.targetPosition = point;
 	}
 
 	@Override
@@ -120,13 +403,15 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		this.targetHeight = height;
 	}
 
-	public double getTargetAngle() {
-		return this.targetAngle;
-	}
-
 	public void setTargetAngle(double targetAngle) {
 		this.targetAngle = targetAngle;
 	}
+
+	public void setTurning(boolean value) {
+		this.turning = value;
+	}
+	
+	// ======== Applicatielogica ========
 
 	public void startGameLoop() throws InterruptedException {
 		System.out.println("Lus initialiseren; zeppelin is klaar om commando's uit te voeren.");
@@ -138,12 +423,6 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		this.exit = true;
 	}
 
-	private boolean turning = false;
-
-	public void setTurning(boolean value) {
-		this.turning = value;
-	}
-
 	/**
 	 * Zolang de cliënt contact onderhoudt met de zeppelin, moet deze
 	 * lus uitgevoerd worden. In elke iteratie wordt er actie genomen om
@@ -152,20 +431,42 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 * @throws InterruptedException 
 	 */
 	private void gameLoop() throws InterruptedException {
+		GridPoint dummyPoint = new GridPoint(-1, -1);
+		
+		boolean detectingQrCode = false;
+		boolean qrCodeFound = false;
+		boolean movedTowardsTarget = false; 
+		
 		while (!exit) {
+			if (! detectingQrCode)
+			{
+				this.getPositionUpdater().update();
+			}
+			if (this.getTargetPosition().equals(dummyPoint))
+			{
+				continue;
+			}
 			try {
-				try {
-					HEIGHT_CONTROLLER.goToHeight(targetHeight);
-					if (turning) {
-						System.out.println("Huidige hoek van zeppelin: " + mostRecentAngle + " met timestamp: " + System.currentTimeMillis());
-						System.out.println("Zeppelin: In if-test met target angle: " + targetAngle);
-						ROTATION_CONTROLLER.goToAngle(targetAngle);
+				movedTowardsTarget = this.getTraversalHandler().moveTowardsPoint();
+				detectingQrCode = (! movedTowardsTarget && ! qrCodeFound);
+				while (detectingQrCode)
+				{
+					String fileName = Long.toString(System.currentTimeMillis());
+					String result = qrCodeReader.decodeImage(CameraController.PICTURE_PATH + fileName);
+					if (result != null)
+					{
+						detectingQrCode = false;
+						qrCodeFound = true;
 					}
-				} catch (RemoteException e) {
-					e.printStackTrace();
 				}
-			} catch (TimeoutException e) {
-
+				if (! movedTowardsTarget && qrCodeFound)
+				{
+					this.setTargetHeight(0);
+				}
+			} catch (RemoteException e1) {
+				e1.printStackTrace();
+			} catch (TimeoutException e1) {
+				e1.printStackTrace();
 			}
 			try {
 				Thread.sleep(100);
@@ -173,164 +474,63 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 				e.printStackTrace();
 			}
 		}
-		MOTOR_CONTROLLER.writeSoftPwmValues(0, 0, 0, 0);
-		MOTOR_CONTROLLER.stopRightAndLeftMotor();
-		MOTOR_CONTROLLER.stopHeightAdjustment();
+		motorController.writeSoftPwmValues(0, 0, 0, 0);
+		motorController.stopRightAndLeftMotor();
+		motorController.stopHeightAdjustment();
 		System.exit(0);
 	}
 	
-	//TODO OBSOLETE
-	/*
-	public boolean qrCodeAvailable() throws RemoteException {
-		return this.qrCodeAvailable;
+	public Image captureImage() throws InterruptedException, IOException
+	{
+		String fileName = Long.toString(System.currentTimeMillis());
+		return this.cameraController.takePicture(fileName);
 	}
-
-	public void qrCodeConsumed() throws RemoteException {
-		this.qrCodeAvailable = false;
-	}
-	*/
 	
 	
-	@Override
-	public boolean leftIsOn() throws RemoteException {
-		return MOTOR_CONTROLLER.leftIsOn();
-	}
-
-	@Override
-	public boolean rightIsOn() throws RemoteException {
-		return MOTOR_CONTROLLER.rightIsOn();
-	}
-
-	@Override
-	public boolean downwardIsOn() throws RemoteException {
-		return MOTOR_CONTROLLER.downwardIsOn();
-	}
-
 	@Override
 	public void goForward() throws RemoteException {
-		MOTOR_CONTROLLER.forward();
-
+		motorController.forward();
 	}
 
 	@Override
 	public void goBackward() throws RemoteException {
-		MOTOR_CONTROLLER.backward();
+		motorController.backward();
 	}
 
 	@Override
 	public void turnLeft() throws RemoteException {
-		MOTOR_CONTROLLER.clientLeft();
+		motorController.clientLeft();
 	}
 
 	@Override
 	public void turnRight() throws RemoteException {
-		MOTOR_CONTROLLER.clientRight();
+		motorController.clientRight();
 	}
 
 	@Override
 	public void stopRightAndLeft() throws RemoteException {
-		MOTOR_CONTROLLER.stopRightAndLeftMotor();
+		motorController.stopRightAndLeftMotor();
 	}
 
 	public void stopDownward() throws RemoteException {
-		MOTOR_CONTROLLER.stopHeightAdjustment();
-	}
-
-	
-	//TODO OBSOLETE
-	/*
-	@Override
-	public void setKpHeight(double kp) {
-		HEIGHT_CONTROLLER.setKpHeight(kp);
-	}
-
-	@Override
-	public void setKdHeight(double kd) {
-		HEIGHT_CONTROLLER.setKdHeight(kd);
-	}
-
-	@Override
-	public void setKiHeight(double ki) {
-		HEIGHT_CONTROLLER.setKiHeight(ki);
-	}
-
-	@Override
-	public double getKpHeight() throws RemoteException {
-		return HEIGHT_CONTROLLER.getKpHeight();
-	}
-
-	@Override
-	public double getKiHeight() throws RemoteException {
-		return HEIGHT_CONTROLLER.getKdHeight();
-	}
-
-	@Override
-	public double getKdHeight() throws RemoteException {
-		return HEIGHT_CONTROLLER.getKiHeight();
-	}
-
-	@Override
-	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
-		HEIGHT_CONTROLLER.setSafetyIntervalHeight(safetyInterval);
-	}
-
-	@Override
-	public double getSafetyIntervalHeight() throws RemoteException {
-		return HEIGHT_CONTROLLER.getSafetyIntervalHeight();
-	}
-
-	@Override
-	public void setKpAngle(double kp) {
-		ROTATION_CONTROLLER.setKpAngle(kp);
-	}
-
-	@Override
-	public void setKdAngle(double kd) {
-		ROTATION_CONTROLLER.setKdAngle(kd);
-	}
-
-	@Override
-	public void setKiAngle(double ki) {
-		ROTATION_CONTROLLER.setKiAngle(ki);
-	}
-
-	@Override
-	public double getKpAngle() throws RemoteException {
-		return ROTATION_CONTROLLER.getKpAngle();
-	}
-
-	@Override
-	public double getKiAngle() throws RemoteException {
-		return ROTATION_CONTROLLER.getKdAngle();
-	}
-
-	@Override
-	public double getKdAngle() throws RemoteException {
-		return ROTATION_CONTROLLER.getKiAngle();
-	}
-
-	@Override
-	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
-		ROTATION_CONTROLLER.setSafetyIntervalAngle(safetyInterval);
-	}
-
-	@Override
-	public double getSafetyIntervalAngle() throws RemoteException {
-		return ROTATION_CONTROLLER.getSafetyIntervalAngle();
-	}
-    */
-	
-	
-	@Override
-	public String readLog() throws RemoteException {
-		return LOG_WRITER.getLog();
+		motorController.stopHeightAdjustment();
 	}
 	
-	private Grid grid;
+	public void moveTowardsTargetHeight() throws RemoteException, TimeoutException, InterruptedException {
+		this.getHeightController().goToHeight(this.getTargetHeight());
+	}
 	
-	public Grid getGrid()
+	public void moveTowardsTargetAngle() throws RemoteException, InterruptedException, TimeoutException {
+		this.getRotationController().goToAngle(this.getTargetAngle());
+	}
+	
+	public boolean angleInAcceptableRange(double angle) {
+		return this.rotationController.isInInterval(angle, this.getTargetAngle());
+	}
+	
+	public double measureHeight() throws TimeoutException, InterruptedException
 	{
-		return this.grid;
+		return this.getSensorController().sensorReading();
 	}
 	
 	private void initialiseGrid()
@@ -344,27 +544,10 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		}
 	}
 	
-	private GridPoint position;
-	
-	public GridPoint getPosition()
+	private void initialiseThreads()
 	{
-		return this.position;
+		Thread heightUpdaterThread = new Thread(new HeightUpdater(this));
+		heightUpdaterThread.start();
 	}
-	
-	public void setPotision(GridPoint point)
-	{
-		this.position = point;
-	}
-
-	@Override
-	public double getHeight() {
-		return this.mostRecentHeight;
-	}
-	
-	public void setHeight(double height) {
-		this.mostRecentHeight = height;
-	}
-	
-	
 
 }

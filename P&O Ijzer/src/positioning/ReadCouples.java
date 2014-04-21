@@ -56,12 +56,15 @@ public class ReadCouples {
 		double pixellength = getPixellengthCouples();
 		for(GridMarker marker1: markers) {
 			for(GridMarker marker2: markers) {
-				if(!marker1.equals(marker2) && checkCouple(marker1, marker2) && getDistance(marker1, marker2) < pixellength*1.15) { // 15% foutmarge
+				if((! areSameMarker(marker1, marker2)) && checkCouple(marker1, marker2) && getDistance(marker1, marker2) < pixellength*1.15) { // 15% foutmarge
 					couples.add(new Couple(marker1, marker2));   //koppel dat bij elkaar hoort in klasse Couple steken.
 				}
 			}
 		}
 	}
+	
+	// Deelconditie bij getCouples: !marker1.equals(marker2)
+	//  
 	
 	public double getPixellengthCouples() {
 		GridMarker firstMarker = markers.get(0);
@@ -72,7 +75,7 @@ public class ReadCouples {
 				smallestDistance = distance;
 			}
 		}
-		System.out.println("Pixels: "   +smallestDistance);
+		image.setPixelLength(smallestDistance / 40);
 		return smallestDistance; //aantal pixels dat 40cm in het echt voorstel (ongeveer)
 			
 	
@@ -95,7 +98,10 @@ public class ReadCouples {
 		return markers;
 	}
 	
-	
+	private boolean areSameMarker(GridMarker marker1, GridMarker marker2)
+	{
+		return marker1.getPoint().equals(marker2.getPoint());
+	}
 }
 
 

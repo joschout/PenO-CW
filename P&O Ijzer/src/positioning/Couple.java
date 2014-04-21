@@ -25,12 +25,14 @@ public class Couple {
 	}
 	
 	public boolean contains(GridMarker marker1, GridMarker marker2) {
-		if(this.marker1.equals(marker1) || this.marker1.equals(marker2)) {
-			if(this.marker2.equals(marker1) || this.marker2.equals(marker2)) {
-				return true;
-			}
-		}
-		return false;
+		return (this.marker1.getPoint().equals(marker1.getPoint()) && this.marker2.getPoint().equals(marker2.getPoint()))
+				|| (this.marker1.getPoint().equals(marker2.getPoint()) && this.marker2.getPoint().equals(marker1.getPoint()));
+//		if(this.marker1.equals(marker1) || this.marker1.equals(marker2)) {
+//			if(this.marker2.equals(marker1) || this.marker2.equals(marker2)) {
+//				return true;
+//			}
+//		}
+//		return false;
 	}
 
 	@Override
@@ -58,6 +60,29 @@ public class Couple {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean equalsWithOrientation(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Couple other = (Couple) obj;
+		if (this.marker1.equalsWithOrientation(other.marker1) && this.marker2.equalsWithOrientation(other.marker2)) {
+			return true;
+		}
+		if (this.marker1.equalsWithOrientation(other.marker2) && this.marker2.equalsWithOrientation(other.marker1)) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "Marker 1: " + getMarker1().toString() + ", Marker 2: " + getMarker2().toString();
 	}
 	
 	

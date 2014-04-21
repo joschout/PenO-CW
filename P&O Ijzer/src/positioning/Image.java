@@ -1,10 +1,8 @@
 package positioning;
 
-import java.io.File;
 import java.util.List;
 
 import org.opencv.core.Mat;
-import org.opencv.highgui.Highgui;
 
 import coordinate.GridMarker;
 import coordinate.GridPoint;

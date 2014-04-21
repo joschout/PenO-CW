@@ -14,6 +14,7 @@ import positioning.Image;
 
 public class CameraController implements Serializable {
 	
+	public static String PICTURE_PATH = "/run/shm/";
 	private static Object lock = new Object();
 
 	/**
@@ -36,11 +37,19 @@ public class CameraController implements Serializable {
 		}
 		synchronized (lock) {
 			executeShellCommand("raspistill -t 1 -w " + 500 + " -h "
-					+ 500 + " -o " + "/run/shm/" + pFileName + ".jpg");
+					+ 500 + " -o " + PICTURE_PATH + pFileName + ".jpg");
 		}
-		return new Image(Highgui.imread("/run/shm/" + pFileName + ".jpg"));
+		return new Image(Highgui.imread(PICTURE_PATH + pFileName + ".jpg"));
 	}
 	
+	public void takeRegularPicture(String pFileName, double height) throws InterruptedException, IOException
+	{
+		double[] resolution = this.decideResolution(height);
+		synchronized (lock) {
+			executeShellCommand("raspistill -t 1 -w " + resolution[0] + " -h "
+					+ resolution[1] + " -o " + PICTURE_PATH + pFileName + ".jpg");
+		}
+	}
 
 	private void executeShellCommand(String pCommand) throws InterruptedException, IOException  
 	{   
@@ -49,7 +58,6 @@ public class CameraController implements Serializable {
 		pr.waitFor() ;  
 	}
 	
-	/*
 	private double[] decideResolution(double currentHeight) {
 		double[] toReturn = new double[2];
 		if (currentHeight <= 100) {
@@ -66,5 +74,4 @@ public class CameraController implements Serializable {
 		}
 		return toReturn;
 	}
-	*/
 }

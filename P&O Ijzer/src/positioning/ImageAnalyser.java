@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.highgui.Highgui;
 import org.opencv.imgproc.Imgproc;
 
@@ -45,7 +48,10 @@ public class ImageAnalyser {
 			Colour color = this.determineColour(contour, image);
 			GridPoint contourCenter = this.centerOfContour(contour);
 			GridMarker marker = initialiseMarker(color, shape, contourCenter);
-			toReturn.add(marker);
+			if (! undeterminedCheck(marker))
+			{
+				toReturn.add(marker);
+			}
 		}
 		return toReturn;
 	}
@@ -72,6 +78,11 @@ public class ImageAnalyser {
 		{
 			return new UndeterminedShape(color, shape, contourCenter);
 		}
+	}
+	
+	private boolean undeterminedCheck(GridMarker marker)
+	{
+		return (marker.getShape().equals("undetermined") || marker.getColour() == Colour.UNDETERMINED);
 	}
 
 	private List<MatOfPoint> calcContours(Image image)
@@ -272,13 +283,13 @@ public class ImageAnalyser {
 		}
 		else if (H <= 65)
 		{
-			if (V >= whiteVThreshold && S <= whiteSThreshold)
+			if (V >= whiteVThreshold && S <= 100)
 			{
 				return Colour.WHITE;
 			}
 			else return Colour.YELLOW;
 		}
-		else if (H <= 180)
+		else if (H <= 200) // 200?
 		{
 			if (V >= whiteVThreshold && S <= whiteSThreshold)
 			{
@@ -286,7 +297,7 @@ public class ImageAnalyser {
 			}
 			else return Colour.GREEN;
 		}
-		else if (H <= 260)
+		else if (H <= 230) // 230?
 		{
 			if (V >= whiteVThreshold && S <= whiteSThreshold)
 			{
@@ -304,5 +315,4 @@ public class ImageAnalyser {
 		}
 		else return Colour.UNDETERMINED;
 	}
-
 }

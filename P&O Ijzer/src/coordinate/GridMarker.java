@@ -119,6 +119,11 @@ public abstract class GridMarker extends Marker {
 		return true;
 	}
 	
+	public boolean equalsWithOrientation(Object obj)
+	{
+		return this.equals(obj) && this.getOrientation() == ((GridMarker) obj).getOrientation();
+	}
+	
 	@Override
 	public String toString()
 	{
