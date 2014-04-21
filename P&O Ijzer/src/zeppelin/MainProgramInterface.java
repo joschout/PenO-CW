@@ -105,6 +105,7 @@ public interface MainProgramInterface extends Remote {
 
 	public HeightController getHeightController() throws RemoteException;
 	
+	public RotationController getRotationController() throws RemoteException;
 	//TODO OBSOLETE
 //	
 //	/**
