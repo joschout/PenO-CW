@@ -3,31 +3,36 @@ package test;
 import java.io.IOException;
 import java.util.Scanner;
 
+import movement.HeightController;
+import movement.PIDController;
+
 import com.pi4j.io.gpio.RaspiPin;
 
 import controllers.MotorController;
 import controllers.SensorController;
-import movement.HeightController;
+import controllers.SensorController.TimeoutException;
 
-public class PwmCte {
+public class PIDTestWaardes {
 
-	private static int pwmValue = 10;
-	
-	
-	/**
-	 * @param args
-	 * @throws IOException 
-	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws TimeoutException, InterruptedException, IOException {
+		// args = new String[10];
+
 		MotorController motorController = new MotorController();
 		SensorController sensorController = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
-		
-		motorController.setHeightSpeed(pwmValue);
-		
+		HeightController heightAdjuster = new HeightController(sensorController,motorController);
+
+		PIDController pid = heightAdjuster.getpController();
+
+		pid.setKd(0);
+		pid.setKi(0);
+		pid.setKp(0.5);
+
+
 		System.out.println("Druk op q om af te sluiten.");
 		boolean exit = false;
 		Scanner in = new Scanner(System.in);
 		while (! exit) {
+			heightAdjuster.goToHeight(100);
 			if(System.in.available() > 0) {
 				byte[] array = new byte[1];
 				System.in.read(array, 0, 1);
@@ -37,7 +42,10 @@ public class PwmCte {
 					motorController.stopHeightAdjustment();
 				}
 			}
+			
+
+
 		}
 	}
-
+	
 }
