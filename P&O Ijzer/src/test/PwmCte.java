@@ -6,7 +6,7 @@ import controllers.MotorController;
 import controllers.SensorController;
 import movement.HeightController;
 
-public class PIDTest {
+public class PwmCte {
 
 	private static int pwmValue = 10;
 	
