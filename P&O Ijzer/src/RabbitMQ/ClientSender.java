@@ -1,24 +1,19 @@
 package RabbitMQ;
 
 import java.io.IOException;
-import zeppelin.MainProgramImpl;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import coordinate.GridPoint;
 
 public class ClientSender {
-	private MainProgramImpl zeppelin;
+	
 	private Channel channel;
 	private static final String EXCHANGE_NAME = "server";
 
-	public ClientSender(MainProgramImpl zeppelin, Connection connection) {
+	public ClientSender(Connection connection) {
 		this.initialiseChannel(connection);
-		this.zeppelin = zeppelin;
 	}
 	
-	public MainProgramImpl getZeppelin() {
-		return this.zeppelin;
-	}
 
 	public Channel getChannel() {
 		return this.channel;
@@ -62,7 +57,40 @@ public class ClientSender {
 	}
 	
 	
-	public void sendPrivateMessage_PID_get(PrivateRoutingKeyTypes type){
+	
+	public void sendPrivateMessage_exit(){
+		String routingKey ="ijzer.private" + PrivateRoutingKeyTypes.EXIT.getRoutingKeyPart();
+		String message="";
+		try {
+			channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void sendPrivateMessage_getTargetHeight(){
+		String routingKey = "ijzer.private" + PrivateRoutingKeyTypes.GETTARGETHEIGHT;
+		String message="";
+		try {
+			channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void sendPrivateMessage_setTargetHeight(double targetHeight){
+		String routingKey = "ijzer.private" + PrivateRoutingKeyTypes.SETTARGETHEIGHT;
+		String message=String.valueOf(targetHeight);;
+		try {
+			channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void sendPrivateMessage_PID_getKValue(PrivateRoutingKeyTypes type){
 		if(type.getRoutingKeyPart().matches("\\.height\\.get[PID]")||type.getRoutingKeyPart().matches("\\.angle\\.get[PID]")){
 			String lastRoutingKeyPart = type.getRoutingKeyPart();
 			String firstRoutingKeyPart = "ijzer.private";
@@ -79,7 +107,7 @@ public class ClientSender {
 	}
 	
 	
-	public void sendPrivateMessag_PID_set(PrivateRoutingKeyTypes type, double PIDKValue){
+	public void sendPrivateMessag_PID_setKValue(PrivateRoutingKeyTypes type, double PIDKValue){
 		if(type.getRoutingKeyPart().matches("\\.height\\.set[PID]")||type.getRoutingKeyPart().matches("\\.angle\\.set[PID]")){
 			String lastRoutingKeyPart = type.getRoutingKeyPart();
 			String firstRoutingKeyPart = "ijzer.private";

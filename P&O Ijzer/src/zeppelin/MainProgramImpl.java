@@ -39,13 +39,13 @@ import RabbitMQ.*;
 
 public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, MainProgramInterface {
 
-	private Map<String, IZeppelin> otherKnownZeppelins = new HashMap<String, IZeppelin>();	
+	private Map<String, Zeppelin> otherKnownZeppelins = new HashMap<String, Zeppelin>();	
 	
-	public Map<String, IZeppelin> getOtherKnownZeppelins() {
+	public Map<String, Zeppelin> getOtherKnownZeppelins() {
 		return otherKnownZeppelins;
 	}
 
-	public void setOtherKnownZeppelins(Map<String, IZeppelin> otherKnownZeppelins) {
+	public void setOtherKnownZeppelins(Map<String, Zeppelin> otherKnownZeppelins) {
 		this.otherKnownZeppelins = otherKnownZeppelins;
 	}
 	

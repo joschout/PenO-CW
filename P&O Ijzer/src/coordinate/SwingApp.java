@@ -3,23 +3,23 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import java.awt.GridBagLayout;
+//import java.awt.GridBagLayout;
 import java.awt.SystemColor;
 
 import javax.swing.JPanel;
 
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+//import java.awt.GridBagConstraints;
+//import java.awt.Insets;
 
 import javax.swing.border.LineBorder;
-import javax.swing.plaf.basic.BasicArrowButton;
+//import javax.swing.plaf.basic.BasicArrowButton;
 
 import java.awt.Color;
 
 import javax.swing.JButton;
-import javax.swing.BoxLayout;
+//import javax.swing.BoxLayout;
 
-import java.awt.GridLayout;
+//import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -27,38 +27,34 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.rmi.NotBoundException;
+//import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+//import java.util.List;
 
-import javax.swing.ButtonModel;
-import javax.swing.JFileChooser;
+//import javax.swing.ButtonModel;
+//import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
+//import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JSlider;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+//import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.Timer;
+//import javax.swing.Timer;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.filechooser.FileNameExtensionFilter;
+//import javax.swing.filechooser.FileNameExtensionFilter;
 
 import client.GuiControllerAlternative2;
+import RabbitMQ.RabbitMQControllerClient;
+import zeppelin.*;
+//import coordinate.SwingApp.MotorTimer;
 
-
-
-
-
-
-
-import coordinate.SwingApp.MotorTimer;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
+//import javax.swing.AbstractAction;
+//import javax.swing.Action;
 
 
 //TIMER
@@ -73,10 +69,11 @@ public class SwingApp {
 	private JLabel doelhoogteLabel;
 	private JPanel logpanel, lightpanel, fieldpanel, variablepanel, arrowpanel;
 	private JTextArea huidigeHoogte, targetHoogte, logTextArea, KpValueHeight, KdValueHeight, KiValueHeight, safetyIntervalValueHeight, KpValueAngle, KdValueAngle, KiValueAngle, safetyIntervalValueAngle;
-	private JSlider setKpHeight, setKiHeight, setKdHeight, setSafetyIntervalHeight, setKpAngle, setKiAngle, setKdAngle, setSafetyIntervalAngle;
-	private BasicArrowButton arrowup, arrowdown, arrowleft, arrowright;
-	
-	
+	private JSlider setKpHeight, setKiHeight, setKdHeight,  setKpAngle, setKiAngle, setKdAngle;
+//	private JSlider setSafetyIntervalHeight, setSafetyIntervalAngle;
+//	private BasicArrowButton arrowup, arrowdown, arrowleft, arrowright;
+	public RabbitMQControllerClient rabbitMQControllerClient;
+	public GuiControllerAlternative2 guiController;
 	
 	/**
 	 * Launch the application.
@@ -97,17 +94,15 @@ public class SwingApp {
 	}
 
 	
-	public GuiControllerAlternative2 guiController;
 
-	
 	/**
 	 * Create the application.
 	 */
 	public SwingApp() {
 
-
+		
 		try {
-			guiController = new GuiControllerAlternative2();
+			guiController = new GuiControllerAlternative2(this, new Zeppelin(new GridPoint(0, 0),100));
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -177,14 +172,11 @@ public class SwingApp {
 			public void actionPerformed(ActionEvent e) {
 				String input = JOptionPane.showInputDialog(null, "Voer nieuwe doelhoogte in.");
 				double height = Double.parseDouble(input);
-				/**
-				try {
-					this.guiController.setTargetHeight(height);
-				} catch (RemoteException e) {
-					JOptionPane.showMessageDialog(null, "Fout bij het aanpassen van doelhoogte, zie standard out");
-					e.printStackTrace();
-				}
-				*/
+				
+				
+					guiController.setTargetHeight(height);
+			
+				
 				targetHoogte.setText(Double.toString(height));
 			}
 		});
@@ -354,15 +346,15 @@ public class SwingApp {
 		safetyIntervalValueHeight.setBounds(68, 138, 48, 22);
 		variablepanel.add(safetyIntervalValueHeight);
 		
-		setSafetyIntervalHeight = new JSlider();
-		setSafetyIntervalHeight.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				double input = setSafetyIntervalHeight.getValue();
-				safetyIntervalValueHeight.setText(Double.toString(input));
-			}
-		});
-		setSafetyIntervalHeight.setBounds(126, 141, 137, 17);
-		variablepanel.add(setSafetyIntervalHeight);
+//		setSafetyIntervalHeight = new JSlider();
+//		setSafetyIntervalHeight.addChangeListener(new ChangeListener() {
+//			public void stateChanged(ChangeEvent e) {
+//				double input = setSafetyIntervalHeight.getValue();
+//				safetyIntervalValueHeight.setText(Double.toString(input));
+//			}
+//		});
+//		setSafetyIntervalHeight.setBounds(126, 141, 137, 17);
+//		variablepanel.add(setSafetyIntervalHeight);
 		
 		JLabel lblSafetya = new JLabel("SafetyA");
 		lblSafetya.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -374,15 +366,15 @@ public class SwingApp {
 		safetyIntervalValueAngle.setBounds(331, 136, 48, 22);
 		variablepanel.add(safetyIntervalValueAngle);
 		
-		setSafetyIntervalAngle = new JSlider();
-		setSafetyIntervalAngle.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				double input = setSafetyIntervalAngle.getValue();
-				safetyIntervalValueAngle.setText(Double.toString(input));
-			}
-		});
-		setSafetyIntervalAngle.setBounds(389, 139, 137, 17);
-		variablepanel.add(setSafetyIntervalAngle);
+//		setSafetyIntervalAngle = new JSlider();
+//		setSafetyIntervalAngle.addChangeListener(new ChangeListener() {
+//			public void stateChanged(ChangeEvent e) {
+//				double input = setSafetyIntervalAngle.getValue();
+//				safetyIntervalValueAngle.setText(Double.toString(input));
+//			}
+//		});
+//		setSafetyIntervalAngle.setBounds(389, 139, 137, 17);
+//		variablepanel.add(setSafetyIntervalAngle);
 		
 		arrowpanel = new JPanel();
 		arrowpanel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
@@ -390,63 +382,63 @@ public class SwingApp {
 		frame.getContentPane().add(arrowpanel);
 		arrowpanel.setLayout(null);
 		
-		arrowup = new BasicArrowButton(SwingConstants.NORTH);
-		arrowup.setBackground(Color.CYAN);
-		arrowup.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		arrowup.setBounds(81, 23, 66, 56);
-		arrowpanel.add(arrowup);
-		addTimerToArrowButton(arrowup);
+//		arrowup = new BasicArrowButton(SwingConstants.NORTH);
+//		arrowup.setBackground(Color.CYAN);
+//		arrowup.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//		arrowup.setBounds(81, 23, 66, 56);
+//		arrowpanel.add(arrowup);
+//		addTimerToArrowButton(arrowup);
 		
-		arrowleft = new BasicArrowButton(SwingConstants.WEST);
-		arrowleft.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		arrowleft.setBackground(Color.CYAN);
-		arrowleft.setBounds(10, 80, 66, 56);
-		arrowpanel.add(arrowleft);
-		addTimerToArrowButton(arrowleft);
+//		arrowleft = new BasicArrowButton(SwingConstants.WEST);
+//		arrowleft.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//		arrowleft.setBackground(Color.CYAN);
+//		arrowleft.setBounds(10, 80, 66, 56);
+//		arrowpanel.add(arrowleft);
+//		addTimerToArrowButton(arrowleft);
 		
-		arrowright = new BasicArrowButton(SwingConstants.EAST);
-		arrowright.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		arrowright.setBackground(Color.CYAN);
-		arrowright.setBounds(150, 80, 66, 56);
-		arrowpanel.add(arrowright);
-		addTimerToArrowButton(arrowright);
+//		arrowright = new BasicArrowButton(SwingConstants.EAST);
+//		arrowright.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//		arrowright.setBackground(Color.CYAN);
+//		arrowright.setBounds(150, 80, 66, 56);
+//		arrowpanel.add(arrowright);
+//		addTimerToArrowButton(arrowright);
 		
-		arrowdown = new BasicArrowButton(SwingConstants.SOUTH);
-		arrowdown.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		arrowdown.setBackground(Color.CYAN);
-		arrowdown.setBounds(81, 80, 66, 56);
-		arrowpanel.add(arrowdown);
-		addTimerToArrowButton(arrowdown);
+//		arrowdown = new BasicArrowButton(SwingConstants.SOUTH);
+//		arrowdown.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//		arrowdown.setBackground(Color.CYAN);
+//		arrowdown.setBounds(81, 80, 66, 56);
+//		arrowpanel.add(arrowdown);
+//		addTimerToArrowButton(arrowdown);
 	}
 	
 	
-	/**
-	 * Voeg timer toe aan gegeven pijlknop. Zo wordt ervoor gezorgd dat de juiste motor
-	 * wordt aangezet als je op de knop drukt en ook wordt afgezet als je de knop loslaat.
-	 * @param arrowButton
-	 * 		  Pijlknop waaraan timer moet worden toegevoegd. Verwacht wordt dat dit
-	 *        arrowup, arrowleft, arrowright of arrowdown is.
-	 */
-	public void addTimerToArrowButton(BasicArrowButton arrowButton) {
-		final ButtonModel bModel = arrowButton.getModel();
-		final MotorTimer timer = new MotorTimer(arrowButton);
-		bModel.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent cEvt) {
-	            if (bModel.isPressed() && !timer.isRunning()) {
-	               timer.start(); // zet de juiste motor aan.
-	            } else if (!bModel.isPressed() && timer.isRunning()) {
-	               timer.stop();
-	               try {
-	            	// de instructie om de motor te stoppen moet hier, omdat
-	            	// de interface voor Timer niet toelaat om het daar te zetten.
-					SwingApp.this.guiController.stopRightAndLeftMotor();
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				}
-	            }
-	         }
-		});
-	}
+//	/**
+//	 * Voeg timer toe aan gegeven pijlknop. Zo wordt ervoor gezorgd dat de juiste motor
+//	 * wordt aangezet als je op de knop drukt en ook wordt afgezet als je de knop loslaat.
+//	 * @param arrowButton
+//	 * 		  Pijlknop waaraan timer moet worden toegevoegd. Verwacht wordt dat dit
+//	 *        arrowup, arrowleft, arrowright of arrowdown is.
+//	 */
+//	public void addTimerToArrowButton(BasicArrowButton arrowButton) {
+//		final ButtonModel bModel = arrowButton.getModel();
+//		final MotorTimer timer = new MotorTimer(arrowButton);
+//		bModel.addChangeListener(new ChangeListener() {
+//			public void stateChanged(ChangeEvent cEvt) {
+//	            if (bModel.isPressed() && !timer.isRunning()) {
+//	               timer.start(); // zet de juiste motor aan.
+//	            } else if (!bModel.isPressed() && timer.isRunning()) {
+//	               timer.stop();
+//	               try {
+//	            	// de instructie om de motor te stoppen moet hier, omdat
+//	            	// de interface voor Timer niet toelaat om het daar te zetten.
+//					SwingApp.this.guiController.stopRightAndLeftMotor();
+//				} catch (RemoteException e) {
+//					e.printStackTrace();
+//				}
+//	            }
+//	         }
+//		});
+//	}
 	
 	
 	/**
@@ -456,13 +448,62 @@ public class SwingApp {
 	 * 		   Verbinding met de zeppelin is weggevallen.
 	 */
 	public void setVariables() throws RemoteException {
+		this.guiController.askKpHeight();
+		this.guiController.askKiHeight();
+		this.guiController.askKdHeight();
+		this.guiController.askKpAngle();
+		this.guiController.askKiAngle();
+		this.guiController.askKdAngle();
+				
 		this.KpValueHeight.setText(Double.toString(guiController.getKpHeight()));
 		this.KdValueHeight.setText(Double.toString(guiController.getKdHeight()));
 		this.KiValueHeight.setText(Double.toString(guiController.getKiHeight()));
 		this.targetHoogte.setText(Double.toString(guiController.getHeight()));
 	}
 	
+	
+	
+	
+	
+	
+//	public RabbitMQControllerClient getRabbitMQControllerClient(){
+//		return rabbitMQControllerClient;
+//	}
+//	
+//	public void setRabbitMQControllerClient(RabbitMQControllerClient rabbitMQControllerClient){
+//		this.rabbitMQControllerClient = rabbitMQControllerClient;
+//	}
+//	
  
+	public GuiControllerAlternative2 getGuiController() {
+		return guiController;
+	}
+
+
+
+
+	public RabbitMQControllerClient getRabbitMQControllerClient() {
+		return rabbitMQControllerClient;
+	}
+
+
+
+
+	public void setRabbitMQControllerClient(
+			RabbitMQControllerClient rabbitMQControllerClient) {
+		this.rabbitMQControllerClient = rabbitMQControllerClient;
+	}
+
+
+
+
+	public void setGuiController(GuiControllerAlternative2 guiController) {
+		this.guiController = guiController;
+	}
+
+
+
+
 	/**
 	 * Los gekopieerd uit GuiPanel
 	 * @param event
@@ -474,12 +515,12 @@ public class SwingApp {
 		if (source == setTargetHeight) {
 			String input = JOptionPane.showInputDialog(null, "Voer nieuwe doelhoogte in.");
 			double height = Double.parseDouble(input);
-			try {
+			
 				this.guiController.setTargetHeight(height);
-			} catch (RemoteException e) {
+			
 				JOptionPane.showMessageDialog(null, "Fout bij het aanpassen van doelhoogte, zie standard out");
-				e.printStackTrace();
-			}
+				
+			
 			this.targetHoogte.setText(Double.toString(height));
 		}
 		else if (source == setKpHeight) {
@@ -500,15 +541,15 @@ public class SwingApp {
 			this.guiController.setKiHeight(ki);
 			this.KiValueHeight.setText(Double.toString(ki));
 		}
-		else if (source == setSafetyIntervalHeight) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety intervalHeight in.");
-			double safety = Double.parseDouble(input);
-			try {
-				this.guiController.setSafetyIntervalHeight(safety);
-			} catch (RemoteException e) {
-			}
-			this.safetyIntervalValueHeight.setText(Double.toString(safety));
-		}
+//		else if (source == setSafetyIntervalHeight) {
+//			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety intervalHeight in.");
+//			double safety = Double.parseDouble(input);
+//			try {
+//				this.guiController.setSafetyIntervalHeight(safety);
+//			} catch (RemoteException e) {
+//			}
+//			this.safetyIntervalValueHeight.setText(Double.toString(safety));
+//		}
 		
 		else if (source == setKpAngle) {
 			String input = JOptionPane.showInputDialog(null, "Voer nieuwe KpAngle in.");
@@ -528,15 +569,15 @@ public class SwingApp {
 			this.guiController.setKiAngle(ki);
 			this.KiValueAngle.setText(Double.toString(ki));
 		}
-		else if (source == setSafetyIntervalAngle) {
-			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety intervalAngle in.");
-			double safety = Double.parseDouble(input);
-			try {
-				this.guiController.setSafetyIntervalAngle(safety);
-			} catch (RemoteException e) {
-			}
-			this.safetyIntervalValueAngle.setText(Double.toString(safety));
-		}
+//		else if (source == setSafetyIntervalAngle) {
+//			String input = JOptionPane.showInputDialog(null, "Voer nieuw safety intervalAngle in.");
+//			double safety = Double.parseDouble(input);
+//			try {
+//				this.guiController.setSafetyIntervalAngle(safety);
+//			} catch (RemoteException e) {
+//			}
+//			this.safetyIntervalValueAngle.setText(Double.toString(safety));
+//		}
 		else if(source == logfiles)
 		{   
 			//Logfile aangemaakt en opgeslagen.
@@ -577,24 +618,24 @@ public class SwingApp {
 	 */
 	private class HeightAndMotorWorker extends SwingWorker<Void, Void> {
 		
-		boolean leftOn;
-		boolean rightOn;
-		boolean downwardOn;
+//		boolean leftOn;
+//		boolean rightOn;
+//		boolean downwardOn;
 		
-		public Void doInBackground() throws RemoteException, InterruptedException {
+		public Void doInBackground() throws  InterruptedException {
 			while (true) {
-				leftOn = SwingApp.this.guiController.leftIsOn();
-				rightOn = SwingApp.this.guiController.rightIsOn();
-				downwardOn = SwingApp.this.guiController.downwardIsOn();
+//				leftOn = SwingApp.this.guiController.leftIsOn();
+//				rightOn = SwingApp.this.guiController.rightIsOn();
+//				downwardOn = SwingApp.this.guiController.downwardIsOn();
 				
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						try {
+//						try {
 							SwingApp.this.huidigeHoogte.setText(Double.toString(SwingApp.this.guiController.getHeight()));
 							SwingApp.this.targetHoogte.setText(Double.toString(SwingApp.this.guiController.getTargetHeight()));
-						} catch (RemoteException e) {
-							e.printStackTrace();
-						}
+//						} catch (RemoteException e) {
+//							e.printStackTrace();
+//						}
 					}
 				});
 				// Waarschijnlijk de bron van de imprecisie van de motorlabels.
@@ -638,63 +679,63 @@ public class SwingApp {
 		}
 	}
 	
-	/**
-	 * Zorgt ervoor dat, als je op een pijlknop drukt, er een timer gaat die
-	 * een event vuurt. Op basis van die event kan je extern checken of de knop nog wordt
-	 * ingedrukt. Zorgt er ook voor dat de juiste motor wordt aangesproken voor de 
-	 * juiste pijlknop.
-	 *
-	 */
-	public class MotorTimer extends Timer {
-
-		BasicArrowButton arrowButton;
-		
-		public MotorTimer(BasicArrowButton arrowButton) throws IllegalArgumentException {
-			super(100, null);
-			if (! (arrowButton == SwingApp.this.arrowup || arrowButton == SwingApp.this.arrowleft ||
-					arrowButton == SwingApp.this.arrowright || arrowButton == SwingApp.this.arrowdown)) {
-				throw new IllegalArgumentException("Timerconstructor moet bestaande pijltoets hebben als argument");
-			}
-			this.arrowButton = arrowButton;
-			ActionListener listener = new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (MotorTimer.this.arrowButton == SwingApp.this.arrowup) {
-						try {
-							SwingApp.this.guiController.goForward();
-						} catch (RemoteException e1) {
-							e1.printStackTrace();
-						}
-					}
-					else if (MotorTimer.this.arrowButton == SwingApp.this.arrowleft) {
-						try {
-							SwingApp.this.guiController.goLeft();
-						} catch (RemoteException e1) {
-							e1.printStackTrace();
-						}
-					}
-					else if (MotorTimer.this.arrowButton == SwingApp.this.arrowright) {
-						try {
-							SwingApp.this.guiController.goRight();
-						} catch (RemoteException e1) {
-							e1.printStackTrace();
-						}
-					}
-					else if (MotorTimer.this.arrowButton == SwingApp.this.arrowdown) {
-						try {
-							SwingApp.this.guiController.goBackward();
-						} catch (RemoteException e1) {
-							e1.printStackTrace();
-						}
-					}
-				}
-				
-			};
-			super.removeActionListener(null);
-			super.addActionListener(listener);
-		}
-	}
+//	/**
+//	 * Zorgt ervoor dat, als je op een pijlknop drukt, er een timer gaat die
+//	 * een event vuurt. Op basis van die event kan je extern checken of de knop nog wordt
+//	 * ingedrukt. Zorgt er ook voor dat de juiste motor wordt aangesproken voor de 
+//	 * juiste pijlknop.
+//	 *
+//	 */
+//	public class MotorTimer extends Timer {
+//
+//		BasicArrowButton arrowButton;
+//		
+//		public MotorTimer(BasicArrowButton arrowButton) throws IllegalArgumentException {
+//			super(100, null);
+//			if (! (arrowButton == SwingApp.this.arrowup || arrowButton == SwingApp.this.arrowleft ||
+//					arrowButton == SwingApp.this.arrowright || arrowButton == SwingApp.this.arrowdown)) {
+//				throw new IllegalArgumentException("Timerconstructor moet bestaande pijltoets hebben als argument");
+//			}
+//			this.arrowButton = arrowButton;
+//			ActionListener listener = new ActionListener() {
+//
+//				@Override
+//				public void actionPerformed(ActionEvent e) {
+//					if (MotorTimer.this.arrowButton == SwingApp.this.arrowup) {
+//						try {
+//							SwingApp.this.guiController.goForward();
+//						} catch (RemoteException e1) {
+//							e1.printStackTrace();
+//						}
+//					}
+//					else if (MotorTimer.this.arrowButton == SwingApp.this.arrowleft) {
+//						try {
+//							SwingApp.this.guiController.goLeft();
+//						} catch (RemoteException e1) {
+//							e1.printStackTrace();
+//						}
+//					}
+//					else if (MotorTimer.this.arrowButton == SwingApp.this.arrowright) {
+//						try {
+//							SwingApp.this.guiController.goRight();
+//						} catch (RemoteException e1) {
+//							e1.printStackTrace();
+//						}
+//					}
+//					else if (MotorTimer.this.arrowButton == SwingApp.this.arrowdown) {
+//						try {
+//							SwingApp.this.guiController.goBackward();
+//						} catch (RemoteException e1) {
+//							e1.printStackTrace();
+//						}
+//					}
+//				}
+//				
+//			};
+//			super.removeActionListener(null);
+//			super.addActionListener(listener);
+//		}
+//	}
 }
 
 

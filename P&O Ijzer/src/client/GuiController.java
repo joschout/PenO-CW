@@ -250,24 +250,27 @@ public class GuiController {
 	/**
 	 * Update de procesconstante voor de hoek.
 	 * @param kp
+	 * @throws RemoteException 
 	 */
-	public void setKpAngle(double kp) {
+	public void setKpAngle(double kp) throws RemoteException {
 		zeppelin.getRotationController().getpController().setKp(kp);
 	}
 	
 	/**
 	 * Update de integraalconstante voor de hoek.
 	 * @param ki
+	 * @throws RemoteException 
 	 */
-	public void setKiAngle(double ki) {
+	public void setKiAngle(double ki) throws RemoteException {
 		zeppelin.getRotationController().getpController().setKi(ki);
 	}
 	
 	/**
 	 * Update de derivative constante voor de hoek.
 	 * @param kd
+	 * @throws RemoteException 
 	 */
-	public void setKdAngle(double kd) {
+	public void setKdAngle(double kd) throws RemoteException {
 		zeppelin.getRotationController().getpController().setKd(kd);
 	}
 	

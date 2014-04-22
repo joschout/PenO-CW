@@ -1,149 +1,104 @@
-/**
- * Communicatielaag tussen de client en de zeppelin. Status opvragen van de zeppelin en relevante
- * files downloaden van de zeppelin gebeurt via deze klasse.
- */
-
 package client;
-
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+import coordinate.SwingApp;
+import RabbitMQ.PrivateRoutingKeyTypes;
+import RabbitMQ.RabbitMQControllerClient;
+import zeppelin.*;
 
-import server.ZeppelinServer;
-import zeppelin.MainProgramInterface;
-
-
-public class GuiControllerAlternative2 {
-
-
-	/**
-	 * Zeppelin-object gehaald van de server
-	 */
-	private MainProgramInterface zeppelin;
+public class GuiControllerAlternative2{
 	
-	public GuiController() throws NotBoundException, IllegalStateException, IOException{
-		setZeppelin();
+	public GuiControllerAlternative2(SwingApp app, Zeppelin ourZeppelin){
+		this.app = app;
+		setZeppelin(ourZeppelin);
+	}
+	
+	private Zeppelin zeppelin;
+	private SwingApp app;
+	private Map<String, Zeppelin> otherKnownZeppelins = new HashMap<String, Zeppelin>();
+	private RabbitMQControllerClient rabbitMQControllerClient;
+
+	
+	public Zeppelin getZeppelin(){
+		return this.zeppelin;
+	}
+	
+	public void setZeppelin(Zeppelin zeppelin){
+		this.zeppelin=zeppelin;
+	}
+	
+	public RabbitMQControllerClient getRabbitMQControllerClient() {
+		return rabbitMQControllerClient;
 	}
 
-	/**
-	 * Associeer een zeppelin-object met deze GUI.
-	 * @param zeppelin
-	 * 		Een zeppelin-object geïmporteerd vanop de Pi.
-	 */
-	public void setZeppelin(MainProgramInterface zeppelin)
-	{
-		this.zeppelin = zeppelin;
+	public void setRabbitMQControllerClient(RabbitMQControllerClient rabbitMQControllerClient) {
+		this.rabbitMQControllerClient = rabbitMQControllerClient;
+	}
+	
+	public Map<String, Zeppelin> getOtherKnownZeppelins() {
+		return otherKnownZeppelins;
 	}
 
+	public void setOtherKnownZeppelins(Map<String, Zeppelin> otherKnownZeppelins) {
+		this.otherKnownZeppelins = otherKnownZeppelins;
+	}
+	
+	public void addOtherKnownZeppelin(String name) {
+     	Zeppelin newZeppelin = new Zeppelin();
+		this.getOtherKnownZeppelins().put(name, newZeppelin);
+	}
 	/**
 	 * Vraagt de hoogte van de zeppelin op.
 	 * @return
-	 * @throws RemoteException
+	  
 	 */
-	public double getHeight() throws RemoteException {
+	public double getHeight() {
 		return this.zeppelin.getHeight();
 	}
 
+	
+	
+	private double TargetHeight;
 
-	/**
-	 * Zoekt een zeppelin-object op het IP-adres gereserveerd voor de zeppelin.
-	 * Communicatie gebeurt daarna tussen de client en het gevonden zeppelin-object.
-	 * @throws RemoteException
-	 * @throws NotBoundException
-	 * 		   Er bestaat geen zeppelin-object.
-	 */
-	public void setZeppelin() throws RemoteException, NotBoundException {
-		Registry registry = LocateRegistry.getRegistry(ZeppelinServer.PI_HOSTNAME,1099);
-		MainProgramInterface zeppelin = (MainProgramInterface) registry.lookup("Zeppelin");
-		this.zeppelin = zeppelin;
+	public void askTargetHeight(){
+		this.app.rabbitMQControllerClient.getClientSender().sendPrivateMessage_getTargetHeight();
+		
 	}
 	
-	/**
-	 * Geeft aan of de linkermotor aanstaat.
-	 * @throws RemoteException
-	 */
-	public boolean leftIsOn() throws RemoteException {
-		return this.zeppelin.leftIsOn();
-	}
-	
-	/**
-	 * Geeft aan of de rechtermotor aanstaat.
-	 * @throws RemoteException
-	 */
-	public boolean rightIsOn() throws RemoteException {
-		return this.zeppelin.rightIsOn();
-	}
-	
-	/**
-	 * Geeft aan of de naar-beneden-gerichte motor aanstaat.
-	 * @return
-	 * @throws RemoteException
-	 */
-	public boolean downwardIsOn() throws RemoteException {
-		return this.zeppelin.downwardIsOn();
-	}
-	
-	/**
-	 * Laat de zeppelin vooruit gaan.
-	 * @throws RemoteException
-	 */
-	public void goForward() throws RemoteException {
-		this.zeppelin.goForward();
-	}
-	
-	/**
-	 * Laat de zeppelin achteruit gaan.
-	 * @throws RemoteException
-	 */
-	public void goBackward() throws RemoteException {
-		this.zeppelin.goBackward();
-	}
-	
-	/**
-	 * Laat de zeppelin naar links draaien.
-	 * @throws RemoteException
-	 */
-	public void goLeft() throws RemoteException {
-		this.zeppelin.turnLeft();
-	}
-	
-	/**
-	 * Laat de zeppelin naar rechts draaien.
-	 * @throws RemoteException
-	 */
-	public void goRight() throws RemoteException {
-		this.zeppelin.turnRight();
-	}
-	
-	/**
-	 * Laat de zeppelin de horizontaal gerichte motoren stoppen.
-	 * @throws RemoteException
-	 */
-	public void stopRightAndLeftMotor() throws RemoteException {
-		this.zeppelin.stopRightAndLeft();
-	}
 	
 	/**
 	 * Haal de doelhoogte van de zeppelin.
-	 * @throws RemoteException
 	 */
-	public double getTargetHeight() throws RemoteException {
-		return this.zeppelin.getTargetHeight();
+	public double getTargetHeight()  {
+		return TargetHeight;
 	}
 	
 	/**
 	 * Laat de zeppelin streven naar een nieuwe hoogte.
 	 * @param height
 	 *        Nieuwe hoogte.
-	 * @throws RemoteException
 	 */
-	public void setTargetHeight(double height) throws RemoteException {
-		this.zeppelin.setTargetHeight(height);
+	public void setTargetHeight(double height)  {
+		this.app.getRabbitMQControllerClient().getClientSender().sendPrivateMessage_setTargetHeight(height);
+	}
+	
+	
+	
+	private String logPart;
+	
+	public String getLogPart(){
+		return logPart;
+	}
+	public void setLogPart(String logPart){
+		this.logPart=logPart;
+	}
+
+	public void appendToLogPart(String appendix){
+		setLogPart(getLogPart()+appendix);
 	}
 	
 	/**
@@ -153,95 +108,154 @@ public class GuiControllerAlternative2 {
 	 * @throws IOException
 	 */
 	public String readLog() throws IllegalStateException, FileNotFoundException, IOException {
-		return this.zeppelin.readLog();
+		String logPartTemp = getLogPart();
+		setLogPart("");
+		return logPartTemp;
 	}
 
 	/**
 	 * Laat de zeppelin zijn activiteiten stoppen; sluit achteraf het programma af.
 	 */
 	public void exit() {
-		try {
-			this.zeppelin.exit();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		System.exit(0);
+		this.app.rabbitMQControllerClient.getClientSender().sendPrivateMessage_exit();
+	}
+	
+	private double KpHeight;
+	private double KiHeight;
+	private double KdHeight;
+	
+	public double getKpHeight() {
+		return KpHeight;
+	}
+	
+	public double getKiHeight() {
+		return KiHeight;
+	}
+	
+	public double getKdHeight() {
+		return KdHeight;
+	}
+	/**
+	 * Haalt de procesconstante voor de hoogte.
+	 */
+	public void askKpHeight()  {
+		this.app.rabbitMQControllerClient.getClientSender().sendPrivateMessage_PID_getKValue(PrivateRoutingKeyTypes.PID_HEIGHT_GETP);
+		
+	}
+
+	/**
+	 * Haalt de derivate constante voor de hoogte.
+	 */
+	public void askKdHeight()  {
+		this.app.rabbitMQControllerClient.getClientSender().sendPrivateMessage_PID_getKValue(PrivateRoutingKeyTypes.PID_HEIGHT_GETD);
 	}
 	
 	/**
+	 * Haalt de integraalconstante voor de hoogte.
+	 */
+	public void askKiHeight(){
+		this.app.rabbitMQControllerClient.getClientSender().sendPrivateMessage_PID_getKValue(PrivateRoutingKeyTypes.PID_HEIGHT_GETI);
+	}
+	
+/**
 	 * Update de procesconstante voor de hoogte.
 	 * @param kp
 	 */
 	public void setKpHeight(double kp) {
-		zeppelin.getHeightController().getpController().setKp(kp);
+		this.app.getRabbitMQControllerClient().getClientSender().sendPrivateMessag_PID_setKValue(PrivateRoutingKeyTypes.PID_HEIGHT_SETP, kp);
 	}
-	
+
 	/**
 	 * Update de integraalconstante voor de hoogte.
 	 * @param ki
 	 */
 	public void setKiHeight(double ki) {
-		zeppelin.getHeightController().getpController().setKi(ki);
+		this.app.getRabbitMQControllerClient().getClientSender().sendPrivateMessag_PID_setKValue(PrivateRoutingKeyTypes.PID_HEIGHT_SETI, ki);
 	}
-	
+
 	/**
 	 * Update de derivative constante voor de hoogte.
 	 * @param kd
 	 */
 	public void setKdHeight(double kd) {
-		zeppelin.getHeightController().getpController().setKd(kd);
+		this.app.getRabbitMQControllerClient().getClientSender().sendPrivateMessag_PID_setKValue(PrivateRoutingKeyTypes.PID_HEIGHT_SETD, kd);
+	}
+
+	
+	private double KpAngle;
+	private double KiAngle;
+	private double KdAngle;
+	
+	public double getKpAngle() {
+		return KpAngle;
 	}
 	
+	public double getKiAngle() {
+		return KiAngle;
+	}
+	
+	public double getKdAngle() {
+		return KdAngle;
+	}
+	
+	
+	
+
+
 	/**
-	 * Haalt de procesconstante voor de hoogte.
-	 * @throws RemoteException
-	 */
-	public double getKpHeight() throws RemoteException {
-		return zeppelin.getHeightController().getpController().getKp();
-	}
-	
+		 * Haal de procesconstante voor de hoek.
+		 * 
+		 */
+		public void askKpAngle() {
+			this.app.rabbitMQControllerClient.getClientSender().sendPrivateMessage_PID_getKValue(PrivateRoutingKeyTypes.PID_ANGLE_GETP);
+		}
+
 	/**
-	 * Haalt de derivate constante voor de hoogte.
-	 * @throws RemoteException
-	 */
-	public double getKdHeight() throws RemoteException {
-		return zeppelin.getHeightController().getpController().getKd();
-	}
-	
+		 * Haal de derivative constante voor de hoek.
+		 * 
+		 */
+		public void askKdAngle()  {
+			this.app.rabbitMQControllerClient.getClientSender().sendPrivateMessage_PID_getKValue(PrivateRoutingKeyTypes.PID_ANGLE_GETD);
+		}
+
 	/**
-	 * Haalt de integraalconstante voor de hoogte.
-	 * @throws RemoteException
-	 */
-	public double getKiHeight() throws RemoteException {
-		return zeppelin.getHeightController().getpController().getKi();
-	}
-	
-	// wordt deze methode zelfs gebruikt?
-	/**
-	 * Zet het interval rond de doelhoogte waar de verticale motor alle activiteit
-	 * moet stoppen.
-	 * @param safetyInterval
-	 *        Waarde die een interval maakt volgens [getTargetHeight - safetyInterval, getTargetHeight + safetyInterval]
-	 * @throws RemoteException
-	 */
-	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
-		zeppelin.getHeightController().setSafetyIntervalHeight(safetyInterval);
-	}
-	
-	/**
-	 * Haalt het veiligheidsinterval voor de hoogte.
-	 * @throws RemoteException
-	 */
-	public double getSafetyIntervalHeight() throws RemoteException {
-		return zeppelin.getHeightController().getSafetyIntervalHeight();
-	}
-	
+		 * Haal de integraalconstante voor de hoek.
+		 *
+		 */
+		public void askKiAngle() {
+			this.app.rabbitMQControllerClient.getClientSender().sendPrivateMessage_PID_getKValue(PrivateRoutingKeyTypes.PID_ANGLE_GETI);
+		}
+
+	//	// wordt deze methode zelfs gebruikt?
+//	/**
+//	 * Zet het interval rond de doelhoogte waar de verticale motor alle activiteit
+//	 * moet stoppen.
+//	 * @param safetyInterval
+//	 *        Waarde die een interval maakt volgens [getTargetHeight - safetyInterval, getTargetHeight + safetyInterval]
+//	  
+//	 */
+//	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
+//		if (checkRegistryFound()&&checkZeppelinFound()) {
+//		zeppelin.getHeightController().setSafetyIntervalHeight(safetyInterval);
+//		}
+//	}
+//	
+//	/**
+//	 * Haalt het veiligheidsinterval voor de hoogte.
+//	  
+//	 */
+//	public double getSafetyIntervalHeight() throws RemoteException {
+//		if (checkRegistryFound()&&checkZeppelinFound()) {
+//		return zeppelin.getHeightController().getSafetyIntervalHeight();
+//		} else return 0;
+//	}
+//	
 	/**
 	 * Update de procesconstante voor de hoek.
 	 * @param kp
 	 */
 	public void setKpAngle(double kp) {
-		zeppelin.getRotationController().getpController().setKp(kp);
+		this.app.getRabbitMQControllerClient().getClientSender().sendPrivateMessag_PID_setKValue(PrivateRoutingKeyTypes.PID_ANGLE_SETP, kp);
 	}
 	
 	/**
@@ -249,7 +263,7 @@ public class GuiControllerAlternative2 {
 	 * @param ki
 	 */
 	public void setKiAngle(double ki) {
-		zeppelin.getRotationController().getpController().setKi(ki);
+		this.app.getRabbitMQControllerClient().getClientSender().sendPrivateMessag_PID_setKValue(PrivateRoutingKeyTypes.PID_ANGLE_SETI, ki);
 	}
 	
 	/**
@@ -257,51 +271,7 @@ public class GuiControllerAlternative2 {
 	 * @param kd
 	 */
 	public void setKdAngle(double kd) {
-		zeppelin.getRotationController().getpController().setKd(kd);
+		this.app.getRabbitMQControllerClient().getClientSender().sendPrivateMessag_PID_setKValue(PrivateRoutingKeyTypes.PID_ANGLE_SETD, kd);
 	}
 	
-	/**
-	 * Haal de procesconstante voor de hoek.
-	 * @throws RemoteException
-	 */
-	public double getKpAngle() throws RemoteException {
-		return zeppelin.getRotationController().getpController().getKp();
-	}
-	
-	/**
-	 * Haal de derivative constante voor de hoek.
-	 * @throws RemoteException
-	 */
-	public double getKdAngle() throws RemoteException {
-		return zeppelin.getRotationController().getpController().getKd();
-	}
-	
-	/**
-	 * Haal de integraalconstante voor de hoek.
-	 * @throws RemoteException
-	 */
-	public double getKiAngle() throws RemoteException {
-		return zeppelin.getRotationController().getpController().getKi();
-	}
-	
-	/**
-	 * Zet het interval rond de doelhoek waar de zeppelin de horizontale motoren alle
-	 * activiteit moet laten stoppen.
-	 * @param safetyInterval
-	 * 		  Maakt een interval rond de doelhoek volgens [getTargetAngle - safetyInterval, getTargetAngle + safetyInterval].
-	 * 		  Natuurlijk gerekend modulo 360.
-	 * @throws RemoteException
-	 */
-	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
-		zeppelin.getRotationController().setSafetyIntervalAngle(safetyInterval);
-	}
-	
-	/**
-	 * Haal het interval waar de zeppelin de horizontale motoren niet meer mag laten werken.
-	 * @throws RemoteException
-	 */
-	public double getSafetyIntervalAngle() throws RemoteException {
-		return zeppelin.getRotationController().getSafetyIntervalAngle();
-	}
-
 }

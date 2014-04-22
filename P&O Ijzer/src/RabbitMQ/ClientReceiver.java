@@ -5,25 +5,25 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-import zeppelin.MainProgramImpl;
-
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConsumerCancelledException;
 import com.rabbitmq.client.QueueingConsumer;
 import com.rabbitmq.client.ShutdownSignalException;
 
+import coordinate.SwingApp;
+
 public class ClientReceiver implements Runnable {
 
-	private ZeppelinMessageParser parser;
-	private MainProgramImpl zeppelin;
+	private ClientMessageParser parser;
 	private Channel channel;
 	private String queueName;
 	private static final String EXCHANGE_NAME = "server";	
+	private SwingApp app;
 
-	public ClientReceiver(MainProgramImpl zeppelin, Connection connection) {
+	public ClientReceiver(SwingApp app, Connection connection) {
 		this.initialiseChannel(connection);
-		this.zeppelin = zeppelin;
+		this.app = app;
 	}
 
 	public static String[] generateBindingKeys(){
@@ -54,7 +54,7 @@ public class ClientReceiver implements Runnable {
 		try {
 			consumer = new QueueingConsumer(channel);
 			this.getChannel().basicConsume(this.queueName, true, consumer);
-			parser = new ZeppelinMessageParser(zeppelin);
+			parser = new ClientMessageParser(getApp());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -78,10 +78,6 @@ public class ClientReceiver implements Runnable {
 			}
 		}
 	}
-
-	public MainProgramImpl getZeppelin() {
-		return this.zeppelin;
-	}
 	
 	public Channel getChannel() {
 		return this.channel;
@@ -97,6 +93,14 @@ public class ClientReceiver implements Runnable {
 	
 	public void setQueueName(String queueName) {
 		this.queueName = queueName;
+	}
+
+	public SwingApp getApp() {
+		return app;
+	}
+
+	public void setApp(SwingApp app) {
+		this.app = app;
 	}
 
 	private void initialiseChannel(Connection connection) {

@@ -8,21 +8,16 @@ import javax.management.openmbean.InvalidKeyException;
 
 import coordinate.GridPoint;
 //import zeppelin.MainProgramImpl;
+import coordinate.SwingApp;
 
 public class ClientMessageParser {
 
-//
-//	public ClientMessageParser(MainProgramImpl zeppelin){
-//		setZeppelin(zeppelin);
-//	}
-//	MainProgramImpl zeppelin;
-//
-//	public MainProgramImpl getZeppelin() {
-//		return zeppelin;
-//	}
-//	public void setZeppelin(MainProgramImpl zeppelin) {
-//		this.zeppelin = zeppelin;
-//	}
+	private SwingApp app;
+
+	public ClientMessageParser(SwingApp app){
+		this.app = app;
+	}
+
 	//routingKeyParser
 	public String routingKeyDelimiter = "\\.";
 
@@ -35,10 +30,10 @@ public class ClientMessageParser {
 		}
 //geldige naam niet gelijk aan ijzer
 		if(! zeppelinName.equals("ijzer")){
-//			if(! zeppelin.getOtherKnownZeppelins().containsKey(zeppelinName)){
-//				zeppelin.addOtherKnownZeppelin(zeppelinName);
-//			}
-//			String commandName = routingKeyTokens[1];   
+			if(! app.getGuiController().getOtherKnownZeppelins().containsKey(zeppelinName)){
+				app.getGuiController().addOtherKnownZeppelin(zeppelinName);
+			}
+			String commandName = routingKeyTokens[1];   
 			if(!commandTypes.contains(commandName)){
 				throw new InvalidBindingKeyException("De binding key bevat een onbestaand commando");
 			}
@@ -48,20 +43,22 @@ public class ClientMessageParser {
 					message = message.replaceAll("\\s+", "");
 					if(message.matches("\\d+,\\d+")){
 						String[] coordinates = message.split(",");
-					zeppelin.getOtherKnownZeppelins().get(zeppelinName).setPosition(new GridPoint( Double.parseDouble(coordinates[0])/100, Double.parseDouble(coordinates[1])/100));
+						app.getGuiController().getOtherKnownZeppelins().get(zeppelinName).setPosition(new GridPoint( Double.parseDouble(coordinates[0])/100, Double.parseDouble(coordinates[1])/100));
 					}
 				}
 				if (infoType.equals("height")){
 					message = message.replaceAll("\\s+", "");
 					if(message.matches("\\d+")){
 					double height = Double.parseDouble(message)/100;
-					zeppelin.getOtherKnownZeppelins().get(zeppelinName).setHeight(height);
+					app.getGuiController().getOtherKnownZeppelins().get(zeppelinName).setHeight(height);
 					}
 				}
 			}if(commandName.equals("hcommand")){
 				System.out.println("Commando hcommand bedoeld voor zeppelin"+ zeppelinName );
 			}if(commandName.equals("lcommand")){
 				System.out.println("Commando lcommand bedoeld voor zeppelin"+ zeppelinName );
+			}if(commandName.equals("private")){
+				System.out.println("Commando private bedoeld voor zeppelin"+ zeppelinName );
 			}
 		}
 //geldige naam gelijk aan ijzer
@@ -71,54 +68,64 @@ public class ClientMessageParser {
 				throw new InvalidBindingKeyException("De binding key bevat een onbestaand commando");
 			}
 			if(commandName.equals("info")){
-				System.out.println("Eigen info ontvangen");
-			}if(commandName.equals("hcommand")){
-				String hCommandType =  routingKeyTokens[2];   
-				if(hCommandType.equals("move")){
+				
+				String infoType = routingKeyTokens[2];   
+				if(infoType.equals("location")){
 					message = message.replaceAll("\\s+", "");
 					if(message.matches("\\d+,\\d+")){
-					String[] coordinates = message.split(",");
-					zeppelin.setTargetPosition(new GridPoint( Double.parseDouble(coordinates[0])/100, Double.parseDouble(coordinates[1])/100));
+						String[] coordinates = message.split(",");
+						app.getGuiController().getZeppelin().setPosition(new GridPoint( Double.parseDouble(coordinates[0])/100, Double.parseDouble(coordinates[1])/100));
 					}
-				}if(hCommandType.equals("elevate")){
+				}
+				if (infoType.equals("height")){
 					message = message.replaceAll("\\s+", "");
 					if(message.matches("\\d+")){
 					double height = Double.parseDouble(message)/100;
-					zeppelin.setTargetHeight(height);
+					app.getGuiController().getZeppelin().setHeight(height);
 					}
-				}
+				}				
+			}if(commandName.equals("hcommand")){
+				System.out.println("Eigen hcommand ontvangen");
 			}
 			if(commandName.equals("lcommand")){
-				System.out.println("lcommand's worden niet ondersteunt" );
+				System.out.println("Eigen lcommand ontvangen");
 			}
 			if(commandName.equals("private")){
 				String privateCommandtype = routingKeyTokens[2];
 				if(privateCommandtype.equals("log")){
-					System.out.println("Het log-command is enkel bedoeld voor de client");
+					app.getGuiController().appendToLogPart(message);
 				}if(privateCommandtype.equals("height")){
 					String heightCommType = routingKeyTokens[3];
 					if(heightCommType.equals("getP")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_GETP);
+						System.out.println("Commando private.height.getP bedoeld voor de zeppelin, verzonden door deze client");
 					}
 					if(heightCommType.equals("getI")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_GETI);
-					}
-					if(heightCommType.equals("getD")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_GETD);
+						System.out.println("Commando private.height.getI bedoeld voor de zeppelin, verzonden door deze client");					
+					}if(heightCommType.equals("getD")){
+						System.out.println("Commando private.height.getD bedoeld voor de zeppelin, verzonden door deze client");
 					}if(heightCommType.equals("setP")){
-						message = message.replaceAll("\\s+", "");
-						if(message.matches("\\d+")){
-						zeppelin.getHeightController().getpController().setKp(Double.parseDouble(message));
-						}
+						System.out.println("Commando private.height.setP bedoeld voor de zeppelin, verzonden door deze client");
 					}if(heightCommType.equals("setI")){
-						message = message.replaceAll("\\s+", "");
-						if(message.matches("\\d+")){
-						zeppelin.getHeightController().getpController().setKi(Double.parseDouble(message));
-						}
+						System.out.println("Commando private.height.setI bedoeld voor de zeppelin, verzonden door deze client");
 					}if(heightCommType.equals("setD")){
+						System.out.println("Commando private.height.setD bedoeld voor de zeppelin, verzonden door deze client");
+					}if(heightCommType.equals("currentP")){
 						message = message.replaceAll("\\s+", "");
 						if(message.matches("\\d+")){
-						zeppelin.getHeightController().getpController().setKd(Double.parseDouble(message));
+							double kp = Double.parseDouble(message);
+							this.app.getGuiController().setKpHeight(kp);
+						}
+					}if(heightCommType.equals("currentI")){
+						message = message.replaceAll("\\s+", "");
+						if(message.matches("\\d+")){
+							double ki = Double.parseDouble(message);
+							this.app.getGuiController().setKiHeight(ki);
+						}
+					}if(heightCommType.equals("currentD")){
+						message = message.replaceAll("\\s+", "");
+						if(message.matches("\\d+")){
+							double kd = Double.parseDouble(message);
+							this.app.getGuiController().setKdHeight(kd);
 						}
 					}
 					
@@ -126,27 +133,34 @@ public class ClientMessageParser {
 				}if(privateCommandtype.equals("angle")){
 					String angleCommType = routingKeyTokens[3];
 					if(angleCommType.equals("getP")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_GETP);
-					}
-					if(angleCommType.equals("getI")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_GETI);
-					}
-					if(angleCommType.equals("getD")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_GETD);
+						System.out.println("Commando private.angle.getP bedoeld voor de zeppelin, verzonden door deze client");
+					}if(angleCommType.equals("getI")){
+						System.out.println("Commando private.angle.getI bedoeld voor de zeppelin, verzonden door deze client");					
+					}if(angleCommType.equals("getD")){
+						System.out.println("Commando private.angle.getD bedoeld voor de zeppelin, verzonden door deze client");
 					}if(angleCommType.equals("setP")){
-						message = message.replaceAll("\\s+", "");
-						if(message.matches("\\d+")){
-						zeppelin.getRotationController().getpController().setKp(Double.parseDouble(message));
-						}
+						System.out.println("Commando private.angle.setP bedoeld voor de zeppelin, verzonden door deze client");
 					}if(angleCommType.equals("setI")){
-						message = message.replaceAll("\\s+", "");
-						if(message.matches("\\d+")){
-						zeppelin.getRotationController().getpController().setKi(Double.parseDouble(message));
-						}
+						System.out.println("Commando private.angle.setI bedoeld voor de zeppelin, verzonden door deze client");
 					}if(angleCommType.equals("setD")){
+						System.out.println("Commando private.angle.getD bedoeld voor de zeppelin, verzonden door deze client");
+					}if(angleCommType.equals("currentP")){
 						message = message.replaceAll("\\s+", "");
 						if(message.matches("\\d+")){
-						zeppelin.getRotationController().getpController().setKd(Double.parseDouble(message));
+							double kp = Double.parseDouble(message);
+							this.app.getGuiController().setKpAngle(kp);
+						}
+					}if(angleCommType.equals("currentI")){
+						message = message.replaceAll("\\s+", "");
+						if(message.matches("\\d+")){
+							double ki = Double.parseDouble(message);
+							this.app.getGuiController().setKiAngle(ki);
+						}
+					}if(angleCommType.equals("currentD")){
+						message = message.replaceAll("\\s+", "");
+						if(message.matches("\\d+")){
+							double kd = Double.parseDouble(message);
+							this.app.getGuiController().setKdAngle(kd);
 						}
 					}					
 				}

@@ -4,7 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
-import zeppelin.MainProgramImpl;
+
 /**
  * Controllerklasse voor alles wat met RAbbitMQ te maken heeft.
  * @author Jonas
@@ -18,7 +18,7 @@ public abstract class RabbitMQController {
 	 * Constructor voor de controller
 	 * @param zeppelin
 	 */
-	public RabbitMQController(MainProgramImpl zeppelin)
+	public RabbitMQController()
 	{
 		initialiseConnection();		
 	}

@@ -17,6 +17,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import RabbitMQ.RabbitMQController;
+import RabbitMQ.RabbitMQControllerClient;
+
 public	class FieldPanel extends JPanel {
 
 	public double getTranslationX() {
@@ -51,16 +54,23 @@ public	class FieldPanel extends JPanel {
 		this.scaleY = scaleY;
 	}
 
+	
+//	public RabbitMQControllerClient getRabbitMQControllerClient(){
+//		return rabbitMQControllerClient;
+//	}
+//	
 	private double translationX;
 	private double translationY;
 	private double scaleX;
 	private double scaleY;
 	private String absoluteGridFilePath;
+//	private RabbitMQControllerClient rabbitMQControllerClient;
 	
 	/////////////
     private int frameRate = 5;
 	/////////////
 	public FieldPanel(double translationX, double translationY, double scaleX, double scaleY){
+	//	this.rabbitMQControllerClient = rabbitMQControllerClient;
 		setTranslationX(translationX);
 		setTranslationY(translationY);
 		setScaleX(scaleX);

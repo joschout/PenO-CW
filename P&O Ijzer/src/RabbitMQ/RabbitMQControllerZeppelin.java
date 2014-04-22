@@ -9,7 +9,7 @@ public class RabbitMQControllerZeppelin extends RabbitMQController {
 	
 
 	public RabbitMQControllerZeppelin(MainProgramImpl zeppelin) {
-		super(zeppelin);
+		super();
 		Thread receiverThread = new Thread(new ZeppelinReceiver(zeppelin, this.getConnection()));
 		receiverThread.start();
 		setZeppelinSender(new ZeppelinSender(zeppelin, this.getConnection()));

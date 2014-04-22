@@ -1,5 +1,6 @@
 package RabbitMQ;
 
+import coordinate.SwingApp;
 import zeppelin.MainProgramImpl;
 
 public class RabbitMQControllerClient extends RabbitMQController {
@@ -7,11 +8,11 @@ public class RabbitMQControllerClient extends RabbitMQController {
 	//private ClientReceiver cRecv;
 	private ClientSender cSend;
 
-	public RabbitMQControllerClient(MainProgramImpl zeppelin) {
-		super(zeppelin);
-		Thread clientThread = new Thread(new ClientReceiver(zeppelin, this.getConnection()));
+	public RabbitMQControllerClient(SwingApp app) {
+		super();
+		Thread clientThread = new Thread(new ClientReceiver(app, this.getConnection()));
 		clientThread.start();
-		setClientSender(new ClientSender(zeppelin, this.getConnection()));
+		setClientSender(new ClientSender( this.getConnection()));
 	}
 
 //	public ClientReceiver getCRecv() {
@@ -29,4 +30,10 @@ public class RabbitMQControllerClient extends RabbitMQController {
 	public void setClientSender(ClientSender cSend) {
 		this.cSend = cSend;
 	}
+	
+	
+	
+	
+	
+	
 }

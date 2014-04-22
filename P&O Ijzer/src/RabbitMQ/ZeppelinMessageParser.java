@@ -59,9 +59,11 @@ public class ZeppelinMessageParser {
 					}
 				}
 			}if(commandName.equals("hcommand")){
-				System.out.println("Commando hcommand bedoeld voor zeppelin"+ zeppelinName );
+				System.out.println("Commando hcommand bedoeld voor zeppelin "+ zeppelinName );
 			}if(commandName.equals("lcommand")){
-				System.out.println("Commando lcommand bedoeld voor zeppelin"+ zeppelinName );
+				System.out.println("Commando lcommand bedoeld voor zeppelin "+ zeppelinName );
+			}if(commandName.equals("private")){
+				System.out.println("Commando private bedoeld voor zeppelin "+zeppelinName);
 			}
 		}
 //geldige naam gelijk aan ijzer
@@ -95,16 +97,18 @@ public class ZeppelinMessageParser {
 				String privateCommandtype = routingKeyTokens[2];
 				if(privateCommandtype.equals("log")){
 					System.out.println("Het log-command is enkel bedoeld voor de client");
+				}if(privateCommandtype.equals("exit")){
+					zeppelin.exit();
 				}if(privateCommandtype.equals("height")){
 					String heightCommType = routingKeyTokens[3];
 					if(heightCommType.equals("getP")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_GETP);
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_CURRENTP);
 					}
 					if(heightCommType.equals("getI")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_GETI);
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_CURRENTI);
 					}
 					if(heightCommType.equals("getD")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_GETD);
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_HEIGHT_CURRENTD);
 					}if(heightCommType.equals("setP")){
 						message = message.replaceAll("\\s+", "");
 						if(message.matches("\\d+")){
@@ -120,19 +124,34 @@ public class ZeppelinMessageParser {
 						if(message.matches("\\d+")){
 						zeppelin.getHeightController().getpController().setKd(Double.parseDouble(message));
 						}
+					}if(heightCommType.equals("currentP")){
+						System.out.println("Informatie verzonden door deze zeppelin over Kp van height");
+					}if(heightCommType.equals("currentI")){
+						System.out.println("Informatie verzonden door deze zeppelin over Ki van height");
+					}if(heightCommType.equals("currentD")){
+						System.out.println("Informatie verzonden door deze zeppelin over Kd van height");
 					}
+				
 					
-					
+				}if(privateCommandtype.equals("getTargetHeight")){
+					zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.CURRENTTARGETHEIGHT);
+				}if(privateCommandtype.equals("setTargetHeight")){
+					message = message.replaceAll("\\s+", "");
+					if(message.matches("\\d+")){
+					zeppelin.setTargetHeight(Double.parseDouble(message));;
+					}
+				}if(privateCommandtype.equals("currentTargetHeight")){
+					System.out.println("Informatie verzonden door deze zeppelin over de targetHeight");
 				}if(privateCommandtype.equals("angle")){
 					String angleCommType = routingKeyTokens[3];
 					if(angleCommType.equals("getP")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_GETP);
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_CURRENTP);
 					}
 					if(angleCommType.equals("getI")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_GETI);
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_CURRENTI);
 					}
 					if(angleCommType.equals("getD")){
-						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_GETD);
+						zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.PID_ANGLE_CURRENTD);
 					}if(angleCommType.equals("setP")){
 						message = message.replaceAll("\\s+", "");
 						if(message.matches("\\d+")){
@@ -148,7 +167,22 @@ public class ZeppelinMessageParser {
 						if(message.matches("\\d+")){
 						zeppelin.getRotationController().getpController().setKd(Double.parseDouble(message));
 						}
-					}					
+					}if(angleCommType.equals("currentP")){
+						System.out.println("Informatie verzonden door deze zeppelin over Kp van angle");
+					}if(angleCommType.equals("currentI")){
+						System.out.println("Informatie verzonden door deze zeppelin over Ki van angle");
+					}if(angleCommType.equals("currentD")){
+						System.out.println("Informatie verzonden door deze zeppelin over Kd van angle");
+					}				
+				}if(privateCommandtype.equals("getTargetAngle")){
+					zeppelin.getRabbitMQControllerZeppelin().getZeppelinSender().sendPrivateMessage(PrivateRoutingKeyTypes.CURRENTTARGETANGLE);
+				}if(privateCommandtype.equals("setTargetAngle")){
+					message = message.replaceAll("\\s+", "");
+					if(message.matches("\\d+")){
+					zeppelin.setTargetAngle(Double.parseDouble(message));;
+					}
+				}if(privateCommandtype.equals("currentTargetAngle")){
+					System.out.println("Informatie verzonden door deze zeppelin over de targetAngle");
 				}
 			}
 		}

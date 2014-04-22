@@ -74,15 +74,17 @@ public class ZeppelinSender {
 			case LOG:
 				message = LogWriter.INSTANCE.getLog();
 				channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
-			case PID_ANGLE_GETP:
+			case EXIT:
+				System.out.println("De zeppelin kan intern afsluiten, dit commando is voor gebruik door de client bedoeld.");
+			case PID_ANGLE_CURRENTP:
 				double KpAngle =this.zeppelin.getRotationController().getpController().getKp();
 				message = String.valueOf(KpAngle);
 				channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
-			case PID_ANGLE_GETI:
+			case PID_ANGLE_CURRENTI:
 				double KiAngle =this.zeppelin.getRotationController().getpController().getKi();
 				message = String.valueOf(KiAngle);
 				channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
-			case PID_ANGLE_GETD:
+			case PID_ANGLE_CURRENTD:
 				double KdAngle =this.zeppelin.getRotationController().getpController().getKd();
 				message = String.valueOf(KdAngle);
 				channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
@@ -92,17 +94,33 @@ public class ZeppelinSender {
 				System.out.println("Een zeppelin kan de Ki-waarde van zijn rotationController intern aanpassen; dit heeft geen nut over de server.");
 			case PID_ANGLE_SETD:	
 				System.out.println("Een zeppelin kan de Kd-waarde van zijn rotationController intern aanpassen; dit heeft geen nut over de server.");
-
-
-			case PID_HEIGHT_GETP:
+			case PID_ANGLE_GETP:
+				System.out.println("Een zeppelin kan de Kp-waarde van zijn rotationController intern opvragen; dit heeft geen nut over de server.");
+			case PID_ANGLE_GETI:
+				System.out.println("Een zeppelin kan de Ki-waarde van zijn rotationController intern opvragen; dit heeft geen nut over de server.");
+			case PID_ANGLE_GETD:	
+				System.out.println("Een zeppelin kan de Kd-waarde van zijn rotationController intern opvragen; dit heeft geen nut over de server.");	
+			case GETTARGETANGLE:
+				System.out.println("Een zeppelin kan de targetAngle van zijn rotationController intern opvragen; dit heeft geen nut over de server.");
+			case SETTARGETANGLE:
+				System.out.println("Een zeppelin kan de targetAngle van zijn rotationController intern aanpassen; dit heeft geen nut over de server.");
+			case CURRENTTARGETANGLE:
+				double targetAngle = this.zeppelin.getTargetAngle();
+				message = String.valueOf(targetAngle);
+				channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
+				
+				
+				
+				
+			case PID_HEIGHT_CURRENTP:
 				double KpHeight = this.getZeppelin().getHeightController().getpController().getKp();
 				message = String.valueOf(KpHeight);
 				channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
-			case PID_HEIGHT_GETI:
+			case PID_HEIGHT_CURRENTI:
 				double KiHeight = this.getZeppelin().getHeightController().getpController().getKi();
 				message = String.valueOf(KiHeight);
 				channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
-			case PID_HEIGHT_GETD:
+			case PID_HEIGHT_CURRENTD:
 				double KdHeight = this.getZeppelin().getHeightController().getpController().getKd();
 				message = String.valueOf(KdHeight);
 				channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
@@ -112,6 +130,22 @@ public class ZeppelinSender {
 				System.out.println("Een zeppelin kan de Ki-waarde van zijn heightController intern aanpassen; dit heeft geen nut over de server.");
 			case PID_HEIGHT_SETD:
 				System.out.println("Een zeppelin kan de Kd-waarde van zijn heightController intern aanpassen; dit heeft geen nut over de server.");
+			case PID_HEIGHT_GETP:
+				System.out.println("Een zeppelin kan de Kp-waarde van zijn heightController intern opvragen; dit heeft geen nut over de server.");
+			case PID_HEIGHT_GETI:
+				System.out.println("Een zeppelin kan de Ki-waarde van zijn heightController intern opvragen; dit heeft geen nut over de server.");
+			case PID_HEIGHT_GETD:
+				System.out.println("Een zeppelin kan de Kd-waarde van zijn heightController intern opvragen; dit heeft geen nut over de server.");
+			case GETTARGETHEIGHT:
+				System.out.println("Een zeppelin kan de targetHeight van zijn heightController intern opvragen; dit heeft geen nut over de server.");
+			case SETTARGETHEIGHT:
+				System.out.println("Een zeppelin kan de targetHeight van zijn heightController intern aanpassen; dit heeft geen nut over de server.");
+			case CURRENTTARGETHEIGHT:
+				double targetHeight = this.zeppelin.getTargetHeight();
+				message = String.valueOf(targetHeight);
+				channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());	
+			
+			
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
