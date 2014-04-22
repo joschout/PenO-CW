@@ -101,12 +101,9 @@ public class SwingApp {
 	public SwingApp() {
 
 		
-		try {
-			guiController = new GuiControllerAlternative2(this, new Zeppelin(new GridPoint(0, 0),100));
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+		guiController = new GuiControllerAlternative2(this, new Zeppelin(new GridPoint(0, 0),100));
+	
 		/////////////////////////////////////////////////////
 		HeightAndMotorWorker motorUpdater = new HeightAndMotorWorker();
 		LogUpdater logUpdater = new LogUpdater();

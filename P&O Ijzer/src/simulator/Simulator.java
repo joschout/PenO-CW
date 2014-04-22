@@ -1,16 +1,22 @@
 package simulator;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+import movement.HeightController;
+import movement.RotationController;
+import zeppelin.MainProgramInterface;
+import RabbitMQ.RabbitMQControllerZeppelin;
 import coordinate.GridPoint;
 
-public class Simulator {
+public class Simulator implements MainProgramInterface{
 	
 	public Simulator(String name, GridPoint startPosition,
 			GridPoint targetPosition, double startHeight,
 			double targetHeight, int updateInterval,
-			double positionStep, double heightStep) throws IllegalArgumentException {
+			double positionStep, double heightStep,
+			RabbitMQControllerZeppelin rabbitMQControllerZeppelin) throws IllegalArgumentException {
 		if (startPosition == null) {
 			throw new IllegalArgumentException("startPosition is geen geldige positie");
 		}
@@ -35,6 +41,10 @@ public class Simulator {
 			throw new IllegalArgumentException("heightStep is geen geldige "
 					+ "height step");
 		}
+		if (rabbitMQControllerZeppelin==null){
+			throw new IllegalArgumentException("rabbitMQControllerZeppelin is geen geldige "
+					+ "rabbitMQControllerZeppelin");
+		}
 		
 		this.name = name;
 		this.position = startPosition;
@@ -50,7 +60,8 @@ public class Simulator {
 	}
 	
 	public Simulator() {
-		this("Serenity", new GridPoint(0, 0), new GridPoint(250, 250), 100, 160, 1000, 5, 5);
+		this("Serenity", new GridPoint(0, 0), new GridPoint(250, 250), 100, 160, 1000, 5, 5,
+				new RabbitMQControllerZeppelin(zeppelin));
 	}
 	
 	private final String name;
@@ -167,6 +178,16 @@ public class Simulator {
 		return this.heightStepper;
 	}
 	
+	private RabbitMQControllerZeppelin rabbitMQControllerZeppelin; 
+	
+	public RabbitMQControllerZeppelin getRabbitMQControllerZeppelin(){
+		return this.rabbitMQControllerZeppelin;
+	}
+	
+	public void setRabbitMQControllerZeppelin(RabbitMQControllerZeppelin rabbitMQControllerZeppelin){
+		this.rabbitMQControllerZeppelin=rabbitMQControllerZeppelin;
+	}
+
 	private int updateInterval;
 	
 	public int getUpdateInterval() {
@@ -245,5 +266,30 @@ public class Simulator {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void exit() throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public HeightController getHeightController() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RotationController getRotationController() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String readLog() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
