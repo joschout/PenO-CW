@@ -129,4 +129,13 @@ public abstract class GridMarker extends Marker {
 	{
 		return colour + " " + shape + " " + getPoint().toString();
 	}
+
+	public boolean matchColor(GridMarker other) {
+		if (colour == null) {
+			if (other.colour != null)
+				return false;
+		} else if (!colour.equals(other.colour))
+			return false;
+		return true;
+	}
 }

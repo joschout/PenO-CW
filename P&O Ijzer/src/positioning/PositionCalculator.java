@@ -1,6 +1,5 @@
 package positioning;
 
-import java.util.ArrayList;
 
 import coordinate.GridMarker;
 import coordinate.GridPoint;

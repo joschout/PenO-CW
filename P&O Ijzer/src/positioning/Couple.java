@@ -84,6 +84,16 @@ public class Couple {
 	public String toString() {
 		return "Marker 1: " + getMarker1().toString() + ", Marker 2: " + getMarker2().toString();
 	}
+
+	public boolean matchColor(Couple other) {
+		if (this.marker1.matchColor(other.marker1) && this.marker2.matchColor(other.marker2)) {
+			return true;
+		}
+		if (this.marker1.matchColor(other.marker2) && this.marker2.matchColor(other.marker1)) {
+			return true;
+		}
+		return false;
+	}
 	
 	
 }

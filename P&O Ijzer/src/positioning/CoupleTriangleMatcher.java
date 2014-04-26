@@ -43,6 +43,27 @@ public class CoupleTriangleMatcher {
 			}
 			
 		}
+		if(match.distanceToCenter(recentPosition) > 50) {
+			for(GridTriangle triangle: triangles) {
+				double distanceToCenter = triangle.distanceToCenter(recentPosition);
+				int numMatches = triangle.countColorMatchingCouples(couples);
+				if (numMatches > matchHeuristic)
+				{
+					matchHeuristic = numMatches;
+					match = triangle;
+					distanceHeuristic = distanceToCenter;
+				}
+				else if (numMatches == matchHeuristic && distanceToCenter < distanceHeuristic)
+				{
+					match = triangle;
+					distanceHeuristic = distanceToCenter;
+				}
+				
+			}
+		}
+		if(match.distanceToCenter(recentPosition) > 50) {
+			return null;
+		}
 		return match;
 	}
 	

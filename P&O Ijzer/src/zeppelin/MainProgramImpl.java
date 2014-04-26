@@ -56,7 +56,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	 * Meest recente uitlezing van de sensor.
 	 */
 	private double mostRecentAngle;
-	private GridPoint position;
+	private GridPoint position; //TODO Moet juist geinnitialiseerd worden!
 	
 	// ======== Updatet de hoek en de huidige positie ========
 	private PositionUpdater positionUpdater;

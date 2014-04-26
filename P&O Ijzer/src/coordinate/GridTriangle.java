@@ -176,4 +176,19 @@ public class GridTriangle {
 		return toReturn.toString();
 	}
 
+	public int countColorMatchingCouples(List<Couple> pictureCouples) {
+		List<Couple> copyOfTriangleCouples = new ArrayList<Couple>(markerCouples);
+		int matches = 0;
+		for (Couple pictureCouple : pictureCouples)
+		{
+			for (Couple gridCouple: copyOfTriangleCouples) {
+				if(gridCouple.matchColor(pictureCouple))
+					matches++;
+					copyOfTriangleCouples.remove(pictureCouple);
+				
+			}
+		}
+		return matches;
+	}
+
 }
