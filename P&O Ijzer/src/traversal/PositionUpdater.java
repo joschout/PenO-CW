@@ -75,6 +75,10 @@ public class PositionUpdater implements Runnable {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			System.err.println("=== WAARSCHUWING: null pointer in update() van PositionUpdater. ===");
+		} catch (IndexOutOfBoundsException e) {
+			System.err.println("=== WAARSCHUWING: index out of bounds in update() van PositionUpdater. ===");
 		}
 	}
 	

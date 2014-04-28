@@ -33,7 +33,17 @@ public class GridInitialiser {
 	{
 		//Het inlezen van de data en het in een lijst van strings steken
 		//Elk element van de lijst is een rij van de file 
-		List<String[]> matrix = constructMatrix(filename);
+		File file = new File(filename);
+		if (! file.exists() || file.isDirectory()) {
+			file = new File(filename + ".csv");
+		}
+		if (! file.exists() || file.isDirectory()) {
+			file = new File(filename + ".txt");
+		}
+		if (! file.exists() || file.isDirectory()) {
+			throw new IOException(filename + " is geen geldig bestand.");
+		}
+		List<String[]> matrix = constructMatrix(file);
 		List<GridTriangle> triangles = new ArrayList<GridTriangle>();
 		List<Tablet> tablets = new ArrayList<Tablet>();
 		
@@ -45,14 +55,14 @@ public class GridInitialiser {
 				constructLowerTriangle(matrix, triangles, y ,x);
 			}
 		}
-		tablets = getTablets(filename);
+		tablets = getTablets(file);
 		
 		return new Grid(triangles, tablets);
 	}
 	
-	private List<Tablet> getTablets(String filename) throws IOException {
+	private List<Tablet> getTablets(File file) throws IOException {
 //		String withExtension = filename + ".txt";
-		File file = new File(filename);
+//		File file = new File(filename);
 //		if (! file.exists() || file.isDirectory())
 //		{
 //			withExtension = filename + ".csv";
@@ -200,11 +210,11 @@ public class GridInitialiser {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	private List<String[]> constructMatrix(String filename) throws FileNotFoundException,
+	private List<String[]> constructMatrix(File file) throws FileNotFoundException,
 			IOException {
 
 //		String withExtension = filename + ".txt";
-		File file = new File(filename);
+//		File file = new File(filename);
 //		if (! file.exists() || file.isDirectory())
 //		{
 //			withExtension = filename + ".csv";

@@ -639,7 +639,9 @@ public class SwingApp {
 					logText = SwingApp.this.guiController.readLog();
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
-							SwingApp.this.logTextArea.append(logText);
+							if (! logText.equals("")) {
+								SwingApp.this.logTextArea.append(logText);
+							}
 						}
 					});
 				} catch (IllegalStateException e) {

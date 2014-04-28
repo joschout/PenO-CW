@@ -112,6 +112,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 		
 		this.setTargetPosition(new GridPoint(-1, -1));
 		
+		this.enforceGoodSensorReading();
 		this.initialiseThreads();
 
 		LogWriter.INSTANCE.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
@@ -174,7 +175,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	}
 	
 	public PositionUpdater getPositionUpdater() {
-		return this.getPositionUpdater();
+		return this.positionUpdater;
 	}
 	
 	public GridPoint getPosition()
@@ -435,12 +436,21 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 		
 		boolean detectingQrCode = false;
 		boolean qrCodeFound = false;
-		boolean movedTowardsTarget = false; 
+		boolean movedTowardsTarget = false;
 		
 		while (!exit) {
+//			try {
+//				this.heightController.goToHeight(this.getTargetHeight());
+//			} catch (RemoteException e2) {
+//				e2.printStackTrace();
+//			} catch (TimeoutException e2) {
+//				e2.printStackTrace();
+//			}
+			this.getRabbitMQControllerZeppelin().getZeppelinSender().sendHeight();
 			if (! detectingQrCode)
 			{
 				this.getPositionUpdater().update();
+				this.getRabbitMQControllerZeppelin().getZeppelinSender().sendLocation();
 			}
 			if (this.getTargetPosition().equals(dummyPoint))
 			{
@@ -537,7 +547,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	{
 		GridInitialiser init = new GridInitialiser();
 		try {
-			this.grid = init.readGrid("grid");
+			this.grid = init.readGrid("/home/pi/grid.csv");
 		} catch (IOException e) {
 			System.err.println("WAARSCHUWING: kon grid niet initialiseren.");
 			e.printStackTrace();
@@ -548,6 +558,20 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	{
 		Thread heightUpdaterThread = new Thread(new HeightUpdater(this));
 		heightUpdaterThread.start();
+	}
+	
+	private void enforceGoodSensorReading() {
+		boolean good = false;
+		while (! good) {
+			try {
+				this.setHeight(this.getSensorController().sensorReading());
+				good = true;
+			} catch (TimeoutException e) {
+				System.out.println("Exception in het begin bij goede sensor reading");
+			} catch (InterruptedException e) {
+				System.out.println("Exception in het begin bij goede sensor reading");
+			}
+		}
 	}
 
 }
