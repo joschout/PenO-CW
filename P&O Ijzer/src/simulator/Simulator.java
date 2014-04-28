@@ -2,21 +2,24 @@ package simulator;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import movement.HeightController;
 import movement.RotationController;
 import zeppelin.MainProgramInterface;
+import zeppelin.Zeppelin;
+import RabbitMQ.RabbitMQControllerSimulator;
 import RabbitMQ.RabbitMQControllerZeppelin;
 import coordinate.GridPoint;
 
-public class Simulator implements MainProgramInterface{
+public class Simulator {
 	
 	public Simulator(String name, GridPoint startPosition,
 			GridPoint targetPosition, double startHeight,
 			double targetHeight, int updateInterval,
-			double positionStep, double heightStep,
-			RabbitMQControllerZeppelin rabbitMQControllerZeppelin) throws IllegalArgumentException {
+			double positionStep, double heightStep) throws IllegalArgumentException {
 		if (startPosition == null) {
 			throw new IllegalArgumentException("startPosition is geen geldige positie");
 		}
@@ -41,10 +44,6 @@ public class Simulator implements MainProgramInterface{
 			throw new IllegalArgumentException("heightStep is geen geldige "
 					+ "height step");
 		}
-		if (rabbitMQControllerZeppelin==null){
-			throw new IllegalArgumentException("rabbitMQControllerZeppelin is geen geldige "
-					+ "rabbitMQControllerZeppelin");
-		}
 		
 		this.name = name;
 		this.position = startPosition;
@@ -57,11 +56,11 @@ public class Simulator implements MainProgramInterface{
 		this.positionStepper = new PositionStepper();
 		this.heightStepper = new HeightStepper();
 		this.observers = new ArrayList<SimulatorObserver>();
+		this.mqController = new RabbitMQControllerSimulator(this);
 	}
 	
 	public Simulator() {
-		this("Serenity", new GridPoint(0, 0), new GridPoint(250, 250), 100, 160, 1000, 5, 5,
-				new RabbitMQControllerZeppelin(zeppelin));
+		this("Staal", new GridPoint(0, 0), new GridPoint(250, 250), 100, 160, 1000, 5, 5);
 	}
 	
 	private final String name;
@@ -177,16 +176,6 @@ public class Simulator implements MainProgramInterface{
 	private HeightStepper getHeightStepper() {
 		return this.heightStepper;
 	}
-	
-	private RabbitMQControllerZeppelin rabbitMQControllerZeppelin; 
-	
-	public RabbitMQControllerZeppelin getRabbitMQControllerZeppelin(){
-		return this.rabbitMQControllerZeppelin;
-	}
-	
-	public void setRabbitMQControllerZeppelin(RabbitMQControllerZeppelin rabbitMQControllerZeppelin){
-		this.rabbitMQControllerZeppelin=rabbitMQControllerZeppelin;
-	}
 
 	private int updateInterval;
 	
@@ -247,6 +236,29 @@ public class Simulator implements MainProgramInterface{
 		for (SimulatorObserver observer : this.getObservers()) {
 			observer.update(this);
 		}
+		this.getMQController().getSender().sendLocation();
+		this.getMQController().getSender().sendHeight();
+	}
+	
+	private RabbitMQControllerSimulator mqController;
+	
+	public RabbitMQControllerSimulator getMQController() {
+		return this.mqController;
+	}
+	
+	private Map<String, Zeppelin> otherKnownZeppelins = new HashMap<String, Zeppelin>();	
+	
+	public Map<String, Zeppelin> getOtherKnownZeppelins() {
+		return otherKnownZeppelins;
+	}
+
+	public void setOtherKnownZeppelins(Map<String, Zeppelin> otherKnownZeppelins) {
+		this.otherKnownZeppelins = otherKnownZeppelins;
+	}
+	
+	public void addOtherKnownZeppelin(String name) {
+		Zeppelin newZeppelin = new Zeppelin();
+		this.getOtherKnownZeppelins().put(name, newZeppelin);
 	}
 	
 	private class SimulatorRunner implements Runnable {
@@ -266,30 +278,5 @@ public class Simulator implements MainProgramInterface{
 				}
 			}
 		}
-	}
-
-	@Override
-	public void exit() throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public HeightController getHeightController() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public RotationController getRotationController() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String readLog() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

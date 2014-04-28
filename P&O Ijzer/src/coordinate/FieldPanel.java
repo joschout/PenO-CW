@@ -11,12 +11,14 @@ import java.awt.Polygon;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import zeppelin.Zeppelin;
 import RabbitMQ.RabbitMQController;
 import RabbitMQ.RabbitMQControllerClient;
 
@@ -64,12 +66,13 @@ public	class FieldPanel extends JPanel {
 	private double scaleX;
 	private double scaleY;
 	private String absoluteGridFilePath;
+	private SwingApp swingApp;
 //	private RabbitMQControllerClient rabbitMQControllerClient;
 	
 	/////////////
     private int frameRate = 5;
 	/////////////
-	public FieldPanel(double translationX, double translationY, double scaleX, double scaleY){
+	public FieldPanel(double translationX, double translationY, double scaleX, double scaleY, SwingApp swingApp){
 	//	this.rabbitMQControllerClient = rabbitMQControllerClient;
 		setTranslationX(translationX);
 		setTranslationY(translationY);
@@ -114,6 +117,7 @@ public	class FieldPanel extends JPanel {
 	         }
 	      };
 	      animationThread.start(); 
+	      this.swingApp = swingApp;
 	//////////////////////////////////	
 		
 	}
@@ -131,30 +135,37 @@ public	class FieldPanel extends JPanel {
 	
 	/** Update the position based on speed and direction of the sprite */
 	   public void update() {
-		   
-		  double x= getZeppelinMarker().getPoint().x;
-		  double y= getZeppelinMarker().getPoint().y;
+		   Map<String, Zeppelin> zepMap = this.swingApp.getGuiController().getOtherKnownZeppelins();
+		   List<ZeppelinMarker> toDraw = new ArrayList<ZeppelinMarker>();
+		   for (Map.Entry<String, Zeppelin> entry : zepMap.entrySet()) {
+			   ZeppelinMarker toAdd = new ZeppelinMarker(entry.getValue().getPosition());
+			   if (entry.getKey().equalsIgnoreCase("ijzer")) {
+				   toAdd.setMarkerColor(Color.orange);
+			   }
+			   toDraw.add(toAdd);
+		   }
+		   this.setZeppelinMarkerList(toDraw);
 		  
-		  if(this.direction == true){
-			  
-			  x+=10;
-			  y+=GridInitialiser.getMatrixDisplacementY()/2;
-			  
-		  }
-		  if(this.direction == false){
-			  x-=10;
-			  y-=GridInitialiser.getMatrixDisplacementY()/2;  
-		  }
-		  if(x<40){
-			 this.direction = true;
-		  }
-		  if(x>120){
-			  this.direction = false;
-		  }
+//		  if(this.direction == true){
+//			  
+//			  x+=10;
+//			  y+=GridInitialiser.getMatrixDisplacementY()/2;
+//			  
+//		  }
+//		  if(this.direction == false){
+//			  x-=10;
+//			  y-=GridInitialiser.getMatrixDisplacementY()/2;  
+//		  }
+//		  if(x<40){
+//			 this.direction = true;
+//		  }
+//		  if(x>120){
+//			  this.direction = false;
+//		  }
 		  
 		  
-		   GridPoint point = new GridPoint(x,y);
-		   getZeppelinMarker().setPoint(point);
+//		   GridPoint point = new GridPoint(x,y);
+//		   getZeppelinMarker().setPoint(point);
 		   
 		   
 		   
@@ -296,7 +307,7 @@ public	class FieldPanel extends JPanel {
 	
 	
 	public static void main(String[] args) {
-		FieldPanel panel = new FieldPanel(0,0,1,1);
+		FieldPanel panel = new FieldPanel(0,0,1,1,null);
 		JFrame f = new JFrame("Heart");
 		f.getContentPane().add( panel, "Center" );
 

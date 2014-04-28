@@ -189,6 +189,7 @@ public class ClientMessageParser {
 		groupNames.add("koper");
 		groupNames.add("platinum");
 		groupNames.add("ijzer");
+		groupNames.add("staal");
 
 		commandTypes.add("lcommand");
 		commandTypes.add("hcommand");

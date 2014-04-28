@@ -109,6 +109,7 @@ public class SwingApp {
 		LogUpdater logUpdater = new LogUpdater();
 		motorUpdater.execute();
 		logUpdater.execute();
+		this.rabbitMQControllerClient = new RabbitMQControllerClient(this);
 		/////////////////////////////////////////////////////
 		initialize();
 	}
@@ -154,7 +155,7 @@ public class SwingApp {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		fieldpanel = new FieldPanel(85,20,1,1);;
+		fieldpanel = new FieldPanel(85,20,1,1,this);;
 		fieldpanel.setBounds(10, 11, 528, 392);
 		panel_1.add(fieldpanel);
 		

@@ -50,8 +50,8 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	}
 	
 	public void addOtherKnownZeppelin(String name) {
-//		IZeppelin newZeppelin = new Zeppelin();
-//		this.getOtherKnownZeppelins().put(name, newZeppelin);
+		Zeppelin newZeppelin = new Zeppelin();
+		this.getOtherKnownZeppelins().put(name, newZeppelin);
 	}
 
 	private static final long serialVersionUID = 1L;
