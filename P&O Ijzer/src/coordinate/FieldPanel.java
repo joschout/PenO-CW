@@ -81,7 +81,7 @@ public	class FieldPanel extends JPanel {
 		setZeppelinMarkerList(new ArrayList<ZeppelinMarker>());
 		getZeppelinMarkerList().add(new ZeppelinMarker(new GridPoint(40, 2*GridInitialiser.getMatrixDisplacementY())));
 
-		this.direction = true;
+	//	this.direction = true;
 		GridInitialiser gritInitialiser = new GridInitialiser();
 
 		try {
@@ -96,8 +96,8 @@ public	class FieldPanel extends JPanel {
 		    setFieldGrid(gritInitialiser.readGrid(chooser.getSelectedFile().getAbsolutePath()));
 		    }
 		    else{
-		    
-			setFieldGrid(gritInitialiser.readGrid("G:\\gridTestFile.csv"));
+		    	setFieldGrid(gritInitialiser.readGrid("C:\\Users\\Jonas\\Desktop\\newGrid2804.csv"));
+			//setFieldGrid(gritInitialiser.readGrid("G:\\gridTestFile.csv"));
 			
 		    }
 		} catch (IOException e) {
@@ -129,7 +129,7 @@ public	class FieldPanel extends JPanel {
 	
 	public GridPoint testDestination1 = new GridPoint(40, 2*GridInitialiser.getMatrixDisplacementY());
 	public GridPoint testDestination2 = new GridPoint(160, 4*GridInitialiser.getMatrixDisplacementY());
-	public boolean direction;
+//	public boolean direction;
 	
 	
 	/** Update the position based on speed and direction of the sprite */
@@ -154,7 +154,7 @@ public	class FieldPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-		setBackground(Color.CYAN);
+		setBackground(Color.LIGHT_GRAY);
 		doDrawing(g);
 	}    
 

@@ -154,7 +154,7 @@ public class SwingApp {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		fieldpanel = new FieldPanel(this,85,20,1,1);;
+		fieldpanel = new FieldPanel(this,70,20,0.8,0.8);;
 		fieldpanel.setBounds(10, 11, 528, 392);
 		panel_1.add(fieldpanel);
 		
