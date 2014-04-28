@@ -67,7 +67,7 @@ public class SwingApp {
 	
 	private JButton setTargetHeight, logfiles;
 	private JLabel doelhoogteLabel;
-	private JPanel logpanel, lightpanel, fieldpanel, variablepanel, arrowpanel;
+	private JPanel logpanel, fieldpanel, variablepanel;
 	private JTextArea huidigeHoogte, targetHoogte, logTextArea, KpValueHeight, KdValueHeight, KiValueHeight, safetyIntervalValueHeight, KpValueAngle, KdValueAngle, KiValueAngle, safetyIntervalValueAngle;
 	private JSlider setKpHeight, setKiHeight, setKdHeight,  setKpAngle, setKiAngle, setKdAngle;
 //	private JSlider setSafetyIntervalHeight, setSafetyIntervalAngle;
@@ -154,13 +154,13 @@ public class SwingApp {
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		fieldpanel = new FieldPanel(85,20,1,1);;
+		fieldpanel = new FieldPanel(this,85,20,1,1);;
 		fieldpanel.setBounds(10, 11, 528, 392);
 		panel_1.add(fieldpanel);
 		
 		JPanel heightpanel = new JPanel();
 		heightpanel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		heightpanel.setBounds(0, 323, 152, 190);
+		heightpanel.setBounds(0, 323, 375, 280);
 		frame.getContentPane().add(heightpanel);
 		heightpanel.setLayout(null);
 		
@@ -200,12 +200,6 @@ public class SwingApp {
 		targetHoogte.setEditable(false);
 		targetHoogte.setBounds(94, 96, 48, 22);
 		heightpanel.add(targetHoogte);
-		
-		lightpanel = new JPanel();
-		lightpanel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		lightpanel.setBounds(0, 510, 375, 93);
-		frame.getContentPane().add(lightpanel);
-		lightpanel.setLayout(null);
 				
 		variablepanel = new JPanel();
 		variablepanel.setBounds(373, 406, 548, 197);
@@ -362,22 +356,6 @@ public class SwingApp {
 		safetyIntervalValueAngle.setEditable(false);
 		safetyIntervalValueAngle.setBounds(331, 136, 48, 22);
 		variablepanel.add(safetyIntervalValueAngle);
-		
-//		setSafetyIntervalAngle = new JSlider();
-//		setSafetyIntervalAngle.addChangeListener(new ChangeListener() {
-//			public void stateChanged(ChangeEvent e) {
-//				double input = setSafetyIntervalAngle.getValue();
-//				safetyIntervalValueAngle.setText(Double.toString(input));
-//			}
-//		});
-//		setSafetyIntervalAngle.setBounds(389, 139, 137, 17);
-//		variablepanel.add(setSafetyIntervalAngle);
-		
-		arrowpanel = new JPanel();
-		arrowpanel.setBorder(new LineBorder(new Color(0, 0, 0), 3));
-		arrowpanel.setBounds(149, 323, 226, 190);
-		frame.getContentPane().add(arrowpanel);
-		arrowpanel.setLayout(null);
 		
 //		arrowup = new BasicArrowButton(SwingConstants.NORTH);
 //		arrowup.setBackground(Color.CYAN);

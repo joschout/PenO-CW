@@ -19,6 +19,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import RabbitMQ.RabbitMQController;
 import RabbitMQ.RabbitMQControllerClient;
+import zeppelin.*;
 
 public	class FieldPanel extends JPanel {
 
@@ -64,13 +65,15 @@ public	class FieldPanel extends JPanel {
 	private double scaleX;
 	private double scaleY;
 	private String absoluteGridFilePath;
+	private SwingApp app;
 //	private RabbitMQControllerClient rabbitMQControllerClient;
 	
 	/////////////
     private int frameRate = 5;
 	/////////////
-	public FieldPanel(double translationX, double translationY, double scaleX, double scaleY){
-	//	this.rabbitMQControllerClient = rabbitMQControllerClient;
+	public FieldPanel(SwingApp app, double translationX, double translationY, double scaleX, double scaleY){
+		this.setApp(app);
+		//	this.rabbitMQControllerClient = rabbitMQControllerClient;
 		setTranslationX(translationX);
 		setTranslationY(translationY);
 		setScaleX(scaleX);
@@ -131,56 +134,14 @@ public	class FieldPanel extends JPanel {
 	
 	/** Update the position based on speed and direction of the sprite */
 	   public void update() {
-		   
-		  double x= getZeppelinMarker().getPoint().x;
-		  double y= getZeppelinMarker().getPoint().y;
-		  
-		  if(this.direction == true){
-			  
-			  x+=10;
-			  y+=GridInitialiser.getMatrixDisplacementY()/2;
-			  
-		  }
-		  if(this.direction == false){
-			  x-=10;
-			  y-=GridInitialiser.getMatrixDisplacementY()/2;  
-		  }
-		  if(x<40){
-			 this.direction = true;
-		  }
-		  if(x>120){
-			  this.direction = false;
-		  }
-		  
-		  
-		   GridPoint point = new GridPoint(x,y);
-		   getZeppelinMarker().setPoint(point);
-		   
-		   
-		   
-		   
-//	      x += speed * Math.cos(Math.toRadians(direction));  // x-position
-//	      if (x >= CANVAS_WIDTH) {
-//	         x -= CANVAS_WIDTH;
-//	      } else if (x < 0) {
-//	         x += CANVAS_WIDTH;
-//	      }
-//	      y += speed * Math.sin(Math.toRadians(direction));  // y-position
-//	      if (y >= CANVAS_HEIGHT) {
-//	         y -= CANVAS_HEIGHT;
-//	      } else if (y < 0) {
-//	         y += CANVAS_HEIGHT;
-//	      }
-//	      direction += rotationSpeed;  // update direction based on rotational speed
-//	      if (direction >= 360) {
-//	         direction -= 360;
-//	      } else if (direction < 0) {
-//	         direction += 360;
-//	      }
-//	      ++currentFrame;    // display next frame
-//	      if (currentFrame >= imgFrames.length) {
-//	         currentFrame = 0;
-//	      }
+		   ArrayList<ZeppelinMarker> zeppelinMarkerList = new ArrayList<ZeppelinMarker>();
+		   for(Zeppelin zeppelin: getApp().getGuiController().getOtherKnownZeppelins().values()){
+			  zeppelinMarkerList.add(new ZeppelinMarker(zeppelin.getPosition()));
+		   }
+		   ZeppelinMarker ownZeppelinMarker
+		   		= new ZeppelinMarker(app.getGuiController().getZeppelin().getPosition(), Color.PINK);
+		   zeppelinMarkerList.add(ownZeppelinMarker);
+		   setZeppelinMarkerList(zeppelinMarkerList);
 	   }
 	
 	
@@ -271,41 +232,49 @@ public	class FieldPanel extends JPanel {
 	}
 	
 	
-	@Deprecated
-	public ZeppelinMarker zeppelinMarker;
+//	@Deprecated
+//	public ZeppelinMarker zeppelinMarker;
+//	
+//	@Deprecated
+//	public ZeppelinMarker getZeppelinMarker() {
+//		return zeppelinMarker;
+//	}
+//
+//	@Deprecated
+//	public void setZeppelinMarker(ZeppelinMarker zeppelinMarker) {
+//		this.zeppelinMarker = zeppelinMarker;
+//	}
+//
+//	@Deprecated
+//	public void drawZeppelinMarker(Graphics g){
+//		
+//		getZeppelinMarker().drawMarker(g);
+//	}
 	
-	@Deprecated
-	public ZeppelinMarker getZeppelinMarker() {
-		return zeppelinMarker;
+	
+	
+	
+	
+	
+//	public static void main(String[] args) {
+//		FieldPanel panel = new FieldPanel(0,0,1,1);
+//		JFrame f = new JFrame("Heart");
+//		f.getContentPane().add( panel, "Center" );
+//
+//		f.addWindowListener(new WindowAdapter() {
+//			public void windowClosing(WindowEvent e) {
+//				System.exit(0);
+//			}
+//		});
+//		f.setSize(new Dimension(450, 250));
+//		f.setVisible(true);
+//	}
+
+	public SwingApp getApp() {
+		return app;
 	}
 
-	@Deprecated
-	public void setZeppelinMarker(ZeppelinMarker zeppelinMarker) {
-		this.zeppelinMarker = zeppelinMarker;
-	}
-
-	@Deprecated
-	public void drawZeppelinMarker(Graphics g){
-		
-		getZeppelinMarker().drawMarker(g);
-	}
-	
-	
-	
-	
-	
-	
-	public static void main(String[] args) {
-		FieldPanel panel = new FieldPanel(0,0,1,1);
-		JFrame f = new JFrame("Heart");
-		f.getContentPane().add( panel, "Center" );
-
-		f.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
-		f.setSize(new Dimension(450, 250));
-		f.setVisible(true);
+	public void setApp(SwingApp app) {
+		this.app = app;
 	}
 }
