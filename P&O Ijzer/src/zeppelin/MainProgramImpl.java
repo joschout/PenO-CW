@@ -174,7 +174,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	}
 	
 	public PositionUpdater getPositionUpdater() {
-		return this.getPositionUpdater();
+		return this.positionUpdater;
 	}
 	
 	public GridPoint getPosition()
