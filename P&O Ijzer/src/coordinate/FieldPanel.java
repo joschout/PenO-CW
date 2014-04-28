@@ -173,7 +173,8 @@ public	class FieldPanel extends JPanel {
 		List<GridTriangle> gridTriangleList = getFieldGrid().getGridTriangles();
 		List<Polygon> trianglePolygonList = new ArrayList<Polygon>();
 		List<GridMarker> allGridMarkers = new ArrayList<GridMarker>();
-
+		List<Tablet> tabletList= getFieldGrid().getTablets();
+		
 		for(GridTriangle tria: gridTriangleList){ 		
 
 			List<GridMarker> gridMarkerList = tria.getGridMarkers();
@@ -193,10 +194,13 @@ public	class FieldPanel extends JPanel {
 				trianglePolygonList.add(trianglePolygon);
 				g2d.setColor(Color.black);
 				g2d.drawPolygon(trianglePolygon);	
-		}	 	
-		for(GridMarker marker: allGridMarkers)
-		{
+		}
+		for(GridMarker marker: allGridMarkers){
 			marker.drawMarker(g2d);
+		}
+		for(Tablet tablet: tabletList){
+			TabletMarker tabletMarker = new TabletMarker(new GridPoint(tablet.x, tablet.y));
+			tabletMarker.drawMarker(g2d);
 		}
 
 	}

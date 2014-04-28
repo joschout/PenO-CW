@@ -1,6 +1,7 @@
-
-
 package coordinate;
+
+
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -50,13 +51,13 @@ public class GridInitialiser {
 	}
 	
 	private List<Tablet> getTablets(String filename) throws IOException {
-		String withExtension = filename + ".txt";
-		File file = new File(withExtension);
-		if (! file.exists() || file.isDirectory())
-		{
-			withExtension = filename + ".csv";
-			file = new File(withExtension);
-		}
+//		String withExtension = filename + ".txt";
+		File file = new File(filename);
+//		if (! file.exists() || file.isDirectory())
+//		{
+//			withExtension = filename + ".csv";
+//			file = new File(withExtension);
+//		}
 		BufferedReader reader =  new BufferedReader(new FileReader(file));
 		
 		List<Tablet> tablets = new ArrayList<Tablet>();
@@ -79,6 +80,7 @@ public class GridInitialiser {
 				input = reader.readLine();
 			}
 		}
+		reader.close();
 		return tablets;
 	}
 	
@@ -201,13 +203,13 @@ public class GridInitialiser {
 	private List<String[]> constructMatrix(String filename) throws FileNotFoundException,
 			IOException {
 
-		String withExtension = filename + ".txt";
-		File file = new File(withExtension);
-		if (! file.exists() || file.isDirectory())
-		{
-			withExtension = filename + ".csv";
-			file = new File(withExtension);
-		}
+//		String withExtension = filename + ".txt";
+		File file = new File(filename);
+//		if (! file.exists() || file.isDirectory())
+//		{
+//			withExtension = filename + ".csv";
+//			file = new File(withExtension);
+//		}
 		BufferedReader reader =  new BufferedReader(new FileReader(file));
 		List<String[]> matrix = new ArrayList<String[]>();
 		String input = reader.readLine();
