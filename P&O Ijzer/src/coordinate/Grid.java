@@ -4,9 +4,17 @@ import java.util.List;
 
 public class Grid {
 	
-	public Grid(List<GridTriangle> gridTriangles)
+	public Grid(List<GridTriangle> gridTriangles, List<Tablet> tablets)
 	{
 		this.gridTriangles = gridTriangles;
+		this.tablets = tablets;
+	}
+	
+	private List<Tablet> tablets;
+	
+	public List<Tablet> getTablets()
+	{
+		return this.tablets;
 	}
 	
 	private List<GridTriangle> gridTriangles;

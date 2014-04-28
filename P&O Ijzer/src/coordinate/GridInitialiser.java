@@ -1,5 +1,7 @@
-
 package coordinate;
+
+
+
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,11 +18,10 @@ public class GridInitialiser {
 	private static final double X_DISPLACEMENT = 20;
 	private static final double Y_DISPLACEMENT = 20 * Math.sqrt(3);
 
-	
-	
 	public static double getMatrixDisplacementY(){
 		return Y_DISPLACEMENT;
 	}
+	
 	
 	/**
 	 * Geeft een opbject van de klasse Grid terug
@@ -34,6 +35,7 @@ public class GridInitialiser {
 		//Elk element van de lijst is een rij van de file 
 		List<String[]> matrix = constructMatrix(filename);
 		List<GridTriangle> triangles = new ArrayList<GridTriangle>();
+		List<Tablet> tablets = new ArrayList<Tablet>();
 		
 		for (int y = 0; y < matrix.size(); y++) // y is vertikale index
 		{
@@ -43,7 +45,53 @@ public class GridInitialiser {
 				constructLowerTriangle(matrix, triangles, y ,x);
 			}
 		}
-		return new Grid(triangles);
+		tablets = getTablets(filename);
+		
+		return new Grid(triangles, tablets);
+	}
+	
+	private List<Tablet> getTablets(String filename) throws IOException {
+//		String withExtension = filename + ".txt";
+		File file = new File(filename);
+//		if (! file.exists() || file.isDirectory())
+//		{
+//			withExtension = filename + ".csv";
+//			file = new File(withExtension);
+//		}
+		BufferedReader reader =  new BufferedReader(new FileReader(file));
+		
+		List<Tablet> tablets = new ArrayList<Tablet>();
+		String input = reader.readLine();
+		int number = 0;
+		while (input != null)
+		{
+			String[] tokens = input.replaceAll(" ","").split(",");
+			if(isInteger(tokens[0])) {
+				while (input != null) {
+					number++;
+					tokens = input.replaceAll(" ","").split(",");
+					Tablet tablet = new Tablet(number, tokens[0], tokens[1]);
+					tablets.add(tablet);
+					input = reader.readLine();
+				}
+				break;
+			}
+			else {
+				input = reader.readLine();
+			}
+		}
+		reader.close();
+		return tablets;
+	}
+	
+	private boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    // only got here if we didn't return false
+	    return true;
 	}
 
 
@@ -155,15 +203,13 @@ public class GridInitialiser {
 	private List<String[]> constructMatrix(String filename) throws FileNotFoundException,
 			IOException {
 
-		File file = new File(filename);
 //		String withExtension = filename + ".txt";
-//		File file = new File(withExtension);
+		File file = new File(filename);
 //		if (! file.exists() || file.isDirectory())
 //		{
 //			withExtension = filename + ".csv";
 //			file = new File(withExtension);
 //		}
-		
 		BufferedReader reader =  new BufferedReader(new FileReader(file));
 		List<String[]> matrix = new ArrayList<String[]>();
 		String input = reader.readLine();
@@ -171,6 +217,9 @@ public class GridInitialiser {
 		while (input != null)
 		{
 			String[] tokens = input.replaceAll(" ","").split(",");
+			if(isInteger(tokens[0])) {
+				break; //stopt als die tablet vindt
+			}
 			String[] matrixRow = new String[tokens.length * 2];
 			int tokenCursor = 0;
 			if (shortRow)
@@ -249,8 +298,6 @@ public class GridInitialiser {
 			return "rectangle";
 		case 'O':
 			return "oval";
-		case 'C':
-			return "oval";	
 		case 'S':
 			return "star";
 		default:
@@ -298,4 +345,3 @@ public class GridInitialiser {
 		return ! (token.equals(EMPTY_CELL) || token.equals(NOT_USED));
 	}
 }
-

@@ -9,7 +9,8 @@ public enum Colour {
 	WHITE("white",'W', Color.white), 
 	BLUE("blue",'B', Color.blue), 
 	GREEN("green",'G', Color.green),
-	UNDETERMINED("undetermined", 'U', Color.black);
+	BLACK("black", 'Z', Color.black),
+	UNDETERMINED("undetermined", 'U', Color.pink);
 	
 	private final String name;
 	private final char abbreviation;
