@@ -38,7 +38,6 @@ public class GridInitialiser {
 				constructLowerTriangle(matrix, triangles, y ,x);
 			}
 		}
-		
 		tablets = getTablets(filename);
 		
 		return new Grid(triangles, tablets);
@@ -56,13 +55,15 @@ public class GridInitialiser {
 		
 		List<Tablet> tablets = new ArrayList<Tablet>();
 		String input = reader.readLine();
+		int number = 0;
 		while (input != null)
 		{
 			String[] tokens = input.replaceAll(" ","").split(",");
-			if(tokens[0].equals("1")) {
+			if(isInteger(tokens[0])) {
 				while (input != null) {
+					number++;
 					tokens = input.replaceAll(" ","").split(",");
-					Tablet tablet = new Tablet(tokens[0], tokens[1], tokens[2]);
+					Tablet tablet = new Tablet(number, tokens[0], tokens[1]);
 					tablets.add(tablet);
 					input = reader.readLine();
 				}
@@ -72,7 +73,17 @@ public class GridInitialiser {
 				input = reader.readLine();
 			}
 		}
-		return null;
+		return tablets;
+	}
+	
+	private boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    // only got here if we didn't return false
+	    return true;
 	}
 
 
@@ -198,7 +209,7 @@ public class GridInitialiser {
 		while (input != null)
 		{
 			String[] tokens = input.replaceAll(" ","").split(",");
-			if(tokens[0].equals("1")) {
+			if(isInteger(tokens[0])) {
 				break; //stopt als die tablet vindt
 			}
 			String[] matrixRow = new String[tokens.length * 2];
