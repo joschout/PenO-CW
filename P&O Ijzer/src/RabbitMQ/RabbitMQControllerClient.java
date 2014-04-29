@@ -15,13 +15,6 @@ public class RabbitMQControllerClient extends RabbitMQController {
 		setClientSender(new ClientSender( this.getConnection()));
 	}
 
-//	public ClientReceiver getCRecv() {
-//		return cRecv;
-//	}
-//
-//	public void setCRecv(ClientReceiver cRecv) {
-//		this.cRecv = cRecv;
-//	}
 
 	public ClientSender getClientSender() {
 		return cSend;
