@@ -25,13 +25,13 @@ import coordinate.Star;
 import coordinate.UndeterminedShape;
 
 public class ImageAnalyser {
-	
+
 	Image image;
-	
+
 	public ImageAnalyser(Image image) {
 		this.image = image;
 	}
-	
+
 	/**
 	 * Analyseert de gegeven foto om de vormen met hun kleur te vinden.
 	 * @param filePath
@@ -46,11 +46,13 @@ public class ImageAnalyser {
 		{
 			String shape = this.determineShape(contour);
 			Colour color = this.determineColour(contour, image);
-			GridPoint contourCenter = this.centerOfContour(contour);
-			GridMarker marker = initialiseMarker(color, shape, contourCenter);
-			if (! undeterminedCheck(marker))
-			{
-				toReturn.add(marker);
+			if(!color.equals(Colour.BLACK)) {
+				GridPoint contourCenter = this.centerOfContour(contour);
+				GridMarker marker = initialiseMarker(color, shape, contourCenter);
+				if (! undeterminedCheck(marker))
+				{
+					toReturn.add(marker);
+				}
 			}
 			// verwijder duplicaten die te dicht bij elkaar liggen
 		}
@@ -72,7 +74,7 @@ public class ImageAnalyser {
 		System.out.println("Lijst returned in ImageAnalyser is leeg: " + toReturn.isEmpty());
 		return toReturn;
 	}
-	
+
 	private GridMarker initialiseMarker(Colour color, String shape,
 			GridPoint contourCenter) {
 		if (shape.equals("heart"))
@@ -96,7 +98,7 @@ public class ImageAnalyser {
 			return new UndeterminedShape(color, shape, contourCenter);
 		}
 	}
-	
+
 	private boolean undeterminedCheck(GridMarker marker)
 	{
 		return (marker.getShape().equals("undetermined") || marker.getColour() == Colour.UNDETERMINED);
@@ -119,17 +121,17 @@ public class ImageAnalyser {
 		}
 		return toReturn;
 	}
-	
+
 	private double cosine(Point pt1, Point pt2, Point pt0)
 	{
-	    double dx1 = pt1.x - pt0.x;
-	    double dy1 = pt1.y - pt0.y;
-	    double dx2 = pt2.x - pt0.x;
-	    double dy2 = pt2.y - pt0.y;
+		double dx1 = pt1.x - pt0.x;
+		double dy1 = pt1.y - pt0.y;
+		double dx2 = pt2.x - pt0.x;
+		double dy2 = pt2.y - pt0.y;
 
-	    return (dx1*dx2 + dy1*dy2)/Math.sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
+		return (dx1*dx2 + dy1*dy2)/Math.sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
 	}
-	
+
 	private String determineShape(MatOfPoint contour)
 	{
 		MatOfPoint2f approx = new MatOfPoint2f();
@@ -167,18 +169,18 @@ public class ImageAnalyser {
 			return "undetermined";
 		}	
 	}
-	
+
 	private boolean checkRectangle(List<Double> cos)
 	{
 		int perp_count = 0;
 		for (Double cosinus: cos)
 		{
 			if (Math.abs(cosinus) <= 0.1)
-					perp_count++;
+				perp_count++;
 		}
 		return perp_count >= 2;
 	}
-	
+
 	private boolean checkOval(List<Double> cos, double variance, double neg)
 	{
 		if ((neg / cos.size()) < 0.8)
@@ -191,7 +193,7 @@ public class ImageAnalyser {
 		}
 		return false;
 	}
-	
+
 	private boolean checkStar(List<Double> cos, double variance, double neg)
 	{
 		if ((neg/cos.size()) < 0.3 || (neg/cos.size()) > 0.7)
@@ -204,7 +206,7 @@ public class ImageAnalyser {
 		}
 		return false;
 	}
-	
+
 	private boolean checkHeart(List<Double> cos, double variance, double neg)
 	{
 		if ((neg/cos.size()) < 0.8)
@@ -217,7 +219,7 @@ public class ImageAnalyser {
 		}
 		return false;
 	}
-	
+
 	private Colour determineColour(MatOfPoint contour, Image image)
 	{
 		Mat hsv = new Mat();
@@ -243,7 +245,7 @@ public class ImageAnalyser {
 		color[2] = color[2] / iterations;
 		return this.applyRanges(color);
 	}
-	
+
 	private double calcVariance(List<Double> cos)
 	{
 		double mean = 0;
@@ -260,7 +262,7 @@ public class ImageAnalyser {
 		variance = variance / cos.size();
 		return variance;
 	}
-	
+
 	private double countNegatives(List<Double> cos)
 	{
 		double neg = 0;
@@ -273,7 +275,7 @@ public class ImageAnalyser {
 		}
 		return neg;
 	}
-	
+
 	private GridPoint centerOfContour(MatOfPoint contour)
 	{
 		Rect r = Imgproc.boundingRect(contour);
@@ -281,9 +283,10 @@ public class ImageAnalyser {
 		double centerHeight = r.y + (r.height / 2);
 		return new GridPoint(centerWidth, centerHeight);
 	}
-	
+
 	private Colour applyRanges(double[] color)
 	{
+		//TODO Zwart toevoegen.
 		double H = color[0]; double S = color[1]; double V = color[2];
 		double whiteVThreshold = 100;
 		double whiteSThreshold = 40;

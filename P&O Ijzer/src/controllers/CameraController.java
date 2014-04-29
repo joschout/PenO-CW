@@ -14,8 +14,8 @@ import positioning.Image;
 
 public class CameraController implements Serializable {
 	
-	public static String PICTURE_PATH = "/run/shm/";
-	private static Object lock = new Object();
+	public static final String PICTURE_PATH = "/run/shm/";
+	private static final Object lock = new Object();
 
 	/**
 	 * Laat de Raspberry Pi een foto nemen
@@ -60,18 +60,20 @@ public class CameraController implements Serializable {
 	
 	private double[] decideResolution(double currentHeight) {
 		double[] toReturn = new double[2];
-		if (currentHeight <= 100) {
-			toReturn[0] = 400;
-			toReturn[1] = 300;
-		}
-		else if (currentHeight <= 160) {
-			toReturn[0] = 800;
-			toReturn[1] = 600;
-		}
-		else {
-			toReturn[0] = 1400;
-			toReturn[1] = 1050;
-		}
+//		if (currentHeight <= 100) {
+//			toReturn[0] = 400;
+//			toReturn[1] = 300;
+//		}
+//		else if (currentHeight <= 160) {
+//			toReturn[0] = 800;
+//			toReturn[1] = 600;
+//		}
+//		else {
+//			toReturn[0] = 1400;
+//			toReturn[1] = 1050;
+//		}
+		toReturn[0] = 800;
+		toReturn[1] = 600;
 		return toReturn;
 	}
 }

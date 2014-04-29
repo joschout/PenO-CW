@@ -1,5 +1,7 @@
 package coordinate;
 
+import java.text.DecimalFormat;
+
 public class GridPoint {
 	
 	/**
@@ -107,7 +109,8 @@ public class GridPoint {
 	@Override
 	public String toString()
 	{
-		return "x: " + this.x + ", y: " + this.y;
+		DecimalFormat f = new DecimalFormat("#.###");
+		return "x: " + f.format(this.x) + ", y: " + f.format(this.y);
 	}
 
 }

@@ -65,7 +65,11 @@ public class HeightController implements Serializable {
 	public void goToHeight(double targetHeight) throws RemoteException, TimeoutException, InterruptedException {
 		double pwm =0;
 		double mostRecentHeight = sensorController.sensorReading();
-		this.setHeight(mostRecentHeight);
+		if (mostRecentHeight >= 1.5 * this.mostRecentHeight) {
+			this.setHeight(this.mostRecentHeight);
+		} else {
+			this.setHeight(mostRecentHeight);
+		}
 		if(Math.abs(mostRecentHeight-targetHeight) > safetyInterval){
 			pwm = this.getPWMValue(targetHeight, mostRecentHeight);
 		}

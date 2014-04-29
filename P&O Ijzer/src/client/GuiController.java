@@ -10,13 +10,9 @@ import it.sauronsoftware.ftp4j.FTPDataTransferException;
 import it.sauronsoftware.ftp4j.FTPException;
 import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
-import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
-import java.rmi.Naming;
+
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -250,5 +246,77 @@ public class GuiController {
 	public double getSafetyIntervalHeight() throws RemoteException {
 		return zeppelin.getHeightController().getSafetyIntervalHeight();
 	}
+	
+	/**
+	 * Update de procesconstante voor de hoek.
+	 * @param kp
+	 * @throws RemoteException 
+	 */
+	public void setKpAngle(double kp) throws RemoteException {
+		zeppelin.getRotationController().getpController().setKp(kp);
+	}
+	
+	/**
+	 * Update de integraalconstante voor de hoek.
+	 * @param ki
+	 * @throws RemoteException 
+	 */
+	public void setKiAngle(double ki) throws RemoteException {
+		zeppelin.getRotationController().getpController().setKi(ki);
+	}
+	
+	/**
+	 * Update de derivative constante voor de hoek.
+	 * @param kd
+	 * @throws RemoteException 
+	 */
+	public void setKdAngle(double kd) throws RemoteException {
+		zeppelin.getRotationController().getpController().setKd(kd);
+	}
+	
+	/**
+	 * Haal de procesconstante voor de hoek.
+	 * @throws RemoteException
+	 */
+	public double getKpAngle() throws RemoteException {
+		return zeppelin.getRotationController().getpController().getKp();
+	}
+	
+	/**
+	 * Haal de derivative constante voor de hoek.
+	 * @throws RemoteException
+	 */
+	public double getKdAngle() throws RemoteException {
+		return zeppelin.getRotationController().getpController().getKd();
+	}
+	
+	/**
+	 * Haal de integraalconstante voor de hoek.
+	 * @throws RemoteException
+	 */
+	public double getKiAngle() throws RemoteException {
+		return zeppelin.getRotationController().getpController().getKi();
+	}
+	
+	/**
+	 * Zet het interval rond de doelhoek waar de zeppelin de horizontale motoren alle
+	 * activiteit moet laten stoppen.
+	 * @param safetyInterval
+	 * 		  Maakt een interval rond de doelhoek volgens [getTargetAngle - safetyInterval, getTargetAngle + safetyInterval].
+	 * 		  Natuurlijk gerekend modulo 360.
+	 * @throws RemoteException
+	 */
+	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
+		zeppelin.getRotationController().setSafetyIntervalAngle(safetyInterval);
+	}
+	
+	/**
+	 * Haal het interval waar de zeppelin de horizontale motoren niet meer mag laten werken.
+	 * @throws RemoteException
+	 */
+	public double getSafetyIntervalAngle() throws RemoteException {
+		return zeppelin.getRotationController().getSafetyIntervalAngle();
+	}
 
 }
+

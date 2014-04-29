@@ -51,7 +51,7 @@ public class Test {
 		System.out.println("=== EINDE GEKOZEN DRIEHOEK ===");
 		for (Couple pictureCoupleFor : readCouples.getListCouples())
 		{
-			Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor);
+			Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor, triangle.getMustMatchOnColor());
 			if (triangleCoupleFor == null)
 			{
 				continue;

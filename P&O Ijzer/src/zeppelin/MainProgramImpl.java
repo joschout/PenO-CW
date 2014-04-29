@@ -8,6 +8,10 @@ package zeppelin;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import positioning.Image;
 import qrcode.DecodeQR;
@@ -17,6 +21,8 @@ import logger.LogWriter;
 import movement.ForwardBackwardController;
 import movement.HeightController;
 import movement.RotationController;
+import RabbitMQ.RabbitMQController;
+import RabbitMQ.RabbitMQControllerZeppelin;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -29,8 +35,24 @@ import controllers.SensorController.TimeoutException;
 import coordinate.Grid;
 import coordinate.GridInitialiser;
 import coordinate.GridPoint;
+import RabbitMQ.*;
 
-public class MainProgramImpl extends UnicastRemoteObject implements MainProgramInterface {
+public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, MainProgramInterface {
+
+	private Map<String, Zeppelin> otherKnownZeppelins = new HashMap<String, Zeppelin>();	
+	
+	public Map<String, Zeppelin> getOtherKnownZeppelins() {
+		return otherKnownZeppelins;
+	}
+
+	public void setOtherKnownZeppelins(Map<String, Zeppelin> otherKnownZeppelins) {
+		this.otherKnownZeppelins = otherKnownZeppelins;
+	}
+	
+	public void addOtherKnownZeppelin(String name) {
+		Zeppelin newZeppelin = new Zeppelin();
+		this.getOtherKnownZeppelins().put(name, newZeppelin);
+	}
 
 	private static final long serialVersionUID = 1L;
 	
@@ -42,6 +64,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	private MotorController motorController;
 	private HeightController heightController;
 	private RotationController rotationController;
+	private RabbitMQControllerZeppelin rabbitMQControllerZeppelin;
 
 	// ======== Grid ========
 	private Grid grid;
@@ -85,9 +108,11 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		this.rotationController = new RotationController(this, motorController);
 		this.positionUpdater = new PositionUpdater(this);
 		this.traversalHandler = new TraversalHandler(this);
+		this.rabbitMQControllerZeppelin = new RabbitMQControllerZeppelin(this);
 		
 		this.setTargetPosition(new GridPoint(-1, -1));
 		
+		this.enforceGoodSensorReading();
 		this.initialiseThreads();
 
 		LogWriter.INSTANCE.writeToLog("------------ START NIEUWE SESSIE ------------- \n");
@@ -123,6 +148,10 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	public RotationController getRotationController() {
 		return this.rotationController;
 	}
+	
+	public RabbitMQControllerZeppelin getRabbitMQControllerZeppelin(){
+		return this.rabbitMQControllerZeppelin;
+	}
 
 	public Grid getGrid()
 	{
@@ -146,7 +175,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	}
 	
 	public PositionUpdater getPositionUpdater() {
-		return this.getPositionUpdater();
+		return this.positionUpdater;
 	}
 	
 	public GridPoint getPosition()
@@ -407,12 +436,21 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 		
 		boolean detectingQrCode = false;
 		boolean qrCodeFound = false;
-		boolean movedTowardsTarget = false; 
+		boolean movedTowardsTarget = false;
 		
 		while (!exit) {
+//			try {
+//				this.heightController.goToHeight(this.getTargetHeight());
+//			} catch (RemoteException e2) {
+//				e2.printStackTrace();
+//			} catch (TimeoutException e2) {
+//				e2.printStackTrace();
+//			}
+			this.getRabbitMQControllerZeppelin().getZeppelinSender().sendHeight();
 			if (! detectingQrCode)
 			{
 				this.getPositionUpdater().update();
+				this.getRabbitMQControllerZeppelin().getZeppelinSender().sendLocation();
 			}
 			if (this.getTargetPosition().equals(dummyPoint))
 			{
@@ -509,7 +547,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	{
 		GridInitialiser init = new GridInitialiser();
 		try {
-			this.grid = init.readGrid("grid");
+			this.grid = init.readGrid("/home/pi/grid.csv");
 		} catch (IOException e) {
 			System.err.println("WAARSCHUWING: kon grid niet initialiseren.");
 			e.printStackTrace();
@@ -519,7 +557,21 @@ public class MainProgramImpl extends UnicastRemoteObject implements MainProgramI
 	private void initialiseThreads()
 	{
 		Thread heightUpdaterThread = new Thread(new HeightUpdater(this));
-		heightUpdaterThread.run();
+		heightUpdaterThread.start();
+	}
+	
+	private void enforceGoodSensorReading() {
+		boolean good = false;
+		while (! good) {
+			try {
+				this.setHeight(this.getSensorController().sensorReading());
+				good = true;
+			} catch (TimeoutException e) {
+				System.out.println("Exception in het begin bij goede sensor reading");
+			} catch (InterruptedException e) {
+				System.out.println("Exception in het begin bij goede sensor reading");
+			}
+		}
 	}
 
 }
