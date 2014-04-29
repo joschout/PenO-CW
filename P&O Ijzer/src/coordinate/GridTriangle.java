@@ -200,6 +200,16 @@ public class GridTriangle {
 		return matches;
 	}
 	
+	public double triangleScore(List<Couple> pictureCouples) {
+		double score = 0;
+		for (Couple pictureCouple : pictureCouples) {
+			for (Couple triangleCouple : markerCouples) {
+				score += pictureCouple.matchScore(triangleCouple);
+			}
+		}
+		return score;
+	}
+	
 	private boolean mustMatchOnColor;
 	
 	public boolean getMustMatchOnColor() {

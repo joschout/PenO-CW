@@ -153,4 +153,20 @@ public abstract class GridMarker extends Marker {
 			return false;
 		return true;
 	}
+	
+	public boolean equalsShape(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GridMarker other = (GridMarker) obj;
+		if (shape == null) {
+			if (other.shape != null)
+				return false;
+		} else if (!shape.equals(other.shape))
+			return false;
+		return true;
+	}
 }

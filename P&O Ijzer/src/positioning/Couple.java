@@ -120,5 +120,27 @@ public class Couple {
 		return false;
 	}
 	
+	public double matchScore(Couple other) {
+		if (! this.matchColor(other)) {
+			return 0;
+		}
+		if (this.matchShape(other)) {
+			return 1;
+		}
+		return 0.5;
+			
+	}
+	
+	public boolean matchShape(Couple other) {
+		if (this.marker1.equalsShape(other.marker1) && this.marker2.equalsShape(other.marker2)) {
+			return true;
+		}
+		if (this.marker1.equalsShape(other.marker2) && this.marker2.equalsShape(other.marker1)) {
+			return true;
+		}
+		return false;
+	}
+
+	
 	
 }

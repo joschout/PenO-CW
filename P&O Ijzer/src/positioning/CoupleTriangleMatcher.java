@@ -46,21 +46,31 @@ public class CoupleTriangleMatcher {
 		}
 		if(match.distanceToCenter(recentPosition) > 50) {
 			System.out.println("WAARSCHUWING: color matching");
+			distanceHeuristic = Double.POSITIVE_INFINITY;
+			double triangleScore = 0;
 			mustMatchOnColor = true;
 			for(GridTriangle triangle: triangles) {
-				double distanceToCenter = triangle.distanceToCenter(recentPosition);
-				int numMatches = triangle.countColorMatchingCouples(couples);
-				if (numMatches > matchHeuristic)
-				{
-					matchHeuristic = numMatches;
+				double currentScore = triangle.triangleScore(couples);
+				if (currentScore > triangleScore) {
 					match = triangle;
-					distanceHeuristic = distanceToCenter;
+					triangleScore = currentScore;
+					distanceHeuristic = triangle.distanceToCenter(recentPosition);
+				} else if (currentScore == triangleScore) {
+					double distance
 				}
-				else if (numMatches == matchHeuristic && distanceToCenter < distanceHeuristic)
-				{
-					match = triangle;
-					distanceHeuristic = distanceToCenter;
-				}
+//				double distanceToCenter = triangle.distanceToCenter(recentPosition);
+//				int numMatches = triangle.countColorMatchingCouples(couples);
+//				if (numMatches > matchHeuristic)
+//				{
+//					matchHeuristic = numMatches;
+//					match = triangle;
+//					distanceHeuristic = distanceToCenter;
+//				}
+//				else if (numMatches == matchHeuristic && distanceToCenter < distanceHeuristic)
+//				{
+//					match = triangle;
+//					distanceHeuristic = distanceToCenter;
+//				}
 				
 			}
 		}
