@@ -449,9 +449,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	
 		List<Tablet> tabletsInNeighbourhood = new ArrayList<Tablet>();
 		for(Tablet tab: getGrid().getTablets()){
-			//distance to tablet
-			double distanceBetweenTabAndZep = Math.sqrt(Math.pow((tab.getPosition().x -this.getPosition().x),2)
-													+ Math.pow((tab.getPosition().y - this.getPosition().y),2));
+			double distanceBetweenTabAndZep = this.getPosition().distanceTo(tab.getPosition());
 			if(distanceBetweenTabAndZep < distance){
 				tabletsInNeighbourhood.add(tab);
 			}
@@ -459,8 +457,19 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 		return tabletsInNeighbourhood;
 	}
 	
+	private long timeSinceLastMessageSendToTablet;
 	
+	private Tablet destinationTab;
 	
+	public long getTimeSinceLastMessageSendToTablet() {
+		return timeSinceLastMessageSendToTablet;
+	}
+
+	public void setTimeSinceLastMessageSendToTablet(
+			long timeSinceLastMessageSendToTablet) {
+		this.timeSinceLastMessageSendToTablet = timeSinceLastMessageSendToTablet;
+	}
+
 	/**
 	 * Zolang de cliënt contact onderhoudt met de zeppelin, moet deze
 	 * lus uitgevoerd worden. In elke iteratie wordt er actie genomen om
@@ -621,6 +630,14 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 
 	public void setRSA(RSA rSA) {
 		RSA = rSA;
+	}
+
+	public Tablet getDestinationTab() {
+		return destinationTab;
+	}
+
+	public void setDestinationTab(Tablet destinationTab) {
+		this.destinationTab = destinationTab;
 	}
 
 }

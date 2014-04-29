@@ -12,6 +12,8 @@ public class Grid {
 	
 	private List<Tablet> tablets;
 	
+//	private Map<Integer,Tablet> tablets;
+	
 	public List<Tablet> getTablets()
 	{
 		return this.tablets;
