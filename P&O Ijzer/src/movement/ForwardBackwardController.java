@@ -24,7 +24,7 @@ public class ForwardBackwardController {
 	private MainProgramImpl zeppelin;
 	
 	public void goForward(double distance) {
-		try {
+		
 			long upperLimit = (long) distance * FORWARD_SPEED;
 			long endTime = System.currentTimeMillis() + upperLimit;
 			
@@ -38,20 +38,13 @@ public class ForwardBackwardController {
 			else {
 				System.out.println("Lus gebroken door correct volgnummer");
 			}
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		finally {
-			try {
-				zeppelin.stopRightAndLeft();
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-		}
+			zeppelin.stopRightAndLeft();
+			
+		
 	}
 	
 	public void goBackward(double distance) {
-		try {
+		
 			long upperLimit = (long) distance * BACKWARD_SPEED;
 			long endTime = System.currentTimeMillis() + upperLimit;
 
@@ -65,16 +58,12 @@ public class ForwardBackwardController {
 			else {
 				System.out.println("Lus gebroken door correct volgnummer");
 			}
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		finally {
-			try {
+		
+		
+		
 				zeppelin.stopRightAndLeft();
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-		}
+			
+		
 	}
 	
 	public void setZeppelin(MainProgramImpl zeppelin) {

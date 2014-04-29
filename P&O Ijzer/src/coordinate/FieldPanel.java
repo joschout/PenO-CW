@@ -199,7 +199,7 @@ public	class FieldPanel extends JPanel {
 			marker.drawMarker(g2d);
 		}
 		for(Tablet tablet: tabletList){
-			TabletMarker tabletMarker = new TabletMarker(new GridPoint(tablet.x, tablet.y));
+			TabletMarker tabletMarker = new TabletMarker(new GridPoint(tablet.getPosition().x, tablet.getPosition().y));
 			tabletMarker.drawMarker(g2d);
 		}
 

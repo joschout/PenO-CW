@@ -7,13 +7,12 @@
 package zeppelin;
 
 import java.io.IOException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+
 
 import movement.HeightController;
 import movement.RotationController;
 
-public interface MainProgramInterface extends Remote {
+public interface MainProgramInterface  {
 	
 	
 	/**
@@ -27,14 +26,14 @@ public interface MainProgramInterface extends Remote {
 	 * Zorg ervoor dat de zeppelin stopt in een veilige toestand.
 	 * @throws RemoteException
 	 */
-	public void exit() throws RemoteException;
+	public void exit();
 	
 	/**
 	 * Geeft de doelhoogte terug.
 	 * @return	De doelhoogte.
 	 * @throws RemoteException
 	 */
-	public double getTargetHeight() throws RemoteException;
+	public double getTargetHeight() ;
 	
 	/**
 	 * Bepaalt de doelhoogte van de zeppelin.
@@ -42,75 +41,75 @@ public interface MainProgramInterface extends Remote {
 	 * 			De hoogte waar de zeppelin op moet zweven.
 	 * @throws RemoteException
 	 */
-	public void setTargetHeight(double height) throws RemoteException;
+	public void setTargetHeight(double height) ;
 	
 	/**
 	 * Geeft aan of de linkermotor aanstaat.
 	 * @return	De linkermotor staat aan.
 	 * @throws RemoteException
 	 */
-	public boolean leftIsOn() throws RemoteException;
+	public boolean leftIsOn()  ;
 	
 	/**
 	 * Geeft aan of de rechtermotor aanstaat.
 	 * @return	De rechtermotor staat aan.
-	 * @throws RemoteException
+	 * @ 
 	 */
-	public boolean rightIsOn() throws RemoteException;
+	public boolean rightIsOn()  ;
 	
 	/**
 	 * Geeft aan of de naar-onder-gerichte motor aanstaat.
 	 * @return	De naar-onder-gerichte motor staat aan.
-	 * @throws RemoteException
+	 * @ 
 	 */
-	public boolean downwardIsOn() throws RemoteException;
+	public boolean downwardIsOn()  ;
 	
 	/**
 	 * Laat de zeppelin vooruit gaan.
-	 * @throws RemoteException
+	 * @ 
 	 */
-	public void goForward() throws RemoteException;
+	public void goForward()  ;
 	
 	/**
 	 * Laat de zeppelin achteruit gaan.
-	 * @throws RemoteException
+	 * @ 
 	 */
-	public void goBackward() throws RemoteException;
+	public void goBackward()  ;
 	
 	/**
 	 * Laat de zeppelin naar links draaien.
-	 * @throws RemoteException
+	 * @ 
 	 */
-	public void turnLeft() throws RemoteException;
+	public void turnLeft()  ;
 	
 	/**
 	 * Laat de zeppelin naar rechts draaien.
-	 * @throws RemoteException
+	 * @ 
 	 */
-	public void turnRight() throws RemoteException;
+	public void turnRight()  ;
 	
 	/**
 	 * Laat de zeppelin de linker- en rechtermotor afzetten, mochten die aanstaan.
-	 * @throws RemoteException
+	 * @ 
 	 */
-	public void stopRightAndLeft() throws RemoteException;
+	public void stopRightAndLeft()  ;
 	
 	/**
 	 * Laat de zeppelin de naar-onder-gerichte motor afzetten, mocht die aanstaan.
-	 * @throws RemoteException
+	 * @ 
 	 */
-	public void stopDownward() throws RemoteException;
+	public void stopDownward()  ;
 	
-	public double getHeight() throws RemoteException;
+	public double getHeight()  ;
 
-	public HeightController getHeightController() throws RemoteException;
+	public HeightController getHeightController()  ;
 	
-	public RotationController getRotationController() throws RemoteException;
+	public RotationController getRotationController()  ;
 	//TODO OBSOLETE
 //	
 //	/**
 //	 * Update de procesconstante voor de hoogte.
-//	 * @throws RemoteException
+//	 * @ 
 //	 */
 //	public void setKpHeight(double kp) throws RemoteException;
 //	
@@ -215,7 +214,7 @@ public interface MainProgramInterface extends Remote {
 	 * Leest de log.
 	 * @throws RemoteException
 	 */
-	public String readLog() throws RemoteException;
+	public String readLog() ;
 
 
 }

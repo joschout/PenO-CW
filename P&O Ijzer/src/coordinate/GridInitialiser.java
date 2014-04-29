@@ -80,7 +80,7 @@ public class GridInitialiser {
 				while (input != null) {
 					number++;
 					tokens = input.replaceAll(" ","").split(",");
-					Tablet tablet = new Tablet(number, tokens[0], tokens[1]);
+					Tablet tablet = new Tablet(number, Double.parseDouble(tokens[0]), Double.parseDouble(tokens[1]));
 					tablets.add(tablet);
 					input = reader.readLine();
 				}

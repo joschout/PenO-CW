@@ -184,6 +184,9 @@ public class ZeppelinMessageParser {
 				}if(privateCommandtype.equals("currentTargetAngle")){
 					System.out.println("Informatie verzonden door deze zeppelin over de targetAngle");
 				}
+			}if (commandName.equals("tablets")) {
+				String tabletName= routingKeyTokens[2];
+				System.out.println("Commando 'ijzer.tablets."+ tabletName + " bedoeld voor tablet " + tabletName);
 			}
 		}
 	}
@@ -215,6 +218,7 @@ public class ZeppelinMessageParser {
 		commandTypes.add("hcommand");
 		commandTypes.add("private");
 		commandTypes.add("info");
+		commandTypes.add("tablets");
 
 	}
 

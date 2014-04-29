@@ -1,6 +1,6 @@
 package movement;
 
-import java.rmi.RemoteException;
+//import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -64,7 +64,7 @@ public class PIDController {
 	 * @throws TimeoutException
 	 * @throws InterruptedException
 	 */
-	private void measureData(double targetValue, double currentValue) throws RemoteException, TimeoutException, InterruptedException {
+	private void measureData(double targetValue, double currentValue) throws  TimeoutException, InterruptedException {
 		
 		double error = calculateError(targetValue, currentValue);
 		Date date = new Date();
@@ -154,7 +154,7 @@ public class PIDController {
 	 * @throws TimeoutException
 	 * @throws InterruptedException
 	 */
-	public Double getPIDValue(double targetValue, double currentValue) throws RemoteException, TimeoutException, InterruptedException {
+	public Double getPIDValue(double targetValue, double currentValue) throws TimeoutException, InterruptedException {
 		measureData(targetValue, currentValue);
 		if(errors.size() >= 2 && !(Kp == 0 && Ki == 0 && Kd == 0)) {
 			return getPID();

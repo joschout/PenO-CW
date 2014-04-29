@@ -5,9 +5,8 @@
 package server;
 
 import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
+
+
 
 import org.opencv.core.Core;
 
@@ -23,12 +22,9 @@ public class ZeppelinServer {
 		//TODO: vraag voor beginpositie
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		MainProgramImpl zeppelin = null;
-		try {
+		
 			zeppelin = new MainProgramImpl();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		zeppelin.startGameLoop(); // start d
 	}
 

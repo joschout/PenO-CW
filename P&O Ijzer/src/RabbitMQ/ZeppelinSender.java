@@ -30,6 +30,11 @@ public class ZeppelinSender {
 		this.channel = channel;
 	}
 
+	public void sendPublicKeysToTablet(BigInteger PrivateKeyN, BigIntegerPrivateKeyE){
+		
+	}
+	
+	
 	public void sendLocation(){
 		double xInCM = this.getZeppelin().getPosition().x;
 		double yInCM = this.getZeppelin().getPosition().y;

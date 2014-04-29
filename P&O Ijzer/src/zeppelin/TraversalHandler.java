@@ -1,6 +1,6 @@
 package zeppelin;
 
-import java.rmi.RemoteException;
+//import java.rmi.RemoteException;
 
 import movement.RotationController;
 import controllers.MotorController;
@@ -16,7 +16,7 @@ public class TraversalHandler {
 		this.zeppelin = zeppelin;
 	}
 	
-	public boolean moveTowardsPoint() throws RemoteException, InterruptedException, TimeoutException {
+	public boolean moveTowardsPoint() throws  InterruptedException, TimeoutException {
 		GridPoint currentPosition = this.getZeppelin().getPosition();
 		GridPoint targetPosition = this.getZeppelin().getTargetPosition();
 		double angle = this.calculateRotation(currentPosition, targetPosition);
@@ -40,7 +40,7 @@ public class TraversalHandler {
 		
 	}
 	
-	public void goToPoint(GridPoint current, GridPoint goal) throws RemoteException, TimeoutException, InterruptedException {
+	public void goToPoint(GridPoint current, GridPoint goal) throws  TimeoutException, InterruptedException {
 		double angle = calculateRotation(current, goal);
 		turn(angle);
 		moveForward();
@@ -50,11 +50,11 @@ public class TraversalHandler {
 		return this.zeppelin;
 	}
 
-	private void moveForward() throws RemoteException {
+	private void moveForward() {
 		this.zeppelin.goForward();
 	}
 
-	private void turn(double angle) throws RemoteException, TimeoutException, InterruptedException {
+	private void turn(double angle) throws TimeoutException, InterruptedException {
 		GridPoint currentPosition = this.zeppelin.getPosition();
 		GridPoint targetPosition = this.zeppelin.getTargetPosition();
 		double targetAngle = this.calculateRotation(currentPosition, targetPosition);

@@ -6,8 +6,9 @@
 package zeppelin;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
+//import java.rmi.RemoteException;
+//import java.rmi.RemoteException;
+//import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,9 +36,10 @@ import controllers.SensorController.TimeoutException;
 import coordinate.Grid;
 import coordinate.GridInitialiser;
 import coordinate.GridPoint;
+import coordinate.Tablet;
 import RabbitMQ.*;
 
-public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, MainProgramInterface {
+public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 
 	private Map<String, Zeppelin> otherKnownZeppelins = new HashMap<String, Zeppelin>();	
 	
@@ -96,7 +98,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 
 	private boolean turning = false;
 
-	public MainProgramImpl() throws RemoteException {
+	public MainProgramImpl()  {
 		super();
 		
 		this.initialiseGrid();
@@ -162,7 +164,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 		return this.targetAngle;
 	}
 
-	public double getTargetHeight() throws RemoteException {
+	public double getTargetHeight() {
 		return this.targetHeight;
 	}
 	
@@ -188,23 +190,23 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	}
 
 	@Override
-	public String readLog() throws RemoteException {
+	public String readLog() {
 		return LogWriter.INSTANCE.getLog();
 	}
 	
 	@Override
-	public boolean leftIsOn() throws RemoteException {
+	public boolean leftIsOn()  {
 		return motorController.leftIsOn();
 	}
 	
 	
 	@Override
-	public boolean rightIsOn() throws RemoteException {
+	public boolean rightIsOn() {
 		return motorController.rightIsOn();
 	}
 	
 	@Override
-	public boolean downwardIsOn() throws RemoteException {
+	public boolean downwardIsOn()  {
 		return motorController.downwardIsOn();
 	}
 	
@@ -400,7 +402,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	}
 
 	@Override
-	public void setTargetHeight(double height) throws RemoteException {
+	public void setTargetHeight(double height) {
 		this.targetHeight = height;
 	}
 
@@ -425,6 +427,25 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	}
 
 	/**
+	 * Returns the tablets that are less than "distance" cm away from the current position of the zeppelin
+	 */
+	public List<Tablet> tabletsInNeighbourhood(double distance){
+	
+		List<Tablet> tabletsInNeighbourhood = new ArrayList<Tablet>();
+		for(Tablet tab: getGrid().getTablets()){
+			//distance to tablet
+			double distanceBetweenTabAndZep = Math.sqrt(Math.pow((tab.getPosition().x -this.getPosition().x),2)
+													+ Math.pow((tab.getPosition().y - this.getPosition().y),2));
+			if(distanceBetweenTabAndZep < distance){
+				tabletsInNeighbourhood.add(tab);
+			}
+		}
+		return tabletsInNeighbourhood;
+	}
+	
+	
+	
+	/**
 	 * Zolang de cliënt contact onderhoudt met de zeppelin, moet deze
 	 * lus uitgevoerd worden. In elke iteratie wordt er actie genomen om
 	 * de huidige doelhoogte en huidige doelhoek te bereiken.
@@ -437,6 +458,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 		boolean detectingQrCode = false;
 		boolean qrCodeFound = false;
 		boolean movedTowardsTarget = false;
+		boolean tabletInNeighbourHood = false;
 		
 		while (!exit) {
 //			try {
@@ -473,9 +495,7 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 				{
 					this.setTargetHeight(0);
 				}
-			} catch (RemoteException e1) {
-				e1.printStackTrace();
-			} catch (TimeoutException e1) {
+			}  catch (TimeoutException e1) {
 				e1.printStackTrace();
 			}
 			try {
@@ -498,39 +518,39 @@ public class MainProgramImpl extends UnicastRemoteObject implements IZeppelin, M
 	
 	
 	@Override
-	public void goForward() throws RemoteException {
+	public void goForward(){
 		motorController.forward();
 	}
 
 	@Override
-	public void goBackward() throws RemoteException {
+	public void goBackward() {
 		motorController.backward();
 	}
 
 	@Override
-	public void turnLeft() throws RemoteException {
+	public void turnLeft()  {
 		motorController.clientLeft();
 	}
 
 	@Override
-	public void turnRight() throws RemoteException {
+	public void turnRight()  {
 		motorController.clientRight();
 	}
 
 	@Override
-	public void stopRightAndLeft() throws RemoteException {
+	public void stopRightAndLeft()  {
 		motorController.stopRightAndLeftMotor();
 	}
 
-	public void stopDownward() throws RemoteException {
+	public void stopDownward()  {
 		motorController.stopHeightAdjustment();
 	}
 	
-	public void moveTowardsTargetHeight() throws RemoteException, TimeoutException, InterruptedException {
+	public void moveTowardsTargetHeight() throws TimeoutException, InterruptedException{
 		this.getHeightController().goToHeight(this.getTargetHeight());
 	}
 	
-	public void moveTowardsTargetAngle() throws RemoteException, InterruptedException, TimeoutException {
+	public void moveTowardsTargetAngle() throws InterruptedException, TimeoutException {
 		this.getRotationController().goToAngle(this.getTargetAngle());
 	}
 	

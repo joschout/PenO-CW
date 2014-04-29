@@ -164,6 +164,9 @@ public class ClientMessageParser {
 						}
 					}					
 				}
+			}if(commandName.equals("tablets")){
+				String tabletName= routingKeyTokens[2];
+				System.out.println("Commando 'ijzer.tablets."+ tabletName + " bedoeld voor tablet " + tabletName);
 			}
 		}
 	}
@@ -195,6 +198,7 @@ public class ClientMessageParser {
 		commandTypes.add("hcommand");
 		commandTypes.add("private");
 		commandTypes.add("info");
+		commandTypes.add("tablets");
 
 	}
 

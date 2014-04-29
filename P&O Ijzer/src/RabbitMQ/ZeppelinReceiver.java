@@ -45,6 +45,8 @@ public class ZeppelinReceiver implements Runnable {
 
 		//<teamkleur kleine letters>.private.# vrij te kiezen 
 		bindingKeysList.add("ijzer.private.#");
+		
+		bindingKeysList.add("ijzer.tablets.*");
 		String[] bindingKeysArray = bindingKeysList.toArray(new String[bindingKeysList.size()]);
 		return bindingKeysArray;
 	}

@@ -5,7 +5,7 @@
 
 package movement;
 
-import java.rmi.RemoteException;
+//import java.rmi.RemoteException;
 import zeppelin.MainProgramImpl;
 import controllers.MotorController;
 import controllers.SensorController.TimeoutException;
@@ -49,7 +49,7 @@ public class RotationController {
 		this.safetyInterval = safetyInterval;
 	}
 	
-	public void goToAngle(double targetAngle) throws RemoteException, InterruptedException, TimeoutException {
+	public void goToAngle(double targetAngle) throws  InterruptedException, TimeoutException {
 		this.checkState();
 		double pwm = 0;
 		
@@ -63,7 +63,7 @@ public class RotationController {
 		motorController.setTurnSpeed((int)pwm);
 	}
 
-	public double getPWMValue(double mostRecentAngle, double targetAngle) throws RemoteException, TimeoutException, InterruptedException {
+	public double getPWMValue(double mostRecentAngle, double targetAngle) throws  TimeoutException, InterruptedException {
 		double pid = pController.getPIDValue(targetAngle, mostRecentAngle);
 		return pid*0.05;
 	}
