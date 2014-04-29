@@ -93,6 +93,14 @@ public abstract class GridMarker extends Marker {
 		result = prime * result + ((shape == null) ? 0 : shape.hashCode());
 		return result;
 	}
+	
+	public boolean equalsDispatcher(Object obj, boolean colourMatch) {
+		if (! colourMatch) {
+			return this.equals(obj);
+		} else {
+			return this.equalsColor(obj);
+		}
+	}
 
 	/**
 	 * Vergelijkt twee GridMarkers, gebaseerd op hun shape en hun colour
@@ -130,7 +138,14 @@ public abstract class GridMarker extends Marker {
 		return colour + " " + shape + " " + getPoint().toString();
 	}
 
-	public boolean matchColor(GridMarker other) {
+	public boolean equalsColor(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GridMarker other = (GridMarker) obj;
 		if (colour == null) {
 			if (other.colour != null)
 				return false;

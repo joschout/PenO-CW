@@ -52,7 +52,24 @@ public class ImageAnalyser {
 			{
 				toReturn.add(marker);
 			}
+			// verwijder duplicaten die te dicht bij elkaar liggen
 		}
+		List<GridMarker> toRemove = new ArrayList<GridMarker>();
+		List<GridPoint> toRemovePoints = new ArrayList<GridPoint>();
+		for (GridMarker marker : toReturn) {
+			Iterator<GridMarker> iter = toReturn.iterator();
+			while (iter.hasNext()) {
+				GridMarker otherMarker = iter.next();
+				if (marker.getPoint().distanceTo(otherMarker.getPoint()) < 100) {
+					if (! marker.getPoint().equals(otherMarker.getPoint()) &&
+							! toRemovePoints.contains())
+					System.out.println("Afstand gemeten: " + marker.getPoint().distanceTo(otherMarker.getPoint()));
+					toRemove.add(otherMarker);
+				}
+			}
+		}
+		toReturn.removeAll(toRemove);
+		System.out.println("Lijst returned in ImageAnalyser is leeg: " + toReturn.isEmpty());
 		return toReturn;
 	}
 	

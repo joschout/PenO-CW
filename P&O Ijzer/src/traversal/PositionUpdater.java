@@ -60,7 +60,7 @@ public class PositionUpdater implements Runnable {
 
 				for (Couple pictureCoupleFor : readCouples.getListCouples())
 				{
-					Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor);
+					Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor, triangle.getMustMatchOnColor());
 					if (triangleCoupleFor == null)
 					{
 						continue;

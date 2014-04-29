@@ -1,6 +1,7 @@
 package coordinate;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import positioning.Couple;
@@ -59,11 +60,11 @@ public class GridTriangle {
 		return matches;
 	}
 	
-	public Couple getMatchingCouple(Couple pictureCouple)
+	public Couple getMatchingCouple(Couple pictureCouple, boolean colorMatch)
 	{
 		for (Couple triangleCouple : markerCouples)
 		{
-			if (triangleCouple.equals(pictureCouple))
+			if (triangleCouple.equalsDispatch(pictureCouple, colorMatch))
 			{
 				return triangleCouple;
 			}
@@ -181,14 +182,32 @@ public class GridTriangle {
 		int matches = 0;
 		for (Couple pictureCouple : pictureCouples)
 		{
-			for (Couple gridCouple: copyOfTriangleCouples) {
-				if(gridCouple.matchColor(pictureCouple))
+			Iterator<Couple> iter = copyOfTriangleCouples.iterator();
+			while (iter.hasNext()) {
+				Couple next = iter.next();
+				if (next.matchColor(pictureCouple)) {
 					matches++;
-					copyOfTriangleCouples.remove(pictureCouple);
-				
+					iter.remove();
+				}
 			}
+//			for (Couple gridCouple: copyOfTriangleCouples) {
+//				if(gridCouple.matchColor(pictureCouple))
+//					matches++;
+//					copyOfTriangleCouples.remove(pictureCouple);
+//				
+//			}
 		}
 		return matches;
+	}
+	
+	private boolean mustMatchOnColor;
+	
+	public boolean getMustMatchOnColor() {
+		return this.mustMatchOnColor;
+	}
+	
+	public void setMustMatchOnColor(boolean bool) {
+		this.mustMatchOnColor = bool;
 	}
 
 }
