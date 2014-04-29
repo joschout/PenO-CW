@@ -8,23 +8,13 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-
-
-/**
- * Simple RSA public key encryption algorithm implementation.
- * <P>
- * Taken from "Paj's" website:
- * <TT>http://pajhome.org.uk/crypt/rsa/implementation.html</TT>
- * <P>
- * Adapted by David Brodrick
- */
-public class Rsa  {
+public class RSA  {
 	  
 	
 	PrivateKey priv;
 	PublicKey pub;
 	
-	public Rsa() throws NoSuchAlgorithmException {
+	public RSA() throws NoSuchAlgorithmException {
 		KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
 		
 		KeyPair pair = keyGen.generateKeyPair();

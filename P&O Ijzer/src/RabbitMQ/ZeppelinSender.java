@@ -1,11 +1,16 @@
 package RabbitMQ;
 
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.PublicKey;
 
 import logger.LogWriter;
 import zeppelin.MainProgramImpl;
+
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
+
+import coordinate.Tablet;
 
 public class ZeppelinSender {
 
@@ -30,8 +35,25 @@ public class ZeppelinSender {
 		this.channel = channel;
 	}
 
-	public void sendPublicKeysToTablet(BigInteger PrivateKeyN, BigIntegerPrivateKeyE){
+	/**
+	 * 
+	 * @param tabletName van de vorm "tableti" met i >=1
+	 * @throws IllegalAccessException
+	 */
+	public void sendPublicKeysToTablet( String tabletName) throws IllegalAccessException{
+		if(!tabletName.matches("tablet\\d+")){
+			throw new IllegalAccessException();
+		}
+	
+		String message = new BigInteger(zeppelin.getRSA().getPublicKey().getEncoded()).toString();
+		String routingKey = "ijzer.tablets." + tabletName;
 		
+		
+		try {
+			channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

@@ -1,6 +1,6 @@
 package traversal;
 
-import java.rmi.RemoteException;
+
 
 import controllers.SensorController.TimeoutException;
 import zeppelin.MainProgramImpl;
@@ -25,8 +25,6 @@ public class HeightUpdater implements Runnable {
 			} catch (TimeoutException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
 		}

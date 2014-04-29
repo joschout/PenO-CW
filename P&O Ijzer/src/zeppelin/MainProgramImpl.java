@@ -7,6 +7,7 @@ package zeppelin;
 
 import java.io.IOException;
 
+import java.security.NoSuchAlgorithmException;
 //import java.rmi.RemoteException;
 //import java.rmi.RemoteException;
 //import java.rmi.server.UnicastRemoteObject;
@@ -19,14 +20,13 @@ import positioning.Image;
 import qrcode.DecodeQR;
 import traversal.HeightUpdater;
 import traversal.PositionUpdater;
-
 import logger.LogWriter;
 import movement.ForwardBackwardController;
 import movement.HeightController;
 import movement.RotationController;
-
 import RabbitMQ.RabbitMQController;
 import RabbitMQ.RabbitMQControllerZeppelin;
+
 
 
 import com.pi4j.io.gpio.GpioController;
@@ -40,9 +40,9 @@ import controllers.SensorController.TimeoutException;
 import coordinate.Grid;
 import coordinate.GridInitialiser;
 import coordinate.GridPoint;
-
 import coordinate.Tablet;
 import RabbitMQ.*;
+import qrcode.RSA;;
 
 public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 
@@ -102,10 +102,11 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	 */
 	private boolean exit = false;
 
-
 	private boolean turning = false;
+	
+	private RSA RSA;
 
-	public MainProgramImpl()  {
+	public MainProgramImpl() throws NoSuchAlgorithmException  {
 		super();
 		
 		this.initialiseGrid();
@@ -118,6 +119,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 		this.positionUpdater = new PositionUpdater(this);
 		this.traversalHandler = new TraversalHandler(this);
 		this.rabbitMQControllerZeppelin = new RabbitMQControllerZeppelin(this);
+		this.RSA = new RSA();
 		
 		this.setTargetPosition(new GridPoint(-1, -1));
 		
@@ -611,6 +613,14 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 			}
 		}
 
+	}
+
+	public RSA getRSA() {
+		return RSA;
+	}
+
+	public void setRSA(RSA rSA) {
+		RSA = rSA;
 	}
 
 }
