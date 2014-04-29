@@ -12,7 +12,9 @@ import java.io.IOException;
 import movement.HeightController;
 import movement.RotationController;
 
+
 public interface MainProgramInterface  {
+
 	
 	
 	/**
@@ -26,14 +28,18 @@ public interface MainProgramInterface  {
 	 * Zorg ervoor dat de zeppelin stopt in een veilige toestand.
 	 * @throws RemoteException
 	 */
+
 	public void exit();
+
 	
 	/**
 	 * Geeft de doelhoogte terug.
 	 * @return	De doelhoogte.
 	 * @throws RemoteException
 	 */
+
 	public double getTargetHeight() ;
+
 	
 	/**
 	 * Bepaalt de doelhoogte van de zeppelin.
@@ -41,21 +47,27 @@ public interface MainProgramInterface  {
 	 * 			De hoogte waar de zeppelin op moet zweven.
 	 * @throws RemoteException
 	 */
+
 	public void setTargetHeight(double height) ;
+
 	
 	/**
 	 * Geeft aan of de linkermotor aanstaat.
 	 * @return	De linkermotor staat aan.
 	 * @throws RemoteException
 	 */
+
 	public boolean leftIsOn()  ;
+
 	
 	/**
 	 * Geeft aan of de rechtermotor aanstaat.
 	 * @return	De rechtermotor staat aan.
+
 	 * @ 
 	 */
 	public boolean rightIsOn()  ;
+
 	
 	/**
 	 * Geeft aan of de naar-onder-gerichte motor aanstaat.
@@ -105,11 +117,11 @@ public interface MainProgramInterface  {
 	public HeightController getHeightController()  ;
 	
 	public RotationController getRotationController()  ;
+
 	//TODO OBSOLETE
 //	
 //	/**
 //	 * Update de procesconstante voor de hoogte.
-//	 * @ 
 //	 */
 //	public void setKpHeight(double kp) throws RemoteException;
 //	
@@ -215,6 +227,7 @@ public interface MainProgramInterface  {
 	 * @throws RemoteException
 	 */
 	public String readLog() ;
+
 
 
 }

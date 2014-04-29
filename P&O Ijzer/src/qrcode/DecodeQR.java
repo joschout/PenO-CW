@@ -11,7 +11,16 @@ import com.google.zxing.common.HybridBinarizer;
 
 public class DecodeQR {
 
+
+	Command command;
+
+	public DecodeQR(String fileName) {
+		String decodeString = decodeImage(fileName);
+		this.command = new DecodeCommand(decodeString).getCommand();
+	}
+
 	public String decodeImage(String fileName) {
+
 		Result result = null;
 		BinaryBitmap binaryBitmap;
 
@@ -22,13 +31,13 @@ public class DecodeQR {
 
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return null;
-		}
-		if (result == null)
-		{
-			return null;
+
 		}
 		return result.getText();
+	}
+	
+	public Command getCommand() {
+		return this.command;
 	}
 
 }

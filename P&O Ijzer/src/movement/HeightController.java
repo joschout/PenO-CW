@@ -6,7 +6,7 @@
 package movement;
 
 import java.io.Serializable;
-//import java.rmi.RemoteException;
+
 
 import controllers.MotorController;
 import controllers.SensorController;
@@ -46,7 +46,9 @@ public class HeightController implements Serializable {
 	 * @throws TimeoutException
 	 * @throws InterruptedException
 	 */
+
 	public double getPWMValue(double mostRecentValue, double targetValue) throws TimeoutException, InterruptedException {
+
 		double pid = pController.getPIDValue(targetValue, mostRecentValue);
 		return pid;
 	}
@@ -62,6 +64,7 @@ public class HeightController implements Serializable {
 	 * @throws TimeoutException
 	 * @throws InterruptedException
 	 */
+
 	public void goToHeight(double targetHeight) throws TimeoutException, InterruptedException {
 		double pwm =0;
 		double mostRecentHeight = sensorController.sensorReading();
@@ -70,6 +73,7 @@ public class HeightController implements Serializable {
 		} else {
 			this.setHeight(mostRecentHeight);
 		}
+
 		if(Math.abs(mostRecentHeight-targetHeight) > safetyInterval){
 			pwm = this.getPWMValue(targetHeight, mostRecentHeight);
 		}

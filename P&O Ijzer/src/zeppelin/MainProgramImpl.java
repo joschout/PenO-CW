@@ -6,6 +6,7 @@
 package zeppelin;
 
 import java.io.IOException;
+
 //import java.rmi.RemoteException;
 //import java.rmi.RemoteException;
 //import java.rmi.server.UnicastRemoteObject;
@@ -18,12 +19,15 @@ import positioning.Image;
 import qrcode.DecodeQR;
 import traversal.HeightUpdater;
 import traversal.PositionUpdater;
+
 import logger.LogWriter;
 import movement.ForwardBackwardController;
 import movement.HeightController;
 import movement.RotationController;
+
 import RabbitMQ.RabbitMQController;
 import RabbitMQ.RabbitMQControllerZeppelin;
+
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -36,6 +40,7 @@ import controllers.SensorController.TimeoutException;
 import coordinate.Grid;
 import coordinate.GridInitialiser;
 import coordinate.GridPoint;
+
 import coordinate.Tablet;
 import RabbitMQ.*;
 
@@ -91,10 +96,12 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	
 	private DecodeQR qrCodeReader;
 	
+
 	/**
 	 * Geeft aan of de zeppelin zijn activiteiten moet stopzetten.
 	 */
 	private boolean exit = false;
+
 
 	private boolean turning = false;
 
@@ -121,12 +128,14 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 
 		try {
 			this.targetHeight = sensorController.sensorReading();
+
 		} catch (TimeoutException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 	// ======== Getters ========
 	
@@ -158,11 +167,13 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	public Grid getGrid()
 	{
 		return this.grid;
+
 	}
 
 	public double getTargetAngle() {
 		return this.targetAngle;
 	}
+
 
 	public double getTargetHeight() {
 		return this.targetHeight;
@@ -212,10 +223,12 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	
 	public TraversalHandler getTraversalHandler() {
 		return this.traversalHandler;
+
 	}
 	
 	//TODO OBSOLETE
 	/*
+<<<<<<< HEAD
 	@Override
 	public void setKpHeight(double kp) {
 		HEIGHT_CONTROLLER.setKpHeight(kp);
@@ -297,6 +310,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	}
 	*/
 	
+
 	
 	//TODO OBSOLETE
 	/*
@@ -304,81 +318,81 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	public void setKpHeight(double kp) {
 		HEIGHT_CONTROLLER.setKpHeight(kp);
 	}
-	
+
 	@Override
 	public void setKdHeight(double kd) {
 		HEIGHT_CONTROLLER.setKdHeight(kd);
 	}
-	
+
 	@Override
 	public void setKiHeight(double ki) {
 		HEIGHT_CONTROLLER.setKiHeight(ki);
 	}
-	
+
 	@Override
 	public double getKpHeight() throws RemoteException {
 		return HEIGHT_CONTROLLER.getKpHeight();
 	}
-	
+
 	@Override
 	public double getKiHeight() throws RemoteException {
 		return HEIGHT_CONTROLLER.getKdHeight();
 	}
-	
+
 	@Override
 	public double getKdHeight() throws RemoteException {
 		return HEIGHT_CONTROLLER.getKiHeight();
 	}
-	
+
 	@Override
 	public void setSafetyIntervalHeight(double safetyInterval) throws RemoteException {
 		HEIGHT_CONTROLLER.setSafetyIntervalHeight(safetyInterval);
 	}
-	
+
 	@Override
 	public double getSafetyIntervalHeight() throws RemoteException {
 		return HEIGHT_CONTROLLER.getSafetyIntervalHeight();
 	}
-	
+
 	@Override
 	public void setKpAngle(double kp) {
 		ROTATION_CONTROLLER.setKpAngle(kp);
 	}
-	
+
 	@Override
 	public void setKdAngle(double kd) {
 		ROTATION_CONTROLLER.setKdAngle(kd);
 	}
-	
+
 	@Override
 	public void setKiAngle(double ki) {
 		ROTATION_CONTROLLER.setKiAngle(ki);
-	}
-	
+
 	@Override
 	public double getKpAngle() throws RemoteException {
 		return ROTATION_CONTROLLER.getKpAngle();
 	}
-	
+
 	@Override
 	public double getKiAngle() throws RemoteException {
 		return ROTATION_CONTROLLER.getKdAngle();
 	}
-	
+
 	@Override
 	public double getKdAngle() throws RemoteException {
 		return ROTATION_CONTROLLER.getKiAngle();
 	}
-	
+
 	@Override
 	public void setSafetyIntervalAngle(double safetyInterval) throws RemoteException {
 		ROTATION_CONTROLLER.setSafetyIntervalAngle(safetyInterval);
 	}
-	
+
 	@Override
 	public double getSafetyIntervalAngle() throws RemoteException {
 		return ROTATION_CONTROLLER.getSafetyIntervalAngle();
 	}
+
 	*/
 	
 	// ======== Setters ========
@@ -561,19 +575,23 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	public double measureHeight() throws TimeoutException, InterruptedException
 	{
 		return this.getSensorController().sensorReading();
+
 	}
 	
 	private void initialiseGrid()
 	{
 		GridInitialiser init = new GridInitialiser();
 		try {
+
 			this.grid = init.readGrid("/home/pi/grid.csv");
+
 		} catch (IOException e) {
 			System.err.println("WAARSCHUWING: kon grid niet initialiseren.");
 			e.printStackTrace();
 		}
 	}
 	
+
 	private void initialiseThreads()
 	{
 		Thread heightUpdaterThread = new Thread(new HeightUpdater(this));
@@ -592,6 +610,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 				System.out.println("Exception in het begin bij goede sensor reading");
 			}
 		}
+
 	}
 
 }

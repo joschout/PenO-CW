@@ -9,7 +9,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import logger.LogWriter;
+
 
 import com.pi4j.io.gpio.GpioPinPwmOutput;
 import com.pi4j.io.gpio.RaspiPin;
@@ -83,6 +85,7 @@ public class MotorController implements Serializable {
 			int result = (int) factor * INTERVAL_LENGTH + MINIMUM_RESPONSE;
 			PWMPin.setPwm(Math.abs(result));
 		}
+
 		LogWriter.INSTANCE.writeToLog("Onderwaartse motor laten draaien aan percentage: "
 				+ percentage);
 	}
@@ -98,11 +101,14 @@ public class MotorController implements Serializable {
 		System.out.println("Laten draaien aan percentage: " + percentage);
 		if (percentage < 0) { // zeppelin moet naar rechts
 			LogWriter.INSTANCE.writeToLog("Linkse motor laten draaien aan percentage: "
+
 					+ (- percentage));
 			this.right();
 		}
 		else { // zeppelin moet naar links
+
 			LogWriter.INSTANCE.writeToLog("Rechtse motor laten draaien aan percentage: "
+
 					+ percentage);
 			this.left();
 		}
@@ -142,7 +148,9 @@ public class MotorController implements Serializable {
 	 */
 	public void left() {
 		if (! this.goingLeft()) {
+
 			LogWriter.INSTANCE.writeToLog("Zeppelin naar links laten draaien.");
+
 		}
 		this.writeSoftPwmValues(0, softPwmValue, softPwmValue, 0);
 		this.leftMotor.counterClockwise();
@@ -154,7 +162,9 @@ public class MotorController implements Serializable {
 	 */
 	public void right() {
 		if (! this.goingRight()) {
+
 			LogWriter.INSTANCE.writeToLog("Zeppelin naar rechts laten draaien.");
+
 		}
 		this.writeSoftPwmValues(softPwmValue, 0, 0, softPwmValue);
 		this.leftMotor.clockwise();
@@ -167,7 +177,9 @@ public class MotorController implements Serializable {
 	 */
 	public void clientLeft() {
 		if (! this.goingLeft()) {
+
 			LogWriter.INSTANCE.writeToLog("Zeppelin naar links laten draaien.");
+
 			this.writeSoftPwmValues(0, 100, 100, 0);
 			this.leftMotor.counterClockwise();
 			this.rightMotor.clockwise();
@@ -180,7 +192,9 @@ public class MotorController implements Serializable {
 	 */
 	public void clientRight() {
 		if (! this.goingLeft()) {
+
 			LogWriter.INSTANCE.writeToLog("Zeppelin naar rechts laten draaien.");
+
 			this.writeSoftPwmValues(100, 0, 0, 100);
 			this.leftMotor.clockwise();
 			this.rightMotor.counterClockwise();
@@ -192,7 +206,9 @@ public class MotorController implements Serializable {
 	 */
 	public void stopRightAndLeftMotor() {
 		if (leftMotor.isOn() && rightMotor.isOn()) {
+
 			LogWriter.INSTANCE.writeToLog("Zeppelin de linker- en rechtermotor laten stoppen.");
+
 		}
 		this.writeSoftPwmValues(0, 0, 0, 0);
 		this.rightMotor.stop();
@@ -206,7 +222,9 @@ public class MotorController implements Serializable {
 	 */
 	public void forward() {
 		if (! this.goingForward()) {
+
 			LogWriter.INSTANCE.writeToLog("Zeppelin vooruit laten gaan.");
+
 		}
 		this.writeSoftPwmValues(30, 0, 30, 0);
 		this.leftMotor.clockwise();
@@ -220,7 +238,9 @@ public class MotorController implements Serializable {
 	 */
 	public void backward() {
 		if (! this.goingBackward()) {
+
 			LogWriter.INSTANCE.writeToLog("Zeppelin achteruit laten gaan.");
+
 		}
 		this.writeSoftPwmValues(0, 30, 0, 30);
 		this.leftMotor.counterClockwise();
@@ -232,7 +252,9 @@ public class MotorController implements Serializable {
 	 */
 	public void up() {
 		if (! downwardMotor.goingClockwise()) {
+
 			LogWriter.INSTANCE.writeToLog("Zeppelin laten stijgen.");
+
 			this.downwardMotor.clockwise();
 		}
 	}
@@ -242,7 +264,9 @@ public class MotorController implements Serializable {
 	 */
 	public void down() {
 		if (! downwardMotor.goingCounterClockwise()) {
+
 			LogWriter.INSTANCE.writeToLog("Zeppelin laten dalen.");
+
 			this.downwardMotor.counterClockwise();
 		}
 	}
@@ -252,7 +276,9 @@ public class MotorController implements Serializable {
 	 */
 	public void stopHeightAdjustment() {
 		if (downwardMotor.isOn()) {
+
 			LogWriter.INSTANCE.writeToLog("Zeppelin laten stoppen met zijn hoogte aan te passen.");
+
 			this.downwardMotor.stop();
 		}
 	}
