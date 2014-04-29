@@ -32,24 +32,30 @@ public class Rsa  {
 		this.pub = pair.getPublic();
 	}
 	
-	public String encode(String input) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
+	public PrivateKey getPrivateKey() {
+		return this.priv;
+	}
+	
+	public PublicKey getPublicKey() {
+		return this.pub;
+	}
+	
+	public byte[] encode(String input) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
 		byte[] dataToEncrypt = input.getBytes();
 		byte[] encryptedData = null;  
 		Cipher cipher = Cipher.getInstance("RSA");
 		cipher.init(Cipher.ENCRYPT_MODE, pub); //pubKey stored earlier
 		encryptedData = cipher.doFinal(dataToEncrypt);
-		String encoded = new String(encryptedData, "UTF-8");
-		return encoded;
+		return encryptedData;
 	}
 	
-	public String decode(String qrCode) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException {
-		byte[] dataToDecrypt = qrCode.getBytes();
+	public byte[] decode(byte[] input) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException {
+		byte[] dataToDecrypt = input;
 		byte[] decryptedData = null;  
 		Cipher cipher = Cipher.getInstance("RSA");
 		cipher.init(Cipher.DECRYPT_MODE, priv); //privKey stored earlier
 		decryptedData = cipher.doFinal(dataToDecrypt);
-		String decoded = new String(decryptedData, "UTF-8");		
-		return decoded;
+		return decryptedData;
 	}
 	
 }
