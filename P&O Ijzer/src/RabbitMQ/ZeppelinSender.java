@@ -38,11 +38,11 @@ public class ZeppelinSender {
 	/**
 	 * 
 	 * @param tabletName van de vorm "tableti" met i >=1
-	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
 	 */
 	public void sendPublicKeysToTablet( String tabletName) throws IllegalAccessException{
 		if(!tabletName.matches("tablet\\d+")){
-			throw new IllegalAccessException();
+			throw new IllegalArgumentException();
 		}
 	
 		String message = new BigInteger(zeppelin.getRSA().getPublicKey().getEncoded()).toString();
