@@ -45,7 +45,7 @@ public class ZeppelinSender {
 			throw new IllegalArgumentException();
 		}
 	
-		String message = new BigInteger(zeppelin.getRSA().getPublicKey().getEncoded()).toString();
+		String message = zeppelin.getRSA().getPublicKey();
 		String routingKey = "ijzer.tablets." + tabletName;
 		
 		
