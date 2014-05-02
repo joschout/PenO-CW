@@ -1,6 +1,13 @@
 package qrcode;
 
 import java.io.FileInputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.imageio.ImageIO;
 
 import com.google.zxing.BinaryBitmap;
@@ -11,15 +18,13 @@ import com.google.zxing.common.HybridBinarizer;
 
 public class DecodeQR {
 
+	RSA rsa;
 
-	Command command;
-
-	public DecodeQR(String fileName) {
-		String decodeString = decodeImage(fileName);
-		this.command = new DecodeCommand(decodeString).getCommand();
+	public DecodeQR(RSA rsa) {
+		this.rsa = rsa;
 	}
 
-	public String decodeImage(String fileName) {
+	public String decodeImage(String fileName) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException {
 
 		Result result = null;
 		BinaryBitmap binaryBitmap;
@@ -33,12 +38,13 @@ public class DecodeQR {
 			ex.printStackTrace();
 
 		}
-		return result.getText();
+		String codedCommand = result.getText();
+		byte[] b = codedCommand.getBytes();
+		byte[] toReturnArray = rsa.decode(b);
+		String toReturn = new String(toReturnArray);
+		return toReturn;
 	}
 	
-	public Command getCommand() {
-		return this.command;
-	}
 
 }
 

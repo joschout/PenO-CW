@@ -120,6 +120,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 		this.traversalHandler = new TraversalHandler(this);
 		this.rabbitMQControllerZeppelin = new RabbitMQControllerZeppelin(this);
 		this.RSA = new RSA();
+		this.qrCodeReader = new DecodeQR(this.RSA);
 		
 		this.setTargetPosition(new GridPoint(-1, -1));
 		
@@ -514,12 +515,14 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 					{
 						detectingQrCode = false;
 						qrCodeFound = true;
+						setTargetPosition(executeCommandPosition(result));
+						setTargetHeight(executeCommandHeight(result));
 					}
 				}
-				if (! movedTowardsTarget && qrCodeFound)
-				{
-					this.setTargetHeight(0);
-				}
+//				if (! movedTowardsTarget && qrCodeFound)
+//				{
+//					this.setTargetHeight(0);
+//				}
 			}  catch (TimeoutException e1) {
 				e1.printStackTrace();
 			}
