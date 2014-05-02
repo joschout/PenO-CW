@@ -30,6 +30,7 @@ public class RSA  {
 		return this.pub;
 	}
 	
+	@Deprecated
 	public byte[] encode(String input) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
 		byte[] dataToEncrypt = input.getBytes();
 		byte[] encryptedData = null;  
@@ -39,6 +40,7 @@ public class RSA  {
 		return encryptedData;
 	}
 	
+	@Deprecated
 	public byte[] decode(byte[] input) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException {
 		byte[] dataToDecrypt = input;
 		byte[] decryptedData = null;  

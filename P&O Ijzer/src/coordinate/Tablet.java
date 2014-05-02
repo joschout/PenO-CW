@@ -2,7 +2,7 @@ package coordinate;
 
 public class Tablet {
 	
-	int name;
+	int id;
 //	double x;
 //	double y;
  
@@ -17,13 +17,13 @@ public class Tablet {
 	
 	
 	
-	public Tablet(int name, double x, double y) {
-		this.name = name;
+	public Tablet(int id, double x, double y) {
+		this.id = id;
 		setPosition(new GridPoint(x, y));
 	}
 	
-	public Tablet(int name, GridPoint position) {
-		this.name = name;
+	public Tablet(int id, GridPoint position) {
+		this.id = id;
 		setPosition(position);
 	}
 	
@@ -38,9 +38,15 @@ public class Tablet {
 	
 	public String toString()
 	{
-		String toReturn = ("Tablet: " + this.name + "      x: " + this.getPosition().x + "       y: " + this.getPosition().y);
+		String toReturn = ("Tablet: " + this.id + "      x: " + this.getPosition().x + "       y: " + this.getPosition().y);
 		return toReturn;
 	}
+public int getId() {
+	return id;
+}
+public void setId(int id) {
+	this.id = id;
+}
 	
 
 }

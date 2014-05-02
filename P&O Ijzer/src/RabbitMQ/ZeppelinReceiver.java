@@ -1,7 +1,6 @@
 package RabbitMQ;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,9 +75,7 @@ public class ZeppelinReceiver implements Runnable {
 				e.printStackTrace();
 			} catch (InvalidBindingKeyException e) {
 				e.printStackTrace();
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
+			} 
 		}
 	}
 

@@ -1,10 +1,10 @@
 package RabbitMQ;
 
-import java.rmi.RemoteException;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.management.openmbean.InvalidKeyException;
+
 
 import coordinate.GridPoint;
 import zeppelin.MainProgramImpl;
@@ -26,7 +26,7 @@ public class ZeppelinMessageParser {
 	//routingKeyParser
 	public String routingKeyDelimiter = "\\.";
 
-	public void parse(String routingKey, String message) throws InvalidBindingKeyException, RemoteException{
+	public void parse(String routingKey, String message) throws InvalidBindingKeyException{
 		String[] routingKeyTokens = routingKey.split(routingKeyDelimiter);
 		String zeppelinName = routingKeyTokens[0];   
 
