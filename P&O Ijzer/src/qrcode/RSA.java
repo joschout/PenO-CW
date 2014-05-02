@@ -28,10 +28,12 @@ public class RSA  {
 	}
 
 
+
 	public String decode(String input) throws IOException {
 		write("encrypted", input);
 		Runtime.getRuntime().exec("cmd /c python decryption.py");
 		String decryptedData = read("result");
+
 		return decryptedData;
 	}
 

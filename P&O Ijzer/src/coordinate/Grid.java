@@ -76,5 +76,14 @@ public class Grid {
 		toReturn.append("=== END GRID DUMP ===");
 		return toReturn.toString();
 	}
+	
+	public Tablet getTabletWithTabletId(int id){
+		for(Tablet tab: getTablets()){
+			if (tab.getId() == id){
+				return tab;
+			}
+		}
+		return null;
+	}
 
 }
