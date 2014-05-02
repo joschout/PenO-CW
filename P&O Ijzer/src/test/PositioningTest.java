@@ -84,6 +84,8 @@ public class PositioningTest {
 					position = calcPos.calculatePosition(angle);
 				} catch (Exception e) {
 					System.out.println("=== WAARSCHUWING: exception ===\n");
+					e.printStackTrace();
+					e.printStackTrace(writer);
 					builder = new StringBuilder();
 					builder.append("--- Gevonden markers ---\n");
 					for (GridMarker marker : image.getMarkers()) {
@@ -95,10 +97,8 @@ public class PositioningTest {
 					}
 					builder.append("--- Gevonden driehoek ---\n");
 					builder.append("Driehoek: " + triangle.toString() + "\n");
-					e.printStackTrace();
 					System.out.println(builder.toString());
 					writer.write("=== WAARSCHUWING: exception ===\n");
-					e.printStackTrace(writer);
 					writer.write(builder.toString());
 					continue;
 				}

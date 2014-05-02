@@ -37,40 +37,40 @@ public class CoupleTriangleMatcher {
 				match = triangle;
 				distanceHeuristic = distanceToCenter;
 			}
-			else if (numMatches == matchHeuristic && distanceToCenter < distanceHeuristic)
+			else if (numMatches == matchHeuristic)
 			{
-				match = triangle;
-				distanceHeuristic = distanceToCenter;
+				if (match == null
+					|| (! match.noDuplicateMarkers() && triangle.noDuplicateMarkers())
+					|| distanceToCenter < distanceHeuristic) {
+					match = triangle;
+					distanceHeuristic = distanceToCenter;
+				}
 			}
 			
 		}
-		if(match.distanceToCenter(recentPosition) > 50) {
+		if(match.distanceToCenter(recentPosition) > 100) {
 			System.out.println("WAARSCHUWING: color matching");
-			distanceHeuristic = Double.POSITIVE_INFINITY;
-			double triangleScore = 0;
+			System.out.println("Afstand: " + match.distanceToCenter(recentPosition));
+//			distanceHeuristic = Double.POSITIVE_INFINITY;
+//			double triangleScore = 0;
 			mustMatchOnColor = true;
 			for(GridTriangle triangle: triangles) {
-				double currentScore = triangle.triangleScore(couples);
-				if (currentScore > triangleScore) {
+				int numMatches = triangle.countColorMatchingCouples(couples);
+				double distanceToCenter = triangle.distanceToCenter(recentPosition);
+				if (numMatches > matchHeuristic)
+				{
+					matchHeuristic = numMatches;
 					match = triangle;
-					triangleScore = currentScore;
-					distanceHeuristic = triangle.distanceToCenter(recentPosition);
-				} else if (currentScore == triangleScore) {
-					double distance
+					distanceHeuristic = distanceToCenter;
 				}
-//				double distanceToCenter = triangle.distanceToCenter(recentPosition);
-//				int numMatches = triangle.countColorMatchingCouples(couples);
-//				if (numMatches > matchHeuristic)
-//				{
-//					matchHeuristic = numMatches;
-//					match = triangle;
-//					distanceHeuristic = distanceToCenter;
-//				}
-//				else if (numMatches == matchHeuristic && distanceToCenter < distanceHeuristic)
-//				{
-//					match = triangle;
-//					distanceHeuristic = distanceToCenter;
-//				}
+				else if (numMatches == matchHeuristic)
+				{
+					if ((! match.noDuplicateMarkers() && triangle.noDuplicateMarkers())
+							|| distanceToCenter < distanceHeuristic) {
+						match = triangle;
+						distanceHeuristic = distanceToCenter;
+					}
+				}
 				
 			}
 		}

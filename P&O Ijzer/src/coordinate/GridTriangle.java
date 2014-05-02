@@ -219,5 +219,17 @@ public class GridTriangle {
 	public void setMustMatchOnColor(boolean bool) {
 		this.mustMatchOnColor = bool;
 	}
+	
+	public boolean noDuplicateMarkers() {
+		for (int i = 0; i < this.getGridMarkers().size(); i++) {
+			for (int j = i + 1; j < this.getGridMarkers().size(); j++) {
+				if (this.getGridMarkers().get(i).equals(
+						this.getGridMarkers().get(j))) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
 }

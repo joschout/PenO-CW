@@ -44,8 +44,16 @@ public class ImageAnalyser {
 		List<MatOfPoint> contours = this.calcContours(image);
 		for (MatOfPoint contour: contours)
 		{
-			String shape = this.determineShape(contour);
-			Colour color = this.determineColour(contour, image);
+			String shape = null;
+			Colour color = null;
+			if (Imgproc.contourArea(contour) < 400) {
+				shape = "undetermined";
+				color = this.determineColour(contour, image);
+			} else {
+				shape = this.determineShape(contour);
+				color = this.determineColour(contour, image);
+			}
+			
 			if(!color.equals(Colour.BLACK)) {
 				GridPoint contourCenter = this.centerOfContour(contour);
 				GridMarker marker = initialiseMarker(color, shape, contourCenter);
@@ -95,14 +103,14 @@ public class ImageAnalyser {
 
 	private boolean undeterminedCheck(GridMarker marker)
 	{
-		return (marker.getShape().equals("undetermined") || marker.getColour() == Colour.UNDETERMINED);
+		return marker.getColour() == Colour.UNDETERMINED;
 	}
 
 	private List<MatOfPoint> calcContours(Image image)
 	{
 		Mat src = image.getImage();
 		Mat dst = new Mat();
-		Imgproc.Canny(src, dst, 70, 100);
+		Imgproc.Canny(src, dst, 50, 100);
 		Imgproc.dilate(dst, dst, new Mat());
 		List<MatOfPoint> toReturn = new ArrayList<MatOfPoint>();
 		Imgproc.findContours(dst.clone(), toReturn, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
