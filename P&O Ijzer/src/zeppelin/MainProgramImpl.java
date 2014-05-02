@@ -106,7 +106,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	
 	private RSA RSA;
 
-	public MainProgramImpl() throws NoSuchAlgorithmException  {
+	public MainProgramImpl() throws NoSuchAlgorithmException, IOException  {
 		super();
 		
 		this.initialiseGrid();
@@ -516,7 +516,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 						detectingQrCode = false;
 						qrCodeFound = true;
 						setTargetPosition(executeCommandPosition(result));
-						setTargetHeight(executeCommandHeight(result));
+						setTargetHeight(executeCommandHeight(result)); //TODO nog aanpassen voor te landen op juiste plaats!
 					}
 				}
 //				if (! movedTowardsTarget && qrCodeFound)

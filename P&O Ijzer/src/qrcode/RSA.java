@@ -1,51 +1,64 @@
 package qrcode;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.security.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 public class RSA  {
-	  
-	
-	PrivateKey priv;
-	PublicKey pub;
-	
-	public RSA() throws NoSuchAlgorithmException {
-		KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-		
-		KeyPair pair = keyGen.generateKeyPair();
-		this.priv = pair.getPrivate();
-		this.pub = pair.getPublic();
+
+	String priv;
+	String pub;
+
+	public RSA() throws IOException {
+		Runtime.getRuntime().exec("cmd /c python keys.py");		
+		this.priv = read("private");;
+		this.pub = read("public");;
 	}
-	
-	public PrivateKey getPrivateKey() {
+
+	public String getPrivateKey() {
 		return this.priv;
 	}
-	
-	public PublicKey getPublicKey() {
+
+	public String getPublicKey() {
 		return this.pub;
 	}
-	
-	public byte[] encode(String input) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
-		byte[] dataToEncrypt = input.getBytes();
-		byte[] encryptedData = null;  
-		Cipher cipher = Cipher.getInstance("RSA");
-		cipher.init(Cipher.ENCRYPT_MODE, pub); //pubKey stored earlier
-		encryptedData = cipher.doFinal(dataToEncrypt);
-		return encryptedData;
-	}
-	
-	public byte[] decode(byte[] input) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException {
-		byte[] dataToDecrypt = input;
-		byte[] decryptedData = null;  
-		Cipher cipher = Cipher.getInstance("RSA");
-		cipher.init(Cipher.DECRYPT_MODE, priv); //privKey stored earlier
-		decryptedData = cipher.doFinal(dataToDecrypt);
+
+
+	public String decode(String input) throws IOException {
+		write("encrypted", input);
+		Runtime.getRuntime().exec("cmd /c python decryption.py");
+		String decryptedData = read("result");
 		return decryptedData;
 	}
-	
+
+	public String read(String fileName){
+		String result = "";
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("result"));
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+
+			while (line != null) {
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				line = br.readLine();
+			}
+			result = sb.toString();
+			br.close();
+		} catch(IOException e) {
+		}
+		return result;
+	}
+
+	public void write(String fileName, String text) throws FileNotFoundException, UnsupportedEncodingException{
+		PrintWriter writer;
+		writer = new PrintWriter("encrypted", "UTF-8");
+		writer.println(text);
+		writer.close();
+	}
+
 }
