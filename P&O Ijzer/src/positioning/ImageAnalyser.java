@@ -46,7 +46,7 @@ public class ImageAnalyser {
 		{
 			String shape = null;
 			Colour color = null;
-			if (Imgproc.contourArea(contour) < 400) {
+			if (Imgproc.contourArea(contour) < 360) {
 				shape = "undetermined";
 				color = this.determineColour(contour, image);
 			} else {

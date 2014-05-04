@@ -47,6 +47,7 @@ public class PositioningTest {
 			boolean exit = false;
 			System.out.println("Enter q to quit");
 			int fileCounter = 0;
+			GridPoint mostRecentPosition = new GridPoint(0, 0);
 			while (! exit) {
 				if (fileCounter > 10) {
 					fileCounter = 0;
@@ -61,7 +62,7 @@ public class PositioningTest {
 				StringBuilder builder;
 				try {
 					readCouples = new ReadCouples(image);
-					triangle = triangleMatch(grid, image, readCouples);
+					triangle = triangleMatch(grid, image, readCouples, mostRecentPosition);
 
 					Couple pictureCouple = null;
 					Couple triangleCouple = null;
@@ -146,8 +147,8 @@ public class PositioningTest {
 
 	}
 	
-	private static GridTriangle triangleMatch(Grid grid, Image image, ReadCouples readCouples) throws IOException, InterruptedException {
-		CoupleTriangleMatcher matcher = new CoupleTriangleMatcher(grid, readCouples, new GridPoint(0,0));
+	private static GridTriangle triangleMatch(Grid grid, Image image, ReadCouples readCouples, GridPoint mostRecentPosition) throws IOException, InterruptedException {
+		CoupleTriangleMatcher matcher = new CoupleTriangleMatcher(grid, readCouples, mostRecentPosition);
 		GridTriangle triangle = matcher.matchCouplesWithTriangles();
 		return triangle;
 	}
