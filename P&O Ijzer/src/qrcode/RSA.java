@@ -1,8 +1,11 @@
 package qrcode;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -15,8 +18,17 @@ public class RSA  {
 
 	public RSA() throws IOException {
 		Runtime.getRuntime().exec("python keys.py");		
-		this.priv = read("private");;
-		this.pub = read("public");;
+		this.priv = read("private");
+		String lineSep = System.getProperty("line.separator");
+		priv.replaceAll(lineSep, "");
+		priv.replace("-----BEGIN RSA PRIVATE KEY-----", "");
+		priv.replace("-----END RSA PRIVATE KEY-----", "");
+		System.out.println(priv);
+		this.pub = read("public");
+		pub.replaceAll(lineSep, "");
+		pub.replace("-----BEGIN PUBLIC KEY-----", "");
+		pub.replace("-----END PUBLIC KEY-----", "");
+		System.out.println(pub);
 	}
 
 	public String getPrivateKey() {
@@ -27,11 +39,27 @@ public class RSA  {
 		return this.pub;
 	}
 
-
+	public void encode(String input) {
+		FileWriter fstream = null;
+		BufferedWriter out = null;
+		PrintWriter writer = null;
+		
+		File file = new File("to_encrypt");
+		try {
+			fstream = new FileWriter(file, false);
+			out = new BufferedWriter(fstream);
+			writer = new PrintWriter(out);
+			writer.write(input);
+			writer.close();
+			Runtime.getRuntime().exec("python encrypt.py");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public String decode(String input) throws IOException {
 		write("encrypted", input);
-		Runtime.getRuntime().exec("cmd /c python decryption.py");
+		Runtime.getRuntime().exec("python decryption.py");
 		String decryptedData = read("result");
 
 		return decryptedData;
@@ -40,7 +68,7 @@ public class RSA  {
 	public String read(String fileName){
 		String result = "";
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("result"));
+			BufferedReader br = new BufferedReader(new FileReader(fileName));
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 
@@ -62,5 +90,7 @@ public class RSA  {
 		writer.println(text);
 		writer.close();
 	}
+	
+	
 
 }
