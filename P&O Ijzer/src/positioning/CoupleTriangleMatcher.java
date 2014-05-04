@@ -49,32 +49,32 @@ public class CoupleTriangleMatcher {
 			}
 			
 		}
-		if(match.distanceToCenter(recentPosition) > 100) {
-			System.out.println("WAARSCHUWING: color matching");
-			System.out.println("Afstand: " + match.distanceToCenter(recentPosition));
-//			distanceHeuristic = Double.POSITIVE_INFINITY;
-//			double triangleScore = 0;
-			mustMatchOnColor = true;
-			for(GridTriangle triangle: triangles) {
-				int numMatches = triangle.countColorMatchingCouples(couples);
-				double distanceToCenter = triangle.distanceToCenter(recentPosition);
-				if (numMatches > matchHeuristic)
-				{
-					matchHeuristic = numMatches;
-					match = triangle;
-					distanceHeuristic = distanceToCenter;
-				}
-				else if (numMatches == matchHeuristic)
-				{
-					if ((! match.noDuplicateMarkers() && triangle.noDuplicateMarkers())
-							|| distanceToCenter < distanceHeuristic) {
-						match = triangle;
-						distanceHeuristic = distanceToCenter;
-					}
-				}
-				
-			}
-		}
+//		if(match.distanceToCenter(recentPosition) > 100) {
+//			System.out.println("WAARSCHUWING: color matching");
+//			System.out.println("Afstand: " + match.distanceToCenter(recentPosition));
+////			distanceHeuristic = Double.POSITIVE_INFINITY;
+////			double triangleScore = 0;
+//			mustMatchOnColor = true;
+//			for(GridTriangle triangle: triangles) {
+//				int numMatches = triangle.countColorMatchingCouples(couples);
+//				double distanceToCenter = triangle.distanceToCenter(recentPosition);
+//				if (numMatches > matchHeuristic)
+//				{
+//					matchHeuristic = numMatches;
+//					match = triangle;
+//					distanceHeuristic = distanceToCenter;
+//				}
+//				else if (numMatches == matchHeuristic)
+//				{
+//					if ((! match.noDuplicateMarkers() && triangle.noDuplicateMarkers())
+//							|| distanceToCenter < distanceHeuristic) {
+//						match = triangle;
+//						distanceHeuristic = distanceToCenter;
+//					}
+//				}
+//				
+//			}
+//		}
 		match.setMustMatchOnColor(mustMatchOnColor);
 //		if(match.distanceToCenter(recentPosition) > 50) {
 //			return null;

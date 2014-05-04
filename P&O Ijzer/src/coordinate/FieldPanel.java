@@ -10,7 +10,9 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -135,11 +137,16 @@ public	class FieldPanel extends JPanel {
 	/** Update the position based on speed and direction of the sprite */
 	   public void update() {
 		   ArrayList<ZeppelinMarker> zeppelinMarkerList = new ArrayList<ZeppelinMarker>();
-		   for(Zeppelin zeppelin: getApp().getGuiController().getOtherKnownZeppelins().values()){
-			  zeppelinMarkerList.add(new ZeppelinMarker(zeppelin.getPosition()));
+		   for (Map.Entry<String, Zeppelin> entry : app.getGuiController().getOtherKnownZeppelins().entrySet()) {
+			   if (! entry.getKey().equals("ijzer")) {
+				   zeppelinMarkerList.add(new ZeppelinMarker(entry.getValue().getPosition(), Color.darkGray));
+			   }
 		   }
+//		   for(Zeppelin zeppelin: getApp().getGuiController().getOtherKnownZeppelins().values()){
+//			  zeppelinMarkerList.add(new ZeppelinMarker(zeppelin.getPosition()));
+//		   }
 		   ZeppelinMarker ownZeppelinMarker
-		   		= new ZeppelinMarker(app.getGuiController().getZeppelin().getPosition(), Color.PINK);
+		   		= new ZeppelinMarker(app.getGuiController().getZeppelin().getPosition(), Color.MAGENTA);
 		   zeppelinMarkerList.add(ownZeppelinMarker);
 		   setZeppelinMarkerList(zeppelinMarkerList);
 	   }

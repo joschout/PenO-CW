@@ -14,7 +14,7 @@ public class RSA  {
 	String pub;
 
 	public RSA() throws IOException {
-		Runtime.getRuntime().exec("cmd /c python keys.py");		
+		Runtime.getRuntime().exec("python keys.py");		
 		this.priv = read("private");;
 		this.pub = read("public");;
 	}

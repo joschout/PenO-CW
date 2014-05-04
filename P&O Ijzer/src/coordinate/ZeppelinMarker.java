@@ -25,7 +25,7 @@ public class ZeppelinMarker extends Marker {
 	public  void drawMarker(Graphics g, double x, double y){
 		Graphics2D g2 = (Graphics2D)g;
 		
-		double a = 5;
+		double a = 10;
 		double w = 2*a;
 		
 	

@@ -48,6 +48,7 @@ public class PositioningTest {
 			boolean exit = false;
 			System.out.println("Enter q to quit");
 			int fileCounter = 0;
+			GridPoint lastPosition = new GridPoint(0, 0);
 			while (! exit) {
 				if (fileCounter > 10) {
 					fileCounter = 0;
@@ -62,7 +63,7 @@ public class PositioningTest {
 				StringBuilder builder;
 				try {
 					readCouples = new ReadCouples(image);
-					triangle = triangleMatch(grid, image, readCouples);
+					triangle = triangleMatch(grid, image, readCouples, lastPosition);
 
 					Couple pictureCouple = null;
 					Couple triangleCouple = null;
@@ -83,11 +84,13 @@ public class PositioningTest {
 					angle = calc.calculateAngle();
 					PositionCalculator calcPos = new PositionCalculator(image, pictureCouple, triangleCouple);
 					position = calcPos.calculatePosition(angle);
+					lastPosition = position;
 				} catch (Exception e) {
 					System.out.println("=== WAARSCHUWING: exception ===\n");
 					e.printStackTrace();
 					e.printStackTrace(writer);
 					builder = new StringBuilder();
+					builder.append("--- Foto: " + filename);
 					builder.append("--- Gevonden markers ---\n");
 					for (GridMarker marker : image.getMarkers()) {
 						builder.append("Marker: " + marker.toString() + "\n");
@@ -147,8 +150,8 @@ public class PositioningTest {
 
 	}
 	
-	private static GridTriangle triangleMatch(Grid grid, Image image, ReadCouples readCouples) throws IOException, InterruptedException {
-		CoupleTriangleMatcher matcher = new CoupleTriangleMatcher(grid, readCouples, new GridPoint(0,0));
+	private static GridTriangle triangleMatch(Grid grid, Image image, ReadCouples readCouples, GridPoint position) throws IOException, InterruptedException {
+		CoupleTriangleMatcher matcher = new CoupleTriangleMatcher(grid, readCouples, position);
 		GridTriangle triangle = matcher.matchCouplesWithTriangles();
 		return triangle;
 	}

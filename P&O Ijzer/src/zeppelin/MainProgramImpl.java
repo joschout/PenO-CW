@@ -107,7 +107,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	
 	private RSA RSA;
 
-	public MainProgramImpl() throws NoSuchAlgorithmException, IOException  {
+	public MainProgramImpl(GridPoint startPosition) throws NoSuchAlgorithmException, IOException  {
 		super();
 		
 		this.initialiseGrid();
@@ -122,6 +122,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 		this.rabbitMQControllerZeppelin = new RabbitMQControllerZeppelin(this);
 		this.RSA = new RSA();
 		this.qrCodeReader = new DecodeQR(this.RSA);
+		this.position = startPosition;
 		
 		this.setTargetPosition(new GridPoint(-1, -1));
 		
@@ -406,12 +407,14 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	}
 
 	public void setAngle(double angle) {
+		System.out.println("Hoek gezet: " + angle);
 		this.mostRecentAngle = angle;
 	}
 	
 	public void setPosition(GridPoint point)
 	{
 		this.position = point;
+		System.out.println("Positie gezet: " + point.toString());
 	}
 	
 	public void setTargetPosition(GridPoint point)
@@ -478,6 +481,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	 * de huidige doelhoogte en huidige doelhoek te bereiken.
 	 *
 	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
 	private void gameLoop() throws InterruptedException {
 		GridPoint dummyPoint = new GridPoint(-1, -1);
@@ -516,8 +520,8 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 					{
 						detectingQrCode = false;
 						qrCodeFound = true;
-						setTargetPosition(executeCommandPosition(result));
-						setTargetHeight(executeCommandHeight(result)); //TODO nog aanpassen voor te landen op juiste plaats!
+//						setTargetPosition(executeCommandPosition(result));
+//						setTargetHeight(executeCommandHeight(result)); //TODO nog aanpassen voor te landen op juiste plaats!
 					}
 				}
 //				if (! movedTowardsTarget && qrCodeFound)
@@ -526,6 +530,8 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 //				}
 			}  catch (TimeoutException e1) {
 				e1.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			try {
 				Thread.sleep(100);
@@ -541,7 +547,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	
 	public Image captureImage() throws InterruptedException, IOException
 	{
-		String fileName = Long.toString(System.currentTimeMillis());
+		String fileName = "huidigefoto";
 		return this.cameraController.takePicture(fileName);
 	}
 	
