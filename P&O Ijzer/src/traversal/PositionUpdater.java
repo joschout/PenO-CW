@@ -77,8 +77,10 @@ public class PositionUpdater implements Runnable {
 				PositionCalculator calcPos = new PositionCalculator(img, pictureCouple, triangleCouple);
 				GridPoint position = calcPos.calculatePosition(angle);
 
-				this.getZeppelin().setAngle(angle);
-				this.getZeppelin().setPosition(position);
+				if (this.getZeppelin().getPosition().distanceTo(position) < 150) {					
+					this.getZeppelin().setAngle(angle);
+					this.getZeppelin().setPosition(position);
+				}
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -86,8 +88,10 @@ public class PositionUpdater implements Runnable {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			System.err.println("=== WAARSCHUWING: null pointer in update() van PositionUpdater. ===");
+			e.printStackTrace();
 		} catch (IndexOutOfBoundsException e) {
 			System.err.println("=== WAARSCHUWING: index out of bounds in update() van PositionUpdater. ===");
+			e.printStackTrace();
 		}
 	}
 

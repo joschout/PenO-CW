@@ -47,13 +47,16 @@ public class ImageAnalyser {
 		{
 			String shape = null;
 			Colour color = null;
-			if (Imgproc.contourArea(contour) < 360) {
-				shape = "undetermined";
-				color = this.determineColour(contour, image);
-			} else {
-				shape = this.determineShape(contour);
-				color = this.determineColour(contour, image);
-			}
+//			if (Imgproc.contourArea(contour) < 100) {
+//				shape = "undetermined";
+//				color = this.determineColour(contour, image);
+//			} else {
+//				shape = this.determineShape(contour);
+//				color = this.determineColour(contour, image);
+//			}
+			
+			shape = this.determineShape(contour);
+			color = this.determineColour(contour, image);
 			
 			if(!color.equals(Colour.BLACK)) {
 				GridPoint contourCenter = this.centerOfContour(contour);
@@ -104,7 +107,8 @@ public class ImageAnalyser {
 
 	private boolean undeterminedCheck(GridMarker marker)
 	{
-		return marker.getColour() == Colour.UNDETERMINED;
+		return marker.getShape().equals("undetermined") 
+				|| marker.getColour() == Colour.UNDETERMINED;
 	}
 
 	private List<MatOfPoint> calcContours(Image image)

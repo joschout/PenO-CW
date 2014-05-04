@@ -1,4 +1,5 @@
 
+
 /**
  * Implementatie van ZeppelinInterface. Het is absoluut essentieel dat het programma dat op de Pi draait toegang
  * heeft tot deze klasse.
@@ -107,7 +108,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	
 	private RSA RSA;
 
-	public MainProgramImpl() throws NoSuchAlgorithmException, IOException  {
+	public MainProgramImpl(GridPoint startPosition) throws NoSuchAlgorithmException, IOException  {
 		super();
 		
 		this.initialiseGrid();
@@ -122,6 +123,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 		this.rabbitMQControllerZeppelin = new RabbitMQControllerZeppelin(this);
 		this.RSA = new RSA();
 		this.qrCodeReader = new DecodeQR(this.RSA);
+		this.position = startPosition;
 		
 		this.setTargetPosition(new GridPoint(-1, -1));
 		
@@ -406,12 +408,14 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	}
 
 	public void setAngle(double angle) {
+		System.out.println("Hoek gezet: " + angle);
 		this.mostRecentAngle = angle;
 	}
 	
 	public void setPosition(GridPoint point)
 	{
 		this.position = point;
+		System.out.println("Positie gezet: " + point.toString());
 	}
 	
 	public void setTargetPosition(GridPoint point)
@@ -434,7 +438,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	
 	// ======== Applicatielogica ========
 
-	public void startGameLoop() throws InterruptedException, IOException {
+	public void startGameLoop() throws InterruptedException {
 		System.out.println("Lus initialiseren; zeppelin is klaar om commando's uit te voeren.");
 		this.gameLoop();
 		System.out.println("Lus afgebroken; uitvoering is stopgezet.");
@@ -480,7 +484,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private void gameLoop() throws InterruptedException, IOException {
+	private void gameLoop() throws InterruptedException {
 		GridPoint dummyPoint = new GridPoint(-1, -1);
 		
 		boolean detectingQrCode = false;
@@ -527,6 +531,8 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 //				}
 			}  catch (TimeoutException e1) {
 				e1.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			try {
 				Thread.sleep(100);
@@ -542,7 +548,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	
 	public Image captureImage() throws InterruptedException, IOException
 	{
-		String fileName = Long.toString(System.currentTimeMillis());
+		String fileName = "huidigefoto";
 		return this.cameraController.takePicture(fileName);
 	}
 	
