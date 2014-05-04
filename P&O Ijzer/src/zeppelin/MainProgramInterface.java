@@ -6,7 +6,6 @@
 
 package zeppelin;
 
-import java.io.IOException;
 
 
 import movement.HeightController;

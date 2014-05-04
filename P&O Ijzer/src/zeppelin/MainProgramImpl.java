@@ -9,9 +9,6 @@ package zeppelin;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-//import java.rmi.RemoteException;
-//import java.rmi.RemoteException;
-//import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +20,8 @@ import qrcode.QRCodeCommandParser;
 import traversal.HeightUpdater;
 import traversal.PositionUpdater;
 import logger.LogWriter;
-import movement.ForwardBackwardController;
 import movement.HeightController;
 import movement.RotationController;
-import RabbitMQ.RabbitMQController;
 import RabbitMQ.RabbitMQControllerZeppelin;
 
 
@@ -45,7 +40,6 @@ import coordinate.Grid;
 import coordinate.GridInitialiser;
 import coordinate.GridPoint;
 import coordinate.Tablet;
-import RabbitMQ.*;
 import qrcode.RSA;;
 
 public class MainProgramImpl  implements IZeppelin, MainProgramInterface {

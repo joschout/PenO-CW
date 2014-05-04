@@ -1,9 +1,5 @@
 package zeppelin;
 
-//import java.rmi.RemoteException;
-
-import movement.RotationController;
-import controllers.MotorController;
 import controllers.SensorController.TimeoutException;
 import coordinate.GridPoint;
 
@@ -58,6 +54,7 @@ public class TraversalHandler {
 		GridPoint currentPosition = this.zeppelin.getPosition();
 		GridPoint targetPosition = this.zeppelin.getTargetPosition();
 		double targetAngle = this.calculateRotation(currentPosition, targetPosition);
+		//TODO NIEUWE IMPLEMENTATIE HIER?
 		this.zeppelin.setTargetAngle(targetAngle);
 		this.zeppelin.moveTowardsTargetAngle();
 	}
