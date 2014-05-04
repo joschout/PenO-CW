@@ -52,6 +52,7 @@ public class QRCodeCommandParser {
 			if(!xCoord.matches("\\d+") || !yCoord.matches("\\d+")){
 				throw new IllegalArgumentException("De meegegeven x- of y-coordinaat komt niet overeen met een getal");
 			}
+			this.getZeppelin().setDestinationTab(null);
 			this.getZeppelin().setTargetPosition(new GridPoint(Double.parseDouble(coordinates[0])/100, Double.parseDouble(coordinates[1])/100));
 		}	
 	}

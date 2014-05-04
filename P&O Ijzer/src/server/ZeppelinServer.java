@@ -1,3 +1,4 @@
+
 /**
  * Deze klasse maakt een Zeppelin object aan en maakt deze beschikbaar in het RMI-register.
  */
@@ -27,16 +28,24 @@ public class ZeppelinServer {
 		//TODO: vraag voor beginpositie
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Geef initiële positie (<x>,<y>)");
+		System.out.println("Geef initiÃ«le positie (<x>,<y>)");
 		String pos = scanner.nextLine();
 		String[] posParts = pos.split(",");
 		double x = Double.parseDouble(posParts[0]);
 		double y = Double.parseDouble(posParts[1]);
 		
+		System.out.println("Zeppelin initialiseren");
 		MainProgramImpl zeppelin = null;
 		
+			System.out.println("Constructor call");
 			zeppelin = new MainProgramImpl(new GridPoint(x,y));
+			System.out.println("Test set-up stap 1");
+			zeppelin.setFinalDestination(false);
+			System.out.println("Test set-up stap 2");
+			zeppelin.setTargetPosition(new GridPoint(100, 100));
 
+			
+		// TODO for testing purposes, doe weg erna
 		zeppelin.startGameLoop(); // start d
 	}
 

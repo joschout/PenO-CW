@@ -1,16 +1,12 @@
 package zeppelin;
 
-//import java.rmi.RemoteException;
-
-import movement.RotationController;
-import controllers.MotorController;
 import controllers.SensorController.TimeoutException;
 import coordinate.GridPoint;
 
 public class TraversalHandler {
 	
 	private MainProgramImpl zeppelin;
-	private double acceptableDistance = 5;
+	private double acceptableDistance = 20;
 	
 	public TraversalHandler(MainProgramImpl zeppelin) {
 		this.zeppelin = zeppelin;
@@ -19,7 +15,7 @@ public class TraversalHandler {
 	public boolean moveTowardsPoint() throws  InterruptedException, TimeoutException {
 		GridPoint currentPosition = this.getZeppelin().getPosition();
 		GridPoint targetPosition = this.getZeppelin().getTargetPosition();
-		double angle = this.calculateRotation(currentPosition, targetPosition);
+		double angle = this.calculateRotation(previousPosition, currentPosition, targetPosition);
 		this.getZeppelin().setAngle(angle);
 		
 		if (! (currentPosition.distanceTo(targetPosition) < acceptableDistance))
@@ -57,16 +53,40 @@ public class TraversalHandler {
 	private void turn(double angle) throws TimeoutException, InterruptedException {
 		GridPoint currentPosition = this.zeppelin.getPosition();
 		GridPoint targetPosition = this.zeppelin.getTargetPosition();
-		double targetAngle = this.calculateRotation(currentPosition, targetPosition);
+		double targetAngle = this.calculateRotation(previousPosition, currentPosition, targetPosition);
+		//TODO NIEUWE IMPLEMENTATIE HIER?
 		this.zeppelin.setTargetAngle(targetAngle);
 		this.zeppelin.moveTowardsTargetAngle();
 	}
 
-	private double calculateRotation(GridPoint current, GridPoint goal) {
-		GridPoint vector = new GridPoint(goal.x - current.x, goal.y - current.y);
+	private double calculateRotation(GridPoint previous, GridPoint current, GridPoint goal) {
+		Boolean goLeft = decideLeft(previous, current, goal);
+		GridPoint vectorGoal = new GridPoint(goal.x - previous.x, goal.y - previous.y);
+		GridPoint vectorCurrent = new GridPoint(current.x - previous.x, current.y - previous.y);
 		
-		double angle = Math.toDegrees(Math.atan2(vector.y, vector.x));
+		double sum = vectorGoal.x * vectorCurrent.x + vectorGoal.y * vectorCurrent.y;
+		double divide1 = Math.sqrt(Math.pow(vectorGoal.x, 2) + Math.pow(vectorGoal.y, 2));
+		double divide2 = Math.sqrt(Math.pow(vectorCurrent.x, 2) + Math.pow(vectorCurrent.y, 2));
+		
+		double angle = Math.acos(sum/(divide1*divide2));
+		if(goLeft) {
+			return -angle;
+		}
 		return angle;
+		
+	}
+
+	private Boolean decideLeft(GridPoint previous, GridPoint current, GridPoint goal) {
+		GridPoint vectorGoal = new GridPoint(goal.x - previous.x, goal.y - previous.y);
+		GridPoint vectorCurrent = new GridPoint(current.x - previous.x, current.y - previous.y);
+		
+		double cross = vectorGoal.x * vectorCurrent.y - vectorGoal.y * vectorCurrent.x;
+		if(cross < 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
 		
 	}
 }
