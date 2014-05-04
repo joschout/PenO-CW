@@ -1,3 +1,4 @@
+
 package positioning;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class CoupleTriangleMatcher {
 		
 		int matchHeuristic = 0;
 		double distanceHeuristic = Double.POSITIVE_INFINITY;
+		boolean mustMatchOnColor = false;
 		
 		for(GridTriangle triangle: triangles) {
 			double distanceToCenter = triangle.distanceToCenter(recentPosition);
@@ -36,13 +38,47 @@ public class CoupleTriangleMatcher {
 				match = triangle;
 				distanceHeuristic = distanceToCenter;
 			}
-			else if (numMatches == matchHeuristic && distanceToCenter < distanceHeuristic)
+			else if (numMatches == matchHeuristic)
 			{
-				match = triangle;
-				distanceHeuristic = distanceToCenter;
+				if (match == null
+					|| (! match.noDuplicateMarkers() && triangle.noDuplicateMarkers())
+					|| distanceToCenter < distanceHeuristic) {
+					match = triangle;
+					distanceHeuristic = distanceToCenter;
+				}
 			}
 			
 		}
+		if(match.distanceToCenter(recentPosition) > 100) {
+			System.out.println("WAARSCHUWING: color matching");
+			System.out.println("Afstand: " + match.distanceToCenter(recentPosition));
+//			distanceHeuristic = Double.POSITIVE_INFINITY;
+//			double triangleScore = 0;
+			mustMatchOnColor = true;
+			for(GridTriangle triangle: triangles) {
+				int numMatches = triangle.countColorMatchingCouples(couples);
+				double distanceToCenter = triangle.distanceToCenter(recentPosition);
+				if (numMatches > matchHeuristic)
+				{
+					matchHeuristic = numMatches;
+					match = triangle;
+					distanceHeuristic = distanceToCenter;
+				}
+				else if (numMatches == matchHeuristic)
+				{
+					if ((! match.noDuplicateMarkers() && triangle.noDuplicateMarkers())
+							|| distanceToCenter < distanceHeuristic) {
+						match = triangle;
+						distanceHeuristic = distanceToCenter;
+					}
+				}
+				
+			}
+		}
+		match.setMustMatchOnColor(mustMatchOnColor);
+//		if(match.distanceToCenter(recentPosition) > 50) {
+//			return null;
+//		}
 		return match;
 	}
 	

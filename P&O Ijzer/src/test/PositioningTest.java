@@ -1,3 +1,4 @@
+
 package test;
 
 import java.io.BufferedWriter;
@@ -46,8 +47,13 @@ public class PositioningTest {
 			Grid grid = init.readGrid("grid");
 			boolean exit = false;
 			System.out.println("Enter q to quit");
+			int fileCounter = 0;
 			while (! exit) {
-				String filename = Long.toString(System.currentTimeMillis());
+				if (fileCounter > 10) {
+					fileCounter = 0;
+				}
+				String filename = "foto-" + Integer.toString(fileCounter);
+				fileCounter++;
 				Image image = cam.takePicture(filename);
 				ReadCouples readCouples = null;
 				GridTriangle triangle = null;
@@ -63,7 +69,7 @@ public class PositioningTest {
 
 					for (Couple pictureCoupleFor : readCouples.getListCouples())
 					{
-						Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor);
+						Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor, triangle.getMustMatchOnColor());
 						if (triangleCoupleFor == null)
 						{
 							continue;
@@ -80,8 +86,21 @@ public class PositioningTest {
 				} catch (Exception e) {
 					System.out.println("=== WAARSCHUWING: exception ===\n");
 					e.printStackTrace();
-					writer.write("=== WAARSCHUWING: exception ===\n");
 					e.printStackTrace(writer);
+					builder = new StringBuilder();
+					builder.append("--- Gevonden markers ---\n");
+					for (GridMarker marker : image.getMarkers()) {
+						builder.append("Marker: " + marker.toString() + "\n");
+					}
+					builder.append("--- Gevonden couples ---\n");
+					for (Couple couple : readCouples.getListCouples()) {
+						builder.append("Couple: " + couple.toString() + "\n");
+					}
+					builder.append("--- Gevonden driehoek ---\n");
+					builder.append("Driehoek: " + triangle.toString() + "\n");
+					System.out.println(builder.toString());
+					writer.write("=== WAARSCHUWING: exception ===\n");
+					writer.write(builder.toString());
 					continue;
 				}
 				builder = new StringBuilder();

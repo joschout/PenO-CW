@@ -1,3 +1,4 @@
+
 package positioning;
 
 import java.util.ArrayList;
@@ -43,6 +44,14 @@ public class Couple {
 		result = prime * result + ((marker2 == null) ? 0 : marker2.hashCode());
 		return result;
 	}
+	
+	public boolean equalsDispatch(Object obj, boolean colorMatch) {
+		if (! colorMatch) {
+			return this.equals(obj);
+		} else {
+			return this.equalsColor(obj);
+		}
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -57,6 +66,23 @@ public class Couple {
 			return true;
 		}
 		if (this.marker1.equals(other.marker2) && this.marker2.equals(other.marker1)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean equalsColor(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Couple other = (Couple) obj;
+		if (this.marker1.equalsColor(other.marker1) && this.marker2.equalsColor(other.marker2)) {
+			return true;
+		}
+		if (this.marker1.equalsColor(other.marker2) && this.marker2.equalsColor(other.marker1)) {
 			return true;
 		}
 		return false;
@@ -84,6 +110,38 @@ public class Couple {
 	public String toString() {
 		return "Marker 1: " + getMarker1().toString() + ", Marker 2: " + getMarker2().toString();
 	}
+
+	public boolean matchColor(Couple other) {
+		if (this.marker1.equalsColor(other.marker1) && this.marker2.equalsColor(other.marker2)) {
+			return true;
+		}
+		if (this.marker1.equalsColor(other.marker2) && this.marker2.equalsColor(other.marker1)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public double matchScore(Couple other) {
+		if (! this.matchColor(other)) {
+			return 0;
+		}
+		if (this.matchShape(other)) {
+			return 1;
+		}
+		return 0.5;
+			
+	}
+	
+	public boolean matchShape(Couple other) {
+		if (this.marker1.equalsShape(other.marker1) && this.marker2.equalsShape(other.marker2)) {
+			return true;
+		}
+		if (this.marker1.equalsShape(other.marker2) && this.marker2.equalsShape(other.marker1)) {
+			return true;
+		}
+		return false;
+	}
+
 	
 	
 }

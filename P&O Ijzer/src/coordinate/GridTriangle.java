@@ -1,6 +1,8 @@
+
 package coordinate;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import positioning.Couple;
@@ -59,11 +61,11 @@ public class GridTriangle {
 		return matches;
 	}
 	
-	public Couple getMatchingCouple(Couple pictureCouple)
+	public Couple getMatchingCouple(Couple pictureCouple, boolean colorMatch)
 	{
 		for (Couple triangleCouple : markerCouples)
 		{
-			if (triangleCouple.equals(pictureCouple))
+			if (triangleCouple.equalsDispatch(pictureCouple, colorMatch))
 			{
 				return triangleCouple;
 			}
@@ -174,6 +176,61 @@ public class GridTriangle {
 			toReturn.append(marker + " " + marker.getOrientation() + "; ");
 		}
 		return toReturn.toString();
+	}
+
+	public int countColorMatchingCouples(List<Couple> pictureCouples) {
+		List<Couple> copyOfTriangleCouples = new ArrayList<Couple>(markerCouples);
+		int matches = 0;
+		for (Couple pictureCouple : pictureCouples)
+		{
+			Iterator<Couple> iter = copyOfTriangleCouples.iterator();
+			while (iter.hasNext()) {
+				Couple next = iter.next();
+				if (next.matchColor(pictureCouple)) {
+					matches++;
+					iter.remove();
+				}
+			}
+//			for (Couple gridCouple: copyOfTriangleCouples) {
+//				if(gridCouple.matchColor(pictureCouple))
+//					matches++;
+//					copyOfTriangleCouples.remove(pictureCouple);
+//				
+//			}
+		}
+		return matches;
+	}
+	
+	public double triangleScore(List<Couple> pictureCouples) {
+		double score = 0;
+		for (Couple pictureCouple : pictureCouples) {
+			for (Couple triangleCouple : markerCouples) {
+				score += pictureCouple.matchScore(triangleCouple);
+			}
+		}
+		return score;
+	}
+	
+	private boolean mustMatchOnColor;
+	
+	public boolean getMustMatchOnColor() {
+		return this.mustMatchOnColor;
+	}
+	
+	public void setMustMatchOnColor(boolean bool) {
+		this.mustMatchOnColor = bool;
+	}
+	
+	public boolean noDuplicateMarkers() {
+		for (int i = 0; i < this.getGridMarkers().size(); i++) {
+			for (int j = i + 1; j < this.getGridMarkers().size(); j++) {
+				if (this.getGridMarkers().get(i).equals(
+						this.getGridMarkers().get(j))) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }

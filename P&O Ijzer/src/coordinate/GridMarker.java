@@ -1,3 +1,4 @@
+
 package coordinate;
 
 import java.awt.Graphics;
@@ -93,6 +94,14 @@ public abstract class GridMarker extends Marker {
 		result = prime * result + ((shape == null) ? 0 : shape.hashCode());
 		return result;
 	}
+	
+	public boolean equalsDispatcher(Object obj, boolean colourMatch) {
+		if (! colourMatch) {
+			return this.equals(obj);
+		} else {
+			return this.equalsColor(obj);
+		}
+	}
 
 	/**
 	 * Vergelijkt twee GridMarkers, gebaseerd op hun shape en hun colour
@@ -128,5 +137,37 @@ public abstract class GridMarker extends Marker {
 	public String toString()
 	{
 		return colour + " " + shape + " " + getPoint().toString();
+	}
+
+	public boolean equalsColor(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GridMarker other = (GridMarker) obj;
+		if (colour == null) {
+			if (other.colour != null)
+				return false;
+		} else if (!colour.equals(other.colour))
+			return false;
+		return true;
+	}
+	
+	public boolean equalsShape(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GridMarker other = (GridMarker) obj;
+		if (shape == null) {
+			if (other.shape != null)
+				return false;
+		} else if (!shape.equals(other.shape))
+			return false;
+		return true;
 	}
 }

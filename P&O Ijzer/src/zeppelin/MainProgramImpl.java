@@ -1,3 +1,4 @@
+
 /**
  * Implementatie van ZeppelinInterface. Het is absoluut essentieel dat het programma dat op de Pi draait toegang
  * heeft tot deze klasse.

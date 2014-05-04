@@ -1,3 +1,4 @@
+
 package test;
 
 import java.io.IOException;
@@ -32,9 +33,7 @@ public class Test {
 		GridInitialiser gridInit = new GridInitialiser();
 		Grid grid = gridInit.readGrid("grid");
 		System.out.println(grid);
-
-		Mat img = Highgui.imread("pic-27-03-14--3.jpg");
-		Image image = new Image(img);
+		Image image = takePictureRam("test.jpg");
 		System.out.println("=== GEZIENE MARKERS ===");
 		for (GridMarker marker: image.getMarkers())
 		{
@@ -53,7 +52,7 @@ public class Test {
 		System.out.println("=== EINDE GEKOZEN DRIEHOEK ===");
 		for (Couple pictureCoupleFor : readCouples.getListCouples())
 		{
-			Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor);
+			Couple triangleCoupleFor = triangle.getMatchingCouple(pictureCoupleFor, triangle.getMustMatchOnColor());
 			if (triangleCoupleFor == null)
 			{
 				continue;
