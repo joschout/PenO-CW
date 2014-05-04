@@ -58,14 +58,14 @@ public class ImageAnalyser {
 			shape = this.determineShape(contour);
 			color = this.determineColour(contour, image);
 			
-			if(!color.equals(Colour.BLACK)) {
+//			if(!color.equals(Colour.BLACK)) {
 				GridPoint contourCenter = this.centerOfContour(contour);
 				GridMarker marker = initialiseMarker(color, shape, contourCenter);
 				if (! undeterminedCheck(marker))
 				{
 					toReturn.add(marker);
 				}
-			}
+//			}
 			// verwijder duplicaten die te dicht bij elkaar liggen
 		}
 		for (int i = 0; i < toReturn.size(); i++) {
@@ -252,6 +252,21 @@ public class ImageAnalyser {
 		color[2] = color[2] / iterations;
 		return this.applyRanges(color);
 	}
+	
+	private Colour tabletColorProc(MatOfPoint contour, Image image, String shape) {
+		Mat hsv = new Mat();
+		Imgproc.cvtColor(image.getImage(), hsv, Imgproc.COLOR_BGR2HSV);
+		MatOfPoint2f contMat = new MatOfPoint2f(contour.toArray());
+		MatOfPoint2f approx = new MatOfPoint2f();
+		Imgproc.approxPolyDP(contMat, approx, Imgproc.arcLength(contMat, true) * 0.02, true);
+		
+		Point[] points = approx.toArray();
+		Point diagPoint = this.diagPoint(points[0], points[2], 20);
+		
+		double[] color = hsv.get((int) diagPoint.y, (int) diagPoint.x);
+		
+		return this.applyRanges(color);
+	}
 
 	private double calcVariance(List<Double> cos)
 	{
@@ -293,10 +308,12 @@ public class ImageAnalyser {
 
 	private Colour applyRanges(double[] color)
 	{
-		//TODO Zwart toevoegen.
 		double H = color[0]; double S = color[1]; double V = color[2];
 		double whiteVThreshold = 100;
 		double whiteSThreshold = 40;
+		if (V <= 60) {
+			return Colour.BLACK;
+		}
 		if (H <= 25)
 		{
 			if (V >= whiteVThreshold && S <= whiteSThreshold)
@@ -341,5 +358,10 @@ public class ImageAnalyser {
 			else return Colour.RED;
 		}
 		else return Colour.UNDETERMINED;
+	}
+	
+	private Point diagPoint(Point one, Point other, double distance) {
+		return new Point(one.x + ((other.x - one.x) / distance),
+				one.y + ((other.y - one.y) / distance));
 	}
 }
