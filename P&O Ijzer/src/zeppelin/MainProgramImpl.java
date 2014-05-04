@@ -434,7 +434,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	
 	// ======== Applicatielogica ========
 
-	public void startGameLoop() throws InterruptedException {
+	public void startGameLoop() throws InterruptedException, IOException {
 		System.out.println("Lus initialiseren; zeppelin is klaar om commando's uit te voeren.");
 		this.gameLoop();
 		System.out.println("Lus afgebroken; uitvoering is stopgezet.");
@@ -478,8 +478,9 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	 * de huidige doelhoogte en huidige doelhoek te bereiken.
 	 *
 	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private void gameLoop() throws InterruptedException {
+	private void gameLoop() throws InterruptedException, IOException {
 		GridPoint dummyPoint = new GridPoint(-1, -1);
 		
 		boolean detectingQrCode = false;
@@ -516,8 +517,8 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 					{
 						detectingQrCode = false;
 						qrCodeFound = true;
-						setTargetPosition(executeCommandPosition(result));
-						setTargetHeight(executeCommandHeight(result)); //TODO nog aanpassen voor te landen op juiste plaats!
+//						setTargetPosition(executeCommandPosition(result));
+//						setTargetHeight(executeCommandHeight(result)); //TODO nog aanpassen voor te landen op juiste plaats!
 					}
 				}
 //				if (! movedTowardsTarget && qrCodeFound)

@@ -1,32 +1,18 @@
 package test;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
 
 import qrcode.RSA;
 
 public class rsaTest {
 
-	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException {
+	public static void main(String[] args) throws IOException {
 		RSA rSA = new RSA();
 		
-		System.out.println(new BigInteger(rSA.getPublicKey().getEncoded()));
-		
-		String string = "Milan is de beste";
-		byte[] encoded = rSA.encode(string);
-		
-		System.out.println(encoded);
-		byte[] decoded = rSA.decode(encoded);
-		String output = new String(decoded);
+		System.out.println("test");
+		String decoded = rSA.decode("Milan is de beste");
 	
-		System.out.println(output);
+		System.out.println(decoded);
 
 	}
 

@@ -15,8 +15,10 @@ public class RSA  {
 
 	public RSA() throws IOException {
 		Runtime.getRuntime().exec("cmd /c python keys.py");		
-		this.priv = read("private");;
-		this.pub = read("public");;
+		this.priv = read("private");
+		System.out.println("PrivateKey: " + priv);
+		this.pub = read("public");
+		System.out.println("PublicKey: " + pub);
 	}
 
 	public String getPrivateKey() {
@@ -27,6 +29,10 @@ public class RSA  {
 		return this.pub;
 	}
 
+	public void encode(String input) throws IOException {
+		write("encrypted", input);
+		Runtime.getRuntime().exec("cmd /c python encrypt.py");
+	}
 
 
 	public String decode(String input) throws IOException {

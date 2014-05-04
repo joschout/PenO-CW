@@ -4,6 +4,7 @@
 
 package server;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 
@@ -20,7 +21,7 @@ public class ZeppelinServer {
 	// Afgesproken vaste IP-adres van de zeppelin in de LAN.
 	public static final String PI_HOSTNAME = "192.168.2.150";
 	
-	public static void main(String[] args) throws InterruptedException, TimeoutException, NoSuchAlgorithmException {
+	public static void main(String[] args) throws InterruptedException, TimeoutException, NoSuchAlgorithmException, IOException {
 		//TODO: vraag voor beginpositie
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		MainProgramImpl zeppelin = null;
