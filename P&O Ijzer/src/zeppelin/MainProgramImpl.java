@@ -109,17 +109,25 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	public MainProgramImpl(GridPoint startPosition) throws NoSuchAlgorithmException, IOException  {
 		super();
 		
+		System.out.println("Ga in constructor");
+		System.out.println("Grid initialiseren");
+		
 		this.initialiseGrid();
 		
+		System.out.println("Grid gelezen");
+		System.out.println("Controllers initialiseren");
 		this.sensorController = new SensorController(RaspiPin.GPIO_03, RaspiPin.GPIO_06);
 		this.cameraController = new CameraController();
 		this.motorController = new MotorController();
 		this.heightController = new HeightController(sensorController, motorController);
 		this.rotationController = new RotationController(this, motorController);
 		this.positionUpdater = new PositionUpdater(this);
+		System.out.println("Traversal handler + RabbitMQController");
 		this.traversalHandler = new TraversalHandler(this);
 		this.rabbitMQControllerZeppelin = new RabbitMQControllerZeppelin(this);
+		System.out.println("RSA initialiseren");
 		this.RSA = new RSA();
+		System.out.println("RSA geÃ¯nitialiseerd");
 		this.qrCodeReader = new DecodeQR(this.RSA);
 		this.position = startPosition;
 		
@@ -317,7 +325,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	}
 
 	/**
-	 * Zolang de cliënt contact onderhoudt met de zeppelin, moet deze
+	 * Zolang de cliï¿½nt contact onderhoudt met de zeppelin, moet deze
 	 * lus uitgevoerd worden. In elke iteratie wordt er actie genomen om
 	 * de huidige doelhoogte en huidige doelhoek te bereiken.
 	 *

@@ -1,5 +1,5 @@
 from Crypto.PublicKey import RSA
-new_key = RSA.generate(1024,e=5)
+new_key = RSA.generate(1024)
 pub_key = new_key.publickey().exportKey("PEM")
 
 #opslaan en doorsturen via java
