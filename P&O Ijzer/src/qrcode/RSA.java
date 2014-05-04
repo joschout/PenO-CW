@@ -1,3 +1,4 @@
+
 package qrcode;
 
 import java.io.BufferedReader;

@@ -1,6 +1,7 @@
 package test;
 
 import java.io.IOException;
+
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
@@ -25,8 +26,9 @@ public class rsaTest {
 	public static final String EXCHANGE_NAME = "server";
 	
 	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
+
 		RSA rSA = new RSA();
-		
+
 //		System.out.println(new BigInteger(rSA.getPublicKey().getEncoded()));
 //		
 		String string = "Milan is de beste";

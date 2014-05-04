@@ -1,3 +1,4 @@
+
 /**
  * Deze klasse maakt een Zeppelin object aan en maakt deze beschikbaar in het RMI-register.
  */
@@ -37,6 +38,8 @@ public class ZeppelinServer {
 		
 			zeppelin = new MainProgramImpl(new GridPoint(x,y));
 
+			
+		// TODO for testing purposes, doe weg erna
 		zeppelin.startGameLoop(); // start d
 	}
 

@@ -14,7 +14,7 @@ import controllers.SensorController.TimeoutException;
 public class RotationController {
 	
 	private MotorController motorController;
-	private PIDController pController = new PIDController(0.01, 0.001, 5, PIDMode.ANGLE); // TODO: constanten bepalen
+	private PIDController pController = new PIDController(0.01, 0.001, 5, PIDMode.ANGLE);
 	private double safetyInterval = 5;
 	
 	private MainProgramImpl zeppelin;
@@ -32,14 +32,7 @@ public class RotationController {
 		this.zeppelin = zeppelin;
 	}
 	
-	//TODO OBSOLETE?!
-		/*
-	public void setMotorController(MotorController controller) {
-		if (this.motorController != null)
-			throw new IllegalStateException("Probeerde in rotation controller de motor controller meer dan eens te zetten.");
-		this.motorController = controller;
-	}
-	*/
+	
 	
 	public double getSafetyIntervalAngle() {
 		return safetyInterval;
@@ -53,7 +46,6 @@ public class RotationController {
 		this.checkState();
 		double pwm = 0;
 		
-		//TODO foto nemen en AngleCalculator laten werken.
 		double mostRecentAngle = 0;
 		this.zeppelin.setAngle(mostRecentAngle);
 		//this.zeppelin.updateMostRecentAngle(mostRecentAngle); TODO OBSOLETE?
@@ -76,31 +68,6 @@ public class RotationController {
 		return pController;
 	}
 	
-	
-	//TODO OBSOLETE
-//	public void setKpAngle(double kp) {
-//		this.pController.setKp(kp);
-//	}
-//	
-//	public void setKdAngle(double kd) {
-//		this.pController.setKd(kd);
-//	}
-//	
-//	public void setKiAngle(double ki) {
-//		this.pController.setKi(ki);
-//	}
-//	
-//	public double getKpAngle() {
-//		return pController.getKp();
-//	}
-//	
-//	public double getKdAngle() {
-//		return pController.getKd();
-//	}
-//	
-//	public double getKiAngle() {
-//		return pController.getKi();
-//	}
 	
 	public static double convertToCorrectFormat(double angle) {
 		double toReturn = angle % 360;

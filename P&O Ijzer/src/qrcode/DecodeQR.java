@@ -1,3 +1,4 @@
+
 package qrcode;
 
 
@@ -29,16 +30,19 @@ public class DecodeQR {
 
 			binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(fileName)))));
 			result = new MultiFormatReader().decode(binaryBitmap);
+			String codedCommand = result.getText();
+			String toReturn = rsa.decode(codedCommand);
+			return toReturn;
 
 		}catch(Exception ex){
 			ex.printStackTrace();
 
 		}
-		String codedCommand = result.getText();
-		String toReturn = rsa.decode(codedCommand);
-		return toReturn;
+		return null;
+		
 	}
 	
 
 }
+
 
