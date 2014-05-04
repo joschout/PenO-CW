@@ -10,7 +10,7 @@ import coordinate.GridPoint;
 public class TraversalHandler {
 	
 	private MainProgramImpl zeppelin;
-	private double acceptableDistance = 5;
+	private double acceptableDistance = 20;
 	
 	public TraversalHandler(MainProgramImpl zeppelin) {
 		this.zeppelin = zeppelin;
