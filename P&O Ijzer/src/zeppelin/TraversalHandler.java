@@ -13,6 +13,7 @@ public class TraversalHandler {
 	}
 	
 	public boolean moveTowardsPoint() throws  InterruptedException, TimeoutException {
+		GridPoint previousPosition = this.getZeppelin().getPreviousPosition();
 		GridPoint currentPosition = this.getZeppelin().getPosition();
 		GridPoint targetPosition = this.getZeppelin().getTargetPosition();
 		double angle = this.calculateRotation(previousPosition, currentPosition, targetPosition);
@@ -36,8 +37,8 @@ public class TraversalHandler {
 		
 	}
 	
-	public void goToPoint(GridPoint current, GridPoint goal) throws  TimeoutException, InterruptedException {
-		double angle = calculateRotation(current, goal);
+	public void goToPoint(GridPoint previous, GridPoint current, GridPoint goal) throws  TimeoutException, InterruptedException {
+		double angle = calculateRotation(previous, current, goal);
 		turn(angle);
 		moveForward();
 	}
@@ -51,6 +52,7 @@ public class TraversalHandler {
 	}
 
 	private void turn(double angle) throws TimeoutException, InterruptedException {
+		GridPoint previousPosition = this.zeppelin.getPreviousPosition();
 		GridPoint currentPosition = this.zeppelin.getPosition();
 		GridPoint targetPosition = this.zeppelin.getTargetPosition();
 		double targetAngle = this.calculateRotation(previousPosition, currentPosition, targetPosition);
@@ -70,10 +72,9 @@ public class TraversalHandler {
 		
 		double angle = Math.acos(sum/(divide1*divide2));
 		if(goLeft) {
-			return -angle;
+			angle = - angle;
 		}
-		return angle;
-		
+		return Math.toDegrees(angle);
 	}
 
 	private Boolean decideLeft(GridPoint previous, GridPoint current, GridPoint goal) {

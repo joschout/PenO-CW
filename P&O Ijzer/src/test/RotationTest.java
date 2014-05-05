@@ -24,10 +24,9 @@ public class RotationTest {
 		
 		double angle = Math.acos(sum/(divide1*divide2));
 		if(goLeft) {
-			return -angle;
+			angle = - angle;
 		}
-		return angle;
-		
+		return Math.toDegrees(angle);
 	}
 
 	private static Boolean decideLeft(GridPoint previous, GridPoint current, GridPoint goal) {

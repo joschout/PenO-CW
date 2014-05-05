@@ -85,6 +85,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	 */
 	private double mostRecentAngle;
 	private GridPoint position;
+	private GridPoint previousPosition;
 	
 	// ======== Updatet de hoek en de huidige positie ========
 	private PositionUpdater positionUpdater;
@@ -213,6 +214,10 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 		return this.position;
 	}
 	
+	public GridPoint getPreviousPosition() {
+		return this.previousPosition;
+	}
+	
 	public double getHeight() {
 		return heightController.getHeight();
 	}
@@ -264,6 +269,10 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	{
 		this.position = point;
 		System.out.println("Positie gezet: " + point.toString());
+	}
+	
+	public void setPreviousPosition(GridPoint point) {
+		this.previousPosition = point;
 	}
 	
 	public void setTargetPosition(GridPoint point)

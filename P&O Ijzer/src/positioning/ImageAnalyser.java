@@ -58,14 +58,17 @@ public class ImageAnalyser {
 			shape = this.determineShape(contour);
 			color = this.determineColour(contour, image);
 			
-//			if(!color.equals(Colour.BLACK)) {
+			if(!color.equals(Colour.BLACK)) {
 				GridPoint contourCenter = this.centerOfContour(contour);
 				GridMarker marker = initialiseMarker(color, shape, contourCenter);
 				if (! undeterminedCheck(marker))
 				{
 					toReturn.add(marker);
 				}
-//			}
+			}
+			else {
+				System.out.println("Tablet zat ertussen.");
+			}
 			// verwijder duplicaten die te dicht bij elkaar liggen
 		}
 		for (int i = 0; i < toReturn.size(); i++) {
