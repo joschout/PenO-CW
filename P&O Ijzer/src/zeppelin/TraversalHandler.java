@@ -17,23 +17,21 @@ public class TraversalHandler {
 		GridPoint currentPosition = this.getZeppelin().getPosition();
 		GridPoint targetPosition = this.getZeppelin().getTargetPosition();
 		double angle = this.calculateRotation(previousPosition, currentPosition, targetPosition);
-		this.getZeppelin().setAngle(angle);
+		this.getZeppelin().setAngleError(angle);
 		
 		if (! (currentPosition.distanceTo(targetPosition) < acceptableDistance))
 		{
 			this.getZeppelin().stopRightAndLeft();
 			return false;
 		}
-		if (! this.getZeppelin().angleInAcceptableRange(this.getZeppelin().getMostRecentAngle()))
+		if (! this.getZeppelin().angleInAcceptableRange(this.getZeppelin().getAngleError()))
 		{
 			this.getZeppelin().moveTowardsTargetAngle();
-			return true;
 		}
-		else
-		{
-			this.moveForward();
-			return true;
-		}
+		Thread.sleep(200);
+		this.moveForward();
+		Thread.sleep(200);
+		return true;
 		
 	}
 	
@@ -71,14 +69,14 @@ public class TraversalHandler {
 		double divide2 = Math.sqrt(Math.pow(vectorCurrent.x, 2) + Math.pow(vectorCurrent.y, 2));
 		
 		double angle = Math.acos(sum/(divide1*divide2));
-		if(goLeft) {
+		if(! goLeft) {
 			angle = - angle;
 		}
 		return Math.toDegrees(angle);
 		
 	}
 
-	private Boolean decideLeft(GridPoint previous, GridPoint current, GridPoint goal) {
+	private boolean decideLeft(GridPoint previous, GridPoint current, GridPoint goal) {
 		GridPoint vectorGoal = new GridPoint(goal.x - previous.x, goal.y - previous.y);
 		GridPoint vectorCurrent = new GridPoint(current.x - previous.x, current.y - previous.y);
 		

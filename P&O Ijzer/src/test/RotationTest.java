@@ -13,7 +13,7 @@ public class RotationTest {
 	}
 	
 	private static  double calculateRotation(GridPoint previous, GridPoint current, GridPoint goal) {
-		Boolean goLeft = decideLeft(previous, current, goal);
+		boolean goLeft = decideLeft(previous, current, goal);
 		System.out.println(goLeft);
 		GridPoint vectorGoal = new GridPoint(goal.x - previous.x, goal.y - previous.y);
 		GridPoint vectorCurrent = new GridPoint(current.x - previous.x, current.y - previous.y);
@@ -23,14 +23,14 @@ public class RotationTest {
 		double divide2 = Math.sqrt(Math.pow(vectorCurrent.x, 2) + Math.pow(vectorCurrent.y, 2));
 		
 		double angle = Math.acos(sum/(divide1*divide2));
-		if(goLeft) {
+		if(! goLeft) {
 			angle = - angle;
 		}
 		return Math.toDegrees(angle);
 		
 	}
 
-	private static Boolean decideLeft(GridPoint previous, GridPoint current, GridPoint goal) {
+	private static boolean decideLeft(GridPoint previous, GridPoint current, GridPoint goal) {
 		GridPoint vectorGoal = new GridPoint(goal.x - previous.x, goal.y - previous.y);
 		GridPoint vectorCurrent = new GridPoint(current.x - previous.x, current.y - previous.y);
 		

@@ -100,14 +100,14 @@ public class MotorController implements Serializable {
 		}
 		System.out.println("Laten draaien aan percentage: " + percentage);
 		if (percentage < 0) { // zeppelin moet naar rechts
-			LogWriter.INSTANCE.writeToLog("Linkse motor laten draaien aan percentage: "
+			LogWriter.INSTANCE.writeToLog("Zij-motoren naar links laten draaien aan percentage: "
 
 					+ (- percentage));
 			this.right();
 		}
 		else { // zeppelin moet naar links
 
-			LogWriter.INSTANCE.writeToLog("Rechtse motor laten draaien aan percentage: "
+			LogWriter.INSTANCE.writeToLog("Zij-motoren naar rechts laten draaien aan percentage: "
 
 					+ percentage);
 			this.left();
@@ -226,7 +226,7 @@ public class MotorController implements Serializable {
 			LogWriter.INSTANCE.writeToLog("Zeppelin vooruit laten gaan.");
 
 		}
-		this.writeSoftPwmValues(30, 0, 30, 0);
+		this.writeSoftPwmValues(20, 0, 20, 0);
 		this.leftMotor.clockwise();
 		this.rightMotor.clockwise();
 	}

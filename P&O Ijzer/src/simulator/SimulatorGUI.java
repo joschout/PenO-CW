@@ -10,12 +10,14 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
 import coordinate.GridPoint;
+
 import javax.swing.SwingConstants;
 
 public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObserver {
@@ -43,10 +45,12 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 	private JButton btnAndereUpdateInterval;
 	private JButton btnAnderePositiestap;
 	private JButton btnAndereHoogtestap;
+	private JButton btnAndereTablet;
 	
 	// Simulator
 	
 	private Simulator simulator;
+	private JTextField txtTablet;
 	
 	private Simulator getSimulator() {
 		return this.simulator;
@@ -63,7 +67,7 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 				SimulatorGUI.this.txtUpdateInterval.setText(Integer.toString(refCopy.getUpdateInterval()));
 				SimulatorGUI.this.txtPosStep.setText(Double.toString(refCopy.getPositionStep()));
 				SimulatorGUI.this.txtHeightStep.setText(Double.toString(refCopy.getHeightStep()));
-				
+				SimulatorGUI.this.txtTablet.setText(refCopy.getTargetTablet().getName());
 			}
 		});
 	}
@@ -88,6 +92,9 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 		else if (source == btnAndereHoogtestap) {
 			this.inputHeightStep();
 		}
+		else if (source == btnAndereTablet) {
+			this.inputTablet();
+		}
 	}
 	
 	private void makeSimulator() {
@@ -95,10 +102,24 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 		if (this.getSimulator() != null) {
 			return;
 		}
+		
+		JFileChooser chooser = new JFileChooser(); 
+	    chooser.setCurrentDirectory(new java.io.File("."));
+	    chooser.setDialogTitle("Selecteer grid csv-file");
+	    
+	    String path = null;
+	    
+	    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) { 
+	        path = chooser.getSelectedFile().getAbsolutePath();
+	        }
+	      else {
+	        System.out.println("No Selection ");
+	        }
+		
 		Object[] choices = { "Default", "Zelf" };
 		int choice = JOptionPane.showOptionDialog(this, "Default simulator of zelf instellen?", "Simulator starten", JOptionPane.YES_OPTION, JOptionPane.PLAIN_MESSAGE, null, choices, choices[0]);
 		if (choice == 0) {
-			this.simulator = new Simulator();
+			this.simulator = new Simulator(path);
 			simulator.register(this);
 			this.update(simulator);
 			EventQueue.invokeLater(new Runnable() {
@@ -106,18 +127,20 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 					SimulatorGUI.this.lblWelkom.setText(simulator.getName());
 				}
 			});
+			simulator.setTablet(1);
 			simulator.run();
 		}
 		else if (choice == 1) {
 			boolean validInput = false;
 			String name = null;
 			GridPoint startPosition = null;
-			GridPoint targetPosition = null;
+			GridPoint targetPosition = new GridPoint(0, 0);
 			double startHeight = -1;
 			double targetHeight = -1;
 			double posStep = -1;
 			double heightStep = -1;
 			int updateInterval = -1;
+			int tabletId = 1;
 			// Startpositie
 			while (! validInput) {
 				name = JOptionPane.showInputDialog(this, "Geef de naam op");
@@ -151,18 +174,26 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 				try {
 					String position = JOptionPane.showInputDialog(this, "Geef doelpositie (in de vorm \"<x>,<y>\")");
 					String[] parts = position.split(",");
-					if (parts.length != 2) {
-						JOptionPane.showMessageDialog(this, "Verwacht: <x>,<y>");
-						continue;
-					}
 					double x = Double.parseDouble(parts[0]);
 					double y = Double.parseDouble(parts[1]);
 					targetPosition = new GridPoint(x, y);
 					validInput = true;
 				} catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(this, "Getallen verwacht");
+					validInput = true;
 				} catch (NullPointerException e) {
-					JOptionPane.showMessageDialog(this, "Getallen verwacht");
+					validInput = true;
+				}
+			}
+			validInput = false;
+			while (! validInput) {
+				try {
+					String input = JOptionPane.showInputDialog(this, "Geef doeltablet (in de vorm \"<x>\")");
+					tabletId = Integer.parseInt(input);
+					validInput = true;
+				} catch (NumberFormatException e) {
+					validInput = true;
+				} catch (NullPointerException e) {
+					validInput = true;
 				}
 			}
 			validInput = false;
@@ -225,7 +256,7 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 					JOptionPane.showMessageDialog(this, "Getal verwacht");
 				}
 			}
-			this.simulator = new Simulator(name, startPosition, targetPosition, startHeight, targetHeight, updateInterval, posStep, heightStep);
+			this.simulator = new Simulator(name, startPosition, targetPosition, startHeight, targetHeight, updateInterval, posStep, heightStep, path);
 			simulator.register(this);
 			this.update(simulator);
 			EventQueue.invokeLater(new Runnable() {
@@ -233,6 +264,7 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 					SimulatorGUI.this.lblWelkom.setText(simulator.getName());
 				}
 			});
+			simulator.setTablet(tabletId);
 			simulator.run();
 		}
 	}
@@ -250,7 +282,7 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 				double x = Double.parseDouble(parts[0]);
 				double y = Double.parseDouble(parts[1]);
 				GridPoint targetPosition = new GridPoint(x, y);
-				this.simulator.setTargetPosition(targetPosition);
+				this.simulator.setTargetPositionGUI(targetPosition);
 				validInput = true;
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(this, "Getallen verwacht");
@@ -310,6 +342,24 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 				JOptionPane.showMessageDialog(this, "Getal verwacht");
 			} catch (IllegalArgumentException e) {
 				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
+		}
+	}
+	
+	private void inputTablet() {
+		boolean validInput = false;
+		while (! validInput) {
+			String tabletString = JOptionPane.showInputDialog(this, "Geef doeltablet (in de vorm \"<x>\")");
+			try {
+				int tabletId = Integer.parseInt(tabletString);
+				simulator.setTablet(tabletId);
+				validInput = true;
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(this, "Getal verwacht");
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(this, "Getal verwacht");
+			} catch (IllegalArgumentException e) {
+				JOptionPane.showMessageDialog(this, "Tablet werd niet herkend; simulator zal niet naar tablet gaan.");
 			}
 		}
 	}
@@ -475,5 +525,17 @@ public class SimulatorGUI extends JFrame implements ActionListener, SimulatorObs
 		btnAndereUpdateInterval.setBounds(217, 326, 190, 23);
 		contentPane.add(btnAndereUpdateInterval);
 		btnAndereUpdateInterval.addActionListener(this);
+		
+		txtTablet = new JTextField();
+		txtTablet.setBackground(Color.WHITE);
+		txtTablet.setEditable(false);
+		txtTablet.setBounds(244, 200, 86, 20);
+		contentPane.add(txtTablet);
+		txtTablet.setColumns(10);
+		
+		btnAndereTablet = new JButton("Andere tablet");
+		btnAndereTablet.setBounds(241, 231, 101, 23);
+		btnAndereTablet.addActionListener(this);
+		contentPane.add(btnAndereTablet);
 	}
 }

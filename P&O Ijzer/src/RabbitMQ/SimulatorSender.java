@@ -64,6 +64,29 @@ public class SimulatorSender {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * 
+	 * @param tabletName van de vorm "tableti" met i >=1
+	 * @throws IllegalArgumentException
+	 */
+	public void sendPublicKeysToTablet( String tabletName) throws IllegalAccessException{
+		if(!tabletName.matches("tablet\\d+")){
+			throw new IllegalArgumentException();
+		}
+	
+		String message = this.getSimulator().getRSA().getPublicKey();
+		String routingKey = "ijzer.tablets." + tabletName;
+		
+		
+		try {
+			channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
+			System.out.println("Gestuurd naar " + routingKey + ": " +
+			message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void sendPrivateMessage(PrivateRoutingKeyTypes type){
 		

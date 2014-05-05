@@ -3,6 +3,7 @@ package traversal;
 
 import java.io.IOException;
 
+import logger.LogWriter;
 import positioning.AngleCalculator;
 import positioning.Couple;
 import positioning.CoupleTriangleMatcher;
@@ -81,6 +82,7 @@ public class PositionUpdater implements Runnable {
 					this.getZeppelin().setAngle(angle);
 					this.getZeppelin().setPreviousPosition(this.getZeppelin().getPosition());
 					this.getZeppelin().setPosition(position);
+					LogWriter.INSTANCE.writeToLog("Positie gezet naar: " + position);
 				}
 			}
 		} catch (InterruptedException e) {

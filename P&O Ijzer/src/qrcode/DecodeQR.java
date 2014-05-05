@@ -2,6 +2,8 @@
 package qrcode;
 
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -23,12 +25,26 @@ public class DecodeQR {
 
 	public String decodeImage(String fileName) throws IOException {
 
+		try{
+
+			BufferedImage image = ImageIO.read(new FileInputStream(fileName));
+			return this.decodeImage(image);
+
+		}catch(Exception ex){
+			ex.printStackTrace();
+
+		}
+		return null;
+		
+	}
+	
+	public String decodeImage(BufferedImage image) {
 		Result result = null;
 		BinaryBitmap binaryBitmap;
 
 		try{
 
-			binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(fileName)))));
+			binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
 			result = new MultiFormatReader().decode(binaryBitmap);
 			String codedCommand = result.getText();
 			String toReturn = rsa.decode(codedCommand);
@@ -39,7 +55,6 @@ public class DecodeQR {
 
 		}
 		return null;
-		
 	}
 	
 

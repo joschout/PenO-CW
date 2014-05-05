@@ -1,25 +1,40 @@
 package simulator;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
+import qrcode.DecodeQR;
+import qrcode.RSA;
+import qrcode.SimulatorQRCommandParser;
 import movement.HeightController;
 import movement.RotationController;
 import zeppelin.MainProgramInterface;
 import zeppelin.Zeppelin;
 import RabbitMQ.RabbitMQControllerSimulator;
 import RabbitMQ.RabbitMQControllerZeppelin;
+import coordinate.Grid;
+import coordinate.GridInitialiser;
 import coordinate.GridPoint;
+import coordinate.Tablet;
 
 public class Simulator {
+	
+	public static final String downloadPath = "http://localhost:5000/static/";
 	
 	public Simulator(String name, GridPoint startPosition,
 			GridPoint targetPosition, double startHeight,
 			double targetHeight, int updateInterval,
-			double positionStep, double heightStep) throws IllegalArgumentException {
+			double positionStep, double heightStep, String gridPath) throws IllegalArgumentException {
 		if (startPosition == null) {
 			throw new IllegalArgumentException("startPosition is geen geldige positie");
 		}
@@ -57,10 +72,20 @@ public class Simulator {
 		this.heightStepper = new HeightStepper();
 		this.observers = new ArrayList<SimulatorObserver>();
 		this.mqController = new RabbitMQControllerSimulator(this);
+		
+		GridInitialiser init = new GridInitialiser();
+		try {
+			this.grid = init.readGrid(gridPath);
+			this.rsa = new RSA();
+			this.qrDecode = new DecodeQR(rsa);
+			this.parser = new SimulatorQRCommandParser(this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public Simulator() {
-		this("Staal", new GridPoint(0, 0), new GridPoint(250, 250), 100, 160, 1000, 5, 5);
+	public Simulator(String gridPath) {
+		this("Staal", new GridPoint(0, 0), new GridPoint(250, 250), 100, 160, 1000, 5, 5, gridPath);
 	}
 	
 	private final String name;
@@ -93,6 +118,14 @@ public class Simulator {
 			throw new IllegalArgumentException("targetPosition is geen geldige positie");
 		}
 		this.targetPosition = targetPosition;
+	}
+	
+	public void setTargetPositionGUI(GridPoint targetPosition) {
+		if (! this.isValidPosition(targetPosition)) {
+			throw new IllegalArgumentException("targetPosition is geen geldige positie");
+		}
+		this.targetPosition = targetPosition;
+		this.setTablet(-1);
 	}
 	
 	public boolean isValidPosition(GridPoint position) {
@@ -157,6 +190,27 @@ public class Simulator {
 	
 	public double getHeightStep() {
 		return this.heightStep;
+	}
+	
+	private Grid grid;
+	
+	public Grid getGrid() {
+		return this.grid;
+	}
+	
+	private Tablet targetTablet;
+	
+	public Tablet getTargetTablet() {
+		return this.targetTablet;
+	}
+	
+	public void setTablet(int id) {
+		if (id < 1) {
+			this.targetTablet = null;
+			return;
+		}
+		this.targetTablet = this.getGrid().getTabletWithTabletId(id);
+		this.setTargetPosition(this.getTargetTablet().getPosition());
 	}
 	
 	public void setHeightStep(double heightStep) {
@@ -246,6 +300,24 @@ public class Simulator {
 		return this.mqController;
 	}
 	
+	private RSA rsa;
+	
+	public RSA getRSA() {
+		return this.rsa;
+	}
+	
+	private DecodeQR qrDecode;
+	
+	public DecodeQR getQRDecode() {
+		return this.qrDecode;
+	}
+	
+	private SimulatorQRCommandParser parser;
+	
+	public SimulatorQRCommandParser getParser() {
+		return this.parser;
+	}
+	
 	private Map<String, Zeppelin> otherKnownZeppelins = new HashMap<String, Zeppelin>();	
 	
 	public Map<String, Zeppelin> getOtherKnownZeppelins() {
@@ -264,19 +336,62 @@ public class Simulator {
 	private class SimulatorRunner implements Runnable {
 		public void run() {
 			while (true) {
-				GridPoint newPosition = Simulator.this.getPositionStepper()
-						.moveTowards(Simulator.this.getPosition(), Simulator.this.getTargetPosition(), Simulator.this.getPositionStep());
-				double newHeight = Simulator.this.getHeightStepper()
-						.moveTowards(Simulator.this.getHeight(), Simulator.this.getTargetHeight(), Simulator.this.getHeightStep());
-				Simulator.this.setPosition(newPosition);
-				Simulator.this.setHeight(newHeight);
-				Simulator.this.update();
 				try {
+					GridPoint newPosition = Simulator.this.getPositionStepper()
+							.moveTowards(Simulator.this.getPosition(), Simulator.this.getTargetPosition(), Simulator.this.getPositionStep());
+					double newHeight = Simulator.this.getHeightStepper()
+							.moveTowards(Simulator.this.getHeight(), Simulator.this.getTargetHeight(), Simulator.this.getHeightStep());
+					Simulator.this.setPosition(newPosition);
+					Simulator.this.setHeight(newHeight);
+					Simulator.this.update();
+					if (Simulator.this.getPosition().equals(Simulator.this.getTargetPosition())
+							&& Simulator.this.getTargetTablet() != null) {
+						this.readFromTablet();
+					}
+					else if (Simulator.this.getPosition().equals(Simulator.this.getTargetPosition())
+							&& Simulator.this.getTargetTablet() == null) {
+						Simulator.this.setTargetHeight(0);
+					}
+					try {
+						Thread.sleep(Simulator.this.getUpdateInterval());
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		private void readFromTablet() {
+			if (Simulator.this.getTargetTablet() != null) {
+				try {
+					Simulator.this.getMQController().getSender().sendPublicKeysToTablet(Simulator.this.getTargetTablet().getName());
 					Thread.sleep(Simulator.this.getUpdateInterval());
+					BufferedImage qrImage = this.downloadImage();
+					String result = Simulator.this.getQRDecode().decodeImage(qrImage);
+					Simulator.this.getParser().parse(result);
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
+		}
+		
+		private BufferedImage downloadImage() {
+			BufferedImage image = null;
+			try {
+				URL url = new URL(downloadPath + "ijzer" + Simulator.this.getTargetTablet().getId()
+						+ ".png");
+				image = ImageIO.read(url);
+				return image;
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return image;
 		}
 	}
 }

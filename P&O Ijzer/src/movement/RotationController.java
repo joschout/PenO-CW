@@ -19,12 +19,22 @@ public class RotationController {
 	
 	private MainProgramImpl zeppelin;
 	
+	private TurnSpeedCalculator calc;
+	
 
 	public RotationController(MainProgramImpl zeppelin, MotorController motorcontroller) {
 		this.zeppelin = zeppelin;
 		this.motorController = motorcontroller;
+		this.calc = new TurnSpeedCalculator();
 	}
 
+	public MainProgramImpl getZeppelin() {
+		return this.zeppelin;
+	}
+	
+	public TurnSpeedCalculator getSpeedCalculator() {
+		return this.calc;
+	}
 	
 	public void setZeppelin(MainProgramImpl zeppelin) throws IllegalStateException {
 		if (this.zeppelin != null)
@@ -42,26 +52,25 @@ public class RotationController {
 		this.safetyInterval = safetyInterval;
 	}
 	
-	public void goToAngle(double targetAngle) throws  InterruptedException, TimeoutException {
+	public void goToAngle() throws  InterruptedException, TimeoutException {
 		this.checkState();
-		double pwm = 0;
+		int pwm = 0;
 		
-		double mostRecentAngle = 0;
-		this.zeppelin.setAngle(mostRecentAngle);
+		double angleError = this.getZeppelin().getAngleError();
 		//this.zeppelin.updateMostRecentAngle(mostRecentAngle); TODO OBSOLETE?
-		if(! isInInterval(mostRecentAngle, targetAngle)){
-			pwm = this.getPWMValue(targetAngle, mostRecentAngle);
+		if(! isInInterval(angleError)){
+			pwm = this.getSpeedCalculator().calculateTurnSpeed(angleError);
 		}
-		motorController.setTurnSpeed((int)pwm);
+		motorController.setTurnSpeed(pwm);
 	}
 
 	public double getPWMValue(double mostRecentAngle, double targetAngle) throws  TimeoutException, InterruptedException {
 		double pid = pController.getPIDValue(targetAngle, mostRecentAngle);
-		return pid*0.05;
+		return pid;
 	}
 	
-	public boolean isInInterval(double mostRecentAngle, double targetAngle) {
-		return Math.abs(mostRecentAngle-targetAngle) < safetyInterval;
+	public boolean isInInterval(double angleError) {
+		return Math.abs(angleError) < safetyInterval;
 	}
 
 	public PIDController getpController() {

@@ -22,7 +22,9 @@ import traversal.PositionUpdater;
 import logger.LogWriter;
 import movement.HeightController;
 import movement.RotationController;
+import RabbitMQ.PrivateRoutingKeyTypes;
 import RabbitMQ.RabbitMQControllerZeppelin;
+
 
 
 
@@ -87,6 +89,11 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	private GridPoint position;
 	private GridPoint previousPosition;
 	
+	/**
+	 * Duidt aan hoeveel de zeppelin moet draaien om richting het doel te vliegen
+	 */
+	private double angleError;
+	
 	// ======== Updatet de hoek en de huidige positie ========
 	private PositionUpdater positionUpdater;
 	
@@ -131,6 +138,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 		System.out.println("RSA geïnitialiseerd");
 		this.qrCodeReader = new DecodeQR(this.RSA);
 		this.position = startPosition;
+		this.angleError = 0;
 		
 		this.timeSinceLastMessageSendToTablet = System.currentTimeMillis();
 		
@@ -187,6 +195,10 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 
 	public double getTargetAngle() {
 		return this.targetAngle;
+	}
+	
+	public double getAngleError() {
+		return this.angleError;
 	}
 
 
@@ -263,6 +275,10 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	public void setAngle(double angle) {
 		System.out.println("Hoek gezet: " + angle);
 		this.mostRecentAngle = angle;
+	}
+	
+	public void setAngleError(double angle) {
+		this.angleError = angle;
 	}
 	
 	public void setPosition(GridPoint point)
@@ -355,6 +371,8 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 //			} catch (TimeoutException e2) {
 //				e2.printStackTrace();
 //			}
+			this.getRabbitMQControllerZeppelin().getZeppelinSender()
+				.sendPrivateMessage(PrivateRoutingKeyTypes.LOG);
 			this.getRabbitMQControllerZeppelin().getZeppelinSender().sendHeight();
 			if (! detectingQrCode)
 			{
@@ -367,7 +385,7 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 			}
 			try {
 				movedTowardsTarget = this.getTraversalHandler().moveTowardsPoint();
-				detectingQrCode = ! movedTowardsTarget;
+				detectingQrCode = ! movedTowardsTarget && ! finalDestination;
 				while (detectingQrCode)
 				{
 					if (System.currentTimeMillis() - this.getTimeSinceLastMessageSendToTablet() > 5000) {
@@ -448,11 +466,11 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 	}
 	
 	public void moveTowardsTargetAngle() throws InterruptedException, TimeoutException {
-		this.getRotationController().goToAngle(this.getTargetAngle());
+		this.getRotationController().goToAngle();
 	}
 	
-	public boolean angleInAcceptableRange(double angle) {
-		return this.rotationController.isInInterval(angle, this.getTargetAngle());
+	public boolean angleInAcceptableRange(double angleError) {
+		return this.rotationController.isInInterval(angleError);
 	}
 	
 	public double measureHeight() throws TimeoutException, InterruptedException

@@ -20,16 +20,7 @@ public class RSA  {
 	public RSA() throws IOException {
 		Runtime.getRuntime().exec("python keys.py");		
 		this.priv = read("private");
-		String lineSep = System.getProperty("line.separator");
-		priv.replaceAll(lineSep, "");
-		priv.replace("-----BEGIN RSA PRIVATE KEY-----", "");
-		priv.replace("-----END RSA PRIVATE KEY-----", "");
-		System.out.println(priv);
 		this.pub = read("public");
-		pub.replaceAll(lineSep, "");
-		pub.replace("-----BEGIN PUBLIC KEY-----", "");
-		pub.replace("-----END PUBLIC KEY-----", "");
-		System.out.println(pub);
 	}
 
 	public String getPrivateKey() {
