@@ -29,9 +29,11 @@ public class SimulatorQRCommandParser {
 				throw new IllegalArgumentException("Het meegegeven commando, beginnend met 'tablet', bevat meer dan 1 ':'");
 			}
 			String tabletId = commandTokens[1];
-			if(!tabletId.matches("\\d+")){
-				throw new IllegalArgumentException("achter 'tablet:' moet een getal staan");	
-			}
+			tabletId = tabletId.replace("\n", "");
+			System.out.println("Tablet ID was: " + tabletId);
+//			if(!tabletId.matches("\\d+")){
+//				throw new IllegalArgumentException("achter 'tablet:' moet een getal staan");	
+//			}
 			int tabletIdInt = Integer.parseInt(tabletId);
 			Tablet destinationTablet = this.getSimulator().getGrid().getTabletWithTabletId(tabletIdInt);
 			if(destinationTablet.equals(null)){

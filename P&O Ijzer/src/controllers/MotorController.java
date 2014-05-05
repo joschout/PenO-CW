@@ -226,7 +226,18 @@ public class MotorController implements Serializable {
 			LogWriter.INSTANCE.writeToLog("Zeppelin vooruit laten gaan.");
 
 		}
-		this.writeSoftPwmValues(20, 0, 20, 0);
+		this.writeSoftPwmValues(30, 0, 30, 0);
+		this.leftMotor.clockwise();
+		this.rightMotor.clockwise();
+	}
+	
+	public void forward(int percentage) {
+		if (! this.goingForward()) {
+
+			LogWriter.INSTANCE.writeToLog("Zeppelin vooruit laten gaan.");
+
+		}
+		this.writeSoftPwmValues(percentage, 0, percentage, 0);
 		this.leftMotor.clockwise();
 		this.rightMotor.clockwise();
 	}
