@@ -79,6 +79,7 @@ public class PositionUpdater implements Runnable {
 
 				if (this.getZeppelin().getPosition().distanceTo(position) < 150) {					
 					this.getZeppelin().setAngle(angle);
+					this.getZeppelin().setPreviousPosition(this.getZeppelin().getPosition());
 					this.getZeppelin().setPosition(position);
 				}
 			}

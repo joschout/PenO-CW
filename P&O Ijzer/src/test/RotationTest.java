@@ -6,8 +6,8 @@ public class RotationTest {
 
 	public static void main(String[] args) {
 		GridPoint goal = new GridPoint(100, 100);
-		GridPoint previous = new GridPoint(80, 120);
-		GridPoint current = new GridPoint(60, 100);
+		GridPoint previous = new GridPoint(0, 0);
+		GridPoint current = new GridPoint(0, 10);
 		
 		System.out.println(calculateRotation(previous, current, goal));
 	}
@@ -24,9 +24,9 @@ public class RotationTest {
 		
 		double angle = Math.acos(sum/(divide1*divide2));
 		if(goLeft) {
-			return -angle;
+			angle = - angle;
 		}
-		return angle;
+		return Math.toDegrees(angle);
 		
 	}
 
