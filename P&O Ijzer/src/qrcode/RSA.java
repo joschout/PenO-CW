@@ -18,7 +18,13 @@ public class RSA implements RSAInterface {
 	byte[] pub;
 
 	public RSA() throws IOException {
-		Runtime.getRuntime().exec("python keys.py");
+		Process p = Runtime.getRuntime().exec("python keys.py");
+		try {
+			p.waitFor();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.pub = this.readPublicKey();
 	}
 
@@ -45,7 +51,12 @@ public class RSA implements RSAInterface {
 	}
 
 	public String decode() throws IOException {
-		Runtime.getRuntime().exec("python decription.py");
+		Process p = Runtime.getRuntime().exec("python decription.py");
+		try {
+			p.waitFor();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		String decryptedData = read("result");
 
 		return decryptedData;

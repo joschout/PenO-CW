@@ -20,7 +20,6 @@ public class RotationController {
 	private MainProgramImpl zeppelin;
 	
 	private TurnSpeedCalculator calc;
-	
 
 	public RotationController(MainProgramImpl zeppelin, MotorController motorcontroller) {
 		this.zeppelin = zeppelin;

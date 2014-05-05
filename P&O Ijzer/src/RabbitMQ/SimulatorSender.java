@@ -1,9 +1,11 @@
 package RabbitMQ;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 
 import simulator.Simulator;
 import logger.LogWriter;

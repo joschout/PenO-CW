@@ -226,11 +226,10 @@ public class MotorController implements Serializable {
 			LogWriter.INSTANCE.writeToLog("Zeppelin vooruit laten gaan.");
 
 		}
-		this.writeSoftPwmValues(30, 0, 30, 0);
+		this.writeSoftPwmValues(20, 0, 20, 0);
 		this.leftMotor.clockwise();
 		this.rightMotor.clockwise();
 	}
-	
 	public void forward(int percentage) {
 		if (! this.goingForward()) {
 
@@ -241,7 +240,6 @@ public class MotorController implements Serializable {
 		this.leftMotor.clockwise();
 		this.rightMotor.clockwise();
 	}
-	
 	/**
 	 * Laat de zeppelin achteruit gaan. Deze methode wordt opgeroepen door
 	 * ForwardBackwardController; daarom worden software PWM waardes van 30 geschreven

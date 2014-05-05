@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.imageio.ImageIO;
 
 import qrcode.DecodeQR;
@@ -36,55 +35,57 @@ public class Simulator {
 	public Simulator(String name, GridPoint startPosition,
 			GridPoint targetPosition, double startHeight,
 			double targetHeight, int updateInterval,
-			double positionStep, double heightStep, String gridPath) throws IllegalArgumentException {
-		if (startPosition == null) {
-			throw new IllegalArgumentException("startPosition is geen geldige positie");
-		}
-		if (targetPosition == null) {
-			throw new IllegalArgumentException("targetPosition is geen geldige positie");
-		}
-		if (startHeight < 0) {
-			throw new IllegalArgumentException("startHeight is geen geldige hoogte");
-		}
-		if (targetHeight < 0) {
-			throw new IllegalArgumentException("targetHeight is geen geldige hoogte");
-		}
-		if (updateInterval <= 0) {
-			throw new IllegalArgumentException("updateInterval is geen geldige "
-					+ "update interval");
-		}
-		if (positionStep <= 0) {
-			throw new IllegalArgumentException("positionStep is geen geldige "
-					+ "position step");
-		}
-		if (heightStep <= 0) {
-			throw new IllegalArgumentException("heightStep is geen geldige "
-					+ "height step");
-		}
-		
-		this.name = name;
-		this.position = startPosition;
-		this.height = startHeight;
-		this.targetPosition = targetPosition;
-		this.targetHeight = targetHeight;
-		this.updateInterval = updateInterval;
-		this.positionStep = positionStep;
-		this.heightStep = heightStep;
-		this.positionStepper = new PositionStepper();
-		this.heightStepper = new HeightStepper();
-		this.observers = new ArrayList<SimulatorObserver>();
-		this.mqController = new RabbitMQControllerSimulator(this);
-		this.timeSinceLastSendQR = System.currentTimeMillis();
-		
-		GridInitialiser init = new GridInitialiser();
-		try {
-			this.grid = init.readGrid(gridPath);
-			this.rsa = new RSAWindows();
-			this.qrDecode = new DecodeQR(rsa);
-			this.parser = new SimulatorQRCommandParser(this);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			double positionStep, double heightStep, String gridPath) throws IllegalArgumentException { {
+
+				if (startPosition == null) {
+					throw new IllegalArgumentException("startPosition is geen geldige positie");
+				}
+				if (targetPosition == null) {
+					throw new IllegalArgumentException("targetPosition is geen geldige positie");
+				}
+				if (startHeight < 0) {
+					throw new IllegalArgumentException("startHeight is geen geldige hoogte");
+				}
+				if (targetHeight < 0) {
+					throw new IllegalArgumentException("targetHeight is geen geldige hoogte");
+				}
+				if (updateInterval <= 0) {
+					throw new IllegalArgumentException("updateInterval is geen geldige "
+							+ "update interval");
+				}
+				if (positionStep <= 0) {
+					throw new IllegalArgumentException("positionStep is geen geldige "
+							+ "position step");
+				}
+				if (heightStep <= 0) {
+					throw new IllegalArgumentException("heightStep is geen geldige "
+							+ "height step");
+				}
+
+				this.name = name;
+				this.position = startPosition;
+				this.height = startHeight;
+				this.targetPosition = targetPosition;
+				this.targetHeight = targetHeight;
+				this.updateInterval = updateInterval;
+				this.positionStep = positionStep;
+				this.heightStep = heightStep;
+				this.positionStepper = new PositionStepper();
+				this.heightStepper = new HeightStepper();
+				this.observers = new ArrayList<SimulatorObserver>();
+				this.mqController = new RabbitMQControllerSimulator(this);
+				this.timeSinceLastSendQR = System.currentTimeMillis();
+
+				GridInitialiser init = new GridInitialiser();
+				try {
+					this.grid = init.readGrid(gridPath);
+					this.rsa = new RSAWindows();
+					this.qrDecode = new DecodeQR(rsa);
+					this.parser = new SimulatorQRCommandParser(this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 	}
 	
 	public Simulator(String gridPath) {
@@ -122,7 +123,6 @@ public class Simulator {
 		}
 		this.targetPosition = targetPosition;
 	}
-	
 	public void setTargetPositionGUI(GridPoint targetPosition) {
 		if (! this.isValidPosition(targetPosition)) {
 			throw new IllegalArgumentException("targetPosition is geen geldige positie");
@@ -194,7 +194,6 @@ public class Simulator {
 	public double getHeightStep() {
 		return this.heightStep;
 	}
-	
 	private Grid grid;
 	
 	public Grid getGrid() {
@@ -215,7 +214,6 @@ public class Simulator {
 		this.targetTablet = this.getGrid().getTabletWithTabletId(id);
 		this.setTargetPosition(this.getTargetTablet().getPosition());
 	}
-	
 	public void setHeightStep(double heightStep) {
 		if (! this.isValidHeightStep(heightStep)) {
 			throw new IllegalArgumentException("heightStep is geen geldige "
@@ -302,7 +300,6 @@ public class Simulator {
 	public RabbitMQControllerSimulator getMQController() {
 		return this.mqController;
 	}
-	
 	private RSAInterface rsa;
 	
 	public RSAInterface getRSA() {
@@ -320,7 +317,6 @@ public class Simulator {
 	public SimulatorQRCommandParser getParser() {
 		return this.parser;
 	}
-	
 	private Map<String, Zeppelin> otherKnownZeppelins = new HashMap<String, Zeppelin>();	
 	
 	public Map<String, Zeppelin> getOtherKnownZeppelins() {
@@ -335,7 +331,6 @@ public class Simulator {
 		Zeppelin newZeppelin = new Zeppelin();
 		this.getOtherKnownZeppelins().put(name, newZeppelin);
 	}
-	
 	private long timeSinceLastSendQR;
 	
 	public long getTimeSinceLastSend() {
@@ -357,8 +352,8 @@ public class Simulator {
 					Simulator.this.setPosition(newPosition);
 					Simulator.this.setHeight(newHeight);
 					Simulator.this.update();
-					if (Simulator.this.getPosition().equals(Simulator.this.getTargetPosition())
-							&& Simulator.this.getTargetTablet() != null) {
+					if (Simulator.this.getTargetTablet() != null
+							&& Simulator.this.getPosition().equals(Simulator.this.getTargetPosition())) {
 						this.readFromTablet();
 					}
 					else if (Simulator.this.getPosition().equals(Simulator.this.getTargetPosition())

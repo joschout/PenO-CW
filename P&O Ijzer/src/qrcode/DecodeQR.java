@@ -12,6 +12,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
@@ -30,7 +32,6 @@ public class DecodeQR {
 	}
 
 	public String decodeImage(String fileName) throws IOException {
-
 		try{
 
 			BufferedImage image = ImageIO.read(new FileInputStream(fileName));
@@ -49,7 +50,6 @@ public class DecodeQR {
 		BinaryBitmap binaryBitmap;
 
 		try{
-
 			binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
 			result = new MultiFormatReader().decode(binaryBitmap);
 			String codedCommand = result.getText();

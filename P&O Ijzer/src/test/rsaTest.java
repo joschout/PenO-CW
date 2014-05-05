@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
@@ -34,18 +35,15 @@ public class rsaTest {
 	
 	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
 
-		RSAWindows rSA = new RSAWindows();
+		RSA rSA = new RSA();
 
 //		System.out.println(new BigInteger(rSA.getPublicKey().getEncoded()));
 //		
 		String string = "Milan is de beste";
-		System.out.println("Input: " + string);
 		rSA.encode(string);
-		String encrypted = read("encrypted");
-		
 //		
 //		System.out.println(encoded);
-		String decoded = rSA.decode(encrypted);
+		String decoded = rSA.decode();
 		System.out.println(decoded);
 		
 		Connection connection = null;
@@ -71,7 +69,7 @@ public class rsaTest {
 			e.printStackTrace();
 		}
 		
-		channel.basicPublish(EXCHANGE_NAME, "ijzer.tablets.tablet1", null, rSA.getPublicKey().getBytes());
+		channel.basicPublish(EXCHANGE_NAME, "ijzer.tablets.tablet1", null, rSA.getPublicKey());
 	}
 	
 	public static String read(String fileName){

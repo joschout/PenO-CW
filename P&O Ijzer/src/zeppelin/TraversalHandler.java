@@ -73,7 +73,6 @@ public class TraversalHandler {
 			angle = - angle;
 		}
 		return Math.toDegrees(angle);
-		
 	}
 
 	private boolean decideLeft(GridPoint previous, GridPoint current, GridPoint goal) {
