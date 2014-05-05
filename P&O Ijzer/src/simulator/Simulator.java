@@ -15,6 +15,8 @@ import javax.imageio.ImageIO;
 
 import qrcode.DecodeQR;
 import qrcode.RSA;
+import qrcode.RSAInterface;
+import qrcode.RSAWindows;
 import qrcode.SimulatorQRCommandParser;
 import movement.HeightController;
 import movement.RotationController;
@@ -29,7 +31,7 @@ import coordinate.Tablet;
 
 public class Simulator {
 	
-	public static final String downloadPath = "http://localhost:5000/static/";
+	public static final String downloadPath = "http://192.168.2.134:5000/static/";
 	
 	public Simulator(String name, GridPoint startPosition,
 			GridPoint targetPosition, double startHeight,
@@ -72,11 +74,12 @@ public class Simulator {
 		this.heightStepper = new HeightStepper();
 		this.observers = new ArrayList<SimulatorObserver>();
 		this.mqController = new RabbitMQControllerSimulator(this);
+		this.timeSinceLastSendQR = System.currentTimeMillis();
 		
 		GridInitialiser init = new GridInitialiser();
 		try {
 			this.grid = init.readGrid(gridPath);
-			this.rsa = new RSA();
+			this.rsa = new RSAWindows();
 			this.qrDecode = new DecodeQR(rsa);
 			this.parser = new SimulatorQRCommandParser(this);
 		} catch (IOException e) {
@@ -300,9 +303,9 @@ public class Simulator {
 		return this.mqController;
 	}
 	
-	private RSA rsa;
+	private RSAInterface rsa;
 	
-	public RSA getRSA() {
+	public RSAInterface getRSA() {
 		return this.rsa;
 	}
 	
@@ -331,6 +334,16 @@ public class Simulator {
 	public void addOtherKnownZeppelin(String name) {
 		Zeppelin newZeppelin = new Zeppelin();
 		this.getOtherKnownZeppelins().put(name, newZeppelin);
+	}
+	
+	private long timeSinceLastSendQR;
+	
+	public long getTimeSinceLastSend() {
+		return this.timeSinceLastSendQR;
+	}
+	
+	public void setTimeSinceLastSend(long time) {
+		this.timeSinceLastSendQR = time;
 	}
 	
 	private class SimulatorRunner implements Runnable {
@@ -368,6 +381,9 @@ public class Simulator {
 				try {
 					Simulator.this.getMQController().getSender().sendPublicKeysToTablet(Simulator.this.getTargetTablet().getName());
 					Thread.sleep(Simulator.this.getUpdateInterval());
+					while (System.currentTimeMillis() - Simulator.this.getTimeSinceLastSend() < 5000) {
+						Thread.sleep(200);
+					}
 					BufferedImage qrImage = this.downloadImage();
 					String result = Simulator.this.getQRDecode().decodeImage(qrImage);
 					Simulator.this.getParser().parse(result);

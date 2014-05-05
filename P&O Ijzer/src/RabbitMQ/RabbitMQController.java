@@ -43,7 +43,7 @@ public abstract class RabbitMQController {
 	    try {
 	      ConnectionFactory factory = new ConnectionFactory();
 
-	      factory.setHost("localhost");
+	      factory.setHost("192.168.2.134");
 	      factory.setUsername("ijzer");
 	      factory.setPassword("ijzer");
 	      factory.setPort(5672);

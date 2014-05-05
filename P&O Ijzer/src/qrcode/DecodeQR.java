@@ -4,8 +4,14 @@ package qrcode;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 import javax.imageio.ImageIO;
 
@@ -17,9 +23,9 @@ import com.google.zxing.common.HybridBinarizer;
 
 public class DecodeQR {
 
-	RSA rsa;
+	RSAInterface rsa;
 
-	public DecodeQR(RSA rsa) {
+	public DecodeQR(RSAInterface rsa) {
 		this.rsa = rsa;
 	}
 
@@ -47,7 +53,10 @@ public class DecodeQR {
 			binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
 			result = new MultiFormatReader().decode(binaryBitmap);
 			String codedCommand = result.getText();
-			String toReturn = rsa.decode(codedCommand);
+			System.out.println("Gelezen: " + codedCommand);
+			this.writeEncrypted(codedCommand);
+			String toReturn = rsa.decode();
+			System.out.println("Gedecrypteerd: " + toReturn);
 			return toReturn;
 
 		}catch(Exception ex){
@@ -55,6 +64,21 @@ public class DecodeQR {
 
 		}
 		return null;
+	}
+	
+	private void writeEncrypted(String encrypted) {
+		FileOutputStream fstream = null;
+		OutputStreamWriter out = null;
+		
+		File file = new File("encrypted");
+		try {
+			fstream = new FileOutputStream(file, false);
+			out = new OutputStreamWriter(fstream, "UTF8");
+			out.write(encrypted);
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 

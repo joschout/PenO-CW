@@ -1,6 +1,9 @@
 package RabbitMQ;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import simulator.Simulator;
 import logger.LogWriter;
@@ -71,18 +74,22 @@ public class SimulatorSender {
 	 * @throws IllegalArgumentException
 	 */
 	public void sendPublicKeysToTablet( String tabletName) throws IllegalAccessException{
-		if(!tabletName.matches("tablet\\d+")){
-			throw new IllegalArgumentException();
-		}
-	
-		String message = this.getSimulator().getRSA().getPublicKey();
-		String routingKey = "ijzer.tablets." + tabletName;
-		
-		
 		try {
-			channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
-			System.out.println("Gestuurd naar " + routingKey + ": " +
-			message);
+			if(!tabletName.matches("tablet\\d+")){
+				throw new IllegalArgumentException();
+			}
+
+			byte[] message;
+			message = this.getSimulator().getRSA().readPublicKey();
+			String routingKey = "ijzer.tablets." + tabletName;
+			
+			
+			try {
+				channel.basicPublish(EXCHANGE_NAME, routingKey, null, message);
+				System.out.println("Verzonden: " + new String(message));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

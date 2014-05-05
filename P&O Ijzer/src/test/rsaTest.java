@@ -1,7 +1,12 @@
 package test;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
@@ -19,6 +24,8 @@ import com.rabbitmq.client.Channel;
 import coordinate.GridPoint;
 import RabbitMQ.RabbitMQControllerZeppelin;
 import qrcode.RSA;
+import qrcode.RSAInterface;
+import qrcode.RSAWindows;
 import zeppelin.MainProgramImpl;
 
 public class rsaTest {
@@ -27,15 +34,18 @@ public class rsaTest {
 	
 	public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
 
-		RSA rSA = new RSA();
+		RSAWindows rSA = new RSAWindows();
 
 //		System.out.println(new BigInteger(rSA.getPublicKey().getEncoded()));
 //		
 		String string = "Milan is de beste";
+		System.out.println("Input: " + string);
 		rSA.encode(string);
+		String encrypted = read("encrypted");
+		
 //		
 //		System.out.println(encoded);
-		String decoded = rSA.decode(string);
+		String decoded = rSA.decode(encrypted);
 		System.out.println(decoded);
 		
 		Connection connection = null;
@@ -43,9 +53,9 @@ public class rsaTest {
 		
 		try {
 		      ConnectionFactory factory = new ConnectionFactory();
-		      factory.setHost("192.168.2.100");
-//		      factory.setUsername("ijzer");
-//		      factory.setPassword("ijzer");
+		      factory.setHost("192.168.2.134");
+		      factory.setUsername("ijzer");
+		      factory.setPassword("ijzer");
 		      factory.setPort(5672);
 		  
 		      connection = factory.newConnection();
@@ -62,6 +72,49 @@ public class rsaTest {
 		}
 		
 		channel.basicPublish(EXCHANGE_NAME, "ijzer.tablets.tablet1", null, rSA.getPublicKey().getBytes());
+	}
+	
+	public static String read(String fileName){
+		String result = "";
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(fileName));
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+
+			while (line != null) {
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				line = br.readLine();
+			}
+			result = sb.toString();
+			br.close();
+		} catch(IOException e) {
+		}
+		return result;
+	}
+	
+	public static void write(String toWrite) {
+		FileWriter fstream = null;
+		BufferedWriter out = null;
+		PrintWriter writer = null;
+		
+		File file = new File("encrypted");
+		try {
+			fstream = new FileWriter(file, false);
+			out = new BufferedWriter(fstream);
+			writer = new PrintWriter(out);
+			writer.write(toWrite);
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String decode() throws IOException {
+		Runtime.getRuntime().exec("cmd /c python decription.py");
+		String decryptedData = read("result");
+
+		return decryptedData;
 	}
 
 }

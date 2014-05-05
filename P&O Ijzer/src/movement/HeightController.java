@@ -17,7 +17,7 @@ public class HeightController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private MotorController motorController;
-	private PIDController pController = new PIDController(17, 0, 13500, PIDMode.HEIGHT);
+	private PIDController pController = new PIDController(0.5, 0, 70, PIDMode.HEIGHT);
 	private double safetyInterval = 1;
 	private SensorController sensorController;
 	
@@ -66,8 +66,10 @@ public class HeightController implements Serializable {
 	 */
 
 	public void goToHeight(double targetHeight) throws TimeoutException, InterruptedException {
-		double pwm =0;
+		double pwm = -39;
+		
 		double mostRecentHeight = sensorController.sensorReading();
+		
 		if (mostRecentHeight >= 1.5 * this.mostRecentHeight) {
 			this.setHeight(this.mostRecentHeight);
 		} else {
@@ -75,9 +77,10 @@ public class HeightController implements Serializable {
 		}
 
 		if(Math.abs(mostRecentHeight-targetHeight) > safetyInterval){
-			pwm = this.getPWMValue(targetHeight, mostRecentHeight);
+			pwm = this.getPWMValue(targetHeight, mostRecentHeight) - 39;
 		}
 		motorController.setHeightSpeed((int) pwm);
+		System.out.println("PWM-waarde nieuwe iteratie: " + pwm);
 		//System.out.println("most recent height"+mostRecentHeight+", target height"+targetHeight+", pid value:"+pid);
 	}
 

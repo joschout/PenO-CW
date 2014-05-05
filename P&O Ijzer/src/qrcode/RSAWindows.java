@@ -13,15 +13,20 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 
-public class RSA implements RSAInterface {
+public class RSAWindows implements RSAInterface {
 
 	byte[] pub;
 
-	public RSA() throws IOException {
-		Runtime.getRuntime().exec("python keys.py");
+	public RSAWindows() throws IOException {
+		Process p = Runtime.getRuntime().exec("cmd /c /wait python keys.py");
+		try {
+			p.waitFor();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		this.pub = this.readPublicKey();
+		System.out.println("Key gemaakt: " + new String(pub));
 	}
-
 	public byte[] getPublicKey() {
 		return this.pub;
 	}
@@ -38,14 +43,19 @@ public class RSA implements RSAInterface {
 			writer = new PrintWriter(out);
 			writer.write(input);
 			writer.close();
-			Runtime.getRuntime().exec("python encrypt.py");
+			Runtime.getRuntime().exec("cmd /c python encrypt.py");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public String decode() throws IOException {
-		Runtime.getRuntime().exec("python decription.py");
+		Process p = Runtime.getRuntime().exec("cmd /c /wait python decription.py");
+		try {
+			p.waitFor();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		String decryptedData = read("result");
 
 		return decryptedData;

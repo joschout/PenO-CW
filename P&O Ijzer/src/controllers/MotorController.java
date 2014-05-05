@@ -82,7 +82,7 @@ public class MotorController implements Serializable {
 			if (Math.abs(percentage) > 100)
 				percentage = 100;
 			double factor = (double) Math.abs(percentage) / 100;
-			int result = (int) factor * INTERVAL_LENGTH + MINIMUM_RESPONSE;
+			int result = (int) (factor * INTERVAL_LENGTH + MINIMUM_RESPONSE);
 			PWMPin.setPwm(Math.abs(result));
 		}
 

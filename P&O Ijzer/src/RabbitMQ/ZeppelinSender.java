@@ -45,12 +45,12 @@ public class ZeppelinSender {
 			throw new IllegalArgumentException();
 		}
 	
-		String message = zeppelin.getRSA().getPublicKey();
+		byte[] message = zeppelin.getRSA().getPublicKey();
 		String routingKey = "ijzer.tablets." + tabletName;
 		
 		
 		try {
-			channel.basicPublish(EXCHANGE_NAME, routingKey, null, message.getBytes());
+			channel.basicPublish(EXCHANGE_NAME, routingKey, null, message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
