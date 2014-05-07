@@ -30,7 +30,7 @@ import coordinate.Tablet;
 
 public class Simulator {
 	
-	public static final String downloadPath = "http://192.168.2.134:5000/static/";
+	public static final String downloadPath = "http://192.168.2.100:5000/static/";
 	
 	public Simulator(String name, GridPoint startPosition,
 			GridPoint targetPosition, double startHeight,

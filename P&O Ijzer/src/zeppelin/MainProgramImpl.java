@@ -385,34 +385,34 @@ public class MainProgramImpl  implements IZeppelin, MainProgramInterface {
 			}
 			try {
 				movedTowardsTarget = this.getTraversalHandler().moveTowardsPoint();
-				detectingQrCode = ! movedTowardsTarget && ! finalDestination;
-				while (detectingQrCode)
-				{
-					if (System.currentTimeMillis() - this.getTimeSinceLastMessageSendToTablet() > 5000) {
-						this.getRabbitMQControllerZeppelin().getZeppelinSender().sendPublicKeysToTablet(this.getDestinationTab().getName());
-						Thread.sleep(1000);
-					}
-					String fileName = "CurrentPicture";
-					String result = qrCodeReader.decodeImage(CameraController.PICTURE_PATH + fileName);
-					if (result != null)
-					{
-						detectingQrCode = false;
-						QRCodeCommandParser parser = new QRCodeCommandParser(this);
-						parser.parse(result);
-					}
-				}
+//				detectingQrCode = ! movedTowardsTarget && ! finalDestination;
+//				while (detectingQrCode)
+//				{
+//					if (System.currentTimeMillis() - this.getTimeSinceLastMessageSendToTablet() > 5000) {
+//						this.getRabbitMQControllerZeppelin().getZeppelinSender().sendPublicKeysToTablet(this.getDestinationTab().getName());
+//						Thread.sleep(1000);
+//					}
+//					String fileName = "CurrentPicture";
+//					String result = qrCodeReader.decodeImage(CameraController.PICTURE_PATH + fileName);
+//					if (result != null)
+//					{
+//						detectingQrCode = false;
+//						QRCodeCommandParser parser = new QRCodeCommandParser(this);
+//						parser.parse(result);
+//					}
+//				}
 				if (!movedTowardsTarget && finalDestination)
 				{
 					this.setTargetHeight(0);
 				}
 			}  catch (TimeoutException e1) {
 				e1.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			}// catch (IOException e) {
+//				e.printStackTrace();
+//			} catch (IllegalAccessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {

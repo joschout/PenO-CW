@@ -33,16 +33,23 @@ public class ZeppelinServer {
 		String[] posParts = pos.split(",");
 		double x = Double.parseDouble(posParts[0]);
 		double y = Double.parseDouble(posParts[1]);
+		GridPoint startPoint = new GridPoint(x,y);
+		System.out.println("Geef doelpositie (<x>,<y>)");
+		pos = scanner.nextLine();
+		posParts = pos.split(",");
+		x = Double.parseDouble(posParts[0]);
+		y = Double.parseDouble(posParts[1]);
+		GridPoint target = new GridPoint(x,y);
 		
 		System.out.println("Zeppelin initialiseren");
 		MainProgramImpl zeppelin = null;
 		
 			System.out.println("Constructor call");
-			zeppelin = new MainProgramImpl(new GridPoint(x,y));
+			zeppelin = new MainProgramImpl(startPoint);
 			System.out.println("Test set-up stap 1");
 			zeppelin.setFinalDestination(false);
 			System.out.println("Test set-up stap 2");
-			zeppelin.setTargetPosition(new GridPoint(100, 100));
+			zeppelin.setTargetPosition(target);
 
 			
 		// TODO for testing purposes, doe weg erna
